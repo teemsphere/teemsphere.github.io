@@ -4,12 +4,12 @@ project:
 book:
   title: "The {TEEMS} R package user manual"
   author: "Matthew Cantele"
-  site-url: https://books.ropensci.org/targets/
-  repo-url: https://github.com/ropensci-books/targets/
+  site-url: https://teems-org.github.io/
+  repo-url: https://github.com/teems-org/teems-org/
   repo-branch: main
   repo-actions: [edit]
-  sharing: [linkedin]
-  page-footer: "How to get help: <https://books.ropensci.org/targets/help.html><br>Copyright 2025, Eli Lilly and Company" 
+  #sharing: [linkedin]
+  #page-footer: "How to get help: <https://books.ropensci.org/targets/help.html><br>Copyright 2025, Eli Lilly and Company" 
   chapters:
     - index.qmd
   #   - part: "How to use {targets}"

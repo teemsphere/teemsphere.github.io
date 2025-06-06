@@ -1,13 +1,4 @@
-*.code-workspace
-.Rproj.user
-.Rhistory
-.RData
-.Ruserdata
-_book
-_targets.R
-_targets/
-targets-manual.Rmd
-targets-manual_files
-_freeze
-
 /.quarto/
+/_site/
+_book
+_freeze
