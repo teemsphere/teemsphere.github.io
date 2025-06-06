@@ -12,7 +12,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>", eval = TRUE)
 
 Pipeline tools coordinate the pieces of computationally demanding analysis projects. The [`targets`](https://docs.ropensci.org/targets/) package is a [Make](https://www.gnu.org/software/make/)-like pipeline tool for statistics and data science in R. The package skips costly runtime for tasks that are already up to date, orchestrates the necessary computation with implicit parallel computing, and abstracts files as R objects. If all the current output matches the current upstream code and data, then the whole pipeline is up to date, and the results are more trustworthy than otherwise.
 
-## Motivation
+<!-- ## Motivation
 
 Data analysis can be slow. A round of scientific computation can take several minutes, hours, or even days to complete. After it finishes, if you update your code or data, your hard-earned results may no longer be valid. Unchecked, this invalidation creates chronic [Sisyphean](https://en.wikipedia.org/wiki/Sisyphus) loop:
 
@@ -35,4 +35,4 @@ This manual is a step-by-step user guide to [`targets`](https://docs.ropensci.or
 
 ## What about `drake`?
 
-The [`drake`](https://github.com/ropensci/drake) is an older R-focused pipeline tool, and [`targets`](https://docs.ropensci.org/targets/) is [`drake`](https://github.com/ropensci/drake)'s long-term successor. There is a [special chapter](#drake) to explain why [`targets`](https://docs.ropensci.org/targets/) was created, what this means for [`drake`](https://github.com/ropensci/drake)'s future, advice for [`drake`](https://github.com/ropensci/drake) users transitioning to [`targets`](https://docs.ropensci.org/targets/), and the main technical advantages of [`targets`](https://docs.ropensci.org/targets/) over [`drake`](https://github.com/ropensci/drake).
+The [`drake`](https://github.com/ropensci/drake) is an older R-focused pipeline tool, and [`targets`](https://docs.ropensci.org/targets/) is [`drake`](https://github.com/ropensci/drake)'s long-term successor. There is a [special chapter](#drake) to explain why [`targets`](https://docs.ropensci.org/targets/) was created, what this means for [`drake`](https://github.com/ropensci/drake)'s future, advice for [`drake`](https://github.com/ropensci/drake) users transitioning to [`targets`](https://docs.ropensci.org/targets/), and the main technical advantages of [`targets`](https://docs.ropensci.org/targets/) over [`drake`](https://github.com/ropensci/drake). -->
