@@ -12,28 +12,28 @@ book:
   #page-footer: "How to get help: <https://books.ropensci.org/targets/help.html><br>Copyright 2025, Eli Lilly and Company" 
   chapters:
     - index.qmd
-  #   - part: "How to use {targets}"
-  #     chapters:
-  #       - walkthrough.qmd
-  #       - help.qmd
-  #       - debugging.qmd
-  #   - part: "Concepts and best practices"
-  #     chapters:
-  #       - functions.qmd
-  #       - targets.qmd
-  #       - packages.qmd
-  #       - projects.qmd
-  #       - random.qmd
-  #   - part: "Data and files"
-  #     chapters:
-  #       - data.qmd
-  #       - cloud-storage.qmd
-  #       - literate-programming.qmd
-  #   - part: "Heavy workloads"
+    - part: "{teems} installation"
+      chapters:
+    #    - dependencies.qmd
+    #    - getting_started.qmd
+    #    - overview.qmd
+    #     - help.qmd
+    #     - debugging.qmd
+    - part: "General model specifications"
+      chapters:
+        - tab_file.qmd
+      #   - part: "Input data"
   #     chapters:
   #       - crew.qmd
   #       - performance.qmd
-  #   - part: "Branching"
+    - part: "Shocks and closures"
+      chapters:
+        - closures.qmd
+        - shocks.qmd
+        - primary_dat.qmd
+        - aux_dat.qmd
+        - data_mod.qmd
+  #   - part: "Solving the model"
   #     chapters:
   #       - dynamic.qmd
   #       - static.qmd

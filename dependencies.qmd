@@ -1,0 +1,21 @@
+---
+execute:
+  freeze: auto
+---
+
+# Dependencies {#dependencies}
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+knitr::opts_knit$set(root.dir = fs::dir_create(tempfile()))
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", eval = TRUE)
+options(crayon.enabled = FALSE)
+```
+
+This chapter outlines what is needed to run your first CGE model. Ideally all components would be open-source and maybe one day they will be but for the moment there are still some minor hurdles to overcome. Before beginning to write model scripts with [`teems`], users will need to download data and build the TEEMS solver. [GEMPack](https://www.copsmodels.com/gempack.htm) users can skip the solver step although they will be missing out on a considerable degree of functionality both within the solution process itself as well as regarding post-model data availability.
+
+## Data
+Currently the only data for teems-compatible CGE model runs is available from the Global Trade Analysis Project (GTAP)[GTAP](https://www.gtap.agecon.purdue.edu/). Although the most recent databases are proprietary, GTAP has consistently open-accessed databases two versions out (GTAP 9 database as of the current GTAP 11 release). In order to access the freely available database, users will need to [register](https://www.gtap.agecon.purdue.edu/access_member/profile/profile_addnew.aspx) with GTAP and download the "FlexAgg" format. For GTAP 9 this is accessible under the "GDyn 9 Data Base for 2011" subheader in the "Satellite Data and Utilities" section [here](https://www.gtap.agecon.purdue.edu/databases/archives.asp). For paying GTAP members, the current [`teems`] version is capable of handling the "FlexAgg" format for GTAP Databases 10 and 11.
+
+## teems R package
+
+## teems solver

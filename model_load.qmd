@@ -1,0 +1,18 @@
+---
+execute:
+  freeze: auto
+---
+
+# The Tablo file {#tab_files}
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+knitr::opts_knit$set(root.dir = fs::dir_create(tempfile()))
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", eval = TRUE)
+options(crayon.enabled = FALSE)
+```
+
+The TEEMS solver was originally designed as a GEMPack emulator and we have no intention of attempting to reproduce the thorough [GEMPack documentation](https://www.copsmodels.com/gpmanual.htm) on the Tablo scripting language and underlying solution software. *Most* Tablo model files (.tab) that work with GEMPack will also work with the TEEMS solver however there are a range of newer GEMPack features that are not compatible and are not likely to be incorporated. Fortunately there are workarounds for the vast majority as described below.
+
+## Incompatible features
+
+## Variable omissions
