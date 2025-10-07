@@ -11,8 +11,8 @@ book:
   #sharing: [linkedin]
   #page-footer: "How to get help: <https://books.ropensci.org/targets/help.html><br>Copyright 2025, Eli Lilly and Company" 
   chapters:
-    - index.qmd
-    - part: "{teems} installation"
+    - introduction.qmd
+    - part: "Getting started"
       chapters:
         - dependencies.qmd
     #    - getting_started.qmd
@@ -20,7 +20,8 @@ book:
     #     - help.qmd
     #     - debugging.qmd
     - part: "Data inputs"
-     # chapters:
+      chapters:
+        - data_load.qmd
       #  - tab_file.qmd
       #   - part: "Input data"
   #     chapters:
