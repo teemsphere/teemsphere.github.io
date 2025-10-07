@@ -11,7 +11,7 @@ book:
   #sharing: [linkedin]
   #page-footer: "How to get help: <https://books.ropensci.org/targets/help.html><br>Copyright 2025, Eli Lilly and Company" 
   chapters:
-    - introduction.qmd
+    - index.qmd
     - part: "Getting started"
       chapters:
         - dependencies.qmd
