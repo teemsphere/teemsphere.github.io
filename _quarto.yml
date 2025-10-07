@@ -19,20 +19,23 @@ book:
     #    - overview.qmd
     #     - help.qmd
     #     - debugging.qmd
-    - part: "General model specifications"
-      chapters:
-        - tab_file.qmd
+    - part: "Data inputs"
+     # chapters:
+      #  - tab_file.qmd
       #   - part: "Input data"
   #     chapters:
   #       - crew.qmd
   #       - performance.qmd
-    - part: "Shocks and closures"
-      chapters:
-        - closures.qmd
-        - shocks.qmd
-        - primary_dat.qmd
-        - aux_dat.qmd
-        - data_mod.qmd
+    - part: "Models"
+    - part: "Closures"
+    - part: "Shocks"
+     # chapters:
+        # - uniform_shocks.qmd
+        # - custom_shocks.qmd
+        # - scenario_shocks.qmd
+    - part: "Deploying and solving the model"
+        # - aux_dat.qmd
+        # - data_mod.qmd
   #   - part: "Solving the model"
   #     chapters:
   #       - dynamic.qmd
