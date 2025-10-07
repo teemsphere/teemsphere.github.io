@@ -4,8 +4,8 @@ project:
 book:
   title: "The {TEEMS} R package user manual"
   author: "Matthew Cantele"
-  site-url: https://teems-org.github.io/
-  repo-url: https://github.com/teems-org/teems-org/
+  site-url: https://teemsphere.github.io/
+  repo-url: https://github.com/teemsphere/teemsphere.github.io
   repo-branch: main
   repo-actions: [edit]
   #sharing: [linkedin]
@@ -14,7 +14,7 @@ book:
     - index.qmd
     - part: "{teems} installation"
       chapters:
-    #    - dependencies.qmd
+        - dependencies.qmd
     #    - getting_started.qmd
     #    - overview.qmd
     #     - help.qmd
