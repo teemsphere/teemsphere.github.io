@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2&nbsp; Dependencies – The {TEEMS} R package user manual</title>
+<title>3&nbsp; Loading Data with ems_data() – The {TEEMS} R package user manual</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,8 +65,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./data_load.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./dependencies.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -248,7 +282,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./dependencies.html">Getting started</a></li><li class="breadcrumb-item"><a href="./dependencies.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Dependencies</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data_load.html">Data inputs</a></li><li class="breadcrumb-item"><a href="./data_load.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Loading Data with <code>ems_data()</code></span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -294,7 +328,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./dependencies.html" class="sidebar-item-text sidebar-link active">
+  <a href="./dependencies.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Dependencies</span></span></a>
   </div>
 </li>
@@ -311,7 +345,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data_load.html" class="sidebar-item-text sidebar-link">
+  <a href="./data_load.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Loading Data with <code>ems_data()</code></span></span></a>
   </div>
 </li>
@@ -343,19 +377,20 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#data" id="toc-data" class="nav-link active" data-scroll-target="#data"><span class="header-section-number">2.1</span> Data</a></li>
-  <li><a href="#teems-r-package" id="toc-teems-r-package" class="nav-link" data-scroll-target="#teems-r-package"><span class="header-section-number">2.2</span> teems-R package</a></li>
-  <li><a href="#teems-solver" id="toc-teems-solver" class="nav-link" data-scroll-target="#teems-solver"><span class="header-section-number">2.3</span> teems-solver</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">3.1</span> Overview</a></li>
+  <li><a href="#input-files" id="toc-input-files" class="nav-link" data-scroll-target="#input-files"><span class="header-section-number">3.2</span> Input files</a></li>
+  <li><a href="#set-mappings" id="toc-set-mappings" class="nav-link" data-scroll-target="#set-mappings"><span class="header-section-number">3.3</span> Set mappings</a></li>
+  <li><a href="#future-expansions" id="toc-future-expansions" class="nav-link" data-scroll-target="#future-expansions"><span class="header-section-number">3.4</span> Future expansions</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/dependencies.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/data_load.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./dependencies.html">Getting started</a></li><li class="breadcrumb-item"><a href="./dependencies.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Dependencies</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data_load.html">Data inputs</a></li><li class="breadcrumb-item"><a href="./data_load.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Loading Data with <code>ems_data()</code></span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="dependencies" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Dependencies</span></span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Loading Data with <code>ems_data()</code></span></h1>
 </div>
 
 
@@ -372,18 +407,34 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This chapter outlines what is needed to run your first CGE model. Ideally all components would be open-source and maybe one day they will be but for the moment there are still some minor hurdles to overcome. Before beginning to write model scripts with [<code>teems</code>], users will need to download data and build the <a href="https://github.com/teemsphere/teems-solver">teems-solver</a>. <a href="https://www.copsmodels.com/gempack.htm">GEMPack</a> users can skip the solver step although they will be missing out on a considerable degree of functionality both within the solution process itself as well as regarding post-model data availability.</p>
-<section id="data" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="data"><span class="header-section-number">2.1</span> Data</h2>
-<p>Currently the only data for teems-compatible CGE model runs is available from the Global Trade Analysis Project (GTAP)<a href="https://www.gtap.agecon.purdue.edu/">GTAP</a>. Although the most recent databases are proprietary, GTAP has consistently open-accessed databases two versions out (GTAP 9 database as of the current GTAP 11 release). In order to access the freely available database, users will need to <a href="https://www.gtap.agecon.purdue.edu/access_member/profile/profile_addnew.aspx">register</a> with GTAP and download the “FlexAgg” format. For GTAP 9 this is accessible under the “GDyn 9 Data Base for 2011” subheader in the “Satellite Data and Utilities” section <a href="https://www.gtap.agecon.purdue.edu/databases/archives.asp">here</a>. For paying GTAP members, the current [<code>teems</code>] version is capable of handling the “FlexAgg” format for GTAP Databases 10 and 11.</p>
+<section id="overview" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">3.1</span> Overview</h2>
+<p>The <code>ems_data()</code> function loads and prepares GTAP database files for use in CGE model runs. It handles the three core GTAP data files (dat, par, and set) and can optionally convert between GTAP v6.2 and v7.0 formats. This function is also used to input any time steps (for temporally dynamic models) as well as load set mappings for sets that are read into the model (i.e., not constructed from set operations).</p>
 </section>
-<section id="teems-r-package" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="teems-r-package"><span class="header-section-number">2.2</span> teems-R package</h2>
-<p>The R package is currently in beta and open for testing. Installation instructions can be found here: <a href="https://github.com/teemsphere/teems-R">teems-R</a>.</p>
+<section id="input-files" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="input-files"><span class="header-section-number">3.2</span> Input files</h2>
+<p>Compatible input files are currently limited to those produced by the Global Trade Analysis Project (GTAP)<a href="https://www.gtap.agecon.purdue.edu/">GTAP</a>. Although the most recent database releases are proprietary, GTAP has consistently open-accessed databases two versions out (GTAP 9 database as of the current GTAP 11 release). In order to access the freely available database, users will need to <a href="https://www.gtap.agecon.purdue.edu/access_member/profile/profile_addnew.aspx">register</a> with GTAP and download the “FlexAgg” format. For GTAP 9 this is accessible under the “GDyn 9 Data Base for 2011” subheader in the “Satellite Data and Utilities” section <a href="https://www.gtap.agecon.purdue.edu/databases/archives.asp">here</a>. For paying GTAP members, the current [<code>teems</code>] version is capable of handling the “FlexAgg” format for GTAP Databases 10 and 11.</p>
+<p>At minimum, the basedata “dat”, parameter “par”, and set “set” files are required inputs for the dat_input, par_input, and set_input arguments respectively. Note that the names of these inputs vary according the GTAP release.</p>
 </section>
-<section id="teems-solver" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="teems-solver"><span class="header-section-number">2.3</span> teems-solver</h2>
-<p>teems-R calls Docker in order to solve the constrained optimization problem using C and Fortran routines. For those unable to use Docker, Singularity-based containerization will be available. The solver build and its dependencies can be found here: <a href="https://github.com/teemsphere/teems-solver">teems-solver</a></p>
+<section id="set-mappings" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="set-mappings"><span class="header-section-number">3.3</span> Set mappings</h2>
+<p>In addition to input files, set mappings for sets that read-in must be provided. Read-in sets consist of sets which in the model Tablo file contain a “read” qualifier. For example, the region set below requires a set mapping to be loaded:</p>
+<pre><code>Set
+    REG # regions #
+    read elements from file GTAPSETS header "REG";  </code></pre>
+<p>while the non-margin set below is constructed from sets previous declared (read-in in the case of the standard <a href="https://github.com/teemsphere/teems-models/blob/main/GTAPv7.0/GTAPv7.0.tab">GTAPv7.0</a>) and therefore requires no mapping.</p>
+<pre><code>Set
+    NMRG # non-margin commodities # = COMM - MARG;  </code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_input =</span> <span class="st">"path/to/gsddat.har"</span>,  <span class="co"># Basedata coefficients</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_input =</span> <span class="st">"path/to/gsdpar.har"</span>,  <span class="co"># Parameter coefficients</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_input =</span> <span class="st">"path/to/gsdset.har"</span>,  <span class="co"># Set elements</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  ...</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="future-expansions" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="future-expansions"><span class="header-section-number">3.4</span> Future expansions</h2>
+<p>Expand to non-GTAP sources of data.</p>
 
 
 </section>
@@ -803,14 +854,11 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Introduction">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span>
+      <a href="./dependencies.html" class="pagination-link" aria-label="Dependencies">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Dependencies</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./data_load.html" class="pagination-link" aria-label="Loading Data with `ems_data()`">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Loading Data with <code>ems_data()</code></span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
@@ -818,4 +866,4 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/dependencies.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/data_load.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>

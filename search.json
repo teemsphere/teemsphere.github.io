@@ -34,9 +34,9 @@
     "href": "dependencies.html",
     "title": "2  Dependencies",
     "section": "",
-    "text": "2.1 Data\nThis chapter outlines what is needed to run your first CGE model. Ideally all components would be open-source and maybe one day they will be but for the moment there are still some minor hurdles to overcome. Before beginning to write model scripts with [teems], users will need to download data and build the TEEMS solver. GEMPack users can skip the solver step although they will be missing out on a considerable degree of functionality both within the solution process itself as well as regarding post-model data availability.\nCurrently the only data for teems-compatible CGE model runs is available from the Global Trade Analysis Project (GTAP)GTAP. Although the most recent databases are proprietary, GTAP has consistently open-accessed databases two versions out (GTAP 9 database as of the current GTAP 11 release). In order to access the freely available database, users will need to register with GTAP and download the “FlexAgg” format. For GTAP 9 this is accessible under the “GDyn 9 Data Base for 2011” subheader in the “Satellite Data and Utilities” section here. For paying GTAP members, the current [teems] version is capable of handling the “FlexAgg” format for GTAP Databases 10 and 11.",
+    "text": "2.1 Data\nThis chapter outlines what is needed to run your first CGE model. Ideally all components would be open-source and maybe one day they will be but for the moment there are still some minor hurdles to overcome. Before beginning to write model scripts with [teems], users will need to download data and build the teems-solver. GEMPack users can skip the solver step although they will be missing out on a considerable degree of functionality both within the solution process itself as well as regarding post-model data availability.\nCurrently the only data for teems-compatible CGE model runs is available from the Global Trade Analysis Project (GTAP)GTAP. Although the most recent databases are proprietary, GTAP has consistently open-accessed databases two versions out (GTAP 9 database as of the current GTAP 11 release). In order to access the freely available database, users will need to register with GTAP and download the “FlexAgg” format. For GTAP 9 this is accessible under the “GDyn 9 Data Base for 2011” subheader in the “Satellite Data and Utilities” section here. For paying GTAP members, the current [teems] version is capable of handling the “FlexAgg” format for GTAP Databases 10 and 11.",
     "crumbs": [
-      "{teems} installation",
+      "Getting started",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Dependencies</span>"
     ]
   },
@@ -47,7 +47,7 @@
     "section": "2.2 teems-R package",
     "text": "2.2 teems-R package\nThe R package is currently in beta and open for testing. Installation instructions can be found here: teems-R.",
     "crumbs": [
-      "{teems} installation",
+      "Getting started",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Dependencies</span>"
     ]
   },
@@ -58,8 +58,52 @@
     "section": "2.3 teems-solver",
     "text": "2.3 teems-solver\nteems-R calls Docker in order to solve the constrained optimization problem using C and Fortran routines. For those unable to use Docker, Singularity-based containerization will be available. The solver build and its dependencies can be found here: teems-solver",
     "crumbs": [
-      "{teems} installation",
+      "Getting started",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Dependencies</span>"
+    ]
+  },
+  {
+    "objectID": "data_load.html",
+    "href": "data_load.html",
+    "title": "3  Loading Data with ems_data()",
+    "section": "",
+    "text": "3.1 Overview\nThe ems_data() function loads and prepares GTAP database files for use in CGE model runs. It handles the three core GTAP data files (dat, par, and set) and can optionally convert between GTAP v6.2 and v7.0 formats. This function is also used to input any time steps (for temporally dynamic models) as well as load set mappings for sets that are read into the model (i.e., not constructed from set operations).",
+    "crumbs": [
+      "Data inputs",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Loading Data with `ems_data()`</span>"
+    ]
+  },
+  {
+    "objectID": "data_load.html#input-files",
+    "href": "data_load.html#input-files",
+    "title": "3  Loading Data with ems_data()",
+    "section": "3.2 Input files",
+    "text": "3.2 Input files\nCompatible input files are currently limited to those produced by the Global Trade Analysis Project (GTAP)GTAP. Although the most recent database releases are proprietary, GTAP has consistently open-accessed databases two versions out (GTAP 9 database as of the current GTAP 11 release). In order to access the freely available database, users will need to register with GTAP and download the “FlexAgg” format. For GTAP 9 this is accessible under the “GDyn 9 Data Base for 2011” subheader in the “Satellite Data and Utilities” section here. For paying GTAP members, the current [teems] version is capable of handling the “FlexAgg” format for GTAP Databases 10 and 11.\nAt minimum, the basedata “dat”, parameter “par”, and set “set” files are required inputs for the dat_input, par_input, and set_input arguments respectively. Note that the names of these inputs vary according the GTAP release.",
+    "crumbs": [
+      "Data inputs",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Loading Data with `ems_data()`</span>"
+    ]
+  },
+  {
+    "objectID": "data_load.html#set-mappings",
+    "href": "data_load.html#set-mappings",
+    "title": "3  Loading Data with ems_data()",
+    "section": "3.3 Set mappings",
+    "text": "3.3 Set mappings\nIn addition to input files, set mappings for sets that read-in must be provided. Read-in sets consist of sets which in the model Tablo file contain a “read” qualifier. For example, the region set below requires a set mapping to be loaded:\nSet\n    REG # regions #\n    read elements from file GTAPSETS header \"REG\";  \nwhile the non-margin set below is constructed from sets previous declared (read-in in the case of the standard GTAPv7.0) and therefore requires no mapping.\nSet\n    NMRG # non-margin commodities # = COMM - MARG;  \ndata &lt;- ems_data(\n  dat_input = \"path/to/gsddat.har\",  # Basedata coefficients\n  par_input = \"path/to/gsdpar.har\",  # Parameter coefficients\n  set_input = \"path/to/gsdset.har\",  # Set elements\n  ...\n)",
+    "crumbs": [
+      "Data inputs",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Loading Data with `ems_data()`</span>"
+    ]
+  },
+  {
+    "objectID": "data_load.html#future-expansions",
+    "href": "data_load.html#future-expansions",
+    "title": "3  Loading Data with ems_data()",
+    "section": "3.4 Future expansions",
+    "text": "3.4 Future expansions\nExpand to non-GTAP sources of data.",
+    "crumbs": [
+      "Data inputs",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Loading Data with `ems_data()`</span>"
     ]
   }
 ]
