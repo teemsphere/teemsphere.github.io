@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Matthew Cantele">
 
-<title>The {teems} R package user manual</title>
+<title>6&nbsp; Closure swaps – The {teems} R package user manual</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -31,7 +65,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./dependencies.html" rel="next">
+<link href="./closure_load.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -248,7 +282,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./closure_load.html">Closures</a></li><li class="breadcrumb-item"><a href="./swaps.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Closure swaps</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -279,7 +313,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
@@ -340,7 +374,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./swaps.html" class="sidebar-item-text sidebar-link">
+  <a href="./swaps.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Closure swaps</span></span></a>
   </div>
 </li>
@@ -364,34 +398,26 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#intro" id="toc-intro" class="nav-link active" data-scroll-target="#intro"><span class="header-section-number">1</span> Introduction</a>
-  <ul class="collapse">
-  <li><a href="#motivation" id="toc-motivation" class="nav-link" data-scroll-target="#motivation"><span class="header-section-number">1.1</span> Motivation</a></li>
-  <li><a href="#when-you-find-errors" id="toc-when-you-find-errors" class="nav-link" data-scroll-target="#when-you-find-errors"><span class="header-section-number">1.2</span> When you find errors!</a></li>
-  <li><a href="#about-this-manual" id="toc-about-this-manual" class="nav-link" data-scroll-target="#about-this-manual"><span class="header-section-number">1.3</span> About this manual</a></li>
-  </ul></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">6.1</span> Overview</a></li>
+  <li><a href="#simple-full-variable-swaps" id="toc-simple-full-variable-swaps" class="nav-link" data-scroll-target="#simple-full-variable-swaps"><span class="header-section-number">6.2</span> Simple (full variable) swaps</a></li>
+  <li><a href="#complex-partial-variable-swaps" id="toc-complex-partial-variable-swaps" class="nav-link" data-scroll-target="#complex-partial-variable-swaps"><span class="header-section-number">6.3</span> Complex (partial variable) swaps</a></li>
+  <li><a href="#future-expansions" id="toc-future-expansions" class="nav-link" data-scroll-target="#future-expansions"><span class="header-section-number">6.4</span> Future expansions</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/swaps.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./closure_load.html">Closures</a></li><li class="breadcrumb-item"><a href="./swaps.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Closure swaps</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">The {teems} R package user manual</h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Closure swaps</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Matthew Cantele </p>
-          </div>
-  </div>
     
   
     
@@ -402,43 +428,68 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="intro" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
-<p>Reproducibility within computable general equilibrium (CGE) and partial equilibrium modelling analyses has long been elusive. Here we present TEEMS (Trade and Environment Equilibrium Modelling System), a set of tools which includes the R package <a href="https://github.com/teemsphere/teems-R"><code>teems</code></a> used to compose model runs and <a href="https://github.com/teemsphere/teems-solver">teems-solver</a>, a C-based solver capable of solving a large system of nonlinear equations by leveraging a range of mathematical and scientific computation libraries. Auxillary repositories include <a href="https://github.com/teemsphere/teems-models">teems-models</a>, containing internally available and immediately compatible models, <a href="https://github.com/teemsphere/teems-mappings">teems-mappings</a> with set mappings and <a href="">teems-scripts</a> which showcases a wide variety of model configurations and options.</p>
-<p>Together these components allow for an open and modular pipeline software platform which handles all aspects of an equilibrium model run from head to tail through reproducible workflows that allows the user to seamlessly adjust model components including set aggregations, parameter weighting, closure and shock specifications as well as a large number of options pertaining to the solution and model outputs.</p>
-<section id="motivation" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="motivation"><span class="header-section-number">1.1</span> Motivation</h2>
-<p>Reproducibility has been elusive in large part due to the proprietary nature of associated software and data for CGE modelling but also due to the shear complexity of compiling a single model run. A single “simple” model run for example broadly involves:</p>
-<ol type="1">
-<li>Data and set selection</li>
-<li>Set mappings</li>
-<li>Model selection</li>
-<li>Variable omission</li>
-<li>Closure selection including any swaps</li>
-<li>Shock designation</li>
-<li>Set-specific basedata loading, modification, and aggregation</li>
-<li>Set- and weight-specific parameter loading, modification, and aggregation</li>
-<li>Selection of matrix solution methods</li>
-<li>Number of step and subinterval designations</li>
-<li>Constrained optimization solution</li>
-<li>Composition of all outputs into structured data</li>
-</ol>
-<p>Indeed, in the course of building the TEEMS framework we have found that without a reproducible architecture, there is a very high possibility of persistent logic errors propagating through to the output without any obvious indications that this is taking place in most cases. Models which incorporate time steps and additional auxillary data (e.g., land-use data) or are coupled with other models such as is the case with most integrated assessment models (IAMs) are even more complex, and therefore susceptable to a wide range of errors. Ultimately we hope that this software mitigates the steep learning curve requisite to running equilibrium models and allows scientists from various disciplines to advance model representation of their fields. The TLDR – running a CGE model does not have to be so hard!</p>
-<p>Finally, in addition to their proprietary nature, existing software for running CGE models relies upon graphical user interfaces which although convenient, poses a barrier to greater adoption by non-specialists as well as severely restricts the available range of tools due to the absence of a flourishing ecosystem such as that which can be found within more widely adopted scripting languages such as R.</p>
+<section id="overview" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">6.1</span> Overview</h2>
+<p>Simple full variable swaps can be directly inputted as a string into the <code>swap_in</code> and <code>swap_out</code> arguments of <code>ems_deploy()</code>. More complex swaps must be handled with the dedicated <code>ems_swap()</code> function.</p>
 </section>
-<section id="when-you-find-errors" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="when-you-find-errors"><span class="header-section-number">1.2</span> When you find errors!</h2>
-<p>This software suite has been under development for many years. Despite our best efforts, it is very likely that you will encounter issues. We are providing access in this current beta stage to crowdsource your efforts and address any significant issues before submitting a package to CRAN.</p>
+<section id="simple-full-variable-swaps" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="simple-full-variable-swaps"><span class="header-section-number">6.2</span> Simple (full variable) swaps</h2>
+<p>Here simple swaps refers swaps in which a variable and all its components are being swapped. This is the most common type of swap and is directly handled within <code>ems_deploy()</code>.</p>
+<p>A single full variable swap</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>cmf_path <span class="ot">&lt;-</span> <span class="fu">ems_deploy</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> model,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_in =</span> <span class="st">"qfd"</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_out =</span> <span class="st">"tfd"</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Multiple full variable swaps</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cmf_path <span class="ot">&lt;-</span> <span class="fu">ems_deploy</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> model,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_in =</span> <span class="fu">c</span>(<span class="st">"qfd"</span>, <span class="st">"yp"</span>),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_out =</span> <span class="fu">c</span>(<span class="st">"tfd"</span>, <span class="st">"dppriv"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Note that swaps (and validity checks) are handled in the order they are inputted and swaps “in” are handled before swaps “out”.</p>
 </section>
-<section id="about-this-manual" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="about-this-manual"><span class="header-section-number">1.3</span> About this manual</h2>
-<p>This manual is a step-by-step user guide to <a href="https://teemsphere.github.io/"><code>teems</code></a>. <!-- ## 
-
-The most important chapters are the [walkthrough](#walkthrough), [help guide](#help), and [debugging guide](#debugging). Subsequent chapters explain how to [write code](#functions), [manage projects](#projects), utilize [high-performance computing](#hpc), [transition from `drake`](#drake), and more. See the [documentation website](https://docs.ropensci.org/targets/index.html) for most other major resources, including [installation instructions](https://docs.ropensci.org/targets/index.html#installation), links to [example projects](https://docs.ropensci.org/targets/index.html#examples), and a [reference page with all user-side functions](https://docs.ropensci.org/targets/reference/index.html). 
---></p>
-
-
+<section id="complex-partial-variable-swaps" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="complex-partial-variable-swaps"><span class="header-section-number">6.3</span> Complex (partial variable) swaps</h2>
+<p>Partial variable swaps entail swapping parts of a variable (i.e., subsets of the constituitive sets) and must be processed through the <code>ems_swap()</code> function. In the above example the full “qfd” and “yp” variables were made exogenous while the full “tfd” and “dppriv” variable become endogenous. Within the <a href="https://github.com/teemsphere/teems-models/blob/main/GTAPv7.0/GTAPv7.0.tab">GTAPv7.0</a> model, “qfd” encompasses the “COMM”, “ACTS”, and “REG” sets:</p>
+<pre><code>Variable (orig_level=VDFB)(all,c,COMM)(all,a,ACTS)(all,r,REG)
+    qfd(c,a,r) # demand for domestic commodity c by activity a in region r #;</code></pre>
+<p>What if we wish to shock only certain parts of this variable (e.g., a region or commodity) and allow the remainder of the variable to endogenously adjust according to model equations? In this case we would swap on the parts of the variable that we will provide values to and leave the remainder. If, for example, we have a shock value for “asia” within “REG” and “crops” within “ACTS”, the following <code>ems_swap()</code> call will prepare this swap for input into the <code>swap_in</code> argument of <code>ems_deploy()</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>qfd_in <span class="ot">&lt;-</span> <span class="fu">ems_swap</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">var =</span> <span class="st">"qfd"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">REGr =</span> <span class="st">"asia"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ACTSa =</span> <span class="st">"crops"</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong><em>Note that sets specified in this manner are identified by the model-specific concatenation of the standard set name plus the variable-specific index.</em></strong> This is necessary because many variables contain multiple instances of the same set and none of the <code>teems</code> functions relies upon input entry order or order within the model to make distinctions. In this case the “qfd” set subindices are “c”, “a”, and “r”, yielding “COMMc”, “ACTSa”, and “REGr”. In order to retain a valid closure we also use the same approach to the outgoing variable “tfd”:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>tfd_out <span class="ot">&lt;-</span> <span class="fu">ems_swap</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">var =</span> <span class="st">"tfd"</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">REGr =</span> <span class="st">"asia"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ACTSa =</span> <span class="st">"crops"</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>While the subindices for both variables are the same within GTAPv7.0, note that these may vary in some models such as GTAPv6.2 where the REG subindex is “s” for “qfd” and “r” for “tfd”. Both swaps may now be loaded within <code>ems_deploy()</code>:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>cmf_path <span class="ot">&lt;-</span> <span class="fu">ems_deploy</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> model,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_in =</span> qfd_in,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_out =</span> tfd_out</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Or if additional full variable swaps are also desired, a list is used to load multiple swaps for each direction</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>cmf_path <span class="ot">&lt;-</span> <span class="fu">ems_deploy</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> model,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_in =</span> <span class="fu">list</span>(qfd_in <span class="st">"yp"</span>),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_out =</span> <span class="fu">list</span>(tfd_out, <span class="st">"dppriv"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
+<section id="future-expansions" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="future-expansions"><span class="header-section-number">6.4</span> Future expansions</h2>
+<ul>
+<li>List of vetted swaps by model</li>
+</ul>
+
+
 </section>
 
 </main> <!-- /main -->
@@ -856,11 +907,11 @@ The most important chapters are the [walkthrough](#walkthrough), [help guide](#h
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./closure_load.html" class="pagination-link" aria-label="Loading closures">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Loading closures</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./dependencies.html" class="pagination-link" aria-label="Dependencies">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Dependencies</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
@@ -868,4 +919,4 @@ The most important chapters are the [walkthrough](#walkthrough), [help guide](#h
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/swaps.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>

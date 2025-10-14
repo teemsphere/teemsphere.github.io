@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Loading data – The {TEEMS} R package user manual</title>
+<title>3&nbsp; Loading data – The {teems} R package user manual</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,6 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./model_load.html" rel="next">
 <link href="./dependencies.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -282,7 +283,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data_load.html">Data inputs</a></li><li class="breadcrumb-item"><a href="./data_load.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Loading data</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data_load.html">Data and model inputs</a></li><li class="breadcrumb-item"><a href="./data_load.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Loading data</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -297,7 +298,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">The {TEEMS} R package user manual</a> 
+      <a href="./">The {teems} R package user manual</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/teemsphere/teemsphere.github.io" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
@@ -337,7 +338,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">Data inputs</span></a>
+ <span class="menu-text">Data and model inputs</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -349,15 +350,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Loading data</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./model_load.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Loading models</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
-      <span class="sidebar-item-text sidebar-link text-start">
- <span class="menu-text">Models</span></span>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <span class="sidebar-item-text sidebar-link text-start">
- <span class="menu-text">Closures</span></span>
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Closures</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./closure_load.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Loading closures</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./swaps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Closure swaps</span></span></a>
+  </div>
+</li>
+      </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <span class="sidebar-item-text sidebar-link text-start">
@@ -390,7 +412,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data_load.html">Data inputs</a></li><li class="breadcrumb-item"><a href="./data_load.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Loading data</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data_load.html">Data and model inputs</a></li><li class="breadcrumb-item"><a href="./data_load.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Loading data</span></a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Loading data</span></h1>
 </div>
@@ -417,9 +439,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="3.2" class="anchored" data-anchor-id="input-files"><span class="header-section-number">3.2</span> Input files</h2>
 <p>Compatible input files are currently limited to those produced by the Global Trade Analysis Project <a href="https://www.gtap.agecon.purdue.edu/">(GTAP)</a>. Although the most recent database releases are proprietary, GTAP has consistently open-accessed databases two versions out (GTAP 9 database as of the current GTAP 11 release). In order to access the freely available database, users will need to <a href="https://www.gtap.agecon.purdue.edu/access_member/profile/profile_addnew.aspx">register</a> with GTAP and download the “FlexAgg” format. For GTAP 9 this is accessible under the “GDyn 9 Data Base for 2011” subheader in the “Satellite Data and Utilities” section <a href="https://www.gtap.agecon.purdue.edu/databases/archives.asp">here</a>. For paying GTAP members, the current [<code>teems</code>] version is capable of handling the “FlexAgg” format for GTAP Databases 10 and 11.</p>
 <p>At a minimum, the basedata “dat”, parameter “par”, and set “set” files are required inputs for the <code>dat_input</code>, <code>par_input</code>, and <code>set_input</code> arguments respectively.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>v7_data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> <span class="st">"path/to/v7_data/v11c/flexAgg11c17/gsdfdat.har"</span>, <span class="co"># basedata coefficients</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">par_input =</span> <span class="st">"path/to/v7_data/v11c/flexAgg11c17/gsdfpar.har"</span>, <span class="co"># parameter coefficients</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">set_input =</span> <span class="st">"path/to/v7_data/v11c/flexAgg11c17/gsdfset.har"</span>, <span class="co"># set elements</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>v7_data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfdat.har"</span>, <span class="co"># basedata coefficients</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">par_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfpar.har"</span>, <span class="co"># parameter coefficients</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">set_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfset.har"</span>, <span class="co"># set elements</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">REG =</span> <span class="st">"big3"</span>,</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">COMM =</span> <span class="st">"macro_sector"</span>,</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ACTS =</span> <span class="st">"macro_sector"</span>,</span>
@@ -468,9 +490,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     NMRG # non-margin commodities # = COMM - MARG;  </code></pre>
 <p>[<code>teems</code>] ships with a number of set mappings for read-in sets ranging in size and focus. These internal mappings may be immediately utilized or a user may input their own mapping. Internal mappings are identified by the absence of a “.csv” file extension and inputted as a character string. Internal region mappings are as follows with the AR5, WB7, and WB23 derived from the <a href="https://vincentarelbundock.github.io/countrycode/#/man/codelist">countrycode</a> R package - (ar5, region, and region23 respectively). * region (e.g., REG) + big3 (China, United States, ROW) + AR5 (IPCC Fifth Assessment Report) + WB7 (World Bank 7 region) + WB23 (World Bank 23 region) + R32 (IIASA-based <a href="https://tntcat.iiasa.ac.at/SspDb/dsd?Action=htmlpage&amp;page=10">SSP mapping</a>) + medium + large + full</p>
 <p>Internal sector mappings are according to the following focuses and number of elements: * sector (e.g., TRAD_COMM, COMM, ACTS) + macro_sector + agriculture + manufacturing + services + medium + full</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>v62_data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> <span class="st">"path/to/v62_data/v10A/flexagg10AY14/gsddat.har"</span>,</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">par_input =</span> <span class="st">"path/to/v62_data/v10A/flexagg10AY14/gsdpar.har"</span>,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">set_input =</span> <span class="st">"path/to/v62_data/v10A/flexagg10AY14/gsdset.har"</span>,</span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>v62_data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> <span class="st">"path/to/flexagg10AY14/gsddat.har"</span>,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">par_input =</span> <span class="st">"path/to/flexagg10AY14/gsdpar.har"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">set_input =</span> <span class="st">"path/to/flexagg10AY14/gsdset.har"</span>,</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">REG =</span> <span class="st">"big3"</span>, <span class="co"># China, USA, ROW</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">TRAD_COMM =</span> <span class="st">"macro_sector"</span>, <span class="co"># crops, food, livestock, mnfcs, svces</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ENDW_COMM =</span> <span class="st">"labor_agg"</span> <span class="co"># capital, labor, land, natlres</span></span>
@@ -486,31 +508,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="time-steps" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="time-steps"><span class="header-section-number">3.4</span> Time steps</h2>
 <p>For temporally dynamic models (e.g., <a href="https://github.com/teemsphere/teems-models/tree/main/GTAP-INTv1">GTAP-INT</a>, <a href="https://github.com/teemsphere/teems-models/tree/main/GTAP-REv1">GTAP-RE</a>), time steps must be provided representing t0 plus actual year steps from t0. Time steps can be inputted in either actual year increments or represented as chronological years. Note that if chronological years are used, t0 must correspond with the reference year of the database being used.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> <span class="st">"path/to/v62_data/v10A/flexagg10AY14/gsddat.har"</span>,</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">par_input =</span> <span class="st">"path/to/v62_data/v10A/flexagg10AY14/gsdpar.har"</span>,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">set_input =</span> <span class="st">"path/to/v62_data/v10A/flexagg10AY14/gsdset.har"</span>,</span>
+<p>Explicit time steps (equivalent to c(2014, 2015, 2016, 2017, 2018, 2020, 2022, 2024, 2026, 2028, 2030))</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> <span class="st">"path/to/flexagg10AY14/gsddat.har"</span>,</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">par_input =</span> <span class="st">"path/to/flexagg10AY14/gsdpar.har"</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">set_input =</span> <span class="st">"path/to/flexagg10AY14/gsdset.har"</span>,</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">REG =</span> <span class="st">"WB23"</span>,</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">TRAD_COMM =</span> <span class="st">"services"</span>,</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ENDW_COMM =</span> <span class="st">"labor_agg"</span>,</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">time_steps =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">16</span>) <span class="co"># explicit time steps (equivalent to c(2014, 2015, 2016, 2017, 2018, 2020, 2022, 2024, 2026, 2028, 2030))</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">time_steps =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">16</span>)</span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> <span class="st">"path/to/v7_data/v11c/flexAgg11c17/gsdfdat.har"</span>,</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">par_input =</span> <span class="st">"path/to/v7_data/v11c/flexAgg11c17/gsdfpar.har"</span>,</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">set_input =</span> <span class="st">"path/to/v7_data/v11c/flexAgg11c17/gsdfset.har"</span>,</span>
+<p>Chronological time steps (note reference year of input data)</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfdat.har"</span>,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">par_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfpar.har"</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">set_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfset.har"</span>,</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">REG =</span> <span class="st">"R32"</span>,</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">COMM =</span> <span class="st">"medium"</span>,</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ACTS =</span> <span class="st">"medium"</span>,</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ENDW =</span> <span class="st">"labor_diff"</span>,</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">time_steps =</span> <span class="fu">c</span>(<span class="dv">2017</span>, <span class="dv">2018</span>, <span class="dv">2020</span>, <span class="dv">2022</span>, <span class="dv">2024</span>, <span class="dv">2026</span>, <span class="dv">2028</span>, <span class="dv">2030</span>) <span class="co"># chronological time steps (note reference year of input data)</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">time_steps =</span> <span class="fu">c</span>(<span class="dv">2017</span>, <span class="dv">2018</span>, <span class="dv">2020</span>, <span class="dv">2022</span>, <span class="dv">2024</span>, <span class="dv">2026</span>, <span class="dv">2028</span>, <span class="dv">2030</span>)</span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="converting-formats" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="converting-formats"><span class="header-section-number">3.5</span> Converting formats</h2>
 <p>GTAP databases are available in the classic v6.2 and standard v7.0 formats, corresponding to the classic and standard <a href="https://www.gtap.agecon.purdue.edu/models/current.asp">GTAP models</a>. If you wish to use a classic-based model with newer GTAP databases or vice-versa, <code>convert_format</code> = <code>TRUE</code> will convert the underlying database. Note that set mappings are set according to the model to be used, <em>not</em> the original format of inputted data.</p>
 <p>GTAP 11 database converted to v6.2 data format:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>v62_data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> <span class="st">"path/to/v7_data/v11c/flexAgg11c17/gsdfdat.har"</span>,</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">par_input =</span> <span class="st">"path/to/v7_data/v11c/flexAgg11c17/gsdfpar.har"</span>,</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">set_input =</span> <span class="st">"path/to/v7_data/v11c/flexAgg11c17/gsdfset.har"</span>,</span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>v62_data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfdat.har"</span>,</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">par_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfpar.har"</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">set_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfset.har"</span>,</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">REG =</span> <span class="st">"big3"</span>,</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">TRAD_COMM =</span> <span class="st">"macro_sector"</span>,</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ENDW_COMM =</span> <span class="st">"labor_agg"</span>,</span>
@@ -519,7 +543,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="future-expansions" class="level2" data-number="3.6">
 <h2 data-number="3.6" class="anchored" data-anchor-id="future-expansions"><span class="header-section-number">3.6</span> Future expansions</h2>
-<p>Expand to non-GTAP sources of data. Function to query existing internal mappings and provide granular details (e.g., GTAP region to “AR5” to iso3c) Auxillary inputs (preaggregation inputs from HAR and non-HAR sources with option to overwrite standard inputs)</p>
+<ul>
+<li>Expand to non-GTAP sources of data.</li>
+<li>Function to query existing internal mappings and provide granular details (e.g., GTAP region to “AR5” to iso3c)</li>
+<li>Auxillary inputs (preaggregation inputs from HAR and non-HAR sources with option to overwrite standard inputs)</li>
+</ul>
 
 
 </section>
@@ -944,6 +972,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./model_load.html" class="pagination-link" aria-label="Loading models">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Loading models</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Matthew Cantele">
 
-<title>The {teems} R package user manual</title>
+<title>5&nbsp; Loading closures – The {teems} R package user manual</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -31,7 +65,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./dependencies.html" rel="next">
+<link href="./swaps.html" rel="next">
+<link href="./model_load.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -248,7 +283,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./closure_load.html">Closures</a></li><li class="breadcrumb-item"><a href="./closure_load.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Loading closures</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -279,7 +314,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
@@ -334,7 +369,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./closure_load.html" class="sidebar-item-text sidebar-link">
+  <a href="./closure_load.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Loading closures</span></span></a>
   </div>
 </li>
@@ -364,34 +399,24 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#intro" id="toc-intro" class="nav-link active" data-scroll-target="#intro"><span class="header-section-number">1</span> Introduction</a>
-  <ul class="collapse">
-  <li><a href="#motivation" id="toc-motivation" class="nav-link" data-scroll-target="#motivation"><span class="header-section-number">1.1</span> Motivation</a></li>
-  <li><a href="#when-you-find-errors" id="toc-when-you-find-errors" class="nav-link" data-scroll-target="#when-you-find-errors"><span class="header-section-number">1.2</span> When you find errors!</a></li>
-  <li><a href="#about-this-manual" id="toc-about-this-manual" class="nav-link" data-scroll-target="#about-this-manual"><span class="header-section-number">1.3</span> About this manual</a></li>
-  </ul></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">5.1</span> Overview</a></li>
+  <li><a href="#closure-selection" id="toc-closure-selection" class="nav-link" data-scroll-target="#closure-selection"><span class="header-section-number">5.2</span> Closure selection</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/closure_load.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./closure_load.html">Closures</a></li><li class="breadcrumb-item"><a href="./closure_load.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Loading closures</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">The {teems} R package user manual</h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Loading closures</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Matthew Cantele </p>
-          </div>
-  </div>
     
   
     
@@ -402,43 +427,81 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="intro" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
-<p>Reproducibility within computable general equilibrium (CGE) and partial equilibrium modelling analyses has long been elusive. Here we present TEEMS (Trade and Environment Equilibrium Modelling System), a set of tools which includes the R package <a href="https://github.com/teemsphere/teems-R"><code>teems</code></a> used to compose model runs and <a href="https://github.com/teemsphere/teems-solver">teems-solver</a>, a C-based solver capable of solving a large system of nonlinear equations by leveraging a range of mathematical and scientific computation libraries. Auxillary repositories include <a href="https://github.com/teemsphere/teems-models">teems-models</a>, containing internally available and immediately compatible models, <a href="https://github.com/teemsphere/teems-mappings">teems-mappings</a> with set mappings and <a href="">teems-scripts</a> which showcases a wide variety of model configurations and options.</p>
-<p>Together these components allow for an open and modular pipeline software platform which handles all aspects of an equilibrium model run from head to tail through reproducible workflows that allows the user to seamlessly adjust model components including set aggregations, parameter weighting, closure and shock specifications as well as a large number of options pertaining to the solution and model outputs.</p>
-<section id="motivation" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="motivation"><span class="header-section-number">1.1</span> Motivation</h2>
-<p>Reproducibility has been elusive in large part due to the proprietary nature of associated software and data for CGE modelling but also due to the shear complexity of compiling a single model run. A single “simple” model run for example broadly involves:</p>
-<ol type="1">
-<li>Data and set selection</li>
-<li>Set mappings</li>
-<li>Model selection</li>
-<li>Variable omission</li>
-<li>Closure selection including any swaps</li>
-<li>Shock designation</li>
-<li>Set-specific basedata loading, modification, and aggregation</li>
-<li>Set- and weight-specific parameter loading, modification, and aggregation</li>
-<li>Selection of matrix solution methods</li>
-<li>Number of step and subinterval designations</li>
-<li>Constrained optimization solution</li>
-<li>Composition of all outputs into structured data</li>
-</ol>
-<p>Indeed, in the course of building the TEEMS framework we have found that without a reproducible architecture, there is a very high possibility of persistent logic errors propagating through to the output without any obvious indications that this is taking place in most cases. Models which incorporate time steps and additional auxillary data (e.g., land-use data) or are coupled with other models such as is the case with most integrated assessment models (IAMs) are even more complex, and therefore susceptable to a wide range of errors. Ultimately we hope that this software mitigates the steep learning curve requisite to running equilibrium models and allows scientists from various disciplines to advance model representation of their fields. The TLDR – running a CGE model does not have to be so hard!</p>
-<p>Finally, in addition to their proprietary nature, existing software for running CGE models relies upon graphical user interfaces which although convenient, poses a barrier to greater adoption by non-specialists as well as severely restricts the available range of tools due to the absence of a flourishing ecosystem such as that which can be found within more widely adopted scripting languages such as R.</p>
+<section id="overview" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">5.1</span> Overview</h2>
+<p>Closures are either inferred from the use of an internal Tablo file or inputted to the <code>closure_file</code> argument of <code>ems_deploy()</code>.</p>
 </section>
-<section id="when-you-find-errors" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="when-you-find-errors"><span class="header-section-number">1.2</span> When you find errors!</h2>
-<p>This software suite has been under development for many years. Despite our best efforts, it is very likely that you will encounter issues. We are providing access in this current beta stage to crowdsource your efforts and address any significant issues before submitting a package to CRAN.</p>
-</section>
-<section id="about-this-manual" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="about-this-manual"><span class="header-section-number">1.3</span> About this manual</h2>
-<p>This manual is a step-by-step user guide to <a href="https://teemsphere.github.io/"><code>teems</code></a>. <!-- ## 
+<section id="closure-selection" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="closure-selection"><span class="header-section-number">5.2</span> Closure selection</h2>
+<p>If an internally supported Tablo file is chosen and no closure file specified, a standard model-specific closure will be used. These are available within the model repository: <a href="https://github.com/teemsphere/teems-models">teems-models</a>. The general format consistens of: 1. Character string “exogenous” 2. A “” delimited list of exogenous variables 3. “;” 4. “rest exogenous” 5. “;”</p>
+<p>For example the standard closure for <a href="https://github.com/teemsphere/teems-models/tree/main/GTAP-REv1">GTAP-RE</a> is as follows:</p>
+<pre><code>exogenous
+afall
+afcom
+afeall
+afecom
+afereg
+afesec
+afreg
+afsec
+aintall
+aintreg
+aintsec
+ams
+aoall
+aoreg
+aosec
+atall
+atd
+atf
+atm
+ats
+au
+avaall
+avareg
+avasec
+cgdslack
+dpgov
+dppriv
+dpsave
+endwslack
+incomeslack
+kdelta
+pfactwld
+pop
+profitslack
+psaveslack
+qe(ENDWC,REG,INITIME)
+qe(ENDWMSNC,REG,ALLTIME)
+qesf
+ror_exo
+tfd
+tfe
+tfm
+tgd
+tgm
+tid
+tim
+tinc
+tm
+tms
+to
+tpd
+tpm
+tpreg
+tradslack
+tx
+txs
+;
+rest endogenous
+;</code></pre>
+<p>Note that no other operations (e.g., swaps) are to be listed witin the closure file. See swaps for instructions …</p>
+<p>Closure files can be explitly loaded as a “.cls” file within the <code>ems_deploy()</code> function.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_deploy</span>(<span class="at">data =</span> data,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">model =</span> model,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">closure_file =</span> <span class="st">"path/to/usr_cls.cls"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
-The most important chapters are the [walkthrough](#walkthrough), [help guide](#help), and [debugging guide](#debugging). Subsequent chapters explain how to [write code](#functions), [manage projects](#projects), utilize [high-performance computing](#hpc), [transition from `drake`](#drake), and more. See the [documentation website](https://docs.ropensci.org/targets/index.html) for most other major resources, including [installation instructions](https://docs.ropensci.org/targets/index.html#installation), links to [example projects](https://docs.ropensci.org/targets/index.html#examples), and a [reference page with all user-side functions](https://docs.ropensci.org/targets/reference/index.html). 
---></p>
 
-
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -856,10 +919,13 @@ The most important chapters are the [walkthrough](#walkthrough), [help guide](#h
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./model_load.html" class="pagination-link" aria-label="Loading models">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Loading models</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./dependencies.html" class="pagination-link" aria-label="Dependencies">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Dependencies</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./swaps.html" class="pagination-link" aria-label="Closure swaps">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Closure swaps</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -868,4 +934,4 @@ The most important chapters are the [walkthrough](#walkthrough), [help guide](#h
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/closure_load.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>

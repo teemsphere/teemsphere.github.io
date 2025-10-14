@@ -2,7 +2,7 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "The {TEEMS} R package user manual",
+    "title": "The {teems} R package user manual",
     "section": "",
     "text": "1 Introduction\nReproducibility within computable general equilibrium (CGE) and partial equilibrium modelling analyses has long been elusive. Here we present TEEMS (Trade and Environment Equilibrium Modelling System), a set of tools which includes the R package teems used to compose model runs and teems-solver, a C-based solver capable of solving a large system of nonlinear equations by leveraging a range of mathematical and scientific computation libraries. Auxillary repositories include teems-models, containing internally available and immediately compatible models, teems-mappings with set mappings and teems-scripts which showcases a wide variety of model configurations and options.\nTogether these components allow for an open and modular pipeline software platform which handles all aspects of an equilibrium model run from head to tail through reproducible workflows that allows the user to seamlessly adjust model components including set aggregations, parameter weighting, closure and shock specifications as well as a large number of options pertaining to the solution and model outputs.",
     "crumbs": [
@@ -12,7 +12,7 @@
   {
     "objectID": "index.html#motivation",
     "href": "index.html#motivation",
-    "title": "The {TEEMS} R package user manual",
+    "title": "The {teems} R package user manual",
     "section": "1.1 Motivation",
     "text": "1.1 Motivation\nReproducibility has been elusive in large part due to the proprietary nature of associated software and data for CGE modelling but also due to the shear complexity of compiling a single model run. A single “simple” model run for example broadly involves:\n\nData and set selection\nSet mappings\nModel selection\nVariable omission\nClosure selection including any swaps\nShock designation\nSet-specific basedata loading, modification, and aggregation\nSet- and weight-specific parameter loading, modification, and aggregation\nSelection of matrix solution methods\nNumber of step and subinterval designations\nConstrained optimization solution\nComposition of all outputs into structured data\n\nIndeed, in the course of building the TEEMS framework we have found that without a reproducible architecture, there is a very high possibility of persistent logic errors propagating through to the output without any obvious indications that this is taking place in most cases. Models which incorporate time steps and additional auxillary data (e.g., land-use data) or are coupled with other models such as is the case with most integrated assessment models (IAMs) are even more complex, and therefore susceptable to a wide range of errors. Ultimately we hope that this software mitigates the steep learning curve requisite to running equilibrium models and allows scientists from various disciplines to advance model representation of their fields. The TLDR – running a CGE model does not have to be so hard!\nFinally, in addition to their proprietary nature, existing software for running CGE models relies upon graphical user interfaces which although convenient, poses a barrier to greater adoption by non-specialists as well as severely restricts the available range of tools due to the absence of a flourishing ecosystem such as that which can be found within more widely adopted scripting languages such as R.",
     "crumbs": [
@@ -20,11 +20,21 @@
     ]
   },
   {
+    "objectID": "index.html#when-you-find-errors",
+    "href": "index.html#when-you-find-errors",
+    "title": "The {teems} R package user manual",
+    "section": "1.2 When you find errors!",
+    "text": "1.2 When you find errors!\nThis software suite has been under development for many years. Despite our best efforts, it is very likely that you will encounter issues. We are providing access in this current beta stage to crowdsource your efforts and address any significant issues before submitting a package to CRAN.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
     "objectID": "index.html#about-this-manual",
     "href": "index.html#about-this-manual",
-    "title": "The {TEEMS} R package user manual",
-    "section": "1.2 About this manual",
-    "text": "1.2 About this manual\nThis manual is a step-by-step user guide to teems.",
+    "title": "The {teems} R package user manual",
+    "section": "1.3 About this manual",
+    "text": "1.3 About this manual\nThis manual is a step-by-step user guide to teems.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
@@ -69,7 +79,7 @@
     "section": "",
     "text": "3.1 Overview\nThe ems_data() function loads and prepares GTAP database files for use in CGE model runs. It handles the three core GTAP data files (dat, par, and set) and can optionally convert between GTAP v6.2 and v7.0 formats. This function is also used to input any time steps (for temporally dynamic models) as well as load set mappings for sets that are read into the model (i.e., not constructed from set operations).",
     "crumbs": [
-      "Data inputs",
+      "Data and model inputs",
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Loading data</span>"
     ]
   },
@@ -78,9 +88,9 @@
     "href": "data_load.html#input-files",
     "title": "3  Loading data",
     "section": "3.2 Input files",
-    "text": "3.2 Input files\nCompatible input files are currently limited to those produced by the Global Trade Analysis Project (GTAP). Although the most recent database releases are proprietary, GTAP has consistently open-accessed databases two versions out (GTAP 9 database as of the current GTAP 11 release). In order to access the freely available database, users will need to register with GTAP and download the “FlexAgg” format. For GTAP 9 this is accessible under the “GDyn 9 Data Base for 2011” subheader in the “Satellite Data and Utilities” section here. For paying GTAP members, the current [teems] version is capable of handling the “FlexAgg” format for GTAP Databases 10 and 11.\nAt a minimum, the basedata “dat”, parameter “par”, and set “set” files are required inputs for the dat_input, par_input, and set_input arguments respectively.\nv7_data &lt;- ems_data(dat_input = \"path/to/v7_data/v11c/flexAgg11c17/gsdfdat.har\", # basedata coefficients\n                    par_input = \"path/to/v7_data/v11c/flexAgg11c17/gsdfpar.har\", # parameter coefficients\n                    set_input = \"path/to/v7_data/v11c/flexAgg11c17/gsdfset.har\", # set elements\n                    REG = \"big3\",\n                    COMM = \"macro_sector\",\n                    ACTS = \"macro_sector\",\n                    ENDW = \"labor_diff\"\n)\nNote that the actual names of the files vary according the GTAP release.\n\n\n\nInput Type\nGTAP v9\nGTAP v10\nGTAP v11\n\n\n\n\ndat_input\ngddat.har\ngsddat.har\ngsdfdat.har\n\n\npar_input\ngdpar.har\ngsdpar.har\ngsdfpar.har\n\n\nset_input\ngdset.har\ngsdset.har\ngsdfset.har",
+    "text": "3.2 Input files\nCompatible input files are currently limited to those produced by the Global Trade Analysis Project (GTAP). Although the most recent database releases are proprietary, GTAP has consistently open-accessed databases two versions out (GTAP 9 database as of the current GTAP 11 release). In order to access the freely available database, users will need to register with GTAP and download the “FlexAgg” format. For GTAP 9 this is accessible under the “GDyn 9 Data Base for 2011” subheader in the “Satellite Data and Utilities” section here. For paying GTAP members, the current [teems] version is capable of handling the “FlexAgg” format for GTAP Databases 10 and 11.\nAt a minimum, the basedata “dat”, parameter “par”, and set “set” files are required inputs for the dat_input, par_input, and set_input arguments respectively.\nv7_data &lt;- ems_data(dat_input = \"path/to/flexAgg11c17/gsdfdat.har\", # basedata coefficients\n                    par_input = \"path/to/flexAgg11c17/gsdfpar.har\", # parameter coefficients\n                    set_input = \"path/to/flexAgg11c17/gsdfset.har\", # set elements\n                    REG = \"big3\",\n                    COMM = \"macro_sector\",\n                    ACTS = \"macro_sector\",\n                    ENDW = \"labor_diff\"\n)\nNote that the actual names of the files vary according the GTAP release.\n\n\n\nInput Type\nGTAP v9\nGTAP v10\nGTAP v11\n\n\n\n\ndat_input\ngddat.har\ngsddat.har\ngsdfdat.har\n\n\npar_input\ngdpar.har\ngsdpar.har\ngsdfpar.har\n\n\nset_input\ngdset.har\ngsdset.har\ngsdfset.har",
     "crumbs": [
-      "Data inputs",
+      "Data and model inputs",
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Loading data</span>"
     ]
   },
@@ -89,9 +99,9 @@
     "href": "data_load.html#set-mappings",
     "title": "3  Loading data",
     "section": "3.3 Set mappings",
-    "text": "3.3 Set mappings\nIn addition to input files, set mappings for sets that are read in from the final sets input file must be provided. Read-in sets consist of sets that in the model Tablo file contain a “read” qualifier. For example, the region set below requires a set mapping to be loaded:\nSet\n    REG # regions #\n    read elements from file GTAPSETS header \"REG\";  \nwhile the non-margin set below is constructed from sets previous declared (read-in in the case of the standard GTAPv7.0) and therefore requires no mapping.\nSet\n    NMRG # non-margin commodities # = COMM - MARG;  \n[teems] ships with a number of set mappings for read-in sets ranging in size and focus. These internal mappings may be immediately utilized or a user may input their own mapping. Internal mappings are identified by the absence of a “.csv” file extension and inputted as a character string. Internal region mappings are as follows with the AR5, WB7, and WB23 derived from the countrycode R package - (ar5, region, and region23 respectively). * region (e.g., REG) + big3 (China, United States, ROW) + AR5 (IPCC Fifth Assessment Report) + WB7 (World Bank 7 region) + WB23 (World Bank 23 region) + R32 (IIASA-based SSP mapping) + medium + large + full\nInternal sector mappings are according to the following focuses and number of elements: * sector (e.g., TRAD_COMM, COMM, ACTS) + macro_sector + agriculture + manufacturing + services + medium + full\nv62_data &lt;- ems_data(dat_input = \"path/to/v62_data/v10A/flexagg10AY14/gsddat.har\",\n                     par_input = \"path/to/v62_data/v10A/flexagg10AY14/gsdpar.har\",\n                     set_input = \"path/to/v62_data/v10A/flexagg10AY14/gsdset.har\",\n                     REG = \"big3\", # China, USA, ROW\n                     TRAD_COMM = \"macro_sector\", # crops, food, livestock, mnfcs, svces\n                     ENDW_COMM = \"labor_agg\" # capital, labor, land, natlres\n)\nNote that margin sectors are not inputted directly, rather inferred from choice of sectoral aggregation. The default margin sector elements at full aggregation are “atp”, “otp”, and “wtp” representing air, other, and water transport. If services are aggregated, these elements will be aggregated into the larger “service” sector while a mapping such as “medium” aggregates these into a single transport sector. The default margin sector elements can be viewed and modified using\nems_option_get(\"margin_sectors\")\nand\nems_option_set(\"margin_sectors\")\nInternal endowment mappings currently include labor_agg (aggregated labor endowments), labor_diff (aggregated labor along skilled/unskilled delineartion), and full. Full internal mappings by data format, database version, and set can be viewed here: teems-mappings.\nExternal mappings may be provided in the form of a filepath to a two column csv file where the first column represents origin elements and the second column elements to be mapped to. See teems-mappings for example mappings.",
+    "text": "3.3 Set mappings\nIn addition to input files, set mappings for sets that are read in from the final sets input file must be provided. Read-in sets consist of sets that in the model Tablo file contain a “read” qualifier. For example, the region set below requires a set mapping to be loaded:\nSet\n    REG # regions #\n    read elements from file GTAPSETS header \"REG\";  \nwhile the non-margin set below is constructed from sets previous declared (read-in in the case of the standard GTAPv7.0) and therefore requires no mapping.\nSet\n    NMRG # non-margin commodities # = COMM - MARG;  \n[teems] ships with a number of set mappings for read-in sets ranging in size and focus. These internal mappings may be immediately utilized or a user may input their own mapping. Internal mappings are identified by the absence of a “.csv” file extension and inputted as a character string. Internal region mappings are as follows with the AR5, WB7, and WB23 derived from the countrycode R package - (ar5, region, and region23 respectively). * region (e.g., REG) + big3 (China, United States, ROW) + AR5 (IPCC Fifth Assessment Report) + WB7 (World Bank 7 region) + WB23 (World Bank 23 region) + R32 (IIASA-based SSP mapping) + medium + large + full\nInternal sector mappings are according to the following focuses and number of elements: * sector (e.g., TRAD_COMM, COMM, ACTS) + macro_sector + agriculture + manufacturing + services + medium + full\nv62_data &lt;- ems_data(dat_input = \"path/to/flexagg10AY14/gsddat.har\",\n                     par_input = \"path/to/flexagg10AY14/gsdpar.har\",\n                     set_input = \"path/to/flexagg10AY14/gsdset.har\",\n                     REG = \"big3\", # China, USA, ROW\n                     TRAD_COMM = \"macro_sector\", # crops, food, livestock, mnfcs, svces\n                     ENDW_COMM = \"labor_agg\" # capital, labor, land, natlres\n)\nNote that margin sectors are not inputted directly, rather inferred from choice of sectoral aggregation. The default margin sector elements at full aggregation are “atp”, “otp”, and “wtp” representing air, other, and water transport. If services are aggregated, these elements will be aggregated into the larger “service” sector while a mapping such as “medium” aggregates these into a single transport sector. The default margin sector elements can be viewed and modified using\nems_option_get(\"margin_sectors\")\nand\nems_option_set(\"margin_sectors\")\nInternal endowment mappings currently include labor_agg (aggregated labor endowments), labor_diff (aggregated labor along skilled/unskilled delineartion), and full. Full internal mappings by data format, database version, and set can be viewed here: teems-mappings.\nExternal mappings may be provided in the form of a filepath to a two column csv file where the first column represents origin elements and the second column elements to be mapped to. See teems-mappings for example mappings.",
     "crumbs": [
-      "Data inputs",
+      "Data and model inputs",
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Loading data</span>"
     ]
   },
@@ -100,9 +110,9 @@
     "href": "data_load.html#time-steps",
     "title": "3  Loading data",
     "section": "3.4 Time steps",
-    "text": "3.4 Time steps\nFor temporally dynamic models (e.g., GTAP-INT, GTAP-RE), time steps must be provided representing t0 plus actual year steps from t0. Time steps can be inputted in either actual year increments or represented as chronological years. Note that if chronological years are used, t0 must correspond with the reference year of the database being used.\ndata &lt;- ems_data(dat_input = \"path/to/v62_data/v10A/flexagg10AY14/gsddat.har\",\n                 par_input = \"path/to/v62_data/v10A/flexagg10AY14/gsdpar.har\",\n                 set_input = \"path/to/v62_data/v10A/flexagg10AY14/gsdset.har\",\n                 REG = \"WB23\",\n                 TRAD_COMM = \"services\",\n                 ENDW_COMM = \"labor_agg\",\n                 time_steps = c(0, 1, 2, 3, 4, 6, 8, 10, 12, 14, 16) # explicit time steps (equivalent to c(2014, 2015, 2016, 2017, 2018, 2020, 2022, 2024, 2026, 2028, 2030))\n)\ndata &lt;- ems_data(dat_input = \"path/to/v7_data/v11c/flexAgg11c17/gsdfdat.har\",\n                 par_input = \"path/to/v7_data/v11c/flexAgg11c17/gsdfpar.har\",\n                 set_input = \"path/to/v7_data/v11c/flexAgg11c17/gsdfset.har\",\n                 REG = \"R32\",\n                 COMM = \"medium\",\n                 ACTS = \"medium\",\n                 ENDW = \"labor_diff\",\n                 time_steps = c(2017, 2018, 2020, 2022, 2024, 2026, 2028, 2030) # chronological time steps (note reference year of input data)\n)",
+    "text": "3.4 Time steps\nFor temporally dynamic models (e.g., GTAP-INT, GTAP-RE), time steps must be provided representing t0 plus actual year steps from t0. Time steps can be inputted in either actual year increments or represented as chronological years. Note that if chronological years are used, t0 must correspond with the reference year of the database being used.\nExplicit time steps (equivalent to c(2014, 2015, 2016, 2017, 2018, 2020, 2022, 2024, 2026, 2028, 2030))\ndata &lt;- ems_data(dat_input = \"path/to/flexagg10AY14/gsddat.har\",\n                 par_input = \"path/to/flexagg10AY14/gsdpar.har\",\n                 set_input = \"path/to/flexagg10AY14/gsdset.har\",\n                 REG = \"WB23\",\n                 TRAD_COMM = \"services\",\n                 ENDW_COMM = \"labor_agg\",\n                 time_steps = c(0, 1, 2, 3, 4, 6, 8, 10, 12, 14, 16)\n)\nChronological time steps (note reference year of input data)\ndata &lt;- ems_data(dat_input = \"path/to/flexAgg11c17/gsdfdat.har\",\n                 par_input = \"path/to/flexAgg11c17/gsdfpar.har\",\n                 set_input = \"path/to/flexAgg11c17/gsdfset.har\",\n                 REG = \"R32\",\n                 COMM = \"medium\",\n                 ACTS = \"medium\",\n                 ENDW = \"labor_diff\",\n                 time_steps = c(2017, 2018, 2020, 2022, 2024, 2026, 2028, 2030)\n)",
     "crumbs": [
-      "Data inputs",
+      "Data and model inputs",
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Loading data</span>"
     ]
   },
@@ -111,9 +121,9 @@
     "href": "data_load.html#converting-formats",
     "title": "3  Loading data",
     "section": "3.5 Converting formats",
-    "text": "3.5 Converting formats\nGTAP databases are available in the classic v6.2 and standard v7.0 formats, corresponding to the classic and standard GTAP models. If you wish to use a classic-based model with newer GTAP databases or vice-versa, convert_format = TRUE will convert the underlying database. Note that set mappings are set according to the model to be used, not the original format of inputted data.\nGTAP 11 database converted to v6.2 data format:\nv62_data &lt;- ems_data(dat_input = \"path/to/v7_data/v11c/flexAgg11c17/gsdfdat.har\",\n                     par_input = \"path/to/v7_data/v11c/flexAgg11c17/gsdfpar.har\",\n                     set_input = \"path/to/v7_data/v11c/flexAgg11c17/gsdfset.har\",\n                     REG = \"big3\",\n                     TRAD_COMM = \"macro_sector\",\n                     ENDW_COMM = \"labor_agg\",\n                     convert_format = TRUE\n)",
+    "text": "3.5 Converting formats\nGTAP databases are available in the classic v6.2 and standard v7.0 formats, corresponding to the classic and standard GTAP models. If you wish to use a classic-based model with newer GTAP databases or vice-versa, convert_format = TRUE will convert the underlying database. Note that set mappings are set according to the model to be used, not the original format of inputted data.\nGTAP 11 database converted to v6.2 data format:\nv62_data &lt;- ems_data(dat_input = \"path/to/flexAgg11c17/gsdfdat.har\",\n                     par_input = \"path/to/flexAgg11c17/gsdfpar.har\",\n                     set_input = \"path/to/flexAgg11c17/gsdfset.har\",\n                     REG = \"big3\",\n                     TRAD_COMM = \"macro_sector\",\n                     ENDW_COMM = \"labor_agg\",\n                     convert_format = TRUE\n)",
     "crumbs": [
-      "Data inputs",
+      "Data and model inputs",
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Loading data</span>"
     ]
   },
@@ -122,10 +132,120 @@
     "href": "data_load.html#future-expansions",
     "title": "3  Loading data",
     "section": "3.6 Future expansions",
-    "text": "3.6 Future expansions\nExpand to non-GTAP sources of data. Function to query existing internal mappings and provide granular details (e.g., GTAP region to “AR5” to iso3c) Auxillary inputs (preaggregation inputs from HAR and non-HAR sources with option to overwrite standard inputs)",
+    "text": "3.6 Future expansions\n\nExpand to non-GTAP sources of data.\nFunction to query existing internal mappings and provide granular details (e.g., GTAP region to “AR5” to iso3c)\nAuxillary inputs (preaggregation inputs from HAR and non-HAR sources with option to overwrite standard inputs)",
     "crumbs": [
-      "Data inputs",
+      "Data and model inputs",
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Loading data</span>"
+    ]
+  },
+  {
+    "objectID": "model_load.html",
+    "href": "model_load.html",
+    "title": "4  Loading models",
+    "section": "",
+    "text": "4.1 Overview\nThe ems_model() function loads general model specifications, conducts data-agnositic pre-pipeline checks, and determines temporal dynamics. The output of this function is a tibble with parsed components and is a required input to the \"model_config\" argument within the [ems_deploy()] function.",
+    "crumbs": [
+      "Data and model inputs",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Loading models</span>"
+    ]
+  },
+  {
+    "objectID": "model_load.html#incompatible-features",
+    "href": "model_load.html#incompatible-features",
+    "title": "4  Loading models",
+    "section": "5.1 Incompatible features",
+    "text": "5.1 Incompatible features\nThe teems-solver was originally designed as a GEMPack emulator and we have no intention of attempting to reproduce the very thorough GEMPack documentation on the Tablo scripting language and underlying solution software. Most Tablo model files (.tab) that work with GEMPack will also work with the teems-solver with some minor modifications. There are however a range of newer GEMPack features that are not compatible and are not likely to be incorporated. Fortunately there are workarounds for the vast majority as described below.\nConsiderable efforts have been made to correctly parse Tablo files but it is likely that custom Tablo files will need to be modified. If you find an incompatibility not listed here and feel that it should be addressed, please feel free to contact us with your model file. Some of the more frequent incompatibilities and workarounds are listed here.\n\n5.1.1 Set and subset declarations\nMultiple + or - operators within a single declaration is not supported. Instead of\nSet A123 = A1 + A2 + A3;\nUse\nSet A12 = A1 + A1;\nSet A123 = A12 + A3;\nOne set cannot be declared identical to a second set without using a Read statement. Instead of\nSet A # example set A # maximum size 5 read elements from file GTAPSETS header \\\"H2\\\";\nSet B # example set # = Set A;\nUse\nSet A # example set A # maximum size 5 read elements from file GTAPSETS header \\\"H2\\\";\nSet B # example set B # maximum size 5 read elements from file GTAPSETS header \\\"H2\\\";\n\nThe SLUG coefficient is not used to identify sluggish endowments. Declare these sets explicitly or via set operations.\nThe CGDS sector in v6.2 format models is renamed to zcgds by default due to R data.table C-locale sorting and preference for all set elements to be lowercase.\n\n\n\n\n5.1.2 Formulas and Equations\nNo IF statements in Formula or Equation RHS (use sets) Instead of\nFormula (all,c,COMM)(all,r,REG)\n    VCB(c,r) = VDB(c,r) + sum{d,REG, VXSB(c,r,d)} + IF[c in MARG, VST(c,r)];\nUse\nFormula (all,c,MARG)(all,r,REG)\n    VCB(c,r) = VDB(c,r) + sum{d,REG, VXSB(c,r,d)} + VST(c,r);\nFormula (all,c,NMRG)(all,r,REG)\n    VCB(c,r) = VDB(c,r) + sum{d,REG, VXSB(c,r,d)};",
+    "crumbs": [
+      "Data and model inputs",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Loading models</span>"
+    ]
+  },
+  {
+    "objectID": "model_load.html#variable-omissions",
+    "href": "model_load.html#variable-omissions",
+    "title": "4  Loading models",
+    "section": "5.2 Variable omissions",
+    "text": "5.2 Variable omissions\nVariables specified with var_omit will be removed from the model closure and replaced with 0 within the model file. Standard v7.0 data format variable omissions\nmodel &lt;- ems_model(\n  tab_file = \"GTAP-REv1\",\n  var_omit = c(\n    \"atall\",\n    \"avaall\",\n    \"tfe\",\n    \"tfm\",\n    \"tgd\",\n    \"tgm\",\n    \"tid\",\n    \"tim\"))\nStandard v6.2 data format variable omissions\nmodel &lt;- ems_model(\ntab_file = \"GTAPv6.2\",\nvar_omit = c(\n  \"atall\",\n  \"tfd\",\n  \"avaall\",\n  \"tf\",\n  \"tfm\",\n  \"tgd\",\n  \"tgm\",\n  \"tpd\",\n  \"tpm\"\n))",
+    "crumbs": [
+      "Data and model inputs",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Loading models</span>"
+    ]
+  },
+  {
+    "objectID": "model_load.html#future-expansions",
+    "href": "model_load.html#future-expansions",
+    "title": "4  Loading models",
+    "section": "5.3 Future expansions",
+    "text": "5.3 Future expansions\nWrite bidirectional Tablo &lt;-&gt; conversion script to allow for model files auto-omit switch to automatically drop as many variables as possible based on closure and shock specifications",
+    "crumbs": [
+      "Data and model inputs",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Loading models</span>"
+    ]
+  },
+  {
+    "objectID": "closure_load.html",
+    "href": "closure_load.html",
+    "title": "5  Loading closures",
+    "section": "",
+    "text": "5.1 Overview\nClosures are either inferred from the use of an internal Tablo file or inputted to the closure_file argument of ems_deploy().",
+    "crumbs": [
+      "Closures",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Loading closures</span>"
+    ]
+  },
+  {
+    "objectID": "closure_load.html#closure-selection",
+    "href": "closure_load.html#closure-selection",
+    "title": "5  Loading closures",
+    "section": "5.2 Closure selection",
+    "text": "5.2 Closure selection\nIf an internally supported Tablo file is chosen and no closure file specified, a standard model-specific closure will be used. These are available within the model repository: teems-models. The general format consistens of: 1. Character string “exogenous” 2. A “” delimited list of exogenous variables 3. “;” 4. “rest exogenous” 5. “;”\nFor example the standard closure for GTAP-RE is as follows:\nexogenous\nafall\nafcom\nafeall\nafecom\nafereg\nafesec\nafreg\nafsec\naintall\naintreg\naintsec\nams\naoall\naoreg\naosec\natall\natd\natf\natm\nats\nau\navaall\navareg\navasec\ncgdslack\ndpgov\ndppriv\ndpsave\nendwslack\nincomeslack\nkdelta\npfactwld\npop\nprofitslack\npsaveslack\nqe(ENDWC,REG,INITIME)\nqe(ENDWMSNC,REG,ALLTIME)\nqesf\nror_exo\ntfd\ntfe\ntfm\ntgd\ntgm\ntid\ntim\ntinc\ntm\ntms\nto\ntpd\ntpm\ntpreg\ntradslack\ntx\ntxs\n;\nrest endogenous\n;\nNote that no other operations (e.g., swaps) are to be listed witin the closure file. See swaps for instructions …\nClosure files can be explitly loaded as a “.cls” file within the ems_deploy() function.\nems_deploy(data = data,\n           model = model,\n           closure_file = \"path/to/usr_cls.cls\")",
+    "crumbs": [
+      "Closures",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Loading closures</span>"
+    ]
+  },
+  {
+    "objectID": "swaps.html",
+    "href": "swaps.html",
+    "title": "6  Closure swaps",
+    "section": "",
+    "text": "6.1 Overview\nSimple full variable swaps can be directly inputted as a string into the swap_in and swap_out arguments of ems_deploy(). More complex swaps must be handled with the dedicated ems_swap() function.",
+    "crumbs": [
+      "Closures",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Closure swaps</span>"
+    ]
+  },
+  {
+    "objectID": "swaps.html#simple-full-variable-swaps",
+    "href": "swaps.html#simple-full-variable-swaps",
+    "title": "6  Closure swaps",
+    "section": "6.2 Simple (full variable) swaps",
+    "text": "6.2 Simple (full variable) swaps\nHere simple swaps refers swaps in which a variable and all its components are being swapped. This is the most common type of swap and is directly handled within ems_deploy().\nA single full variable swap\ncmf_path &lt;- ems_deploy(\n  data = data,\n  model = model,\n  swap_in = \"qfd\",\n  swap_out = \"tfd\"\n)\nMultiple full variable swaps\ncmf_path &lt;- ems_deploy(\n  data = data,\n  model = model,\n  swap_in = c(\"qfd\", \"yp\"),\n  swap_out = c(\"tfd\", \"dppriv\")\n)\nNote that swaps (and validity checks) are handled in the order they are inputted and swaps “in” are handled before swaps “out”.",
+    "crumbs": [
+      "Closures",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Closure swaps</span>"
+    ]
+  },
+  {
+    "objectID": "swaps.html#complex-partial-variable-swaps",
+    "href": "swaps.html#complex-partial-variable-swaps",
+    "title": "6  Closure swaps",
+    "section": "6.3 Complex (partial variable) swaps",
+    "text": "6.3 Complex (partial variable) swaps\nPartial variable swaps entail swapping parts of a variable (i.e., subsets of the constituitive sets) and must be processed through the ems_swap() function. In the above example the full “qfd” and “yp” variables were made exogenous while the full “tfd” and “dppriv” variable become endogenous. Within the GTAPv7.0 model, “qfd” encompasses the “COMM”, “ACTS”, and “REG” sets:\nVariable (orig_level=VDFB)(all,c,COMM)(all,a,ACTS)(all,r,REG)\n    qfd(c,a,r) # demand for domestic commodity c by activity a in region r #;\nWhat if we wish to shock only certain parts of this variable (e.g., a region or commodity) and allow the remainder of the variable to endogenously adjust according to model equations? In this case we would swap on the parts of the variable that we will provide values to and leave the remainder. If, for example, we have a shock value for “asia” within “REG” and “crops” within “ACTS”, the following ems_swap() call will prepare this swap for input into the swap_in argument of ems_deploy():\nqfd_in &lt;- ems_swap(\n  var = \"qfd\",\n  REGr = \"asia\",\n  ACTSa = \"crops\"\n)\nNote that sets specified in this manner are identified by the model-specific concatenation of the standard set name plus the variable-specific index. This is necessary because many variables contain multiple instances of the same set and none of the teems functions relies upon input entry order or order within the model to make distinctions. In this case the “qfd” set subindices are “c”, “a”, and “r”, yielding “COMMc”, “ACTSa”, and “REGr”. In order to retain a valid closure we also use the same approach to the outgoing variable “tfd”:\ntfd_out &lt;- ems_swap(\n  var = \"tfd\",\n  REGr = \"asia\",\n  ACTSa = \"crops\"\n)\nWhile the subindices for both variables are the same within GTAPv7.0, note that these may vary in some models such as GTAPv6.2 where the REG subindex is “s” for “qfd” and “r” for “tfd”. Both swaps may now be loaded within ems_deploy():\ncmf_path &lt;- ems_deploy(\n  data = data,\n  model = model,\n  swap_in = qfd_in,\n  swap_out = tfd_out\n)\nOr if additional full variable swaps are also desired, a list is used to load multiple swaps for each direction\ncmf_path &lt;- ems_deploy(\n  data = data,\n  model = model,\n  swap_in = list(qfd_in \"yp\"),\n  swap_out = list(tfd_out, \"dppriv\")\n)",
+    "crumbs": [
+      "Closures",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Closure swaps</span>"
+    ]
+  },
+  {
+    "objectID": "swaps.html#future-expansions",
+    "href": "swaps.html#future-expansions",
+    "title": "6  Closure swaps",
+    "section": "6.4 Future expansions",
+    "text": "6.4 Future expansions\n\nList of vetted swaps by model",
+    "crumbs": [
+      "Closures",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Closure swaps</span>"
     ]
   }
 ]
