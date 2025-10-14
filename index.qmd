@@ -1,13 +1,3 @@
----
-execute:
-  freeze: auto
----
-
-```{r, message = FALSE, warning = FALSE, echo = FALSE}
-knitr::opts_knit$set(root.dir = fs::dir_create(tempfile()))
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>", eval = TRUE)
-```
-
 # Introduction {#intro}
 Reproducibility within computable general equilibrium (CGE) and partial equilibrium modelling analyses has long been elusive. Here we present TEEMS (Trade and Environment Equilibrium Modelling System), a set of tools which includes the R package [`teems`](https://github.com/teemsphere/teems-R) used to compose model runs and [teems-solver](https://github.com/teemsphere/teems-solver), a C-based solver capable of solving a large system of nonlinear equations by leveraging a range of mathematical and scientific computation libraries. Auxillary repositories include [teems-models](https://github.com/teemsphere/teems-models), containing internally available and immediately compatible models, [teems-mappings](https://github.com/teemsphere/teems-mappings) with set mappings and [teems-scripts]() which showcases a wide variety of model configurations and options.
 
@@ -32,6 +22,9 @@ Reproducibility has been elusive in large part due to the proprietary nature of 
 Indeed, in the course of building the TEEMS framework we have found that without a reproducible architecture, there is a very high possibility of persistent logic errors propagating through to the output without any obvious indications that this is taking place in most cases. Models which incorporate time steps and additional auxillary data (e.g., land-use data) or are coupled with other models such as is the case with most integrated assessment models (IAMs) are even more complex, and therefore susceptable to a wide range of errors. Ultimately we hope that this software mitigates the steep learning curve requisite to running equilibrium models and allows scientists from various disciplines to advance model representation of their fields. The TLDR -- running a CGE model does not have to be so hard!
 
 Finally, in addition to their proprietary nature, existing software for running CGE models relies upon graphical user interfaces which although convenient, poses a barrier to greater adoption by non-specialists as well as severely restricts the available range of tools due to the absence of a flourishing ecosystem such as that which can be found within more widely adopted scripting languages such as R.
+
+## When you find errors!
+This software suite has been under development for many years. Despite our best efforts, it is very likely that you will encounter issues. We are providing access in this current beta stage to crowdsource your efforts and address any significant issues before submitting a package to CRAN.
 
 ## About this manual
 This manual is a step-by-step user guide to [`teems`](https://teemsphere.github.io/). 

@@ -1,0 +1,84 @@
+# Loading closures
+
+## Overview
+Closures are either inferred from the use of an internal Tablo file or inputted to the `closure_file` argument of `ems_deploy()`.
+
+## Closure selection
+If an internally supported Tablo file is chosen and no closure file specified, a standard model-specific closure will be used. These are available within the model repository: [teems-models](https://github.com/teemsphere/teems-models). The general format consistens of:
+1. Character string "exogenous"
+2. A "\n" delimited list of exogenous variables
+3. ";"
+4. "rest exogenous"
+5. ";"
+
+For example the standard closure for [GTAP-RE](https://github.com/teemsphere/teems-models/tree/main/GTAP-REv1) is as follows:
+```
+exogenous
+afall
+afcom
+afeall
+afecom
+afereg
+afesec
+afreg
+afsec
+aintall
+aintreg
+aintsec
+ams
+aoall
+aoreg
+aosec
+atall
+atd
+atf
+atm
+ats
+au
+avaall
+avareg
+avasec
+cgdslack
+dpgov
+dppriv
+dpsave
+endwslack
+incomeslack
+kdelta
+pfactwld
+pop
+profitslack
+psaveslack
+qe(ENDWC,REG,INITIME)
+qe(ENDWMSNC,REG,ALLTIME)
+qesf
+ror_exo
+tfd
+tfe
+tfm
+tgd
+tgm
+tid
+tim
+tinc
+tm
+tms
+to
+tpd
+tpm
+tpreg
+tradslack
+tx
+txs
+;
+rest endogenous
+;
+```
+Note that no other operations (e.g., swaps) are to be listed witin the closure file. See swaps for instructions ...
+
+Closure files can be explitly loaded as a ".cls" file within the `ems_deploy()` function.
+```r
+ems_deploy(data = data,
+           model = model,
+           closure_file = "path/to/usr_cls.cls")
+```

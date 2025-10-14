@@ -9,9 +9,9 @@ Compatible input files are currently limited to those produced by the Global Tra
 
 At a minimum, the basedata "dat", parameter "par", and set "set" files are required inputs for the `dat_input`, `par_input`, and `set_input` arguments respectively. 
 ```r
-v7_data <- ems_data(dat_input = "path/to/v7_data/v11c/flexAgg11c17/gsdfdat.har", # basedata coefficients
-                    par_input = "path/to/v7_data/v11c/flexAgg11c17/gsdfpar.har", # parameter coefficients
-                    set_input = "path/to/v7_data/v11c/flexAgg11c17/gsdfset.har", # set elements
+v7_data <- ems_data(dat_input = "path/to/flexAgg11c17/gsdfdat.har", # basedata coefficients
+                    par_input = "path/to/flexAgg11c17/gsdfpar.har", # parameter coefficients
+                    set_input = "path/to/flexAgg11c17/gsdfset.har", # set elements
                     REG = "big3",
                     COMM = "macro_sector",
                     ACTS = "macro_sector",
@@ -61,9 +61,9 @@ Internal sector mappings are according to the following focuses and number of el
   + full
 
 ```r
-v62_data <- ems_data(dat_input = "path/to/v62_data/v10A/flexagg10AY14/gsddat.har",
-                     par_input = "path/to/v62_data/v10A/flexagg10AY14/gsdpar.har",
-                     set_input = "path/to/v62_data/v10A/flexagg10AY14/gsdset.har",
+v62_data <- ems_data(dat_input = "path/to/flexagg10AY14/gsddat.har",
+                     par_input = "path/to/flexagg10AY14/gsdpar.har",
+                     set_input = "path/to/flexagg10AY14/gsdset.har",
                      REG = "big3", # China, USA, ROW
                      TRAD_COMM = "macro_sector", # crops, food, livestock, mnfcs, svces
                      ENDW_COMM = "labor_agg" # capital, labor, land, natlres
@@ -89,26 +89,28 @@ External mappings may be provided in the form of a filepath to a two column csv 
 ## Time steps
 For temporally dynamic models (e.g., [GTAP-INT](https://github.com/teemsphere/teems-models/tree/main/GTAP-INTv1), [GTAP-RE](https://github.com/teemsphere/teems-models/tree/main/GTAP-REv1)), time steps must be provided representing t0 plus actual year steps from t0. Time steps can be inputted in either actual year increments or represented as chronological years. Note that if chronological years are used, t0 must correspond with the reference year of the database being used.
 
+Explicit time steps (equivalent to c(2014, 2015, 2016, 2017, 2018, 2020, 2022, 2024, 2026, 2028, 2030))
 ```r
-data <- ems_data(dat_input = "path/to/v62_data/v10A/flexagg10AY14/gsddat.har",
-                 par_input = "path/to/v62_data/v10A/flexagg10AY14/gsdpar.har",
-                 set_input = "path/to/v62_data/v10A/flexagg10AY14/gsdset.har",
+data <- ems_data(dat_input = "path/to/flexagg10AY14/gsddat.har",
+                 par_input = "path/to/flexagg10AY14/gsdpar.har",
+                 set_input = "path/to/flexagg10AY14/gsdset.har",
                  REG = "WB23",
                  TRAD_COMM = "services",
                  ENDW_COMM = "labor_agg",
-                 time_steps = c(0, 1, 2, 3, 4, 6, 8, 10, 12, 14, 16) # explicit time steps (equivalent to c(2014, 2015, 2016, 2017, 2018, 2020, 2022, 2024, 2026, 2028, 2030))
+                 time_steps = c(0, 1, 2, 3, 4, 6, 8, 10, 12, 14, 16)
 )
 ```
 
+Chronological time steps (note reference year of input data)
 ```r
-data <- ems_data(dat_input = "path/to/v7_data/v11c/flexAgg11c17/gsdfdat.har",
-                 par_input = "path/to/v7_data/v11c/flexAgg11c17/gsdfpar.har",
-                 set_input = "path/to/v7_data/v11c/flexAgg11c17/gsdfset.har",
+data <- ems_data(dat_input = "path/to/flexAgg11c17/gsdfdat.har",
+                 par_input = "path/to/flexAgg11c17/gsdfpar.har",
+                 set_input = "path/to/flexAgg11c17/gsdfset.har",
                  REG = "R32",
                  COMM = "medium",
                  ACTS = "medium",
                  ENDW = "labor_diff",
-                 time_steps = c(2017, 2018, 2020, 2022, 2024, 2026, 2028, 2030) # chronological time steps (note reference year of input data)
+                 time_steps = c(2017, 2018, 2020, 2022, 2024, 2026, 2028, 2030)
 ) 
 ```
 ## Converting formats
@@ -117,9 +119,9 @@ GTAP databases are available in the classic v6.2 and standard v7.0 formats, corr
 
 GTAP 11 database converted to v6.2 data format:
 ```r
-v62_data <- ems_data(dat_input = "path/to/v7_data/v11c/flexAgg11c17/gsdfdat.har",
-                     par_input = "path/to/v7_data/v11c/flexAgg11c17/gsdfpar.har",
-                     set_input = "path/to/v7_data/v11c/flexAgg11c17/gsdfset.har",
+v62_data <- ems_data(dat_input = "path/to/flexAgg11c17/gsdfdat.har",
+                     par_input = "path/to/flexAgg11c17/gsdfpar.har",
+                     set_input = "path/to/flexAgg11c17/gsdfset.har",
                      REG = "big3",
                      TRAD_COMM = "macro_sector",
                      ENDW_COMM = "labor_agg",
@@ -128,6 +130,6 @@ v62_data <- ems_data(dat_input = "path/to/v7_data/v11c/flexAgg11c17/gsdfdat.har"
 ```
 
 ## Future expansions
-Expand to non-GTAP sources of data.
-Function to query existing internal mappings and provide granular details (e.g., GTAP region to "AR5" to iso3c)
-Auxillary inputs (preaggregation inputs from HAR and non-HAR sources with option to overwrite standard inputs)
+* Expand to non-GTAP sources of data.
+* Function to query existing internal mappings and provide granular details (e.g., GTAP region to "AR5" to iso3c)
+* Auxillary inputs (preaggregation inputs from HAR and non-HAR sources with option to overwrite standard inputs)

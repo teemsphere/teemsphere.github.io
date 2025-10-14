@@ -2,7 +2,7 @@ project:
   type: book
 
 book:
-  title: "The {TEEMS} R package user manual"
+  title: "The {teems} R package user manual"
   author: "Matthew Cantele"
   site-url: https://teemsphere.github.io/
   repo-url: https://github.com/teemsphere/teemsphere.github.io
@@ -19,16 +19,18 @@ book:
     #    - overview.qmd
     #     - help.qmd
     #     - debugging.qmd
-    - part: "Data inputs"
+    - part: "Data and model inputs"
       chapters:
         - data_load.qmd
-      #  - tab_file.qmd
+        - model_load.qmd
       #   - part: "Input data"
   #     chapters:
   #       - crew.qmd
   #       - performance.qmd
-    - part: "Models"
     - part: "Closures"
+      chapters:
+        - closure_load.qmd
+        - swaps.qmd
     - part: "Shocks"
      # chapters:
         # - uniform_shocks.qmd
