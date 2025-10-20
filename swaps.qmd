@@ -67,6 +67,29 @@ cmf_path <- ems_deploy(
   swap_out = list(tfd_out, "dppriv")
 )
 ```
-
+Finally, selection of multiple elements for each set will expand the swap to encompass all associated tuples. For example:
+```r
+qfd_in <- ems_swap(
+  var = "qfd",
+  REGr = c("asia", "lam"),
+  ACTSa = "crops"
+)
+```
+is equivalent to loading
+```r
+qfd_in_1 <- ems_swap(
+  var = "qfd",
+  REGr = "asia",
+  ACTSa = "crops"
+)
+```
+and
+```r
+qfd_in_2 <- ems_swap(
+  var = "qfd",
+  REGr = "lam",
+  ACTSa = "crops"
+)
+```
 ## Future expansions
 * List of vetted swaps by model
