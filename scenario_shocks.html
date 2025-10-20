@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>5&nbsp; Loading closures – The {teems} R package user manual</title>
+<title>9&nbsp; Scenario shocks – The {teems} R package user manual</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./swaps.html" rel="next">
-<link href="./model_load.html" rel="prev">
+<link href="./custom_shocks.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -283,7 +282,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./closure_load.html">Closures</a></li><li class="breadcrumb-item"><a href="./closure_load.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Loading closures</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./uniform_shocks.html">Shocks</a></li><li class="breadcrumb-item"><a href="./scenario_shocks.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Scenario shocks</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -369,7 +368,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./closure_load.html" class="sidebar-item-text sidebar-link active">
+  <a href="./closure_load.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Loading closures</span></span></a>
   </div>
 </li>
@@ -404,7 +403,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./scenario_shocks.html" class="sidebar-item-text sidebar-link">
+  <a href="./scenario_shocks.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Scenario shocks</span></span></a>
   </div>
 </li>
@@ -424,18 +423,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">5.1</span> Overview</a></li>
-  <li><a href="#closure-selection" id="toc-closure-selection" class="nav-link" data-scroll-target="#closure-selection"><span class="header-section-number">5.2</span> Closure selection</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">9.1</span> Overview</a></li>
+  <li><a href="#using-scenario-shocks" id="toc-using-scenario-shocks" class="nav-link" data-scroll-target="#using-scenario-shocks"><span class="header-section-number">9.2</span> Using scenario shocks</a></li>
+  <li><a href="#a-population-example" id="toc-a-population-example" class="nav-link" data-scroll-target="#a-population-example"><span class="header-section-number">9.3</span> A population example</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/closure_load.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/scenario_shocks.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./closure_load.html">Closures</a></li><li class="breadcrumb-item"><a href="./closure_load.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Loading closures</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./uniform_shocks.html">Shocks</a></li><li class="breadcrumb-item"><a href="./scenario_shocks.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Scenario shocks</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Loading closures</span></h1>
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Scenario shocks</span></h1>
 </div>
 
 
@@ -452,79 +452,74 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="overview" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">5.1</span> Overview</h2>
-<p>Closures are either inferred from the use of an internal Tablo file or inputted to the <code>closure_file</code> argument of <code>ems_deploy()</code>.</p>
+<section id="overview" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">9.1</span> Overview</h2>
+<p>The <code>"scenario"</code> shock type via <code>ems_shock()</code> is a dedicated intertemporal shock type that allows for granular control over heterogenous shocks allocated on a tuple-specific basis, inputted as a CSV file or dataframe (or dataframe equivalent) through <code>"input"</code> in the form of absolute values. This is in contrast with custom shocks where the inputs are denominated in percentage change values.</p>
 </section>
-<section id="closure-selection" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="closure-selection"><span class="header-section-number">5.2</span> Closure selection</h2>
-<p>If an internally supported Tablo file is chosen and no closure file specified, a standard model-specific closure will be used. These are available within the model repository: <a href="https://github.com/teemsphere/teems-models">teems-models</a>. The general format consistens of: 1. Character string “exogenous” 2. A “” delimited list of exogenous variables 3. “;” 4. “rest exogenous” 5. “;”</p>
-<p>For example the standard closure for <a href="https://github.com/teemsphere/teems-models/tree/main/GTAP-REv1">GTAP-RE</a> is as follows:</p>
-<pre><code>exogenous
-afall
-afcom
-afeall
-afecom
-afereg
-afesec
-afreg
-afsec
-aintall
-aintreg
-aintsec
-ams
-aoall
-aoreg
-aosec
-atall
-atd
-atf
-atm
-ats
-au
-avaall
-avareg
-avasec
-cgdslack
-dpgov
-dppriv
-dpsave
-endwslack
-incomeslack
-kdelta
-pfactwld
-pop
-profitslack
-psaveslack
-qe(ENDWC,REG,INITIME)
-qe(ENDWMSNC,REG,ALLTIME)
-qesf
-ror_exo
-tfd
-tfe
-tfm
-tgd
-tgm
-tid
-tim
-tinc
-tm
-tms
-to
-tpd
-tpm
-tpreg
-tradslack
-tx
-txs
-;
-rest endogenous
-;</code></pre>
-<p>Note that no other operations (e.g., swaps) are to be listed witin the closure file. See swaps for instructions …</p>
-<p>Closure files can be explitly loaded as a “.cls” file within the <code>ems_deploy()</code> function.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_deploy</span>(<span class="at">data =</span> data,</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">model =</span> model,</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">closure_file =</span> <span class="st">"path/to/usr_cls.cls"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="using-scenario-shocks" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="using-scenario-shocks"><span class="header-section-number">9.2</span> Using scenario shocks</h2>
+<p>Scenario shocks differ from custom shocks in a number of respects 1. Only available for intertemporal models</p>
+<ol start="2" type="1">
+<li><p>Inputs must contain all <strong><em>preaggregation</em></strong> tuples associated with a variable</p></li>
+<li><p>Inputs must span all elements (no partial variable scenario shock)</p></li>
+<li><p>Inputs are denominated in actual values (e.g., million USD)</p></li>
+<li><p>The input dataframe or CSV must contain one column “Year”, corresponding to the chronological year for a shock in a specific tuple</p></li>
+</ol>
+<p>There are several applications where it is advantageous to use scenario shock rather than a custom shock. The primary advantage is that scenario shocks allow for seamless changes to model aggregations since the shocks themselves are subject to mappings and aggregation. If we have trajectories available for all tuples within a given variable, a scenario shock will adjust to set mapping inputs in <code>ems_data()</code>. The actual values provided do not necessarily need to correspond to realworld values. We could for example use the integer 1 as a base and vary our components according to this base value in the year corresponding to t0.</p>
+</section>
+<section id="a-population-example" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="a-population-example"><span class="header-section-number">9.3</span> A population example</h2>
+<p>The following example takes base year population data from the GTAP database (typically not read into the model) and constructs hypothetical pathways for every region in the model. These pathways are valid for any regional aggregation chosen. Get population data (not “full” region mapping chosen to retrieve data for all regions):</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_input =</span> <span class="st">"~/dat/GTAP/v11c/flexAgg11c17/gsdfdat.har"</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_input =</span> <span class="st">"~/dat/GTAP/v11c/flexAgg11c17/gsdfpar.har"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_input =</span> <span class="st">"~/dat/GTAP/v11c/flexAgg11c17/gsdfset.har"</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">REG =</span> <span class="st">"full"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">COMM =</span> <span class="st">"macro_sector"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ACTS =</span> <span class="st">"macro_sector"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">ENDW =</span> <span class="st">"labor_agg"</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>)<span class="sc">$</span>POP</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Create a data frame and make trajectories through 2033</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pop<span class="sc">$</span>Year <span class="ot">&lt;-</span> <span class="dv">2017</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>regions <span class="ot">&lt;-</span> <span class="fu">unique</span>(pop<span class="sc">$</span>REG)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>pop_traj <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">REG =</span> regions,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Value =</span> <span class="dv">0</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Year =</span> <span class="fu">c</span>(<span class="dv">2018</span>, <span class="dv">2019</span>, <span class="dv">2020</span>, <span class="dv">2021</span>, <span class="dv">2023</span>, <span class="dv">2025</span>, <span class="dv">2027</span>, <span class="dv">2029</span>, <span class="dv">2031</span>, <span class="dv">2033</span>),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">rbind</span>(pop, pop_traj)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>growth_rates <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">REG =</span> regions,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">growth_rate =</span> <span class="fu">runif</span>(<span class="fu">length</span>(regions), <span class="at">min =</span> <span class="sc">-</span><span class="fl">0.01</span>, <span class="at">max =</span> <span class="fl">0.05</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">merge</span>(pop, growth_rates, <span class="at">by =</span> <span class="st">"REG"</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>base_values <span class="ot">&lt;-</span> pop[pop<span class="sc">$</span>Year <span class="sc">==</span> <span class="dv">2017</span>, <span class="fu">c</span>(<span class="st">"REG"</span>, <span class="st">"Value"</span>)]</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(base_values)[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="st">"base_value"</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">merge</span>(pop, base_values, <span class="at">by =</span> <span class="st">"REG"</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>pop<span class="sc">$</span>Value[pop<span class="sc">$</span>Year <span class="sc">&gt;</span> <span class="dv">2017</span>] <span class="ot">&lt;-</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  pop<span class="sc">$</span>base_value[pop<span class="sc">$</span>Year <span class="sc">&gt;</span> <span class="dv">2017</span>] <span class="sc">*</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">+</span> pop<span class="sc">$</span>growth_rate[pop<span class="sc">$</span>Year <span class="sc">&gt;</span> <span class="dv">2017</span>])<span class="sc">^</span>(pop<span class="sc">$</span>Year[pop<span class="sc">$</span>Year <span class="sc">&gt;</span> <span class="dv">2017</span>] <span class="sc">-</span> <span class="dv">2017</span>)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>pop<span class="sc">$</span>growth_rate <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>pop<span class="sc">$</span>base_value <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> pop[<span class="fu">order</span>(pop<span class="sc">$</span>REG, pop<span class="sc">$</span>Year), ]</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> pop[, <span class="fu">c</span>(<span class="st">"REG"</span>, <span class="st">"Year"</span>, <span class="st">"Value"</span>)]</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(pop)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">"REGr"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Load and run</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pop_trajectory <span class="ot">&lt;-</span> <span class="fu">ems_shock</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">var =</span> <span class="st">"pop"</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"scenario"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">input =</span> pop</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>cmf_path <span class="ot">&lt;-</span> <span class="fu">ems_deploy</span>(</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> model,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">shock =</span> pop_trajectory</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
@@ -944,14 +939,11 @@ rest endogenous
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./model_load.html" class="pagination-link" aria-label="Loading models">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Loading models</span></span>
+      <a href="./custom_shocks.html" class="pagination-link" aria-label="Custom shocks">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Custom shocks</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./swaps.html" class="pagination-link" aria-label="Closure swaps">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Closure swaps</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
@@ -959,4 +951,4 @@ rest endogenous
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/closure_load.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/scenario_shocks.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>
