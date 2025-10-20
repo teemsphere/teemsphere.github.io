@@ -32,10 +32,10 @@ book:
         - closure_load.qmd
         - swaps.qmd
     - part: "Shocks"
-     # chapters:
-        # - uniform_shocks.qmd
-        # - custom_shocks.qmd
-        # - scenario_shocks.qmd
+      chapters:
+        - uniform_shocks.qmd
+        - custom_shocks.qmd
+        - scenario_shocks.qmd
     - part: "Deploying and solving the model"
         # - aux_dat.qmd
         # - data_mod.qmd
