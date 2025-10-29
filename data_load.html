@@ -513,8 +513,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>while the non-margin set below is constructed from sets previous declared (read-in in the case of the standard <a href="https://github.com/teemsphere/teems-models/blob/main/GTAPv7.0/GTAPv7.0.tab">GTAPv7.0</a>) and therefore requires no mapping.</p>
 <pre><code>Set
     NMRG # non-margin commodities # = COMM - MARG;  </code></pre>
-<p><a href="https://github.com/teemsphere/teems-R"><code>teems</code></a> ships with a number of set mappings for read-in sets ranging in size and focus. These internal mappings may be immediately utilized or a user may input their own mapping. Internal mappings are identified by the absence of a “.csv” file extension and inputted as a character string. Internal region mappings are as follows with the AR5, WB7, and WB23 derived from the <a href="https://vincentarelbundock.github.io/countrycode/#/man/codelist">countrycode</a> R package - (ar5, region, and region23 respectively). - region (e.g., <code>REG</code>) - big3 (China, United States, ROW) - AR5 (IPCC Fifth Assessment Report) - WB7 (World Bank 7 region) - WB23 (World Bank 23 region) - R32 (IIASA-based 32 region <a href="https://tntcat.iiasa.ac.at/SspDb/dsd?Action=htmlpage&amp;page=10">SSP mapping</a>) - medium - large - full</p>
-<p>Internal sector mappings are according to the following focuses and number of elements: - sector (e.g., <code>TRAD_COMM</code>, <code>COMM</code>, <code>ACTS</code>) - macro_sector - agriculture - manufacturing - services - medium - full</p>
+<p><a href="https://github.com/teemsphere/teems-R"><code>teems</code></a> ships with a number of set mappings for read-in sets ranging in size and focus. These internal mappings may be immediately utilized or a user may input their own mapping. Internal mappings are identified by the absence of a “.csv” file extension and inputted as a character string. Internal region mappings are as follows with the AR5, WB7, and WB23 derived from the <a href="https://vincentarelbundock.github.io/countrycode/#/man/codelist">countrycode</a> R package - (ar5, region, and region23 respectively).</p>
+<ul>
+<li>region (e.g., <code>REG</code>)
+<ul>
+<li>big3 (China, United States, ROW)</li>
+<li>AR5 (IPCC Fifth Assessment Report)</li>
+<li>WB7 (World Bank 7 region)</li>
+<li>WB23 (World Bank 23 region)</li>
+<li>R32 (IIASA-based 32 region <a href="https://tntcat.iiasa.ac.at/SspDb/dsd?Action=htmlpage&amp;page=10">SSP mapping</a>)</li>
+<li>medium</li>
+<li>large</li>
+<li>full</li>
+</ul></li>
+</ul>
+<p>Internal sector mappings are according to the following focuses and number of elements:</p>
+<ul>
+<li>sector (e.g., <code>TRAD_COMM</code>, <code>COMM</code>, <code>ACTS</code>)
+<ul>
+<li>macro_sector</li>
+<li>agriculture</li>
+<li>manufacturing</li>
+<li>services</li>
+<li>medium</li>
+<li>full</li>
+</ul></li>
+</ul>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>v62_data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> <span class="st">"path/to/flexagg10AY14/gsddat.har"</span>,</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">par_input =</span> <span class="st">"path/to/flexagg10AY14/gsdpar.har"</span>,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">set_input =</span> <span class="st">"path/to/flexagg10AY14/gsdset.har"</span>,</span>
