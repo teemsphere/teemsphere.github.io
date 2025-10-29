@@ -4,7 +4,8 @@
 The `"custom"` shock type via `ems_shock()` allows for granular control over heterogenous shocks that are allocated on a tuple-specific basis, inputted as a CSV file or dataframe (or dataframe equivalent) through `"input"`.
 
 ## Full variable custom shocks
-[Here](https://github.com/teemsphere/teems-scripts/blob/main/GTAP-REv1/v11_cst_fullvar_df_year.R) (see snippet below) is a demonstration of 4 custom shocks carried out on all variable tuples for a range of variable dimensions.
+[Here](https://github.com/teemsphere/teems-scripts/blob/main/GTAP-REv1/v11_cst_fullvar_df_year.R) (and see snippets below) is a demonstration of 4 custom shocks carried out on all variable tuples for a range of variable dimensions with the [GTAP-RE](https://github.com/teemsphere/teems-models/tree/main/GTAP-REv1) model.
+
 Elements for data frame construction
 ```r
 time_steps <- c(0, 1, 2, 3, 4, 6, 8, 10, 12, 14, 16)
@@ -14,6 +15,7 @@ COMMc <- c("svces", "food", "crops", "mnfcs", "livestock")
 ACTSa <- c("svces", "food", "crops", "mnfcs", "livestock")
 MARGm <- "svces"
 ALLTIMEt <- seq(0, length(time_steps) - 1)
+```
 
 2D data frame and shock
 ```r

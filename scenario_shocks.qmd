@@ -20,3 +20,59 @@ There are several applications where it is advantageous to use scenario shock ra
 
 ## Population trajectory example
 [Here](https://github.com/teemsphere/teems-scripts/blob/main/GTAP-REv1/v11_scn.R) is an example that takes base year population data from the GTAP database (typically not read into the model) and constructs hypothetical pathways for every region in the model. These pathways are valid for any regional aggregation chosen.
+
+Grab population data with `REGr` set to "full" to keep regions disaggregated
+```r
+pop <- ems_data(
+  dat_input = "~/dat/GTAP/v11c/flexAgg11c17/gsdfdat.har",
+  par_input = "~/dat/GTAP/v11c/flexAgg11c17/gsdfpar.har",
+  set_input = "~/dat/GTAP/v11c/flexAgg11c17/gsdfset.har",
+  REG = "full",
+  COMM = "macro_sector",
+  ACTS = "macro_sector",
+  ENDW = "labor_agg"
+)$POP
+```
+
+Construct a data frame with random growth rates through 2033 using the 2017 base year data
+```r
+pop$Year <- 2017
+regions <- unique(pop$REG)
+pop_traj <- expand.grid(
+  REG = regions,
+  Value = 0,
+  Year = c(2018, 2019, 2020, 2021, 2023, 2025, 2027, 2029, 2031, 2033),
+  stringsAsFactors = FALSE
+)
+pop <- rbind(pop, pop_traj)
+
+growth_rates <- data.frame(
+  REG = regions,
+  growth_rate = runif(length(regions), min = -0.01, max = 0.05)
+)
+
+pop <- merge(pop, growth_rates, by = "REG")
+base_values <- pop[pop$Year == 2017, c("REG", "Value")]
+names(base_values)[2] <- "base_value"
+pop <- merge(pop, base_values, by = "REG")
+
+pop$Value[pop$Year > 2017] <-
+  pop$base_value[pop$Year > 2017] *
+    (1 + pop$growth_rate[pop$Year > 2017])^(pop$Year[pop$Year > 2017] - 2017)
+pop$growth_rate <- NULL
+pop$base_value <- NULL
+pop <- pop[order(pop$REG, pop$Year), ]
+pop <- pop[, c("REG", "Year", "Value")]
+colnames(pop)[1] <- "REGr"
+```
+
+And simply load as a scenario shock
+```r
+pop_trajectory <- ems_shock(
+  var = "pop",
+  type = "scenario",
+  input = pop
+)
+```
+
+Note that the object "pop" may also be save as a .csv and loaded directly from storage.
