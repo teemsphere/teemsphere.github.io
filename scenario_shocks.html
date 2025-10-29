@@ -425,7 +425,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">9.1</span> Overview</a></li>
   <li><a href="#using-scenario-shocks" id="toc-using-scenario-shocks" class="nav-link" data-scroll-target="#using-scenario-shocks"><span class="header-section-number">9.2</span> Using scenario shocks</a></li>
-  <li><a href="#a-population-example" id="toc-a-population-example" class="nav-link" data-scroll-target="#a-population-example"><span class="header-section-number">9.3</span> A population example</a></li>
+  <li><a href="#population-trajectories" id="toc-population-trajectories" class="nav-link" data-scroll-target="#population-trajectories"><span class="header-section-number">9.3</span> Population trajectories</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/scenario_shocks.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -458,17 +458,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="using-scenario-shocks" class="level2" data-number="9.2">
 <h2 data-number="9.2" class="anchored" data-anchor-id="using-scenario-shocks"><span class="header-section-number">9.2</span> Using scenario shocks</h2>
-<p>Scenario shocks differ from custom shocks in a number of respects 1. Only available for intertemporal models</p>
-<ol start="2" type="1">
-<li><p>Inputs must contain all <strong><em>preaggregation</em></strong> tuples associated with a variable</p></li>
+<p>Scenario shocks differ from custom shocks in a number of respects</p>
+<ol type="1">
+<li><p>Only available for intertemporal models</p></li>
+<li><p>Inputs must contain all <em>preaggregation</em> tuples associated with a variable</p></li>
 <li><p>Inputs must span all elements (no partial variable scenario shock)</p></li>
 <li><p>Inputs are denominated in actual values (e.g., million USD)</p></li>
 <li><p>The input dataframe or CSV must contain one column “Year”, corresponding to the chronological year for a shock in a specific tuple</p></li>
 </ol>
 <p>There are several applications where it is advantageous to use scenario shock rather than a custom shock. The primary advantage is that scenario shocks allow for seamless changes to model aggregations since the shocks themselves are subject to mappings and aggregation. If we have trajectories available for all tuples within a given variable, a scenario shock will adjust to set mapping inputs in <code>ems_data()</code>. The actual values provided do not necessarily need to correspond to realworld values. We could for example use the integer 1 as a base and vary our components according to this base value in the year corresponding to t0.</p>
 </section>
-<section id="a-population-example" class="level2" data-number="9.3">
-<h2 data-number="9.3" class="anchored" data-anchor-id="a-population-example"><span class="header-section-number">9.3</span> A population example</h2>
+<section id="population-trajectories" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="population-trajectories"><span class="header-section-number">9.3</span> Population trajectories</h2>
 <p>The following example takes base year population data from the GTAP database (typically not read into the model) and constructs hypothetical pathways for every region in the model. These pathways are valid for any regional aggregation chosen. Get population data (not “full” region mapping chosen to retrieve data for all regions):</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_input =</span> <span class="st">"~/dat/GTAP/v11c/flexAgg11c17/gsdfdat.har"</span>,</span>
