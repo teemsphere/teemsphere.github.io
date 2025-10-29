@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -456,6 +491,52 @@ ul.task-list li input[type="checkbox"] {
 <section id="population-trajectory-example" class="level2" data-number="9.3">
 <h2 data-number="9.3" class="anchored" data-anchor-id="population-trajectory-example"><span class="header-section-number">9.3</span> Population trajectory example</h2>
 <p><a href="https://github.com/teemsphere/teems-scripts/blob/main/GTAP-REv1/v11_scn.R">Here</a> is an example that takes base year population data from the GTAP database (typically not read into the model) and constructs hypothetical pathways for every region in the model. These pathways are valid for any regional aggregation chosen.</p>
+<p>Grab population data with <code>REGr</code> set to “full” to keep regions disaggregated</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_input =</span> <span class="st">"~/dat/GTAP/v11c/flexAgg11c17/gsdfdat.har"</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_input =</span> <span class="st">"~/dat/GTAP/v11c/flexAgg11c17/gsdfpar.har"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_input =</span> <span class="st">"~/dat/GTAP/v11c/flexAgg11c17/gsdfset.har"</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">REG =</span> <span class="st">"full"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">COMM =</span> <span class="st">"macro_sector"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ACTS =</span> <span class="st">"macro_sector"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">ENDW =</span> <span class="st">"labor_agg"</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>)<span class="sc">$</span>POP</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Construct a data frame with random growth rates through 2033 using the 2017 base year data</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pop<span class="sc">$</span>Year <span class="ot">&lt;-</span> <span class="dv">2017</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>regions <span class="ot">&lt;-</span> <span class="fu">unique</span>(pop<span class="sc">$</span>REG)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>pop_traj <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">REG =</span> regions,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Value =</span> <span class="dv">0</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Year =</span> <span class="fu">c</span>(<span class="dv">2018</span>, <span class="dv">2019</span>, <span class="dv">2020</span>, <span class="dv">2021</span>, <span class="dv">2023</span>, <span class="dv">2025</span>, <span class="dv">2027</span>, <span class="dv">2029</span>, <span class="dv">2031</span>, <span class="dv">2033</span>),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">rbind</span>(pop, pop_traj)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>growth_rates <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">REG =</span> regions,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">growth_rate =</span> <span class="fu">runif</span>(<span class="fu">length</span>(regions), <span class="at">min =</span> <span class="sc">-</span><span class="fl">0.01</span>, <span class="at">max =</span> <span class="fl">0.05</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">merge</span>(pop, growth_rates, <span class="at">by =</span> <span class="st">"REG"</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>base_values <span class="ot">&lt;-</span> pop[pop<span class="sc">$</span>Year <span class="sc">==</span> <span class="dv">2017</span>, <span class="fu">c</span>(<span class="st">"REG"</span>, <span class="st">"Value"</span>)]</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(base_values)[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="st">"base_value"</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">merge</span>(pop, base_values, <span class="at">by =</span> <span class="st">"REG"</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>pop<span class="sc">$</span>Value[pop<span class="sc">$</span>Year <span class="sc">&gt;</span> <span class="dv">2017</span>] <span class="ot">&lt;-</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  pop<span class="sc">$</span>base_value[pop<span class="sc">$</span>Year <span class="sc">&gt;</span> <span class="dv">2017</span>] <span class="sc">*</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">+</span> pop<span class="sc">$</span>growth_rate[pop<span class="sc">$</span>Year <span class="sc">&gt;</span> <span class="dv">2017</span>])<span class="sc">^</span>(pop<span class="sc">$</span>Year[pop<span class="sc">$</span>Year <span class="sc">&gt;</span> <span class="dv">2017</span>] <span class="sc">-</span> <span class="dv">2017</span>)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>pop<span class="sc">$</span>growth_rate <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>pop<span class="sc">$</span>base_value <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> pop[<span class="fu">order</span>(pop<span class="sc">$</span>REG, pop<span class="sc">$</span>Year), ]</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> pop[, <span class="fu">c</span>(<span class="st">"REG"</span>, <span class="st">"Year"</span>, <span class="st">"Value"</span>)]</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(pop)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">"REGr"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>And simply load as a scenario shock</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pop_trajectory <span class="ot">&lt;-</span> <span class="fu">ems_shock</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">var =</span> <span class="st">"pop"</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"scenario"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">input =</span> pop</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Note that the object “pop” may also be save as a .csv and loaded directly from storage.</p>
 
 
 </section>
