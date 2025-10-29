@@ -4,7 +4,7 @@
 The `"scenario"` shock type via `ems_shock()` is a dedicated intertemporal shock type that allows for granular control over heterogenous shocks allocated on a tuple-specific basis, inputted as a CSV file or dataframe (or dataframe equivalent) through `"input"` in the form of absolute values. This is in contrast with custom shocks where the inputs are denominated in percentage change values.
 
 ## Using scenario shocks
-Scenario shocks differ from custom shocks in a number of respects
+Scenario shocks differ from custom shocks in a number of respects:
 
 1. Only available for intertemporal models
 

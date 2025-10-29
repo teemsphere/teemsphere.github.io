@@ -41,6 +41,7 @@ Set
 ```
 
 [`teems`](https://github.com/teemsphere/teems-R) ships with a number of set mappings for read-in sets ranging in size and focus. These internal mappings may be immediately utilized or a user may input their own mapping. Internal mappings are identified by the absence of a ".csv" file extension and inputted as a character string. Internal region mappings are as follows with the AR5, WB7, and WB23 derived from the [countrycode](https://vincentarelbundock.github.io/countrycode/#/man/codelist) R package - (ar5, region, and region23 respectively).
+
 - region (e.g., `REG`)
   - big3 (China, United States, ROW)
   - AR5 (IPCC Fifth Assessment Report)
@@ -52,6 +53,7 @@ Set
   - full
 
 Internal sector mappings are according to the following focuses and number of elements:
+
 - sector (e.g., `TRAD_COMM`, `COMM`, `ACTS`)
   - macro_sector
   - agriculture
