@@ -7,12 +7,14 @@ The `"uniform"` shock type via `ems_shock()` allows for a homogenous shock over 
 The most simple uniform shock is applied to a full variable, meaning that all combinations of sets associated with that variable are allocated the same exogenous value. In the example below all regions (as determined by selected region mappings) will by increased by 1%.
 ```r
 pop_shk <- ems_shock(var = "pop",
+                     type = "uniform",
                      value = 1
 )
 ```
 Numeraire shocks (in static models) can be carried out using a uniform shock:
 ```r
 pfact_shk <- ems_shock(var = "pfactwld",
+                       type = "uniform",
                        value = 2
 )
 ```
@@ -20,6 +22,7 @@ pfact_shk <- ems_shock(var = "pfactwld",
 As with the syntax regarding swaps (link), the scope of a uniform shock may be determined by specifying elements within the sets associated with the shocked variable. For example, if we have a region "chn" and wish to allocate a shock specifically to this region:
 ```r
 pop_shk <- ems_shock(var = "pop",
+                     type = "uniform",
                      REGr = "chn",
                      value = 1
 )
@@ -27,6 +30,7 @@ pop_shk <- ems_shock(var = "pop",
 ***Note that sets specified in this manner are identified by the model-specific concatenation of the standard set name plus the variable-specific index.*** Also note that exogenous components of a variable not allocated a shock (all other regions except "chn") will not vary. Multiple elements may also be specified to allocated a single shock value to multiple elements:
 ```r
 pop_shk <- ems_shock(var = "pop",
+                     type = "uniform",
                      REGr = c("chn", "hkg"),
                      value = 1.5
 )
