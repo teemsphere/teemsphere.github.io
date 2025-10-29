@@ -37,7 +37,9 @@ book:
         - custom_shocks.qmd
         - scenario_shocks.qmd
     - part: "Deploying and solving the model"
-        # - aux_dat.qmd
+      chapters:
+        - deploy.qmd
+        - solve.qmd
         # - data_mod.qmd
   #   - part: "Solving the model"
   #     chapters:

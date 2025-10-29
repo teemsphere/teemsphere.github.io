@@ -11,6 +11,7 @@ pop_shk <- ems_shock(var = "pop",
                      value = 1
 )
 ```
+[Here](https://github.com/teemsphere/teems-scripts/blob/main/GTAP-REv1/v11_uni_fullvar_shk.R) is an example of the usage above.
 Numeraire shocks (in static models) can be carried out using a uniform shock:
 ```r
 pfact_shk <- ems_shock(var = "pfactwld",
@@ -27,6 +28,20 @@ pop_shk <- ems_shock(var = "pop",
                      value = 1
 )
 ```
+[Here](https://github.com/teemsphere/teems-scripts/blob/main/GTAP-REv1/v11_uni_partvar_shk_partswap.R) is an example of a partial variable swap followed by a partial variable uniform shock. If a full swap is followed by a partial variable shock ([example](https://github.com/teemsphere/teems-scripts/blob/main/GTAP-REv1/v11_uni_partvar_shk_fullswap.R)), the unshocked elements will remain at 0.
+
+In the case of intertemporal models, the shock year may be specified using a chronological or timestep format (see "Time step summary" output from `ems_data()`).
+```r
+aoall_shk <- ems_shock(
+  var = "aoall",
+  type = "uniform",
+  REGr = "asia",
+  Year = 2019,
+  ACTSa = "crops",
+  value = -3
+)
+```
+[Here](https://github.com/teemsphere/teems-scripts/blob/main/GTAP-REv1/v11_uni_partvar_year_shk.R) is an full example using chronological formats and a uniform shock.
 ***Note that sets specified in this manner are identified by the model-specific concatenation of the standard set name plus the variable-specific index.*** Also note that exogenous components of a variable not allocated a shock (all other regions except "chn") will not vary. Multiple elements may also be specified to allocated a single shock value to multiple elements:
 ```r
 pop_shk <- ems_shock(var = "pop",

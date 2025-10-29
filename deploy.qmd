@@ -1,0 +1,11 @@
+# Deploying the model
+
+## Overview
+
+The `ems_deploy()` function combines outputs from all model components, producing a solution-ready directory. Outputs from `ems_data()` and `ems_model()` are required inputs to `"data"`, `"model"` arguments respectively. This function also loads all swaps, shocks, and any user-generated files (shock and closure files). Finally, here a persistent directory is specified `"write_dir"` for the writing of input files and ultimately model outputs. If a directory is not specified, all files will be written to `tools::R_user_dir("teems", "cache")` and removed upon closure of the R session.
+
+## User generated inputs
+`ems_deploy()` allows for user-generated shock and closure files. In the case of shock files, no checks or operations will be conducted (i.e., the shock file as loaded is considered the final input). User-supplied closure files will however be processed if swaps are supplied.
+
+## Persistent files
+Good practice in R dictates that a user's machine state is not modified. In order to comply with this guidance, [`teems`](https://github.com/teemsphere/teems-R) will only write to temporary folders associated with the [`teems`](https://github.com/teemsphere/teems-R) package and these files will be removed upon closure of the session or loading of a subsequent model. If persistent data is desired, users must provide a path to a local directory where input and output data will be written.

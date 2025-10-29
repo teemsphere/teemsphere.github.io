@@ -1,0 +1,7 @@
+# Solving the model
+
+## Overview
+`ems_solve()` solves the constrained optimization problem according to a wide range of runtime configuration options. In order to solve, a teems Docker [container](https://github.com/teemsphere/teems-solver) must be prebuilt according to these specifications. Singularity, accuracy, and error checks are carried out following a successful run.
+
+## Solver options
+A thorough guide to solver options is under construction. In the meantime, see ```r ?ems_solve```.
