@@ -2,26 +2,57 @@
 
 ## Overview
 
-The `ems_model()` function loads general model specifications, conducts data-agnositic pre-pipeline checks, and determines temporal dynamics. The output of this function is a tibble with parsed components and is a required input to the `"model_config"` argument within the [`ems_deploy()`] function.
+The `ems_model()` function loads the model and its closure, conducts pre-deployment checks, determines temporal dynamics, and allows for the loading of aggregated coefficient data. The output of this function is a tibble with attributes containing the parsed model input and is a required input to the `"model"` argument of the [`ems_deploy()`] function.
+
+## Function signature
+```r
+ems_model(model_input, closure_file, var_omit = NULL, ...)
+```
+
+| Argument | Type | Description |
+|----------|------|-------------|
+| `model_input` | Character (length 1) | File name in working directory or path to a `.tab` file |
+| `closure_file` | Character (length 1) | File name in working directory or path to a `.cls` closure file |
+| `var_omit` | Character vector or `NULL` | Variables to substitute with `0` and remove from closure |
+| `...` | Named arguments | Coefficient value injections (numeric, data frame, or CSV path) |
+
+Both `model_input` and `closure_file` are required arguments.
 
 # The Tablo file {#tab_files}
-Model input in `teems` is currently limited to Tablo (.tab) files. Users may select from one of the internally available and immediately compatible models that ship with the [`teems`](https://github.com/teemsphere/teems-R) R package: [teems-models](https://github.com/teemsphere/teems-models). We intend to offer more models internally as the package matures. Each model also includes a standard closure that will be applied unless otherwise specified within `ems_deploy()`. A model input will be recognized as internal in the absence of a ".tab" file extension and checked against available internal models.
+
+Model input in `teems` is limited to Tablo (`.tab`) files. Vetted models and their closures are available at [teems-models](https://github.com/teems-org/teems-models).
+
+| Model | Files | Description |
+|-------|-------|-------------|
+| GTAPv6 | `GTAPv6.tab`, `GTAPv6.cls` | GTAP version 6.2 format |
+| GTAPv7 | `GTAPv7.tab`, `GTAPv7.cls` | GTAP version 7.0 format |
+| GTAP_INT | `GTAP_INT.tab`, `GTAP_INT.cls` | GTAP intertemporal |
+| GTAP_RE | `GTAP_RE.tab`, `GTAP_RE.cls` | GTAP rational expectations |
+
+
+Users may load their own models by providing a path to a Tablo file and closure:
 ```r
-model <- ems_model(tab_file = "GTAP-REv1")
+model <- ems_model(
+  model_input = "path/to/custom_model.tab",
+  closure_file = "path/to/custom_model.cls"
+)
 ```
-Users may also load their own models in the form of a path to a Tablo file.
-```r
-usr_model <- ems_model(tab_file = "path/to/usr_tab.tab")
-```
-Here we recommend that users seeking to load custom models first take a glance at the formatting of internal models in order to make any necessary modifications for use within the `teems` software ecosystem. In many cases it may be easiest to use existing compatible models [teems-models](https://github.com/teemsphere/teems-models) as a starting point for modifications.
+
+We recommend that users seeking to load custom models first review the formatting of the vetted models at [teems-models](https://github.com/teems-org/teems-models) in order to make any necessary modifications for use within the `teems` software ecosystem. In some cases it may be easiest to use existing compatible models as a starting point for modifications. Although the [teems-solver](https://github.com/teemsphere/teems-solver) does not support all current GEMPack declarations, there is usually a workaround. Running a `diff` on the original GTAP models and those in [teems-models](https://github.com/teems-org/teems-models) is a good starting point for understanding potential incompatibilities.
 
 ## Incompatible features
-The [teems-solver](https://github.com/teemsphere/teems-solver) was originally designed as a GEMPack emulator and we have no intention of attempting to reproduce the very thorough [GEMPack documentation](https://www.copsmodels.com/gpmanual.htm) on the Tablo scripting language and underlying solution software. *Most* Tablo model files (.tab) that work with GEMPack will also work with the [teems-solver](https://github.com/teemsphere/teems-solver) with some minor modifications. There are however a range of newer GEMPack features that are not compatible and are not likely to be incorporated. Fortunately there are workarounds for the vast majority as described below.
 
-Considerable efforts have been made to correctly parse Tablo files but it is likely that custom Tablo files will need to be modified. If you find an incompatibility not listed here and feel that it should be addressed, please feel free to contact us with your model file. Some of the more frequent incompatibilities and workarounds are listed here. 
+The [teems-solver](https://github.com/teemsphere/teems-solver) was originally designed as a GEMPack emulator and we have no intention of attempting to reproduce the very thorough [GEMPack documentation](https://www.copsmodels.com/gpmanual.htm) on the Tablo scripting language and underlying solution software. *Most* Tablo model files (`.tab`) that work with GEMPack will also work with the [teems-solver](https://github.com/teemsphere/teems-solver) with some minor modifications. There are however a range of newer GEMPack features that are not compatible and are not likely to be incorporated. Fortunately there are workarounds for the vast majority as described below.
+
+Considerable efforts have been made to correctly parse Tablo files but it is likely that custom Tablo files will need to be modified. If you find an incompatibility not listed here and feel that it should be addressed, please feel free to contact us with your model file. Some of the more frequent incompatibilities and workarounds are listed here.
+
+### Supported Tablo statements
+
+The parser recognizes the following Tablo statements: `File`, `Coefficient`, `Read`, `Update`, `Set`, `Subset`, `Formula`, `Assertion`, `Variable`, `Equation`, `Write`, and `Zerodivide`. Statements not in this list are either unsupported (e.g., `Omit`, raising an error) or ignored (`Postsim`, raising a warning).
 
 ### Set and subset declarations
-Multiple `+` or `-` operators within a single declaration is not supported.
+
+**Multiple `+` or `-` operators** within a single declaration are not supported.
 Instead of
 ```
 Set A123 = A1 + A2 + A3;
@@ -31,25 +62,40 @@ Use
 Set A12 = A1 + A1;
 Set A123 = A12 + A3;
 ```
-One set cannot be declared identical to a second set without using a `Read` statement.
+
+**Identical set assignment** without a `Read` statement is not supported.
 Instead of
 ```
-Set A # example set A # maximum size 5 read elements from file GTAPSETS header \"H2\";
+Set A # example set A # maximum size 5 read elements from file GTAPSETS header "H2";
 Set B # example set # = Set A;
 ```
 Use
 ```
-Set A # example set A # maximum size 5 read elements from file GTAPSETS header \"H2\";
-Set B # example set B # maximum size 5 read elements from file GTAPSETS header \"H2\";
+Set A # example set A # maximum size 5 read elements from file GTAPSETS header "H2";
+Set B # example set B # maximum size 5 read elements from file GTAPSETS header "H2";
 ```
 
+**Binary set switches** using a colon within a Set definition is not supported.
 * The SLUG coefficient is not used to identify sluggish endowments. Declare these sets explicitly or via set operations.
+
+Instead of
+```
+Set ENDWM # mobile endowments # = (all,e,ENDW:ENDOWFLAG(e,"mobile") ne 0);
+```
+Declare sets explicitly within the Tablo file:
+```
+Set ENDWM # mobile endowment # (capital, unsklab, sklab);
+```
+
+Note that sets in the full form (all elements) and subsetted form (model-specific aggregations) can be loaded using `...` with `ems_model()` and `set` with `ems_aux()`.
+
+**Capital goods**
 * The `CGDS` sector in v6.2 format models is renamed to `zcgds` by default due to R `data.table` C-locale sorting and preference for all set elements to be lowercase.
 
-<!-- Subset [(by numbers)](https://www.copsmodels.com/gpmanual.htm#gpd2.4.7.1) not supported  -->
 
 ### Formulas and Equations
-No IF statements in Formula or Equation RHS (use sets)
+
+No IF statements in Formula or Equation RHS (use sets).
 Instead of
 ```
 Formula (all,c,COMM)(all,r,REG)
@@ -61,40 +107,146 @@ Formula (all,c,MARG)(all,r,REG)
     VCB(c,r) = VDB(c,r) + sum{d,REG, VXSB(c,r,d)} + VST(c,r);
 Formula (all,c,NMRG)(all,r,REG)
     VCB(c,r) = VDB(c,r) + sum{d,REG, VXSB(c,r,d)};
-``` 
-## Variable omissions
-Variables specified with `var_omit` will be removed from the model closure and replaced with `0` within the model file. 
-Standard v7.0 data format variable omissions
+```
+
+## Variable omissions {#var_omit}
+
+Variables specified with `var_omit` will be removed from the model closure and replaced with `0` within the model file. If a variable designated for omission is not found in the model, an error is raised.
+
+Standard v7.0 data format variable omissions: "atall", "avaall", "tfe", "tfm", "tgd", "tgm", "tid", "tim"
+Standard v6.2 data format variable omissions: "atall", "tfd", "avaall", "tf", "tfm", "tgd", "tgm", "tpd", "tpm"
+
+## Coefficient value injection {#coeff_inject}
+
+The `...` argument in `ems_model()` allows users to assign aggregation-specific values to model coefficients. This is used to inject modified values into existing coefficients as well as provide data to new coefficients. All data inputted here must be model-aggregation specific and will not be subject to aggregation. For loading disaggregated data, see `ems_aux()` and `ems_data()`. The left-hand side (name) must correspond to a coefficient (not header) declared within the model input. Three input types are supported, with model "Read" and "Formula" declarations modified accordingly:
+
+### Uniform numeric value
+
+A single numeric value can be assigned to a coefficient. All set combinations for that coefficient will receive this uniform value.
+
 ```r
 model <- ems_model(
-  tab_file = "GTAP-REv1",
-  var_omit = c(
-    "atall",
-    "avaall",
-    "tfe",
-    "tfm",
-    "tgd",
-    "tgm",
-    "tid",
-    "tim"))
-``` 
-Standard v6.2 data format variable omissions
+  model_input = ems_example("GTAP_RE.tab"),
+  closure_file = ems_example("GTAP_RE.cls"),
+  KAPPA = 0.54321
+)
+```
+
+Providing a numeric vector of length greater than 1 will raise an error. Instead here use a data frame with the appropriate sets to assign multiple heterogeneous values to a coefficient.
+
+### Data frame
+
+A data frame (or data frame extension such as tibble or data.table) can be used to assign heterogeneous values across set combinations. The data frame must contain columns for each set index using the model-specific naming convention (set name + variable index, e.g., `REGr`, `COMMc`, `ALLTIMEt`) and a `Value` column.
+
+```r
+# Heterogeneous values for SUBPAR coefficient (Read-type)
+COMMc <- c("crops", "food", "livestock", "mnfcs", "svces")
+REGr <- c("usa", "chn", "row")
+ALLTIMEt <- seq(0, 10)
+
+SUBPAR <- expand.grid(
+  COMMc = COMMc,
+  REGr = REGr,
+  ALLTIMEt = ALLTIMEt
+)
+SUBPAR$Value <- runif(nrow(SUBPAR))
+
+model <- ems_model(
+  model_input = ems_example("GTAP_RE.tab"),
+  closure_file = ems_example("GTAP_RE.cls"),
+  SUBPAR = SUBPAR
+)
+```
+
+This works for both `Read`-type and `Formula`-type coefficients:
+
+```r
+# Heterogeneous values for CPHI coefficient (Formula-type)
+REGr <- c("usa", "chn", "row")
+ALLTIMEt <- seq(0, 10)
+
+CPHI <- expand.grid(
+  REGr = REGr,
+  ALLTIMEt = ALLTIMEt
+)
+CPHI$Value <- runif(nrow(CPHI))
+
+model <- ems_model(
+  model_input = ems_example("GTAP_RE.tab"),
+  closure_file = ems_example("GTAP_RE.cls"),
+  CPHI = CPHI
+)
+```
+
+### CSV file
+
+A path to a CSV file can be used as an alternative to a data frame. The CSV must follow the same structure: set index columns and a `Value` column.
+
+```r
+# Write coefficient data to CSV
+write.csv(SUBPAR, "SUBPAR.csv", row.names = FALSE)
+
+model <- ems_model(
+  model_input = ems_example("GTAP_RE.tab"),
+  closure_file = ems_example("GTAP_RE.cls"),
+  SUBPAR = "SUBPAR.csv"
+)
+```
+
+### Combining injections
+
+Multiple coefficient injections can be combined in a single call along with variable omissions:
+
 ```r
 model <- ems_model(
-tab_file = "GTAPv6.2",
-var_omit = c(
-  "atall",
-  "tfd",
-  "avaall",
-  "tf",
-  "tfm",
-  "tgd",
-  "tgm",
-  "tpd",
-  "tpm"
-))
+  model_input = ems_example("GTAP_RE.tab"),
+  closure_file = ems_example("GTAP_RE.cls"),
+  var_omit = c("atall", "avaall", "tfe", "tfm", "tgd", "tgm", "tid", "tim"),
+  KAPPA = 0.03,
+  SUBPAR = SUBPAR,
+  CPHI = CPHI
+)
+```
+
+If the coefficient name is not found in the model, an error is raised indicating that the aggregated data coefficient is not declared within the provided model input.
+
+### Set naming convention
+
+Set names in any loaded data must be provided as the model-specific concatenation of the standard set name plus the variable-specific index. For example:
+
+| Set | Index | Column name |
+|-----|-------|-------------|
+| REG | r | `REGr` |
+| COMM | c | `COMMc` |
+| ACTS | a | `ACTSa` |
+| ENDW | e | `ENDWe` |
+| ALLTIME | t | `ALLTIMEt` |
+
+This naming convention disambiguates variables that have multiple instances of the same set. Set position (i.e., column order) is inconsequential for any inputs.
+
+## Intertemporal models {#intertemporal}
+
+For intertemporal models, `ems_model()` determines temporal dynamics by detecting the timestep header in the Tablo file. By default, the expected header in the GTAP-RE model is `"YEAR"`. If a model uses a different header for timestep data, set it via `ems_option_set()`:
+
+```r
+ems_option_set(timestep_header = "AYRS")
+```
+
+If the expected timestep header is not found in the model, an error will be raised with a suggestion to use `ems_option_set()` to configure a custom timestep header.
+The same concept applies to the number of timesteps:
+
+```r
+ems_option_set(n_timestep_header = "NINTERVAL")
+```
+
+Default values for these settings (and others) may be obtained using:
+
+```r
+ems_option_get()
 ```
 
 ## Future expansions
-Write bidirectional Tablo <-> \LaTeX conversion script to allow for \LaTeX model files
-`auto-omit` switch to automatically drop as many variables as possible based on closure and shock specifications
+
+- Write bidirectional Tablo $\leftrightarrow$ \LaTeX conversion script to allow for \LaTeX model files
+- `auto-omit` switch to automatically drop as many variables as possible based on closure and shock specifications
+- Model file checks are still rudimentary and a more thorough suite of checks will gradually be put in place

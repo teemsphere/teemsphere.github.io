@@ -1,10 +1,15 @@
 # Introduction {#intro}
-Reproducibility within computable general equilibrium (CGE) and partial equilibrium modelling analyses has long been elusive. Here we present TEEMS (Trade and Environment Equilibrium Modelling System), a set of tools which includes the R package [`teems`](https://github.com/teemsphere/teems-R) used to compose model runs and [teems-solver](https://github.com/teemsphere/teems-solver), a C-based solver capable of solving a large system of nonlinear equations by leveraging a range of mathematical and scientific computation libraries. Auxillary repositories include [teems-models](https://github.com/teemsphere/teems-models), containing internally available and immediately compatible models, [teems-mappings](https://github.com/teemsphere/teems-mappings) with set mappings and [teems-scripts](https://github.com/teemsphere/teems-scripts) which showcases a wide variety of model configurations and options.
+Reproducibility within computable general equilibrium (CGE) and partial equilibrium modelling analyses has long been elusive, in part due to proprietary data and software.
+Here we address one aspect of this equation with the introduciton of the TEEMS (Trade and Environment Equilibrium Modelling System) open-source software suite.
+At its core, TEEMS comprises an R package [`teems`](https://github.com/teemsphere/teems-R) used to compose model runs and [teems-solver](https://github.com/teemsphere/teems-solver), a C-based solver capable of solving a large system of nonlinear equations by leveraging a range of mathematical and scientific computation libraries.
+Auxillary repositories to facilitate model runs also include [teems-models](https://github.com/teemsphere/teems-models), containing internally available and immediately compatible models, [teems-mappings](https://github.com/teemsphere/teems-mappings) with set mappings and [teems-scripts](https://github.com/teemsphere/teems-scripts) which showcases a wide variety of model configurations and options.
 
-Together these components allow for an open and modular pipeline software platform which handles all aspects of an equilibrium model run from head to tail through reproducible workflows that allows the user to seamlessly adjust model components including set aggregations, parameter weighting, closure and shock specifications as well as a large number of options pertaining to the solution and model outputs. 
+These tools working in conjunction allow for open and modular CGE model runs from head to tail as well as completely reproducible workflows.
+With a base within the general purpose R scripting language, users able to seamlessly adjust model components including set aggregations, parameter weighting, closure and shock specifications as well as a large number of options pertaining to the solution and model outputs.
+These model scripts (see e.g., [teems-scripts](https://github.com/teemsphere/teems-scripts)) can then be shared with colleagues, reviewers, and policy-makers for vetting, modification, and reproduction.
 
 ## Motivation
-Reproducibility has been elusive in large part due to the proprietary nature of associated software and data for CGE modelling but also due to the shear complexity of compiling a single model run. A single "simple" model run for example broadly involves:
+Reproducibility has been elusive in large part due to the proprietary nature of associated software and data for CGE modelling but also due to the shear complexity of compiling a single model run. A single "simple" model run for example *broadly* involves:
 
 1. Data and set selection
 2. Set mappings
@@ -19,12 +24,16 @@ Reproducibility has been elusive in large part due to the proprietary nature of 
 9. Constrained optimization solution
 10. Composition of all outputs into structured data
 
-Indeed, in the course of building the TEEMS framework we have found that without a reproducible architecture, there is a very high possibility of persistent logic errors propagating through to the output without any obvious indications that this is taking place in most cases. Models which incorporate time steps and additional auxillary data (e.g., land-use data) or are coupled with other models such as is the case with most integrated assessment models (IAMs) are even more complex, and therefore susceptable to a wide range of errors. Ultimately we hope that this software mitigates the steep learning curve requisite to running equilibrium models and allows scientists from various disciplines to advance model representation of their fields. The TLDR -- running a CGE model does not have to be so hard!
+Indeed, in the course of building the TEEMS framework we have found that without a reproducible architecture, there is a very high possibility of persistent logic errors propagating through to the output without any obvious indications that this is taking place in most cases.
+Models which incorporate time steps and additional auxillary data (e.g., land-use data) or are coupled with other models such as is the case with most integrated assessment models (IAMs) are even more complex, and therefore susceptable to a wide range of errors.
+Ultimately we hope that this software mitigates the steep learning curve requisite to running equilibrium models and allows scientists from various disciplines to advance model representation of their fields.
+The TLDR -- running a CGE model does not have to be so hard!
 
-Finally, in addition to their proprietary nature, existing software for running CGE models relies upon graphical user interfaces which although convenient, poses a barrier to greater adoption by non-specialists as well as severely restricts the available range of tools due to the absence of a flourishing ecosystem such as that which can be found within more widely adopted scripting languages such as R.
-
-## When you find errors!
-This software suite has been under development for many years. Despite our best efforts, it is very likely that you will encounter issues. We are providing access in this current beta stage to crowdsource your efforts and address any significant issues before submitting a package to CRAN.
+## Errors and model compatibility
+This software suite has been under development for many years.
+Despite our best efforts, it is very likely that you will encounter issues -- particularly given the wide range of Tablo model files that exist in this field.
+We are providing access in this current beta stage to crowdsource your efforts and address any significant issues before submitting a package to CRAN.
+If your model file does not work, please get in touch and we will seek to expand compatibility.
 
 ## About this manual
 This manual is a step-by-step user guide to [`teems`](https://teemsphere.github.io/). 

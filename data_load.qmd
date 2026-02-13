@@ -2,10 +2,16 @@
 
 ## Overview
 
-The `ems_data()` function loads and prepares GTAP database files for use in CGE model runs. It handles the three core GTAP data files (dat, par, and set) and can optionally convert between GTAP v6.2 and v7.0 formats. This function is also used to input any time steps (for temporally dynamic models) as well as load set mappings for sets that are read into the model (i.e., not constructed from set operations).
+The `ems_data()` function loads and prepares GTAP database files for use in CGE model runs.
+It handles the three core GTAP data files (dat, par, and set) and can optionally convert between GTAP v6.2 and v7.0 formats.
+This function is also used to input any time steps (for temporally dynamic models) as well as load set mappings for sets that are read into the model (i.e., not constructed from set operations).
 
 ## Input files
-Compatible input files are currently limited to those produced by the Global Trade Analysis Project [(GTAP)](https://www.gtap.agecon.purdue.edu/). Although the most recent database releases are proprietary, GTAP has consistently open-accessed databases two versions out (GTAP 9 database as of the current GTAP 11 release). In order to access the freely available database, users will need to [register](https://www.gtap.agecon.purdue.edu/access_member/profile/profile_addnew.aspx) with GTAP and download the "FlexAgg" format. For GTAP 9 this is accessible under the "GDyn 9 Data Base for 2011" subheader in the "Satellite Data and Utilities" section [here](https://www.gtap.agecon.purdue.edu/databases/archives.asp). For paying GTAP members, the current [`teems`](https://github.com/teemsphere/teems-R) version is capable of handling the "FlexAgg" format for GTAP Databases 10 and 11.
+Compatible input files are currently limited to those produced by the Global Trade Analysis Project [(GTAP)](https://www.gtap.agecon.purdue.edu/).
+Although the most recent database releases are proprietary, GTAP has consistently open-accessed databases two versions out (GTAP 9 database as of the current GTAP 11 release).
+In order to access the freely available database, users will need to [register](https://www.gtap.agecon.purdue.edu/access_member/profile/profile_addnew.aspx) with GTAP and download the "FlexAgg" format.
+For GTAP 9 this is accessible under the "GDyn 9 Data Base for 2011" subheader in the "Satellite Data and Utilities" section [here](https://www.gtap.agecon.purdue.edu/databases/archives.asp).
+For paying GTAP members, the current [`teems`](https://github.com/teemsphere/teems-R) version is capable of handling the "FlexAgg" format for GTAP Databases 10 and 11.
 
 At a minimum, the basedata "dat", parameter "par", and set "set" files are required inputs for the `dat_input`, `par_input`, and `set_input` arguments respectively. 
 ```r
@@ -28,7 +34,10 @@ Note that the actual names of the files vary according the GTAP release.
 
 
 ## Set mappings
-In addition to input files, set mappings for sets that are read in from the final sets input file must be provided. Read-in sets consist of sets that in the model Tablo file contain a "read" qualifier. For example, the region set below requires a set mapping to be loaded:
+In addition to input files, set mappings for sets that are read in from the final sets input file must be provided.
+Read-in sets consist of sets that in the model Tablo file contain a "read" qualifier.
+For example, the region set below requires a set mapping to be loaded:
+
 ```
 Set
     REG # regions #
@@ -40,7 +49,9 @@ Set
     NMRG # non-margin commodities # = COMM - MARG;  
 ```
 
-[`teems`](https://github.com/teemsphere/teems-R) ships with a number of set mappings for read-in sets ranging in size and focus. These internal mappings may be immediately utilized or a user may input their own mapping. Internal mappings are identified by the absence of a ".csv" file extension and inputted as a character string. Internal region mappings are as follows with the AR5, WB7, and WB23 derived from the [countrycode](https://vincentarelbundock.github.io/countrycode/#/man/codelist) R package - (ar5, region, and region23 respectively).
+[`teems`](https://github.com/teemsphere/teems-R) ships with a number of set mappings for read-in sets ranging in size and focus.
+These internal mappings may be immediately utilized or a user may input their own mapping. Internal mappings are identified by the absence of a ".csv" file extension and inputted as a character string.
+Internal region mappings are as follows with the AR5, WB7, and WB23 derived from the [countrycode](https://vincentarelbundock.github.io/countrycode/#/man/codelist) R package - (ar5, region, and region23 respectively).
 
 - region (e.g., `REG`)
   - big3 (China, United States, ROW)
@@ -72,7 +83,11 @@ v62_data <- ems_data(dat_input = "path/to/flexagg10AY14/gsddat.har",
 )
 ```
 
-Note that margin sectors are not inputted directly, rather inferred from choice of sectoral aggregation. The default margin sector elements at full aggregation are "atp", "otp", and "wtp" representing air, other, and water transport. If services are aggregated, these elements will be aggregated into the larger "service" sector while a mapping such as "medium" aggregates these into a single transport sector. The default margin sector elements can be viewed and modified using 
+Note that margin sectors are not inputted directly, rather inferred from choice of sectoral aggregation.
+The default margin sector elements at full aggregation are "atp", "otp", and "wtp" representing air, other, and water transport.
+If services are aggregated, these elements will be aggregated into the larger "service" sector while a mapping such as "medium" aggregates these into a single transport sector.
+The default margin sector elements can be viewed and modified using:
+
 ```r
 ems_option_get("margin_sectors")
 ```
@@ -81,17 +96,21 @@ and
 ems_option_set("margin_sectors")
 ```
 
-Internal endowment mappings currently include labor_agg (aggregated labor endowments), labor_diff (aggregated labor along skilled/unskilled delineartion), and full. Full internal mappings by data format, database version, and set can be viewed here: [teems-mappings](https://github.com/teemsphere/teems-mappings).
+Internal endowment mappings currently include `labor_agg` (aggregated labor endowments), `labor_diff` (aggregated labor along skilled/unskilled delineartion), and `full`.
+All internal mappings by data format, database version, and set can be viewed here: [teems-mappings](https://github.com/teemsphere/teems-mappings).
 
-External mappings may be provided in the form of a filepath to a two column csv file where the first column represents origin elements and the second column elements to be mapped to. See [teems-mappings](https://github.com/teemsphere/teems-mappings) for example mappings.
+External mappings may be provided in the form of a filepath to a two column csv file where the first column represents origin elements and the second column represents mapped (aggregated) elements.
+See [teems-mappings](https://github.com/teemsphere/teems-mappings) for example mappings.
 
 
 <!-- ## Auxilliary inputs -->
 
 ## Time steps
-For temporally dynamic models (e.g., [GTAP-INT](https://github.com/teemsphere/teems-models/tree/main/GTAP-INTv1), [GTAP-RE](https://github.com/teemsphere/teems-models/tree/main/GTAP-REv1)), time steps must be provided representing t0 plus actual year steps from t0. Time steps can be inputted in either actual year increments or represented as chronological years. Note that if chronological years are used, t0 must correspond with the reference year of the database being used.
+For temporally dynamic models (e.g., [GTAP-INT](https://github.com/teemsphere/teems-models/tree/main/GTAP-INTv1), [GTAP-RE](https://github.com/teemsphere/teems-models/tree/main/GTAP-REv1)), time steps must be provided representing t0 plus actual year steps from t0.
+Time steps can be inputted in either actual year increments or represented as chronological years.
+Note that if chronological years are used, t0 must correspond with the reference year of the database being used.
 
-Explicit time steps (equivalent to c(2014, 2015, 2016, 2017, 2018, 2020, 2022, 2024, 2026, 2028, 2030))
+Explicit time steps (equivalent to `c(2014, 2015, 2016, 2017, 2018, 2020, 2022, 2024, 2026, 2028, 2030)`) due to reference year associated with the loaded data inputs.
 ```r
 data <- ems_data(dat_input = "path/to/flexagg10AY14/gsddat.har",
                  par_input = "path/to/flexagg10AY14/gsdpar.har",
@@ -116,8 +135,9 @@ data <- ems_data(dat_input = "path/to/flexAgg11c17/gsdfdat.har",
 ) 
 ```
 ## Converting formats
-GTAP databases are available in the classic v6.2 and standard v7.0 formats, corresponding to the classic and standard [GTAP models
-](https://www.gtap.agecon.purdue.edu/models/current.asp). If you wish to use a classic-based model with newer GTAP databases or vice-versa, `convert_format` = `TRUE` will convert the underlying database. Note that set mappings are set according to the model to be used, *not* the original format of inputted data.
+GTAP databases are available in the classic v6.2 and standard v7.0 formats, corresponding to the classic and standard [GTAP models](https://www.gtap.agecon.purdue.edu/models/current.asp).
+If you wish to use a classic-based model with newer GTAP databases or vice-versa, `convert_format = TRUE` will convert the underlying database.
+Note that set mappings are to be specified according to the model to be used, *not* the original format of inputted data.
 
 GTAP 11 database converted to v6.2 data format:
 ```r
