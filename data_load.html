@@ -109,7 +109,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.scss">
 </head>
 
 <body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -444,11 +474,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">3.1</span> Overview</a></li>
-  <li><a href="#input-files" id="toc-input-files" class="nav-link" data-scroll-target="#input-files"><span class="header-section-number">3.2</span> Input files</a></li>
-  <li><a href="#set-mappings" id="toc-set-mappings" class="nav-link" data-scroll-target="#set-mappings"><span class="header-section-number">3.3</span> Set mappings</a></li>
-  <li><a href="#time-steps" id="toc-time-steps" class="nav-link" data-scroll-target="#time-steps"><span class="header-section-number">3.4</span> Time steps</a></li>
-  <li><a href="#converting-formats" id="toc-converting-formats" class="nav-link" data-scroll-target="#converting-formats"><span class="header-section-number">3.5</span> Converting formats</a></li>
-  <li><a href="#future-expansions" id="toc-future-expansions" class="nav-link" data-scroll-target="#future-expansions"><span class="header-section-number">3.6</span> Future expansions</a></li>
+  <li><a href="#function-signature" id="toc-function-signature" class="nav-link" data-scroll-target="#function-signature"><span class="header-section-number">3.2</span> Function signature</a></li>
+  <li><a href="#input-files" id="toc-input-files" class="nav-link" data-scroll-target="#input-files"><span class="header-section-number">3.3</span> Input files</a></li>
+  <li><a href="#set-mappings" id="toc-set-mappings" class="nav-link" data-scroll-target="#set-mappings"><span class="header-section-number">3.4</span> Set mappings</a>
+  <ul class="collapse">
+  <li><a href="#external-mappings" id="toc-external-mappings" class="nav-link" data-scroll-target="#external-mappings"><span class="header-section-number">3.4.1</span> External mappings</a></li>
+  </ul></li>
+  <li><a href="#auxiliary-inputs" id="toc-auxiliary-inputs" class="nav-link" data-scroll-target="#auxiliary-inputs"><span class="header-section-number">3.5</span> Auxiliary inputs</a>
+  <ul class="collapse">
+  <li><a href="#function-signature-1" id="toc-function-signature-1" class="nav-link" data-scroll-target="#function-signature-1"><span class="header-section-number">3.5.1</span> Function signature</a></li>
+  <li><a href="#input-formats" id="toc-input-formats" class="nav-link" data-scroll-target="#input-formats"><span class="header-section-number">3.5.2</span> Input formats</a></li>
+  <li><a href="#constructing-auxiliary-inputs" id="toc-constructing-auxiliary-inputs" class="nav-link" data-scroll-target="#constructing-auxiliary-inputs"><span class="header-section-number">3.5.3</span> Constructing auxiliary inputs</a></li>
+  <li><a href="#using-auxiliary-data-in-ems_data" id="toc-using-auxiliary-data-in-ems_data" class="nav-link" data-scroll-target="#using-auxiliary-data-in-ems_data"><span class="header-section-number">3.5.4</span> Using auxiliary data in <code>ems_data()</code></a></li>
+  <li><a href="#replacement-vs.-novel-headers" id="toc-replacement-vs.-novel-headers" class="nav-link" data-scroll-target="#replacement-vs.-novel-headers"><span class="header-section-number">3.5.5</span> Replacement vs.&nbsp;novel headers</a></li>
+  </ul></li>
+  <li><a href="#time-steps" id="toc-time-steps" class="nav-link" data-scroll-target="#time-steps"><span class="header-section-number">3.6</span> Time steps</a></li>
+  <li><a href="#converting-formats" id="toc-converting-formats" class="nav-link" data-scroll-target="#converting-formats"><span class="header-section-number">3.7</span> Converting formats</a></li>
+  <li><a href="#data-aggregation" id="toc-data-aggregation" class="nav-link" data-scroll-target="#data-aggregation"><span class="header-section-number">3.8</span> Data aggregation</a>
+  <ul class="collapse">
+  <li><a href="#gtap-v6.2-format-parameter-weight-methodology" id="toc-gtap-v6.2-format-parameter-weight-methodology" class="nav-link" data-scroll-target="#gtap-v6.2-format-parameter-weight-methodology"><span class="header-section-number">3.8.1</span> GTAP v6.2 format parameter weight methodology</a></li>
+  <li><a href="#gtap-v7.0-format-parameter-weight-methodology" id="toc-gtap-v7.0-format-parameter-weight-methodology" class="nav-link" data-scroll-target="#gtap-v7.0-format-parameter-weight-methodology"><span class="header-section-number">3.8.2</span> GTAP v7.0 format parameter weight methodology</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/data_load.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -477,20 +523,72 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="overview" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">3.1</span> Overview</h2>
-<p>The <code>ems_data()</code> function loads and prepares GTAP database files for use in CGE model runs. It handles the three core GTAP data files (dat, par, and set) and can optionally convert between GTAP v6.2 and v7.0 formats. This function is also used to input any time steps (for temporally dynamic models) as well as load set mappings for sets that are read into the model (i.e., not constructed from set operations).</p>
+<p>The <code>ems_data()</code> function loads and prepares GTAP database files for use in CGE model runs. It handles the three core GTAP data files (dat, par, and set) and can optionally convert between GTAP v6.2 and v7.0 formats. This function is also used to input any time steps (for temporally dynamic models), load set mappings for sets that are read into the model (i.e., not constructed from set operations), and incorporate auxiliary data via <code>ems_aux()</code>.</p>
 </section>
-<section id="input-files" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="input-files"><span class="header-section-number">3.2</span> Input files</h2>
+<section id="function-signature" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="function-signature"><span class="header-section-number">3.2</span> Function signature</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_data</span>(dat_input, par_input, set_input, <span class="at">time_steps =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">aux_input =</span> <span class="cn">NULL</span>, <span class="at">target_format =</span> <span class="cn">NULL</span>, ...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Argument</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>dat_input</code></td>
+<td>Character</td>
+<td>Path to a HAR file containing basedata coefficient data</td>
+</tr>
+<tr class="even">
+<td><code>par_input</code></td>
+<td>Character</td>
+<td>Path to a HAR file containing parameter coefficient data</td>
+</tr>
+<tr class="odd">
+<td><code>set_input</code></td>
+<td>Character</td>
+<td>Path to a HAR file containing set elements and attributes</td>
+</tr>
+<tr class="even">
+<td><code>time_steps</code></td>
+<td>Integer vector or <code>NULL</code></td>
+<td>Time steps for intertemporal models (see <a href="#time-steps">Time steps</a>)</td>
+</tr>
+<tr class="odd">
+<td><code>aux_input</code></td>
+<td>List or <code>NULL</code></td>
+<td>Auxiliary data created with <code>ems_aux()</code> (see <a href="#auxiliary-inputs">Auxiliary inputs</a>)</td>
+</tr>
+<tr class="even">
+<td><code>target_format</code></td>
+<td>Character or <code>NULL</code></td>
+<td>Target data format conversion: <code>"GTAPv6"</code> or <code>"GTAPv7"</code></td>
+</tr>
+<tr class="odd">
+<td><code>...</code></td>
+<td>Named arguments</td>
+<td>Set mappings for read-in sets (see <a href="#set-mappings">Set mappings</a>)</td>
+</tr>
+</tbody>
+</table>
+<p>All three input files (<code>dat_input</code>, <code>par_input</code>, <code>set_input</code>) are required.</p>
+</section>
+<section id="input-files" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="input-files"><span class="header-section-number">3.3</span> Input files</h2>
 <p>Compatible input files are currently limited to those produced by the Global Trade Analysis Project <a href="https://www.gtap.agecon.purdue.edu/">(GTAP)</a>. Although the most recent database releases are proprietary, GTAP has consistently open-accessed databases two versions out (GTAP 9 database as of the current GTAP 11 release). In order to access the freely available database, users will need to <a href="https://www.gtap.agecon.purdue.edu/access_member/profile/profile_addnew.aspx">register</a> with GTAP and download the “FlexAgg” format. For GTAP 9 this is accessible under the “GDyn 9 Data Base for 2011” subheader in the “Satellite Data and Utilities” section <a href="https://www.gtap.agecon.purdue.edu/databases/archives.asp">here</a>. For paying GTAP members, the current <a href="https://github.com/teemsphere/teems-R"><code>teems</code></a> version is capable of handling the “FlexAgg” format for GTAP Databases 10 and 11.</p>
 <p>At a minimum, the basedata “dat”, parameter “par”, and set “set” files are required inputs for the <code>dat_input</code>, <code>par_input</code>, and <code>set_input</code> arguments respectively.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>v7_data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfdat.har"</span>, <span class="co"># basedata coefficients</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">par_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfpar.har"</span>, <span class="co"># parameter coefficients</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">set_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfset.har"</span>, <span class="co"># set elements</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">REG =</span> <span class="st">"big3"</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">COMM =</span> <span class="st">"macro_sector"</span>,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ACTS =</span> <span class="st">"macro_sector"</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENDW =</span> <span class="st">"labor_diff"</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>v7_data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfdat.har"</span>, <span class="co"># basedata coefficients</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">par_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfpar.har"</span>, <span class="co"># parameter coefficients</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">set_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfset.har"</span>, <span class="co"># set elements</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">REG =</span> <span class="st">"big3"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">COMM =</span> <span class="st">"macro_sector"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ACTS =</span> <span class="st">"macro_sector"</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENDW =</span> <span class="st">"labor_diff"</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Note that the actual names of the files vary according the GTAP release.</p>
 <table class="caption-top table">
 <thead>
@@ -523,15 +621,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </section>
-<section id="set-mappings" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="set-mappings"><span class="header-section-number">3.3</span> Set mappings</h2>
+<section id="set-mappings" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="set-mappings"><span class="header-section-number">3.4</span> Set mappings</h2>
 <p>In addition to input files, set mappings for sets that are read in from the final sets input file must be provided. Read-in sets consist of sets that in the model Tablo file contain a “read” qualifier. For example, the region set below requires a set mapping to be loaded:</p>
 <pre><code>Set
     REG # regions #
-    read elements from file GTAPSETS header "REG";  </code></pre>
+    read elements from file GTAPSETS header "REG";</code></pre>
 <p>while the non-margin set below is constructed from sets previous declared (read-in in the case of the standard <a href="https://github.com/teemsphere/teems-models/blob/main/GTAPv7.0/GTAPv7.0.tab">GTAPv7.0</a>) and therefore requires no mapping.</p>
 <pre><code>Set
-    NMRG # non-margin commodities # = COMM - MARG;  </code></pre>
+    NMRG # non-margin commodities # = COMM - MARG;</code></pre>
 <p><a href="https://github.com/teemsphere/teems-R"><code>teems</code></a> ships with a number of set mappings for read-in sets ranging in size and focus. These internal mappings may be immediately utilized or a user may input their own mapping. Internal mappings are identified by the absence of a “.csv” file extension and inputted as a character string. Internal region mappings are as follows with the AR5, WB7, and WB23 derived from the <a href="https://vincentarelbundock.github.io/countrycode/#/man/codelist">countrycode</a> R package - (ar5, region, and region23 respectively).</p>
 <ul>
 <li>region (e.g., <code>REG</code>)
@@ -558,66 +656,419 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>full</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>v62_data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> <span class="st">"path/to/flexagg10AY14/gsddat.har"</span>,</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">par_input =</span> <span class="st">"path/to/flexagg10AY14/gsdpar.har"</span>,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">set_input =</span> <span class="st">"path/to/flexagg10AY14/gsdset.har"</span>,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">REG =</span> <span class="st">"big3"</span>, <span class="co"># China, USA, ROW</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">TRAD_COMM =</span> <span class="st">"macro_sector"</span>, <span class="co"># crops, food, livestock, mnfcs, svces</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ENDW_COMM =</span> <span class="st">"labor_agg"</span> <span class="co"># capital, labor, land, natlres</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Note that margin sectors are not inputted directly, rather inferred from choice of sectoral aggregation. The default margin sector elements at full aggregation are “atp”, “otp”, and “wtp” representing air, other, and water transport. If services are aggregated, these elements will be aggregated into the larger “service” sector while a mapping such as “medium” aggregates these into a single transport sector. The default margin sector elements can be viewed and modified using:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_option_get</span>(<span class="st">"margin_sectors"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>and</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_option_set</span>(<span class="st">"margin_sectors"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Internal endowment mappings currently include <code>labor_agg</code> (aggregated labor endowments), <code>labor_diff</code> (aggregated labor along skilled/unskilled delineartion), and <code>full</code>. All internal mappings by data format, database version, and set can be viewed here: <a href="https://github.com/teemsphere/teems-mappings">teems-mappings</a>.</p>
+<p>The set names used in <code>...</code> depend on the data format. For example the GTAP v6.2 model format uses <code>REG</code>, <code>TRAD_COMM</code>, and <code>ENDW_COMM</code>:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>v62_data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> <span class="st">"path/to/flexagg10AY14/gsddat.har"</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">par_input =</span> <span class="st">"path/to/flexagg10AY14/gsdpar.har"</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">set_input =</span> <span class="st">"path/to/flexagg10AY14/gsdset.har"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">REG =</span> <span class="st">"big3"</span>,            <span class="co"># China, USA, ROW</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">TRAD_COMM =</span> <span class="st">"macro_sector"</span>, <span class="co"># crops, food, livestock, mnfcs, svces</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ENDW_COMM =</span> <span class="st">"labor_agg"</span>     <span class="co"># capital, labor, land, natlres</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>while the GTAP v7.0 model format uses <code>REG</code>, <code>COMM</code>, <code>ACTS</code>, and <code>ENDW</code>:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>v7_data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfdat.har"</span>,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">par_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfpar.har"</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">set_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfset.har"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">REG =</span> <span class="st">"AR5"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">COMM =</span> <span class="st">"agriculture"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ACTS =</span> <span class="st">"agriculture"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENDW =</span> <span class="st">"labor_diff"</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Note that margin sectors are not inputted directly, rather inferred from choice of sectoral aggregation. The default margin sector elements at full aggregation are “atp”, “otp”, and “wtp” representing air, other, and water transport. If services are aggregated, these elements will be aggregated into the larger “service” sector while a mapping such as “medium” aggregates these into a single transport sector. The default margin sector elements can be viewed and modified using <code>ems_option_get()</code> and <code>ems_option_set()</code>:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_option_get</span>(<span class="st">"margin_sectors"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_option_set</span>(<span class="at">margin_sectors =</span> <span class="fu">c</span>(<span class="st">"atp"</span>, <span class="st">"otp"</span>, <span class="st">"wtp"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Internal endowment mappings currently include <code>labor_agg</code> (aggregated labor endowments), <code>labor_diff</code> (aggregated labor along skilled/unskilled delineation), and <code>full</code>. All internal mappings by data format, database version, and set can be viewed here: <a href="https://github.com/teemsphere/teems-mappings">teems-mappings</a>.</p>
+<section id="external-mappings" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="external-mappings"><span class="header-section-number">3.4.1</span> External mappings</h3>
 <p>External mappings may be provided in the form of a filepath to a two column csv file where the first column represents origin elements and the second column represents mapped (aggregated) elements. See <a href="https://github.com/teemsphere/teems-mappings">teems-mappings</a> for example mappings.</p>
-<!-- ## Auxilliary inputs -->
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>v7_data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> <span class="st">"path/to/flexagg10AY14/gsddat.har"</span>,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">par_input =</span> <span class="st">"path/to/flexagg10AY14/gsdpar.har"</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">set_input =</span> <span class="st">"path/to/flexagg10AY14/gsdset.har"</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">REG =</span> <span class="st">"path/to/custom_REG_mapping.csv"</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">COMM =</span> <span class="st">"macro_sector"</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ACTS =</span> <span class="st">"macro_sector"</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENDW =</span> <span class="st">"labor_agg"</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="time-steps" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="time-steps"><span class="header-section-number">3.4</span> Time steps</h2>
+</section>
+<section id="auxiliary-inputs" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="auxiliary-inputs"><span class="header-section-number">3.5</span> Auxiliary inputs</h2>
+<p>The <code>ems_aux()</code> function loads and prepares auxiliary data for injection into the <code>ems_data()</code> pipeline via the <code>aux_input</code> argument. Auxiliary data can replace existing headers or introduce novel headers not present in the original database. All auxiliary data is loaded at full (unaggregated) resolution and is subsequently aggregated by <code>ems_data()</code> according to the set mappings and data type.</p>
+<section id="function-signature-1" class="level3" data-number="3.5.1">
+<h3 data-number="3.5.1" class="anchored" data-anchor-id="function-signature-1"><span class="header-section-number">3.5.1</span> Function signature</h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_aux</span>(<span class="at">dat =</span> <span class="cn">NULL</span>, <span class="at">par =</span> <span class="cn">NULL</span>, <span class="at">set =</span> <span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 34%">
+<col style="width: 20%">
+<col style="width: 44%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Argument</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>dat</code></td>
+<td>List or <code>NULL</code></td>
+<td>Auxiliary inputs for non-parameter coefficients (sum aggregation)</td>
+</tr>
+<tr class="even">
+<td><code>par</code></td>
+<td>List or <code>NULL</code></td>
+<td>Auxiliary inputs for parameter coefficients (mean/weighted mean aggregation)</td>
+</tr>
+<tr class="odd">
+<td><code>set</code></td>
+<td>List or <code>NULL</code></td>
+<td>Under development</td>
+</tr>
+</tbody>
+</table>
+<p>At least one of <code>dat</code> or <code>par</code> must be provided.</p>
+</section>
+<section id="input-formats" class="level3" data-number="3.5.2">
+<h3 data-number="3.5.2" class="anchored" data-anchor-id="input-formats"><span class="header-section-number">3.5.2</span> Input formats</h3>
+<p>Each parameter accepts a list whose elements can be in one of three formats:</p>
+<p><strong>Named data frame</strong> – The list element name corresponds to the header. The data frame must contain a <code>Value</code> column alongside one or more set columns. The set columns identify the dimensions of the coefficient.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract and modify a header from ems_data output</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_input =</span> <span class="st">"path/to/gsddat.har"</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_input =</span> <span class="st">"path/to/gsdpar.har"</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_input =</span> <span class="st">"path/to/gsdset.har"</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">REG =</span> <span class="st">"full"</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">TRAD_COMM =</span> <span class="st">"full"</span>,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">ENDW_COMM =</span> <span class="st">"labor_agg"</span>,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">time_steps =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">16</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> d<span class="sc">$</span>POP</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(pop) <span class="ot">&lt;-</span> <span class="st">"data.frame"</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Modify values</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>SAVE <span class="ot">&lt;-</span> pop</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>SAVE<span class="sc">$</span>Value <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="fu">nrow</span>(SAVE))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Named CSV file</strong> – The list element name corresponds to the header and the value is a file path to a CSV file formatted identically to the data frame format above (set columns + <code>Value</code> column).</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pop_csv <span class="ot">&lt;-</span> <span class="st">"path/to/pop.csv"</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(pop, pop_csv, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Unnamed HAR file</strong> – An unnamed list element containing a file path to a GTAP header array (<code>.har</code>) file. All headers within the file are loaded.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>har_file <span class="ot">&lt;-</span> <span class="st">"path/to/gdpextra.har"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="constructing-auxiliary-inputs" class="level3" data-number="3.5.3">
+<h3 data-number="3.5.3" class="anchored" data-anchor-id="constructing-auxiliary-inputs"><span class="header-section-number">3.5.3</span> Constructing auxiliary inputs</h3>
+<p>These formats can be mixed freely within a single <code>ems_aux()</code> call. The <code>dat</code> and <code>par</code> arguments control how the data is aggregated downstream: <code>dat</code> inputs undergo simple sum aggregation while <code>par</code> inputs undergo mean or weighted mean aggregation.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">ems_aux</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat =</span> <span class="fu">list</span>(<span class="at">POP =</span> pop_csv,          <span class="co"># CSV file for POP header</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">SAVE =</span> SAVE,            <span class="co"># data frame for SAVE header</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">VTWR =</span> d<span class="sc">$</span>VTWR,          <span class="co"># data.table directly from ems_data</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">rndm =</span> d<span class="sc">$</span>VTWR),         <span class="co"># novel header with same structure</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">par =</span> <span class="fu">list</span>(<span class="at">POP =</span> pop_csv,          <span class="co"># same header can appear in both</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>             har_file)               <span class="co"># unnamed HAR path loads all headers</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="using-auxiliary-data-in-ems_data" class="level3" data-number="3.5.4">
+<h3 data-number="3.5.4" class="anchored" data-anchor-id="using-auxiliary-data-in-ems_data"><span class="header-section-number">3.5.4</span> Using auxiliary data in <code>ems_data()</code></h3>
+<p>The output of <code>ems_aux()</code> is passed directly to the <code>aux_input</code> argument of <code>ems_data()</code>:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>.data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_input =</span> <span class="st">"path/to/gsddat.har"</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_input =</span> <span class="st">"path/to/gsdpar.har"</span>,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_input =</span> <span class="st">"path/to/gsdset.har"</span>,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">aux_input =</span> aux,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">REG =</span> <span class="st">"big3"</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">COMM =</span> <span class="st">"macro_sector"</span>,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">ACTS =</span> <span class="st">"macro_sector"</span>,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">ENDW =</span> <span class="st">"labor_agg"</span>,</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">time_steps =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">16</span>)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When <code>ems_data()</code> processes auxiliary input, it merges the auxiliary data into the loaded database before aggregation. Headers that match existing database headers are validated for dimensional consistency – the replacement data must have the same dimensions and contain all elements present in the original. Novel headers (those not in the original database) are matched against loaded sets by name and element membership.</p>
+</section>
+<section id="replacement-vs.-novel-headers" class="level3" data-number="3.5.5">
+<h3 data-number="3.5.5" class="anchored" data-anchor-id="replacement-vs.-novel-headers"><span class="header-section-number">3.5.5</span> Replacement vs.&nbsp;novel headers</h3>
+<p><strong>Replacement headers</strong> directly overwrite an existing header. The auxiliary data must have the same dimensions and include all elements found in the original data. For example, providing a modified <code>POP</code> header replaces the population data loaded from the basedata HAR file.</p>
+<p><strong>Novel headers</strong> introduce data not present in the original database. The set columns of the data frame are matched against sets loaded from the set input file. If a column name exactly matches a loaded set, its elements are validated. If the column name does not match but its elements are a subset of a known set, <code>teems</code> will issue a warning and rename the dimension accordingly.</p>
+</section>
+</section>
+<section id="time-steps" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="time-steps"><span class="header-section-number">3.6</span> Time steps</h2>
 <p>For temporally dynamic models (e.g., <a href="https://github.com/teemsphere/teems-models/tree/main/GTAP-INTv1">GTAP-INT</a>, <a href="https://github.com/teemsphere/teems-models/tree/main/GTAP-REv1">GTAP-RE</a>), time steps must be provided representing t0 plus actual year steps from t0. Time steps can be inputted in either actual year increments or represented as chronological years. Note that if chronological years are used, t0 must correspond with the reference year of the database being used.</p>
 <p>Explicit time steps (equivalent to <code>c(2014, 2015, 2016, 2017, 2018, 2020, 2022, 2024, 2026, 2028, 2030)</code>) due to reference year associated with the loaded data inputs.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> <span class="st">"path/to/flexagg10AY14/gsddat.har"</span>,</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">par_input =</span> <span class="st">"path/to/flexagg10AY14/gsdpar.har"</span>,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">set_input =</span> <span class="st">"path/to/flexagg10AY14/gsdset.har"</span>,</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">REG =</span> <span class="st">"WB23"</span>,</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">TRAD_COMM =</span> <span class="st">"services"</span>,</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ENDW_COMM =</span> <span class="st">"labor_agg"</span>,</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">time_steps =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">16</span>)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> <span class="st">"path/to/flexagg10AY14/gsddat.har"</span>,</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">par_input =</span> <span class="st">"path/to/flexagg10AY14/gsdpar.har"</span>,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">set_input =</span> <span class="st">"path/to/flexagg10AY14/gsdset.har"</span>,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">REG =</span> <span class="st">"WB23"</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">TRAD_COMM =</span> <span class="st">"services"</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ENDW_COMM =</span> <span class="st">"labor_agg"</span>,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">time_steps =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">16</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Chronological time steps (note reference year of input data)</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfdat.har"</span>,</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">par_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfpar.har"</span>,</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">set_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfset.har"</span>,</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">REG =</span> <span class="st">"R32"</span>,</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">COMM =</span> <span class="st">"medium"</span>,</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ACTS =</span> <span class="st">"medium"</span>,</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ENDW =</span> <span class="st">"labor_diff"</span>,</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">time_steps =</span> <span class="fu">c</span>(<span class="dv">2017</span>, <span class="dv">2018</span>, <span class="dv">2020</span>, <span class="dv">2022</span>, <span class="dv">2024</span>, <span class="dv">2026</span>, <span class="dv">2028</span>, <span class="dv">2030</span>)</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfdat.har"</span>,</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">par_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfpar.har"</span>,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">set_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfset.har"</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">REG =</span> <span class="st">"R32"</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">COMM =</span> <span class="st">"medium"</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ACTS =</span> <span class="st">"medium"</span>,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ENDW =</span> <span class="st">"labor_diff"</span>,</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">time_steps =</span> <span class="fu">c</span>(<span class="dv">2017</span>, <span class="dv">2018</span>, <span class="dv">2020</span>, <span class="dv">2022</span>, <span class="dv">2024</span>, <span class="dv">2026</span>, <span class="dv">2028</span>, <span class="dv">2030</span>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="converting-formats" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="converting-formats"><span class="header-section-number">3.5</span> Converting formats</h2>
-<p>GTAP databases are available in the classic v6.2 and standard v7.0 formats, corresponding to the classic and standard <a href="https://www.gtap.agecon.purdue.edu/models/current.asp">GTAP models</a>. If you wish to use a classic-based model with newer GTAP databases or vice-versa, <code>convert_format = TRUE</code> will convert the underlying database. Note that set mappings are to be specified according to the model to be used, <em>not</em> the original format of inputted data.</p>
+<section id="converting-formats" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="converting-formats"><span class="header-section-number">3.7</span> Converting formats</h2>
+<p>GTAP databases are available in the classic v6.2 and standard v7.0 formats, corresponding to the classic and standard <a href="https://www.gtap.agecon.purdue.edu/models/current.asp">GTAP models</a>. If you wish to use a classic-based model with newer GTAP databases or vice-versa, <code>target_format</code> will convert the underlying database. Note that set mappings are to be specified according to the model to be used, <em>not</em> the original format of inputted data.</p>
 <p>GTAP 11 database converted to v6.2 data format:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>v62_data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfdat.har"</span>,</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">par_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfpar.har"</span>,</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">set_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfset.har"</span>,</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">REG =</span> <span class="st">"big3"</span>,</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">TRAD_COMM =</span> <span class="st">"macro_sector"</span>,</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ENDW_COMM =</span> <span class="st">"labor_agg"</span>,</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">convert_format =</span> <span class="cn">TRUE</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>v62_data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfdat.har"</span>,</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">par_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfpar.har"</span>,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">set_input =</span> <span class="st">"path/to/flexAgg11c17/gsdfset.har"</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">REG =</span> <span class="st">"big3"</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">TRAD_COMM =</span> <span class="st">"macro_sector"</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ENDW_COMM =</span> <span class="st">"labor_agg"</span>,</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">target_format =</span> <span class="st">"GTAPv6"</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>GTAP 10 v6.2 database converted to v7.0 data format:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>v7_data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> <span class="st">"path/to/flexagg10AY14/gsddat.har"</span>,</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">par_input =</span> <span class="st">"path/to/flexagg10AY14/gsdpar.har"</span>,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">set_input =</span> <span class="st">"path/to/flexagg10AY14/gsdset.har"</span>,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">REG =</span> <span class="st">"AR5"</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">COMM =</span> <span class="st">"macro_sector"</span>,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ACTS =</span> <span class="st">"macro_sector"</span>,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENDW =</span> <span class="st">"labor_agg"</span>,</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">target_format =</span> <span class="st">"GTAPv7"</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="future-expansions" class="level2" data-number="3.6">
-<h2 data-number="3.6" class="anchored" data-anchor-id="future-expansions"><span class="header-section-number">3.6</span> Future expansions</h2>
-<ul>
-<li>Expand to non-GTAP sources of data.</li>
-<li>Function to query existing internal mappings and provide granular details (e.g., GTAP region to “AR5” to iso3c)</li>
-<li>Auxillary inputs (preaggregation inputs from HAR and non-HAR sources with option to overwrite standard inputs)</li>
-</ul>
+<section id="data-aggregation" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="data-aggregation"><span class="header-section-number">3.8</span> Data aggregation</h2>
+<p>Data is aggregated according to type, with non-parameter coefficients summed by target set mappings and weighted averages calculated for the parameters below. A simple mean is applied to parameters not listed below. If custom parameter values are desired, these can be loaded in their final format into the <a href="https://teemsphere.github.io/model_load.html"><code>ems_model()</code></a> function.</p>
+<section id="gtap-v6.2-format-parameter-weight-methodology" class="level3" data-number="3.8.1">
+<h3 data-number="3.8.1" class="anchored" data-anchor-id="gtap-v6.2-format-parameter-weight-methodology"><span class="header-section-number">3.8.1</span> GTAP v6.2 format parameter weight methodology</h3>
+<div class="table-scroll table-wide">
+<div id="tbl-v62-parameters" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-v62-parameters-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.1: Headers, descriptions, and index ranges for parameters and associated data within the GTAP v6.2 model. GTAP-INT v6.2 weights are identical to GTAP v6.2 with the addition of an invariant time set.
+</figcaption>
+<div aria-describedby="tbl-v62-parameters-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 3%">
+<col style="width: 39%">
+<col style="width: 42%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Header</th>
+<th>Description</th>
+<th>Set Index</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Param.</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\sigma_{\textsc{d}}\)</span></td>
+<td>ESBD</td>
+<td>Armington CES for domestic/imported allocation</td>
+<td><span class="math inline">\(i \in \text{TRAD_COMM}\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\sigma_{\textsc{m}}\)</span></td>
+<td>ESBM</td>
+<td>Armington CES for regional allocation of imports</td>
+<td><span class="math inline">\(i \in \text{TRAD_COMM}\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\sigma_{\textsc{va}}\)</span></td>
+<td>ESBV</td>
+<td>CES between primary factors in production</td>
+<td><span class="math inline">\(j \in \text{ALL_INDS},\ r \in \text{REG}\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\gamma\)</span></td>
+<td>INCP</td>
+<td>CDE expansion parameter</td>
+<td><span class="math inline">\(i \in \text{TRAD_COMM},\ r \in \text{REG}\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\beta\)</span></td>
+<td>SUBP</td>
+<td>CDE substitution parameter</td>
+<td><span class="math inline">\(i \in \text{TRAD_COMM},\ r \in \text{REG}\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong>Data</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>EVFA</td>
+<td>Endowments – Firms purchases at agents’ prices</td>
+<td><span class="math inline">\(i \in \text{ENDW_COMM},\ j \in \text{PROD_COMM},\ r \in \text{REG}\)</span></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>VDFA</td>
+<td>Intermediates – Firms’ domestic purchases at agents’ prices</td>
+<td><span class="math inline">\(i \in \text{TRAD_COMM},\ j \in \text{PROD_COMM},\ r \in \text{REG}\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>VDGA</td>
+<td>Intermediates – Government domestic purchases at agents’ prices</td>
+<td><span class="math inline">\(i \in \text{TRAD_COMM},\ r \in \text{REG}\)</span></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>VDPA</td>
+<td>Intermediates – Household domestic purchases at agents’ prices</td>
+<td><span class="math inline">\(i \in \text{TRAD_COMM},\ r \in \text{REG}\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>VIFA</td>
+<td>Intermediates – Firms’ imports at agents’ prices</td>
+<td><span class="math inline">\(i \in \text{TRAD_COMM},\ j \in \text{PROD_COMM},\ r \in \text{REG}\)</span></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>VIGA</td>
+<td>Intermediates – Government imports at agents’ prices</td>
+<td><span class="math inline">\(i \in \text{TRAD_COMM},\ r \in \text{REG}\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>VIPA</td>
+<td>Intermediates – Household imports at agents’ prices</td>
+<td><span class="math inline">\(i \in \text{TRAD_COMM},\ r \in \text{REG}\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</div>
+<p><span class="math display">\[\begin{equation}
+\hat{\sigma}{\textsc{d}i} =
+\frac{
+\sum{i}^{i^*}
+\left(
+\sigma{\textsc{d}i}
+\sum_r
+(vdpa{i,r} + vdga_{i,r} + vdfa_{i,r} + vipa_{i,r} + viga_{i,r} + vifa_{i,r})
+\right)
+}
+{
+\sum_{i,r}^{i^*}
+(vdpa_{i,r} + vdga_{i,r} + vdfa_{i,r} + vipa_{i,r} + viga_{i,r} + vifa_{i,r})
+}
+\label{eq-sigmaD}
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+\hat{\sigma}{\textsc{m}i} =
+\frac{
+\sum{i}^{i^*}
+\left(
+\sigma{\textsc{m}i}
+\sum_r
+(vipa{i,r} + viga_{i,r} + vifa_{i,r})
+\right)
+}
+{
+\sum_{i,r}^{i^*}
+(vipa_{i,r} + viga_{i,r} + vifa_{i,r})
+}
+\label{eq-sigmaM}
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+\hat{\sigma}{\textsc{va}j} =
+\begin{cases}
+\displaystyle
+\frac{
+\sum{j}^{j^*}
+\left(
+\sigma{\textsc{va}j}
+\sum_r evfa{j,r}
+\right)
+}{
+\sum_{j,r}^{j^*} evfa_{j,r}
+}
+&amp; \text{if } j \neq cgds \
+\sigma_{\textsc{va}_j}
+&amp; \text{if } j = cgds
+\end{cases}
+\label{eq-sigmaVA}
+\end{equation}\]</span>aVA} \end{equation}</p>
+<p><span class="math display">\[\begin{equation}
+\hat{\gamma}{i,r} =
+\frac{
+\sum{i,r}^{i^* r^}
+\gamma_{i,r}
+\sum_{i,r} (vdpa_{i,r} + vipa_{i,r})
+}{
+\sum_{i,r}^{i^ r^*}
+(vdpa_{i,r} + vipa_{i,r})
+}
+\label{eq-gamma}
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+\hat{\beta}{i,r} =
+\frac{
+\sum{i,r}^{i^* r^}
+\left(
+\beta_{i,r}
+\sum_{i,r} (vdpa_{i,r} + vipa_{i,r})
+\right)
+}{
+\sum_{i,r}^{i^ r^*}
+(vdpa_{i,r} + vipa_{i,r})
+}
+\label{eq-beta}
+\end{equation}\]</span></p>
+</section>
+<section id="gtap-v7.0-format-parameter-weight-methodology" class="level3" data-number="3.8.2">
+<h3 data-number="3.8.2" class="anchored" data-anchor-id="gtap-v7.0-format-parameter-weight-methodology"><span class="header-section-number">3.8.2</span> GTAP v7.0 format parameter weight methodology</h3>
+<div class="table-scroll table-wide">
+<pre><code>Header  Description Set Index</code></pre>
+<p>Param.<br>
+<span class="math inline">\(\sigma_{\textsc{d}}\)</span> ESBD Armington CES for domestic/imported allocation <span class="math inline">\(c \in \text{COMM}\)</span> <span class="math inline">\(\sigma_{\textsc{m}}\)</span> ESBM Armington CES for regional allocation of imports <span class="math inline">\(c \in \text{COMM}\)</span> <span class="math inline">\(\sigma_{\textsc{va}}\)</span> ESBV CES between primary factors in production <span class="math inline">\(a \in \text{ACTS},\ r \in \text{REG}\)</span> <span class="math inline">\(\gamma\)</span> INCP CDE expansion parameter <span class="math inline">\(c \in \text{COMM},\ r \in \text{REG}\)</span> <span class="math inline">\(\beta\)</span> SUBP CDE substitution parameter <span class="math inline">\(c \in \text{COMM},\ r \in \text{REG}\)</span> Data<br>
+EVFP Primary factor purchases at purchasers’ prices <span class="math inline">\(e \in \text{ENDW},\ a \in \text{ACTS},\ r \in \text{REG}\)</span> VDFP Domestic purchases by firms at purchasers’ prices <span class="math inline">\(c \in \text{COMM},\ a \in \text{ACTS},\ r \in \text{REG}\)</span> VDGP Domestic purchases by government at purchasers’ prices <span class="math inline">\(c \in \text{COMM},\ r \in \text{REG}\)</span> VDPP Domestic purchases by households at purchasers’ prices <span class="math inline">\(c \in \text{COMM},\ r \in \text{REG}\)</span> VMFP Import purchases by firms at purchasers’ prices <span class="math inline">\(c \in \text{COMM},\ a \in \text{ACTS},\ r \in \text{REG}\)</span> VMGP Import purchases by government at purchasers’ prices <span class="math inline">\(c \in \text{COMM},\ r \in \text{REG}\)</span> VMPP Import purchases by households at purchasers’ prices <span class="math inline">\(c \in \text{COMM},\ r \in \text{REG}\)</span></p>
+<p>: Headers, descriptions, and index ranges for parameters and associated data within the GTAP v7 model. {#tbl-v7-parameters}</p>
+</div>
+<p><span class="math display">\[\begin{equation}
+\label{eq:sigmaD_v7}
+\hat{\sigma}\!_{\textsc{d}_{c}} = \frac{\sum\limits_{c}\limits^{c^{*}}(\sigma\!_{\textsc{d}_{c}}\sum\limits_{r} (vdpp_{c,r} + vmpp_{c,r} + vdgp_{c,r} + vmgp_{c,r} + vdfp_{c,r} + vmfp_{c,r}))}
+                    {\sum\limits_{c,r}\limits^{c^{*}} (vdpp_{c,r} + vmpp_{c,r} + vdgp_{c,r} + vmgp_{c,r} + vdfp_{c,r} + vmfp_{c,r})}
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+\label{eq:sigmaM_v7}
+\hat{\sigma}\!_{\textsc{m}_{c}} = \frac{\sum\limits_{c}\limits^{c^{*}}(\sigma\!_{\textsc{m}_{c}}\sum\limits_{r} (vmpp_{c,r} + vmgp_{c,r} + vmfp_{c,r}))}
+      {\sum\limits_{c,r}\limits^{c^{*}} (vmpp_{c,r} + vmgp_{c,r} + vmfp_{c,r})}
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+\label{eq:sigmaVA_v7}
+\hat{\sigma}\!_{\textsc{va}_{a}} = \frac{\sum\limits_{a}\limits^{a^{*}}(\sigma\!_{\textsc{va}_{a}}\sum\limits_{r} (evfp_{a,r}))}
+                               {\sum\limits_{a,r}\limits^{a^{*}} (evfp_{a,r})}\\
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+\label{eq:gamma_v7}
+\hat{\gamma}_{c,r} = \frac{\sum\limits_{c,r}\limits^{c^{*}r^{*}}\gamma_{c,r}\sum\limits_{c,r} (vdpp_{c,r} + vmpp_{c,r})}
+      {\sum\limits_{c,r}\limits^{c^{*}r^{*}} (vdpp_{c,r} + vmpp_{c,r})}
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+\label{eq:beta_v7}
+\hat{\beta}_{c,r} = \frac{\sum\limits_{c,r}\limits^{c^{*}r^{*}}(\beta_{c,r}\sum\limits_{c,r} (vdpp_{c,r} + vmpp_{c,r}))}
+      {\sum\limits_{c,r}\limits^{c^{*}r^{*}} (vdpp_{c,r} + vmpp_{c,r})}
+\end{equation}\]</span></p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

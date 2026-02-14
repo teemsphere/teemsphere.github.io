@@ -139,6 +139,7 @@ window.Quarto = {
 };
 </script>
 
+<link rel="stylesheet" href="styles.scss">
 </head>
 
 <body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -543,12 +544,12 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td><code>model_input</code></td>
-<td>Character (length 1)</td>
+<td>Character</td>
 <td>File name in working directory or path to a <code>.tab</code> file</td>
 </tr>
 <tr class="even">
 <td><code>closure_file</code></td>
-<td>Character (length 1)</td>
+<td>Character</td>
 <td>File name in working directory or path to a <code>.cls</code> closure file</td>
 </tr>
 <tr class="odd">
@@ -567,7 +568,7 @@ window.Quarto = {
 </section>
 <section id="tab_files" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> The Tablo file</h1>
-<p>Model input in <code>teems</code> is limited to Tablo (<code>.tab</code>) files. Vetted models and their closures are available at <a href="https://github.com/teems-org/teems-models">teems-models</a>.</p>
+<p>Model input in <code>teems</code> is currently limited to Tablo (<code>.tab</code>) files. Vetted models and their closures are available at <a href="https://github.com/teems-org/teems-models">teems-models</a>.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -626,13 +627,13 @@ Set B # example set # = Set A;</code></pre>
 <p>Use</p>
 <pre><code>Set A # example set A # maximum size 5 read elements from file GTAPSETS header "H2";
 Set B # example set B # maximum size 5 read elements from file GTAPSETS header "H2";</code></pre>
-<p><strong>Binary set switches</strong> using a colon within a Set definition is not supported. * The SLUG coefficient is not used to identify sluggish endowments. Declare these sets explicitly or via set operations.</p>
+<p><strong>Binary set switches</strong> using a colon within a Set definition is not supported. The SLUG coefficient is not used to identify sluggish endowments. Declare these sets explicitly or via set operations.</p>
 <p>Instead of</p>
 <pre><code>Set ENDWM # mobile endowments # = (all,e,ENDW:ENDOWFLAG(e,"mobile") ne 0);</code></pre>
 <p>Declare sets explicitly within the Tablo file:</p>
 <pre><code>Set ENDWM # mobile endowment # (capital, unsklab, sklab);</code></pre>
 <p>Note that sets in the full form (all elements) and subsetted form (model-specific aggregations) can be loaded using <code>...</code> with <code>ems_model()</code> and <code>set</code> with <code>ems_aux()</code>.</p>
-<p><strong>Capital goods</strong> * The <code>CGDS</code> sector in v6.2 format models is renamed to <code>zcgds</code> by default due to R <code>data.table</code> C-locale sorting and preference for all set elements to be lowercase.</p>
+<p><strong>Capital goods</strong> The <code>CGDS</code> sector in v6.2 format models is renamed to <code>zcgds</code> by default due to R <code>data.table</code> C-locale sorting and preference for all set elements to be lowercase.</p>
 </section>
 <section id="formulas-and-equations" class="level3" data-number="5.1.3">
 <h3 data-number="5.1.3" class="anchored" data-anchor-id="formulas-and-equations"><span class="header-section-number">5.1.3</span> Formulas and Equations</h3>
@@ -649,7 +650,7 @@ Formula (all,c,NMRG)(all,r,REG)
 <section id="var_omit" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="var_omit"><span class="header-section-number">5.2</span> Variable omissions</h2>
 <p>Variables specified with <code>var_omit</code> will be removed from the model closure and replaced with <code>0</code> within the model file. If a variable designated for omission is not found in the model, an error is raised.</p>
-<p>Standard v7.0 data format variable omissions: “atall”, “avaall”, “tfe”, “tfm”, “tgd”, “tgm”, “tid”, “tim” Standard v6.2 data format variable omissions: “atall”, “tfd”, “avaall”, “tf”, “tfm”, “tgd”, “tgm”, “tpd”, “tpm”</p>
+<p>Standard v7.0 data format variable omissions: <code>c("atall", "avaall", "tfe", "tfm", "tgd", "tgm", "tid", "tim")</code> Standard v6.2 data format variable omissions: <code>c("atall", "tfd", "avaall", "tf", "tfm", "tgd", "tgm", "tpd", "tpm")</code></p>
 </section>
 <section id="coeff_inject" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="coeff_inject"><span class="header-section-number">5.3</span> Coefficient value injection</h2>
