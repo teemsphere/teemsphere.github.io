@@ -11,8 +11,8 @@ ems_model(model_input, closure_file, var_omit = NULL, ...)
 
 | Argument | Type | Description |
 |----------|------|-------------|
-| `model_input` | Character (length 1) | File name in working directory or path to a `.tab` file |
-| `closure_file` | Character (length 1) | File name in working directory or path to a `.cls` closure file |
+| `model_input` | Character | File name in working directory or path to a `.tab` file |
+| `closure_file` | Character | File name in working directory or path to a `.cls` closure file |
 | `var_omit` | Character vector or `NULL` | Variables to substitute with `0` and remove from closure |
 | `...` | Named arguments | Coefficient value injections (numeric, data frame, or CSV path) |
 
@@ -20,7 +20,7 @@ Both `model_input` and `closure_file` are required arguments.
 
 # The Tablo file {#tab_files}
 
-Model input in `teems` is limited to Tablo (`.tab`) files. Vetted models and their closures are available at [teems-models](https://github.com/teems-org/teems-models).
+Model input in `teems` is currently limited to Tablo (`.tab`) files. Vetted models and their closures are available at [teems-models](https://github.com/teems-org/teems-models).
 
 | Model | Files | Description |
 |-------|-------|-------------|
@@ -75,8 +75,7 @@ Set A # example set A # maximum size 5 read elements from file GTAPSETS header "
 Set B # example set B # maximum size 5 read elements from file GTAPSETS header "H2";
 ```
 
-**Binary set switches** using a colon within a Set definition is not supported.
-* The SLUG coefficient is not used to identify sluggish endowments. Declare these sets explicitly or via set operations.
+**Binary set switches** using a colon within a Set definition is not supported. The SLUG coefficient is not used to identify sluggish endowments. Declare these sets explicitly or via set operations.
 
 Instead of
 ```
@@ -89,9 +88,7 @@ Set ENDWM # mobile endowment # (capital, unsklab, sklab);
 
 Note that sets in the full form (all elements) and subsetted form (model-specific aggregations) can be loaded using `...` with `ems_model()` and `set` with `ems_aux()`.
 
-**Capital goods**
-* The `CGDS` sector in v6.2 format models is renamed to `zcgds` by default due to R `data.table` C-locale sorting and preference for all set elements to be lowercase.
-
+**Capital goods** The `CGDS` sector in v6.2 format models is renamed to `zcgds` by default due to R `data.table` C-locale sorting and preference for all set elements to be lowercase.
 
 ### Formulas and Equations
 
@@ -113,8 +110,8 @@ Formula (all,c,NMRG)(all,r,REG)
 
 Variables specified with `var_omit` will be removed from the model closure and replaced with `0` within the model file. If a variable designated for omission is not found in the model, an error is raised.
 
-Standard v7.0 data format variable omissions: "atall", "avaall", "tfe", "tfm", "tgd", "tgm", "tid", "tim"
-Standard v6.2 data format variable omissions: "atall", "tfd", "avaall", "tf", "tfm", "tgd", "tgm", "tpd", "tpm"
+Standard v7.0 data format variable omissions: `c("atall", "avaall", "tfe", "tfm", "tgd", "tgm", "tid", "tim")`
+Standard v6.2 data format variable omissions: `c("atall", "tfd", "avaall", "tf", "tfm", "tgd", "tgm", "tpd", "tpm")`
 
 ## Coefficient value injection {#coeff_inject}
 
