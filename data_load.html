@@ -850,9 +850,9 @@ Table&nbsp;3.1: Headers, descriptions, and index ranges for parameters and assoc
 <div aria-describedby="tbl-v62-parameters-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
 <colgroup>
-<col style="width: 13%">
-<col style="width: 3%">
-<col style="width: 39%">
+<col style="width: 14%">
+<col style="width: 4%">
+<col style="width: 38%">
 <col style="width: 42%">
 </colgroup>
 <thead>
@@ -871,19 +871,19 @@ Table&nbsp;3.1: Headers, descriptions, and index ranges for parameters and assoc
 <td></td>
 </tr>
 <tr class="even">
-<td><span class="math inline">\(\sigma_{\textsc{d}}\)</span></td>
+<td><span class="math inline">\(\sigma_\text{d}\)</span></td>
 <td>ESBD</td>
 <td>Armington CES for domestic/imported allocation</td>
 <td><span class="math inline">\(i \in \text{TRAD_COMM}\)</span></td>
 </tr>
 <tr class="odd">
-<td><span class="math inline">\(\sigma_{\textsc{m}}\)</span></td>
+<td><span class="math inline">\(\sigma_\text{m}\)</span></td>
 <td>ESBM</td>
 <td>Armington CES for regional allocation of imports</td>
 <td><span class="math inline">\(i \in \text{TRAD_COMM}\)</span></td>
 </tr>
 <tr class="even">
-<td><span class="math inline">\(\sigma_{\textsc{va}}\)</span></td>
+<td><span class="math inline">\(\sigma_\text{va}\)</span></td>
 <td>ESBV</td>
 <td>CES between primary factors in production</td>
 <td><span class="math inline">\(j \in \text{ALL_INDS},\ r \in \text{REG}\)</span></td>
@@ -954,118 +954,214 @@ Table&nbsp;3.1: Headers, descriptions, and index ranges for parameters and assoc
 </figure>
 </div>
 </div>
-<p><span class="math display">\[\begin{equation}
-\hat{\sigma}{\textsc{d}i} =
+<p><span id="eq-sigmaD"><span class="math display">\[
+\hat{\sigma}_{\text{d}_i} =
 \frac{
-\sum{i}^{i^*}
+\sum_{i}^{i^*}
 \left(
-\sigma{\textsc{d}i}
+\sigma_{\text{d}_i}
 \sum_r
-(vdpa{i,r} + vdga_{i,r} + vdfa_{i,r} + vipa_{i,r} + viga_{i,r} + vifa_{i,r})
+(vdpa_{i,r} + vdga_{i,r} + vdfa_{i,r} + vipa_{i,r} + viga_{i,r} + vifa_{i,r})
 \right)
 }
 {
 \sum_{i,r}^{i^*}
 (vdpa_{i,r} + vdga_{i,r} + vdfa_{i,r} + vipa_{i,r} + viga_{i,r} + vifa_{i,r})
 }
-\label{eq-sigmaD}
-\end{equation}\]</span></p>
-<p><span class="math display">\[\begin{equation}
-\hat{\sigma}{\textsc{m}i} =
+\tag{3.1}\]</span></span></p>
+<p><span id="eq-sigmaM"><span class="math display">\[
+\hat{\sigma}_{\text{m}_i} =
 \frac{
-\sum{i}^{i^*}
+\sum_{i}^{i^*}
 \left(
-\sigma{\textsc{m}i}
+\sigma_{\text{m}_i}
 \sum_r
-(vipa{i,r} + viga_{i,r} + vifa_{i,r})
+(vipa_{i,r} + viga_{i,r} + vifa_{i,r})
 \right)
 }
 {
 \sum_{i,r}^{i^*}
 (vipa_{i,r} + viga_{i,r} + vifa_{i,r})
 }
-\label{eq-sigmaM}
-\end{equation}\]</span></p>
-<p><span class="math display">\[\begin{equation}
-\hat{\sigma}{\textsc{va}j} =
+\tag{3.2}\]</span></span></p>
+<p><span id="eq-sigmaVA"><span class="math display">\[
+\hat{\sigma}_{\text{va}_j} =
 \begin{cases}
 \displaystyle
 \frac{
-\sum{j}^{j^*}
+\sum_{j}^{j^*}
 \left(
-\sigma{\textsc{va}j}
-\sum_r evfa{j,r}
+\sigma_{\text{va}_j}
+\sum_r evfa_{j,r}
 \right)
 }{
 \sum_{j,r}^{j^*} evfa_{j,r}
 }
-&amp; \text{if } j \neq cgds \
-\sigma_{\textsc{va}_j}
+&amp; \text{if } j \neq cgds \\
+\sigma_{\text{va}_j}
 &amp; \text{if } j = cgds
 \end{cases}
-\label{eq-sigmaVA}
-\end{equation}\]</span>aVA} \end{equation}</p>
-<p><span class="math display">\[\begin{equation}
-\hat{\gamma}{i,r} =
+\tag{3.3}\]</span></span></p>
+<p><span id="eq-gamma"><span class="math display">\[
+\hat{\gamma}_{i,r} =
 \frac{
-\sum{i,r}^{i^* r^}
+\sum_{i,r}^{i^* r^*}
 \gamma_{i,r}
 \sum_{i,r} (vdpa_{i,r} + vipa_{i,r})
 }{
-\sum_{i,r}^{i^ r^*}
+\sum_{i,r}^{i^* r^*}
 (vdpa_{i,r} + vipa_{i,r})
 }
-\label{eq-gamma}
-\end{equation}\]</span></p>
-<p><span class="math display">\[\begin{equation}
-\hat{\beta}{i,r} =
+\tag{3.4}\]</span></span></p>
+<p><span id="eq-beta"><span class="math display">\[
+\hat{\beta}_{i,r} =
 \frac{
-\sum{i,r}^{i^* r^}
+\sum_{i,r}^{i^* r^*}
 \left(
 \beta_{i,r}
 \sum_{i,r} (vdpa_{i,r} + vipa_{i,r})
 \right)
 }{
-\sum_{i,r}^{i^ r^*}
+\sum_{i,r}^{i^* r^*}
 (vdpa_{i,r} + vipa_{i,r})
 }
-\label{eq-beta}
-\end{equation}\]</span></p>
+\tag{3.5}\]</span></span></p>
 </section>
 <section id="gtap-v7.0-format-parameter-weight-methodology" class="level3" data-number="3.8.2">
 <h3 data-number="3.8.2" class="anchored" data-anchor-id="gtap-v7.0-format-parameter-weight-methodology"><span class="header-section-number">3.8.2</span> GTAP v7.0 format parameter weight methodology</h3>
 <div class="table-scroll table-wide">
-<pre><code>Header  Description Set Index</code></pre>
-<p>Param.<br>
-<span class="math inline">\(\sigma_{\textsc{d}}\)</span> ESBD Armington CES for domestic/imported allocation <span class="math inline">\(c \in \text{COMM}\)</span> <span class="math inline">\(\sigma_{\textsc{m}}\)</span> ESBM Armington CES for regional allocation of imports <span class="math inline">\(c \in \text{COMM}\)</span> <span class="math inline">\(\sigma_{\textsc{va}}\)</span> ESBV CES between primary factors in production <span class="math inline">\(a \in \text{ACTS},\ r \in \text{REG}\)</span> <span class="math inline">\(\gamma\)</span> INCP CDE expansion parameter <span class="math inline">\(c \in \text{COMM},\ r \in \text{REG}\)</span> <span class="math inline">\(\beta\)</span> SUBP CDE substitution parameter <span class="math inline">\(c \in \text{COMM},\ r \in \text{REG}\)</span> Data<br>
-EVFP Primary factor purchases at purchasers’ prices <span class="math inline">\(e \in \text{ENDW},\ a \in \text{ACTS},\ r \in \text{REG}\)</span> VDFP Domestic purchases by firms at purchasers’ prices <span class="math inline">\(c \in \text{COMM},\ a \in \text{ACTS},\ r \in \text{REG}\)</span> VDGP Domestic purchases by government at purchasers’ prices <span class="math inline">\(c \in \text{COMM},\ r \in \text{REG}\)</span> VDPP Domestic purchases by households at purchasers’ prices <span class="math inline">\(c \in \text{COMM},\ r \in \text{REG}\)</span> VMFP Import purchases by firms at purchasers’ prices <span class="math inline">\(c \in \text{COMM},\ a \in \text{ACTS},\ r \in \text{REG}\)</span> VMGP Import purchases by government at purchasers’ prices <span class="math inline">\(c \in \text{COMM},\ r \in \text{REG}\)</span> VMPP Import purchases by households at purchasers’ prices <span class="math inline">\(c \in \text{COMM},\ r \in \text{REG}\)</span></p>
-<p>: Headers, descriptions, and index ranges for parameters and associated data within the GTAP v7 model. {#tbl-v7-parameters}</p>
+<div id="tbl-v7-parameters" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-v7-parameters-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.2: Headers, descriptions, and index ranges for parameters and associated data within the GTAP v7 model.
+</figcaption>
+<div aria-describedby="tbl-v7-parameters-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 5%">
+<col style="width: 40%">
+<col style="width: 35%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Header</th>
+<th>Description</th>
+<th>Set Index</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Param.</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\sigma_\text{d}\)</span></td>
+<td>ESBD</td>
+<td>Armington CES for domestic/imported allocation</td>
+<td><span class="math inline">\(c \in \text{COMM}\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\sigma_\text{m}\)</span></td>
+<td>ESBM</td>
+<td>Armington CES for regional allocation of imports</td>
+<td><span class="math inline">\(c \in \text{COMM}\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\sigma_\text{va}\)</span></td>
+<td>ESBV</td>
+<td>CES between primary factors in production</td>
+<td><span class="math inline">\(a \in \text{ACTS},\ r \in \text{REG}\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\gamma\)</span></td>
+<td>INCP</td>
+<td>CDE expansion parameter</td>
+<td><span class="math inline">\(c \in \text{COMM},\ r \in \text{REG}\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\beta\)</span></td>
+<td>SUBP</td>
+<td>CDE substitution parameter</td>
+<td><span class="math inline">\(c \in \text{COMM},\ r \in \text{REG}\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong>Data</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>EVFP</td>
+<td>Primary factor purchases at purchasers’ prices</td>
+<td><span class="math inline">\(e \in \text{ENDW},\ a \in \text{ACTS},\ r \in \text{REG}\)</span></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>VDFP</td>
+<td>Domestic purchases by firms at purchasers’ prices</td>
+<td><span class="math inline">\(c \in \text{COMM},\ a \in \text{ACTS},\ r \in \text{REG}\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>VDGP</td>
+<td>Domestic purchases by government at purchasers’ prices</td>
+<td><span class="math inline">\(c \in \text{COMM},\ r \in \text{REG}\)</span></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>VDPP</td>
+<td>Domestic purchases by households at purchasers’ prices</td>
+<td><span class="math inline">\(c \in \text{COMM},\ r \in \text{REG}\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>VMFP</td>
+<td>Import purchases by firms at purchasers’ prices</td>
+<td><span class="math inline">\(c \in \text{COMM},\ a \in \text{ACTS},\ r \in \text{REG}\)</span></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>VMGP</td>
+<td>Import purchases by government at purchasers’ prices</td>
+<td><span class="math inline">\(c \in \text{COMM},\ r \in \text{REG}\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>VMPP</td>
+<td>Import purchases by households at purchasers’ prices</td>
+<td><span class="math inline">\(c \in \text{COMM},\ r \in \text{REG}\)</span></td>
+</tr>
+</tbody>
+</table>
 </div>
-<p><span class="math display">\[\begin{equation}
-\label{eq:sigmaD_v7}
-\hat{\sigma}\!_{\textsc{d}_{c}} = \frac{\sum\limits_{c}\limits^{c^{*}}(\sigma\!_{\textsc{d}_{c}}\sum\limits_{r} (vdpp_{c,r} + vmpp_{c,r} + vdgp_{c,r} + vmgp_{c,r} + vdfp_{c,r} + vmfp_{c,r}))}
-                    {\sum\limits_{c,r}\limits^{c^{*}} (vdpp_{c,r} + vmpp_{c,r} + vdgp_{c,r} + vmgp_{c,r} + vdfp_{c,r} + vmfp_{c,r})}
-\end{equation}\]</span></p>
-<p><span class="math display">\[\begin{equation}
-\label{eq:sigmaM_v7}
-\hat{\sigma}\!_{\textsc{m}_{c}} = \frac{\sum\limits_{c}\limits^{c^{*}}(\sigma\!_{\textsc{m}_{c}}\sum\limits_{r} (vmpp_{c,r} + vmgp_{c,r} + vmfp_{c,r}))}
-      {\sum\limits_{c,r}\limits^{c^{*}} (vmpp_{c,r} + vmgp_{c,r} + vmfp_{c,r})}
-\end{equation}\]</span></p>
-<p><span class="math display">\[\begin{equation}
-\label{eq:sigmaVA_v7}
-\hat{\sigma}\!_{\textsc{va}_{a}} = \frac{\sum\limits_{a}\limits^{a^{*}}(\sigma\!_{\textsc{va}_{a}}\sum\limits_{r} (evfp_{a,r}))}
-                               {\sum\limits_{a,r}\limits^{a^{*}} (evfp_{a,r})}\\
-\end{equation}\]</span></p>
-<p><span class="math display">\[\begin{equation}
-\label{eq:gamma_v7}
-\hat{\gamma}_{c,r} = \frac{\sum\limits_{c,r}\limits^{c^{*}r^{*}}\gamma_{c,r}\sum\limits_{c,r} (vdpp_{c,r} + vmpp_{c,r})}
-      {\sum\limits_{c,r}\limits^{c^{*}r^{*}} (vdpp_{c,r} + vmpp_{c,r})}
-\end{equation}\]</span></p>
-<p><span class="math display">\[\begin{equation}
-\label{eq:beta_v7}
-\hat{\beta}_{c,r} = \frac{\sum\limits_{c,r}\limits^{c^{*}r^{*}}(\beta_{c,r}\sum\limits_{c,r} (vdpp_{c,r} + vmpp_{c,r}))}
-      {\sum\limits_{c,r}\limits^{c^{*}r^{*}} (vdpp_{c,r} + vmpp_{c,r})}
-\end{equation}\]</span></p>
+</figure>
+</div>
+</div>
+<p><span id="eq-sigmaD-v7"><span class="math display">\[
+\hat{\sigma}_{\text{d}_{c}} = \frac{\sum_{c}^{c^{*}}\left(\sigma_{\text{d}_{c}}\sum_{r} (vdpp_{c,r} + vmpp_{c,r} + vdgp_{c,r} + vmgp_{c,r} + vdfp_{c,r} + vmfp_{c,r})\right)}
+                    {\sum_{c,r}^{c^{*}} (vdpp_{c,r} + vmpp_{c,r} + vdgp_{c,r} + vmgp_{c,r} + vdfp_{c,r} + vmfp_{c,r})}
+\tag{3.6}\]</span></span></p>
+<p><span id="eq-sigmaM-v7"><span class="math display">\[
+\hat{\sigma}_{\text{m}_{c}} = \frac{\sum_{c}^{c^{*}}\left(\sigma_{\text{m}_{c}}\sum_{r} (vmpp_{c,r} + vmgp_{c,r} + vmfp_{c,r})\right)}
+      {\sum_{c,r}^{c^{*}} (vmpp_{c,r} + vmgp_{c,r} + vmfp_{c,r})}
+\tag{3.7}\]</span></span></p>
+<p><span id="eq-sigmaVA-v7"><span class="math display">\[
+\hat{\sigma}_{\text{va}_{a}} = \frac{\sum_{a}^{a^{*}}\left(\sigma_{\text{va}_{a}}\sum_{r} evfp_{a,r}\right)}
+                               {\sum_{a,r}^{a^{*}} evfp_{a,r}}
+\tag{3.8}\]</span></span></p>
+<p><span id="eq-gamma-v7"><span class="math display">\[
+\hat{\gamma}_{c,r} = \frac{\sum_{c,r}^{c^{*}r^{*}}\gamma_{c,r}\sum_{c,r} (vdpp_{c,r} + vmpp_{c,r})}
+      {\sum_{c,r}^{c^{*}r^{*}} (vdpp_{c,r} + vmpp_{c,r})}
+\tag{3.9}\]</span></span></p>
+<p><span id="eq-beta-v7"><span class="math display">\[
+\hat{\beta}_{c,r} = \frac{\sum_{c,r}^{c^{*}r^{*}}\left(\beta_{c,r}\sum_{c,r} (vdpp_{c,r} + vmpp_{c,r})\right)}
+      {\sum_{c,r}^{c^{*}r^{*}} (vdpp_{c,r} + vmpp_{c,r})}
+\tag{3.10}\]</span></span></p>
 
 
 </section>
