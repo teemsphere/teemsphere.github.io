@@ -314,22 +314,22 @@ If custom parameter values are desired, these can be loaded in their final forma
 ### GTAP v6.2 format parameter weight methodology
 
 ::: {.table-scroll .table-wide}
-|                        | Header | Description                                                     | Set Index                                                            |
-|------------------------|--------|----------------------------------------------------------------|----------------------------------------------------------------------|
-| **Param.**             |        |                                                                 |                                                                      |
-| $\sigma_\text{d}$  | ESBD   | Armington CES for domestic/imported allocation                  | $i \in \text{TRAD\_COMM}$                                             |
-| $\sigma_\text{m}$  | ESBM   | Armington CES for regional allocation of imports                | $i \in \text{TRAD\_COMM}$                                             |
-| $\sigma_\text{va}$ | ESBV   | CES between primary factors in production                       | $j \in \text{PROD\_COMM}$                           |
-| $\gamma$               | INCP   | CDE expansion parameter                                         | $i \in \text{TRAD_COMM},\ r \in \text{REG}$                          |
-| $\beta$                | SUBP   | CDE substitution parameter                                      | $i \in \text{TRAD_COMM},\ r \in \text{REG}$                          |
-| **Data**               |        |                                                                 |                                                                      |
-|                        | EVFA   | Endowments – Firms purchases at agents' prices                  | $i \in \text{ENDW_COMM},\ j \in \text{PROD_COMM},\ r \in \text{REG}$ |
-|                        | VDFA   | Intermediates – Firms' domestic purchases at agents' prices     | $i \in \text{TRAD_COMM},\ j \in \text{PROD_COMM},\ r \in \text{REG}$ |
-|                        | VDGA   | Intermediates – Government domestic purchases at agents' prices | $i \in \text{TRAD_COMM},\ r \in \text{REG}$                          |
-|                        | VDPA   | Intermediates – Household domestic purchases at agents' prices  | $i \in \text{TRAD_COMM},\ r \in \text{REG}$                          |
-|                        | VIFA   | Intermediates – Firms' imports at agents' prices                | $i \in \text{TRAD_COMM},\ j \in \text{PROD_COMM},\ r \in \text{REG}$ |
-|                        | VIGA   | Intermediates – Government imports at agents' prices            | $i \in \text{TRAD_COMM},\ r \in \text{REG}$                          |
-|                        | VIPA   | Intermediates – Household imports at agents' prices             | $i \in \text{TRAD_COMM},\ r \in \text{REG}$                          |
+|                        | Header | Description                                          | Set Index                                                                 |
+|------------------------|--------|------------------------------------------------------|---------------------------------------------------------------------------|
+| **Param.**             |        |                                                      |                                                                           |
+| $\sigma_\text{d}$      | ESBD   | Armington CES for domestic/imported allocation       | $i \in \text{TRAD\_COMM}$                                                 |
+| $\sigma_\text{m}$      | ESBM   | Armington CES for regional allocation of imports     | $i \in \text{TRAD\_COMM}$                                                 |
+| $\sigma_\text{va}$     | ESBV   | CES between primary factors in production            | $j \in \text{PROD\_COMM}$                                                 |
+| $\gamma$               | INCP   | CDE expansion parameter                              | $i \in \text{TRAD\_COMM},\ r \in \text{REG}$                             |
+| $\beta$                | SUBP   | CDE substitution parameter                           | $i \in \text{TRAD\_COMM},\ r \in \text{REG}$                             |
+| **Data**               |        |                                                      |                                                                           |
+|                        | EVFA   | Endowments – Firms purchases at agents' prices       | $i \in \text{ENDW\_COMM},\ j \in \text{PROD\_COMM},\ r \in \text{REG}$   |
+|                        | VDFA   | Inter. – Firms' domestic purchases at agents' prices | $i \in \text{TRAD\_COMM},\ j \in \text{PROD\_COMM},\ r \in \text{REG}$   |
+|                        | VDGA   | Inter. – Government domestic purchases at agents'    | $i \in \text{TRAD\_COMM},\ r \in \text{REG}$                             |
+|                        | VDPA   | Inter. – Household domestic purchases at agents'     | $i \in \text{TRAD\_COMM},\ r \in \text{REG}$                             |
+|                        | VIFA   | Inter. – Firms' imports at agents' prices            | $i \in \text{TRAD\_COMM},\ j \in \text{PROD\_COMM},\ r \in \text{REG}$   |
+|                        | VIGA   | Inter. – Government imports at agents' prices        | $i \in \text{TRAD\_COMM},\ r \in \text{REG}$                             |
+|                        | VIPA   | Inter. – Household imports at agents' prices         | $i \in \text{TRAD\_COMM},\ r \in \text{REG}$                             |
 
 : Headers, descriptions, and index ranges for parameters and associated data within the GTAP v6.2 model. GTAP-INT v6.2 weights are identical to GTAP v6.2 with the addition of an invariant time set. {#tbl-v62-parameters}
 :::
