@@ -317,9 +317,9 @@ If custom parameter values are desired, these can be loaded in their final forma
 |                        | Header | Description                                                     | Set Index                                                            |
 |------------------------|--------|----------------------------------------------------------------|----------------------------------------------------------------------|
 | **Param.**             |        |                                                                 |                                                                      |
-| $\sigma_\text{d}$  | ESBD   | Armington CES for domestic/imported allocation                  | $i \in \text{TRAD_COMM}$                                             |
-| $\sigma_\text{m}$  | ESBM   | Armington CES for regional allocation of imports                | $i \in \text{TRAD_COMM}$                                             |
-| $\sigma_\text{va}$ | ESBV   | CES between primary factors in production                       | $j \in \text{ALL_INDS},\ r \in \text{REG}$                           |
+| $\sigma_\text{d}$  | ESBD   | Armington CES for domestic/imported allocation                  | $i \in \text{TRAD\_COMM}$                                             |
+| $\sigma_\text{m}$  | ESBM   | Armington CES for regional allocation of imports                | $i \in \text{TRAD\_COMM}$                                             |
+| $\sigma_\text{va}$ | ESBV   | CES between primary factors in production                       | $j \in \text{PROD\_COMM}$                           |
 | $\gamma$               | INCP   | CDE expansion parameter                                         | $i \in \text{TRAD_COMM},\ r \in \text{REG}$                          |
 | $\beta$                | SUBP   | CDE substitution parameter                                      | $i \in \text{TRAD_COMM},\ r \in \text{REG}$                          |
 | **Data**               |        |                                                                 |                                                                      |
