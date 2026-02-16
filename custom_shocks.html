@@ -479,7 +479,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="full-variable-custom-shocks" class="level2" data-number="8.2">
 <h2 data-number="8.2" class="anchored" data-anchor-id="full-variable-custom-shocks"><span class="header-section-number">8.2</span> Full variable custom shocks</h2>
-<p><a href="https://github.com/teemsphere/teems-scripts/blob/main/GTAP-REv1/v11_cst_fullvar_df_year.R">Here</a> (and see snippets below) is a demonstration of 4 custom shocks carried out on all variable tuples for a range of variable dimensions with the <a href="https://github.com/teemsphere/teems-models/tree/main/GTAP-REv1">GTAP-RE</a> model.</p>
+<p>Here is a demonstration of 4 custom shocks carried out on all variable tuples for a range of variable dimensions with the <a href="https://github.com/teemsphere/teems-models/tree/main/GTAP-REv1">GTAP-RE</a> model.</p>
 <p>Elements for data frame construction</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>time_steps <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">16</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>REGr <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"asia"</span>, <span class="st">"eit"</span>, <span class="st">"lam"</span>, <span class="st">"maf"</span>, <span class="st">"oecd"</span>)</span>
@@ -557,7 +557,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="partial-variable-custom-shocks" class="level2" data-number="8.3">
 <h2 data-number="8.3" class="anchored" data-anchor-id="partial-variable-custom-shocks"><span class="header-section-number">8.3</span> Partial variable custom shocks</h2>
-<p>Custom shocks are only carried out on tuples included within the input data frame or CSV. <a href="https://github.com/teemsphere/teems-scripts/blob/main/GTAP-REv1/v11_cst_partvar_df.R">Here</a> we make appropriate swaps and carry out a custom shock (heterogenous values) across part of a variable. Note how the custom shock data frame for <code>REGr</code> “lam”</p>
+<p>Custom shocks are only carried out on tuples included within the input data frame or CSV. Here we make appropriate swaps and carry out a custom shock (heterogenous values) across part of a variable. Note how the custom shock data frame for <code>REGr</code> “lam”</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>qfd_shk <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">COMMc =</span> <span class="fu">c</span>(<span class="st">"svces"</span>, <span class="st">"food"</span>, <span class="st">"crops"</span>, <span class="st">"mnfcs"</span>, <span class="st">"livestock"</span>),</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">REGr =</span> <span class="st">"lam"</span>,</span>

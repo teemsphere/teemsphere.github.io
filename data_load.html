@@ -838,122 +838,13 @@ window.Quarto = {
 </section>
 <section id="data-aggregation" class="level2" data-number="3.8">
 <h2 data-number="3.8" class="anchored" data-anchor-id="data-aggregation"><span class="header-section-number">3.8</span> Data aggregation</h2>
-<p>Data is aggregated according to type, with non-parameter coefficients summed by target set mappings and weighted averages calculated for the parameters below. A simple mean is applied to parameters not listed below. If custom parameter values are desired, these can be loaded in their final format into the <a href="https://teemsphere.github.io/model_load.html"><code>ems_model()</code></a> function.</p>
+<p>Data is aggregated according to type, with non-parameter coefficients summed by target set mappings and weighted averages calculated for the parameters below. A simple mean is applied to parameters not listed below. If custom parameter values are desired, these can be loaded in their final format into the <a href="https://teemsphere.github.io/model_load.html"><code>ems_model()</code></a> function. In the below notation, hat (ˆ) indicates the new parameter value while asterisk (*) indicates the destination set. mapping.</p>
 <section id="gtap-v6.2-format-parameter-weight-methodology" class="level3" data-number="3.8.1">
 <h3 data-number="3.8.1" class="anchored" data-anchor-id="gtap-v6.2-format-parameter-weight-methodology"><span class="header-section-number">3.8.1</span> GTAP v6.2 format parameter weight methodology</h3>
-<div class="table-scroll table-wide">
-<div id="tbl-v62-parameters" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-v62-parameters-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;3.1: Headers, descriptions, and index ranges for parameters and associated data within the GTAP v6.2 model. GTAP-INT v6.2 weights are identical to GTAP v6.2 with the addition of an invariant time set.
-</figcaption>
-<div aria-describedby="tbl-v62-parameters-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table class="caption-top table">
-<colgroup>
-<col style="width: 14%">
-<col style="width: 4%">
-<col style="width: 33%">
-<col style="width: 46%">
-</colgroup>
-<thead>
-<tr class="header">
-<th></th>
-<th>Header</th>
-<th>Description</th>
-<th>Set Index</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Param.</strong></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(\sigma_\text{d}\)</span></td>
-<td>ESBD</td>
-<td>Armington CES for domestic/imported allocation</td>
-<td><span class="math inline">\(i \in \text{TRAD\_COMM}\)</span></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(\sigma_\text{m}\)</span></td>
-<td>ESBM</td>
-<td>Armington CES for regional allocation of imports</td>
-<td><span class="math inline">\(i \in \text{TRAD\_COMM}\)</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(\sigma_\text{va}\)</span></td>
-<td>ESBV</td>
-<td>CES between primary factors in production</td>
-<td><span class="math inline">\(j \in \text{PROD\_COMM}\)</span></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(\gamma\)</span></td>
-<td>INCP</td>
-<td>CDE expansion parameter</td>
-<td><span class="math inline">\(i \in \text{TRAD\_COMM},\ r \in \text{REG}\)</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(\beta\)</span></td>
-<td>SUBP</td>
-<td>CDE substitution parameter</td>
-<td><span class="math inline">\(i \in \text{TRAD\_COMM},\ r \in \text{REG}\)</span></td>
-</tr>
-<tr class="odd">
-<td><strong>Data</strong></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td></td>
-<td>EVFA</td>
-<td>Endowments – Firms purchases at agents’ prices</td>
-<td><span class="math inline">\(i \in \text{ENDW\_COMM},\ j \in \text{PROD\_COMM},\ r \in \text{REG}\)</span></td>
-</tr>
-<tr class="odd">
-<td></td>
-<td>VDFA</td>
-<td>Inter. – Firms’ domestic purchases at agents’ prices</td>
-<td><span class="math inline">\(i \in \text{TRAD\_COMM},\ j \in \text{PROD\_COMM},\ r \in \text{REG}\)</span></td>
-</tr>
-<tr class="even">
-<td></td>
-<td>VDGA</td>
-<td>Inter. – Government domestic purchases at agents’</td>
-<td><span class="math inline">\(i \in \text{TRAD\_COMM},\ r \in \text{REG}\)</span></td>
-</tr>
-<tr class="odd">
-<td></td>
-<td>VDPA</td>
-<td>Inter. – Household domestic purchases at agents’</td>
-<td><span class="math inline">\(i \in \text{TRAD\_COMM},\ r \in \text{REG}\)</span></td>
-</tr>
-<tr class="even">
-<td></td>
-<td>VIFA</td>
-<td>Inter. – Firms’ imports at agents’ prices</td>
-<td><span class="math inline">\(i \in \text{TRAD\_COMM},\ j \in \text{PROD\_COMM},\ r \in \text{REG}\)</span></td>
-</tr>
-<tr class="odd">
-<td></td>
-<td>VIGA</td>
-<td>Inter. – Government imports at agents’ prices</td>
-<td><span class="math inline">\(i \in \text{TRAD\_COMM},\ r \in \text{REG}\)</span></td>
-</tr>
-<tr class="even">
-<td></td>
-<td>VIPA</td>
-<td>Inter. – Household imports at agents’ prices</td>
-<td><span class="math inline">\(i \in \text{TRAD\_COMM},\ r \in \text{REG}\)</span></td>
-</tr>
-</tbody>
-</table>
-</div>
-</figure>
-</div>
-</div>
+<p>Headers, descriptions, and index ranges for parameters and associated data within the GTAP v6.2 model. GTAP-INT weights are identical to GTAP v6.2 with the addition of an invariant time set. ::: {.table-scroll .table-wide} | | Header | Description | Set Index | |————————|——–|——————————————————|—————————————————————————| | <strong>Param.</strong> | | | | | <span class="math inline">\(\sigma_\text{d}\)</span> | ESBD | Armington CES for domestic/imported allocation | <span class="math inline">\(i \in \text{TRAD\_COMM}\)</span> | | <span class="math inline">\(\sigma_\text{m}\)</span> | ESBM | Armington CES for regional allocation of imports | <span class="math inline">\(i \in \text{TRAD\_COMM}\)</span> | | <span class="math inline">\(\sigma_\text{va}\)</span> | ESBV | CES between primary factors in production | <span class="math inline">\(j \in \text{PROD\_COMM}\)</span> | | <span class="math inline">\(\gamma\)</span> | INCP | CDE expansion parameter | <span class="math inline">\(i \in \text{TRAD\_COMM},\ r \in \text{REG}\)</span> | | <span class="math inline">\(\beta\)</span> | SUBP | CDE substitution parameter | <span class="math inline">\(i \in \text{TRAD\_COMM},\ r \in \text{REG}\)</span> | | <strong>Data</strong> | | | | | | EVFA | Endowments – Firms purchases at agents’ prices | <span class="math inline">\(i \in \text{ENDW\_COMM},\ j \in \text{PROD\_COMM},\ r \in \text{REG}\)</span> | | | VDFA | Inter. – Firms’ domestic purchases at agents’ prices | <span class="math inline">\(i \in \text{TRAD\_COMM},\ j \in \text{PROD\_COMM},\ r \in \text{REG}\)</span> | | | VDGA | Inter. – Government domestic purchases at agents’ | <span class="math inline">\(i \in \text{TRAD\_COMM},\ r \in \text{REG}\)</span> | | | VDPA | Inter. – Household domestic purchases at agents’ | <span class="math inline">\(i \in \text{TRAD\_COMM},\ r \in \text{REG}\)</span> | | | VIFA | Inter. – Firms’ imports at agents’ prices | <span class="math inline">\(i \in \text{TRAD\_COMM},\ j \in \text{PROD\_COMM},\ r \in \text{REG}\)</span> | | | VIGA | Inter. – Government imports at agents’ prices | <span class="math inline">\(i \in \text{TRAD\_COMM},\ r \in \text{REG}\)</span> | | | VIPA | Inter. – Household imports at agents’ prices | <span class="math inline">\(i \in \text{TRAD\_COMM},\ r \in \text{REG}\)</span> |</p>
+<p>:::</p>
+<section id="aggregation-methods" class="level4" data-number="3.8.1.1">
+<h4 data-number="3.8.1.1" class="anchored" data-anchor-id="aggregation-methods"><span class="header-section-number">3.8.1.1</span> Aggregation methods</h4>
 <p><span id="eq-sigmaD"><span class="math display">\[
 \hat{\sigma}_{\text{d}_i} =
 \frac{
@@ -1027,15 +918,11 @@ Table&nbsp;3.1: Headers, descriptions, and index ranges for parameters and assoc
 }
 \tag{3.5}\]</span></span></p>
 </section>
+</section>
 <section id="gtap-v7.0-format-parameter-weight-methodology" class="level3" data-number="3.8.2">
 <h3 data-number="3.8.2" class="anchored" data-anchor-id="gtap-v7.0-format-parameter-weight-methodology"><span class="header-section-number">3.8.2</span> GTAP v7.0 format parameter weight methodology</h3>
+<p>Headers, descriptions, and index ranges for parameters and associated data within the GTAP v7 model. GTAP-RE weights are identical to GTAP v7.0 with the addition of an invariant time set.</p>
 <div class="table-scroll table-wide">
-<div id="tbl-v7-parameters" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-v7-parameters-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;3.2: Headers, descriptions, and index ranges for parameters and associated data within the GTAP v7 model.
-</figcaption>
-<div aria-describedby="tbl-v7-parameters-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
 <colgroup>
 <col style="width: 17%">
@@ -1139,9 +1026,8 @@ Table&nbsp;3.2: Headers, descriptions, and index ranges for parameters and assoc
 </tbody>
 </table>
 </div>
-</figure>
-</div>
-</div>
+<section id="aggregation-methods-1" class="level4" data-number="3.8.2.1">
+<h4 data-number="3.8.2.1" class="anchored" data-anchor-id="aggregation-methods-1"><span class="header-section-number">3.8.2.1</span> Aggregation methods</h4>
 <p><span id="eq-sigmaD-v7"><span class="math display">\[
 \hat{\sigma}_{\text{d}_{c}} = \frac{\sum_{c}^{c^{*}}\left(\sigma_{\text{d}_{c}}\sum_{r} (vdpp_{c,r} + vmpp_{c,r} + vdgp_{c,r} + vmgp_{c,r} + vdfp_{c,r} + vmfp_{c,r})\right)}
                     {\sum_{c,r}^{c^{*}} (vdpp_{c,r} + vmpp_{c,r} + vdgp_{c,r} + vmgp_{c,r} + vdfp_{c,r} + vmfp_{c,r})}
@@ -1164,6 +1050,7 @@ Table&nbsp;3.2: Headers, descriptions, and index ranges for parameters and assoc
 \tag{3.10}\]</span></span></p>
 
 
+</section>
 </section>
 </section>
 
