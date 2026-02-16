@@ -2,11 +2,11 @@
 Reproducibility within computable general equilibrium (CGE) and partial equilibrium modelling analyses has long been elusive, in part due to proprietary data and software.
 Here we address one aspect of this equation with the introduciton of the TEEMS (Trade and Environment Equilibrium Modelling System) open-source software suite.
 At its core, TEEMS comprises an R package [`teems`](https://github.com/teemsphere/teems-R) used to compose model runs and [teems-solver](https://github.com/teemsphere/teems-solver), a C-based solver capable of solving a large system of nonlinear equations by leveraging a range of mathematical and scientific computation libraries.
-Auxillary repositories to facilitate model runs also include [teems-models](https://github.com/teemsphere/teems-models), containing internally available and immediately compatible models, [teems-mappings](https://github.com/teemsphere/teems-mappings) with set mappings and [teems-scripts](https://github.com/teemsphere/teems-scripts) which showcases a wide variety of model configurations and options.
+Auxillary repositories to facilitate model runs also include [teems-models](https://github.com/teemsphere/teems-models), containing internally available and immediately compatible models, and [teems-mappings](https://github.com/teemsphere/teems-mappings).
 
 These tools working in conjunction allow for open and modular CGE model runs from head to tail as well as completely reproducible workflows.
 With a base within the general purpose R scripting language, users able to seamlessly adjust model components including set aggregations, parameter weighting, closure and shock specifications as well as a large number of options pertaining to the solution and model outputs.
-These model scripts (see e.g., [teems-scripts](https://github.com/teemsphere/teems-scripts)) can then be shared with colleagues, reviewers, and policy-makers for vetting, modification, and reproduction.
+Model scripts can then be shared with colleagues, reviewers, and policy-makers for vetting, modification, and reproduction.
 
 ## Motivation
 Reproducibility has been elusive in large part due to the proprietary nature of associated software and data for CGE modelling but also due to the shear complexity of compiling a single model run. A single "simple" model run for example *broadly* involves:

@@ -19,7 +19,7 @@ Scenario shocks differ from custom shocks in a number of respects:
 There are several applications where it is advantageous to use scenario shock rather than a custom shock. The primary advantage is that scenario shocks allow for seamless changes to model aggregations since the shocks themselves are subject to mappings and aggregation. If we have trajectories available for all tuples within a given variable, a scenario shock will adjust to set mapping inputs in `ems_data()`. The actual values provided do not necessarily need to correspond to realworld values. We could for example use the integer 1 as a base and vary our components according to this base value in the year corresponding to t0.
 
 ## Population trajectory example
-[Here](https://github.com/teemsphere/teems-scripts/blob/main/GTAP-REv1/v11_scn.R) is an example that takes base year population data from the GTAP database (typically not read into the model) and constructs hypothetical pathways for every region in the model. These pathways are valid for any regional aggregation chosen.
+Here is an example that takes base year population data from the GTAP database (typically not read into the model) and constructs hypothetical pathways for every region in the model. These pathways are valid for any regional aggregation chosen.
 
 Grab population data with `REGr` set to "full" to keep regions disaggregated
 ```r

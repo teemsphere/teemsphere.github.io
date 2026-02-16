@@ -310,9 +310,11 @@ v7_data <- ems_data(dat_input = "path/to/flexagg10AY14/gsddat.har",
 Data is aggregated according to type, with non-parameter coefficients summed by target set mappings and weighted averages calculated for the parameters below.
 A simple mean is applied to parameters not listed below.
 If custom parameter values are desired, these can be loaded in their final format into the [`ems_model()`](https://teemsphere.github.io/model_load.html) function.
+In the below notation, hat (ˆ) indicates the new parameter value while asterisk (*) indicates the destination set.
+mapping.
 
 ### GTAP v6.2 format parameter weight methodology
-
+Headers, descriptions, and index ranges for parameters and associated data within the GTAP v6.2 model. GTAP-INT weights are identical to GTAP v6.2 with the addition of an invariant time set.
 ::: {.table-scroll .table-wide}
 |                        | Header | Description                                          | Set Index                                                                 |
 |------------------------|--------|------------------------------------------------------|---------------------------------------------------------------------------|
@@ -331,9 +333,9 @@ If custom parameter values are desired, these can be loaded in their final forma
 |                        | VIGA   | Inter. – Government imports at agents' prices        | $i \in \text{TRAD\_COMM},\ r \in \text{REG}$                             |
 |                        | VIPA   | Inter. – Household imports at agents' prices         | $i \in \text{TRAD\_COMM},\ r \in \text{REG}$                             |
 
-: Headers, descriptions, and index ranges for parameters and associated data within the GTAP v6.2 model. GTAP-INT v6.2 weights are identical to GTAP v6.2 with the addition of an invariant time set. {#tbl-v62-parameters}
 :::
 
+#### Aggregation methods
 $$
 \hat{\sigma}_{\text{d}_i} =
 \frac{
@@ -412,6 +414,7 @@ $$
 $$ {#eq-beta}
 
 ### GTAP v7.0 format parameter weight methodology
+Headers, descriptions, and index ranges for parameters and associated data within the GTAP v7 model. GTAP-RE weights are identical to GTAP v7.0 with the addition of an invariant time set.
 
 ::: {.table-scroll .table-wide}
 |                        | Header | Description                                           | Set Index                                      |
@@ -431,9 +434,10 @@ $$ {#eq-beta}
 |                        | VMGP   | Import purchases by government at purchasers' prices  | $c \in \text{COMM},\ r \in \text{REG}$         |
 |                        | VMPP   | Import purchases by households at purchasers' prices  | $c \in \text{COMM},\ r \in \text{REG}$         |
 
-: Headers, descriptions, and index ranges for parameters and associated data within the GTAP v7 model. {#tbl-v7-parameters}
+
 :::
 
+#### Aggregation methods
 $$
 \hat{\sigma}_{\text{d}_{c}} = \frac{\sum_{c}^{c^{*}}\left(\sigma_{\text{d}_{c}}\sum_{r} (vdpp_{c,r} + vmpp_{c,r} + vdgp_{c,r} + vmgp_{c,r} + vdfp_{c,r} + vmfp_{c,r})\right)}
                     {\sum_{c,r}^{c^{*}} (vdpp_{c,r} + vmpp_{c,r} + vdgp_{c,r} + vmgp_{c,r} + vdfp_{c,r} + vmfp_{c,r})}
