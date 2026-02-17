@@ -18,7 +18,7 @@ ems_model(model_input, closure_file, var_omit = NULL, ...)
 
 Both `model_input` and `closure_file` are required arguments.
 
-# The Tablo file {#tab_files}
+# The model file {#tab_files}
 
 Model input in `teems` is currently limited to Tablo (`.tab`) files. Vetted models and their closures are available at [teems-models](https://github.com/teems-org/teems-models).
 
@@ -39,6 +39,14 @@ model <- ems_model(
 ```
 
 We recommend that users seeking to load custom models first review the formatting of the vetted models at [teems-models](https://github.com/teems-org/teems-models) in order to make any necessary modifications for use within the `teems` software ecosystem. In some cases it may be easiest to use existing compatible models as a starting point for modifications. Although the [teems-solver](https://github.com/teemsphere/teems-solver) does not support all current GEMPack declarations, there is usually a workaround. Running a `diff` on the original GTAP models and those in [teems-models](https://github.com/teems-org/teems-models) is a good starting point for understanding potential incompatibilities.
+
+## Closure selection
+Standard model-specific closures are available within the model repository: [teems-models](https://github.com/teemsphere/teems-models). The general format consistens of:
+1. Character string "exogenous"
+2. A "\n" delimited list of exogenous variables
+3. ";"
+4. "rest exogenous"
+5. ";"
 
 ## Incompatible features
 
