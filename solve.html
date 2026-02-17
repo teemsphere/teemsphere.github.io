@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>11&nbsp; Solving the model – The {teems} R package user manual</title>
+<title>10&nbsp; Solving the model – The {teems} R package user manual</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,6 +65,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./solve_in_situ.html" rel="next">
 <link href="./deploy.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -248,7 +284,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./deploy.html">Deploying and solving the model</a></li><li class="breadcrumb-item"><a href="./solve.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Solving the model</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./deploy.html">Deploying and solving the model</a></li><li class="breadcrumb-item"><a href="./solve.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Solving the model</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -326,7 +362,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Closures</span></a>
+ <span class="menu-text">Swaps and shocks</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -334,14 +370,26 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./closure_load.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Loading closures</span></span></a>
+  <a href="./swaps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Closure swaps</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./swaps.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Closure swaps</span></span></a>
+  <a href="./uniform_shocks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Uniform shocks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./custom_shocks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Custom shocks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./scenario_shocks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Scenario shocks</span></span></a>
   </div>
 </li>
       </ul>
@@ -349,7 +397,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Shocks</span></a>
+ <span class="menu-text">Deploying and solving the model</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -357,43 +405,26 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./uniform_shocks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Uniform shocks</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./custom_shocks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Custom shocks</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./scenario_shocks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Scenario shocks</span></span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
- <span class="menu-text">Deploying and solving the model</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./deploy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Deploying the model</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Deploying the model</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./solve.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Solving the model</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Solving the model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./solve_in_situ.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Solving in-situ</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./compose.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Composing results</span></span></a>
   </div>
 </li>
       </ul>
@@ -408,8 +439,15 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">11.1</span> Overview</a></li>
-  <li><a href="#solver-options" id="toc-solver-options" class="nav-link" data-scroll-target="#solver-options"><span class="header-section-number">11.2</span> Solver options</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">10.1</span> Overview</a></li>
+  <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments"><span class="header-section-number">10.2</span> Arguments</a></li>
+  <li><a href="#basic-usage" id="toc-basic-usage" class="nav-link" data-scroll-target="#basic-usage"><span class="header-section-number">10.3</span> Basic usage</a></li>
+  <li><a href="#matrix-methods" id="toc-matrix-methods" class="nav-link" data-scroll-target="#matrix-methods"><span class="header-section-number">10.4</span> Matrix methods</a></li>
+  <li><a href="#solution-methods" id="toc-solution-methods" class="nav-link" data-scroll-target="#solution-methods"><span class="header-section-number">10.5</span> Solution methods</a></li>
+  <li><a href="#memory-parameters" id="toc-memory-parameters" class="nav-link" data-scroll-target="#memory-parameters"><span class="header-section-number">10.6</span> Memory parameters</a></li>
+  <li><a href="#parallel-solving" id="toc-parallel-solving" class="nav-link" data-scroll-target="#parallel-solving"><span class="header-section-number">10.7</span> Parallel solving</a></li>
+  <li><a href="#multi-step-solution" id="toc-multi-step-solution" class="nav-link" data-scroll-target="#multi-step-solution"><span class="header-section-number">10.8</span> Multi-step solution</a></li>
+  <li><a href="#terminal-mode" id="toc-terminal-mode" class="nav-link" data-scroll-target="#terminal-mode"><span class="header-section-number">10.9</span> Terminal mode</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/solve.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -417,9 +455,9 @@ ul.task-list li input[type="checkbox"] {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./deploy.html">Deploying and solving the model</a></li><li class="breadcrumb-item"><a href="./solve.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Solving the model</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./deploy.html">Deploying and solving the model</a></li><li class="breadcrumb-item"><a href="./solve.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Solving the model</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Solving the model</span></h1>
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Solving the model</span></h1>
 </div>
 
 
@@ -436,13 +474,196 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="overview" class="level2" data-number="11.1">
-<h2 data-number="11.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">11.1</span> Overview</h2>
-<p><code>ems_solve()</code> solves the constrained optimization problem according to a wide range of runtime configuration options. In order to solve, a teems Docker <a href="https://github.com/teemsphere/teems-solver">container</a> must be prebuilt according to these specifications. Singularity, accuracy, and error checks are carried out following a successful run.</p>
+<section id="overview" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">10.1</span> Overview</h2>
+<p><code>ems_solve()</code> solves the constrained optimization problem according to a range of runtime configuration options. In order to solve, a teems Docker <a href="https://github.com/teemsphere/teems-solver">image</a> must be prebuilt. Singularity, accuracy, and error checks are carried out following a successful run. By default, solver outputs are automatically parsed into structured R objects via <code>ems_compose()</code>.</p>
 </section>
-<section id="solver-options" class="level2" data-number="11.2">
-<h2 data-number="11.2" class="anchored" data-anchor-id="solver-options"><span class="header-section-number">11.2</span> Solver options</h2>
-<p>A thorough guide to solver options is under construction. In the meantime, see <code>?ems_solve</code>.</p>
+<section id="arguments" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="arguments"><span class="header-section-number">10.2</span> Arguments</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 28%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Argument</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>cmf_path</code></td>
+<td><code>NULL</code></td>
+<td>Path to the CMF file generated by <code>ems_deploy()</code></td>
+</tr>
+<tr class="even">
+<td><code>n_tasks</code></td>
+<td><code>1L</code></td>
+<td>Number of tasks to run in parallel. Must be <code>1L</code> if <code>matrix_method</code> is <code>"LU"</code></td>
+</tr>
+<tr class="odd">
+<td><code>n_subintervals</code></td>
+<td><code>1L</code></td>
+<td>Number of subintervals for the applied shock. More subintervals may alleviate accuracy issues stemming from large shock magnitudes</td>
+</tr>
+<tr class="even">
+<td><code>matrix_method</code></td>
+<td><code>"LU"</code></td>
+<td>Matrix solution method (see below)</td>
+</tr>
+<tr class="odd">
+<td><code>solution_method</code></td>
+<td><code>"Johansen"</code></td>
+<td>Solution method (see below)</td>
+</tr>
+<tr class="even">
+<td><code>steps</code></td>
+<td><code>c(2L, 4L, 8L)</code></td>
+<td>Vector of steps for the modified midpoint method. Must be all odd or all even, length 3</td>
+</tr>
+<tr class="odd">
+<td><code>laA</code></td>
+<td><code>300L</code></td>
+<td>Memory parameter (%) for <code>"LU"</code> and <code>"SBBD"</code> methods</td>
+</tr>
+<tr class="even">
+<td><code>laD</code></td>
+<td><code>200L</code></td>
+<td>Memory parameter (%) for <code>"DBBD"</code> and <code>"NDBBD"</code> methods</td>
+</tr>
+<tr class="odd">
+<td><code>laDi</code></td>
+<td><code>500L</code></td>
+<td>Memory parameter (%) for <code>"NDBBD"</code> method</td>
+</tr>
+<tr class="even">
+<td><code>terminal_run</code></td>
+<td><code>FALSE</code></td>
+<td>When <code>TRUE</code>, exits without running the solver, allowing the user to close R and run from the terminal</td>
+</tr>
+<tr class="odd">
+<td><code>suppress_outputs</code></td>
+<td><code>FALSE</code></td>
+<td>When <code>TRUE</code>, solver outputs are not automatically parsed with <code>ems_compose()</code></td>
+</tr>
+<tr class="even">
+<td><code>n_timesteps</code></td>
+<td><code>NULL</code></td>
+<td>Number of timesteps, must be manually entered if <code>matrix_method</code> is <code>"NDBBD"</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="basic-usage" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="basic-usage"><span class="header-section-number">10.3</span> Basic usage</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> <span class="fu">ems_solve</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cmf_path =</span> cmf_path,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix_method =</span> <span class="st">"LU"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="st">"Johansen"</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="matrix-methods" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="matrix-methods"><span class="header-section-number">10.4</span> Matrix methods</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 38%">
+<col style="width: 61%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>"LU"</code></td>
+<td>Standard LU decomposition. The most robust and potentially slowest for large models. <code>n_tasks</code> must be <code>1L</code>. Works with both static and dynamic models</td>
+</tr>
+<tr class="even">
+<td><code>"DBBD"</code></td>
+<td>Doubly bordered block diagonal. Parallel solution method for static models. Potentially faster than <code>"LU"</code> although less robust</td>
+</tr>
+<tr class="odd">
+<td><code>"SBBD"</code></td>
+<td>Singly bordered block diagonal. Parallel solution method for intertemporal models. Potentially faster than <code>"LU"</code> although less robust</td>
+</tr>
+<tr class="even">
+<td><code>"NDBBD"</code></td>
+<td>Nested doubly bordered block diagonal. Parallel solution method for large intertemporal models with many timesteps. Requires <code>n_timesteps</code> to be specified</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="solution-methods" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="solution-methods"><span class="header-section-number">10.5</span> Solution methods</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>"Johansen"</code></td>
+<td>Fast one-step approximation. Should only be used as a rough approximation due to handling of nonlinear equations. See <a href="https://www.copsmodels.com/gpmanual.htm#gpd1.2.13">COPS manual</a></td>
+</tr>
+<tr class="even">
+<td><code>"mod_midpoint"</code></td>
+<td>Modified midpoint method that performs multiple passes for improved accuracy. The <code>steps</code> parameter controls the number of passes. See <a href="https://www.copsmodels.com/gpmanual.htm#gpd3.12.2">COPS manual</a></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="memory-parameters" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="memory-parameters"><span class="header-section-number">10.6</span> Memory parameters</h2>
+<p>If the solver returns “Error return from MA48B/BD because LA is …”, increase the relevant memory parameter gradually:</p>
+<ul>
+<li><code>laA</code> applies to <code>"LU"</code> and <code>"SBBD"</code> methods</li>
+<li><code>laD</code> applies to <code>"DBBD"</code> and <code>"NDBBD"</code> methods</li>
+<li><code>laDi</code> applies to the <code>"NDBBD"</code> method only</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> <span class="fu">ems_solve</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cmf_path =</span> cmf_path,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix_method =</span> <span class="st">"LU"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="st">"Johansen"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">laA =</span> <span class="dv">500</span>L</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="parallel-solving" class="level2" data-number="10.7">
+<h2 data-number="10.7" class="anchored" data-anchor-id="parallel-solving"><span class="header-section-number">10.7</span> Parallel solving</h2>
+<p>For models that support parallel matrix methods, increase <code>n_tasks</code>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> <span class="fu">ems_solve</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cmf_path =</span> cmf_path,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_tasks =</span> <span class="dv">4</span>L,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix_method =</span> <span class="st">"SBBD"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="st">"Johansen"</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="multi-step-solution" class="level2" data-number="10.8">
+<h2 data-number="10.8" class="anchored" data-anchor-id="multi-step-solution"><span class="header-section-number">10.8</span> Multi-step solution</h2>
+<p>For greater accuracy, use the modified midpoint method with subintervals:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> <span class="fu">ems_solve</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cmf_path =</span> cmf_path,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_subintervals =</span> <span class="dv">3</span>L,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix_method =</span> <span class="st">"LU"</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="st">"mod_midpoint"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">steps =</span> <span class="fu">c</span>(<span class="dv">2</span>L, <span class="dv">4</span>L, <span class="dv">8</span>L)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="terminal-mode" class="level2" data-number="10.9">
+<h2 data-number="10.9" class="anchored" data-anchor-id="terminal-mode"><span class="header-section-number">10.9</span> Terminal mode</h2>
+<p>For long-running models, <code>terminal_run</code> allows the user to close any R IDE prior to running from the terminal:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_solve</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cmf_path =</span> cmf_path,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix_method =</span> <span class="st">"LU"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="st">"Johansen"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">terminal_run =</span> <span class="cn">TRUE</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
@@ -863,10 +1084,13 @@ ul.task-list li input[type="checkbox"] {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./deploy.html" class="pagination-link" aria-label="Deploying the model">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Deploying the model</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Deploying the model</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./solve_in_situ.html" class="pagination-link" aria-label="Solving in-situ">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Solving in-situ</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

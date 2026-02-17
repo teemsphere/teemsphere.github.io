@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>6&nbsp; Closure swaps – The {teems} R package user manual</title>
+<title>5&nbsp; Closure swaps – The {teems} R package user manual</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -66,7 +66,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./uniform_shocks.html" rel="next">
-<link href="./closure_load.html" rel="prev">
+<link href="./model_load.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -284,7 +284,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./closure_load.html">Closures</a></li><li class="breadcrumb-item"><a href="./swaps.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Closure swaps</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./swaps.html">Swaps and shocks</a></li><li class="breadcrumb-item"><a href="./swaps.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Closure swaps</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -362,7 +362,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Closures</span></a>
+ <span class="menu-text">Swaps and shocks</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -370,14 +370,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./closure_load.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Loading closures</span></span></a>
+  <a href="./swaps.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Closure swaps</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./swaps.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Closure swaps</span></span></a>
+  <a href="./uniform_shocks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Uniform shocks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./custom_shocks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Custom shocks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./scenario_shocks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Scenario shocks</span></span></a>
   </div>
 </li>
       </ul>
@@ -385,7 +397,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Shocks</span></a>
+ <span class="menu-text">Deploying and solving the model</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -393,43 +405,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./uniform_shocks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Uniform shocks</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./custom_shocks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Custom shocks</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./scenario_shocks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Scenario shocks</span></span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
- <span class="menu-text">Deploying and solving the model</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./deploy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Deploying the model</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Deploying the model</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./solve.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Solving the model</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Solving the model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./solve_in_situ.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Solving in-situ</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./compose.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Composing results</span></span></a>
   </div>
 </li>
       </ul>
@@ -444,10 +439,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">6.1</span> Overview</a></li>
-  <li><a href="#simple-full-variable-swaps" id="toc-simple-full-variable-swaps" class="nav-link" data-scroll-target="#simple-full-variable-swaps"><span class="header-section-number">6.2</span> Simple (full variable) swaps</a></li>
-  <li><a href="#complex-partial-variable-swaps" id="toc-complex-partial-variable-swaps" class="nav-link" data-scroll-target="#complex-partial-variable-swaps"><span class="header-section-number">6.3</span> Complex (partial variable) swaps</a></li>
-  <li><a href="#future-expansions" id="toc-future-expansions" class="nav-link" data-scroll-target="#future-expansions"><span class="header-section-number">6.4</span> Future expansions</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">5.1</span> Overview</a></li>
+  <li><a href="#simple-full-variable-swaps" id="toc-simple-full-variable-swaps" class="nav-link" data-scroll-target="#simple-full-variable-swaps"><span class="header-section-number">5.2</span> Simple (full variable) swaps</a></li>
+  <li><a href="#complex-partial-variable-swaps" id="toc-complex-partial-variable-swaps" class="nav-link" data-scroll-target="#complex-partial-variable-swaps"><span class="header-section-number">5.3</span> Complex (partial variable) swaps</a></li>
+  <li><a href="#future-expansions" id="toc-future-expansions" class="nav-link" data-scroll-target="#future-expansions"><span class="header-section-number">5.4</span> Future expansions</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/swaps.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -455,9 +450,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./closure_load.html">Closures</a></li><li class="breadcrumb-item"><a href="./swaps.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Closure swaps</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./swaps.html">Swaps and shocks</a></li><li class="breadcrumb-item"><a href="./swaps.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Closure swaps</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Closure swaps</span></h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Closure swaps</span></h1>
 </div>
 
 
@@ -474,12 +469,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="overview" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">6.1</span> Overview</h2>
+<section id="overview" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">5.1</span> Overview</h2>
 <p>Simple full variable swaps can be directly inputted as a string into the <code>swap_in</code> and <code>swap_out</code> arguments of <code>ems_deploy()</code>. More complex swaps must be handled with the dedicated <code>ems_swap()</code> function.</p>
 </section>
-<section id="simple-full-variable-swaps" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="simple-full-variable-swaps"><span class="header-section-number">6.2</span> Simple (full variable) swaps</h2>
+<section id="simple-full-variable-swaps" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="simple-full-variable-swaps"><span class="header-section-number">5.2</span> Simple (full variable) swaps</h2>
 <p>Here simple swaps refers swaps in which a variable and all its components are being swapped. This is the most common type of swap and is directly handled within <code>ems_deploy()</code>.</p>
 <p>A single full variable swap</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>cmf_path <span class="ot">&lt;-</span> <span class="fu">ems_deploy</span>(</span>
@@ -497,8 +492,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Note that swaps (and validity checks) are handled in the order they are inputted and swaps “in” are handled before swaps “out”.</p>
 </section>
-<section id="complex-partial-variable-swaps" class="level2" data-number="6.3">
-<h2 data-number="6.3" class="anchored" data-anchor-id="complex-partial-variable-swaps"><span class="header-section-number">6.3</span> Complex (partial variable) swaps</h2>
+<section id="complex-partial-variable-swaps" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="complex-partial-variable-swaps"><span class="header-section-number">5.3</span> Complex (partial variable) swaps</h2>
 <p>Partial variable swaps entail swapping parts of a variable (i.e., subsets of the constituitive sets) and must be processed through the <code>ems_swap()</code> function. In the above example the full “qfd” and “yp” variables were made exogenous while the full “tfd” and “dppriv” variable become endogenous. Within the <a href="https://github.com/teemsphere/teems-models/blob/main/GTAPv7.0/GTAPv7.0.tab">GTAPv7.0</a> model, “qfd” encompasses the “COMM”, “ACTS”, and “REG” sets:</p>
 <pre><code>Variable (orig_level=VDFB)(all,c,COMM)(all,a,ACTS)(all,r,REG)
     qfd(c,a,r) # demand for domestic commodity c by activity a in region r #;</code></pre>
@@ -549,8 +544,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ACTSa =</span> <span class="st">"crops"</span></span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="future-expansions" class="level2" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="future-expansions"><span class="header-section-number">6.4</span> Future expansions</h2>
+<section id="future-expansions" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="future-expansions"><span class="header-section-number">5.4</span> Future expansions</h2>
 <ul>
 <li>List of vetted swaps by model</li>
 </ul>
@@ -973,13 +968,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./closure_load.html" class="pagination-link" aria-label="Loading closures">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Loading closures</span></span>
+      <a href="./model_load.html" class="pagination-link" aria-label="Loading models">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Loading models</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./uniform_shocks.html" class="pagination-link" aria-label="Uniform shocks">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Uniform shocks</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Uniform shocks</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

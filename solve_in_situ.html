@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>9&nbsp; Deploying the model – The {teems} R package user manual</title>
+<title>11&nbsp; Solving in-situ – The {teems} R package user manual</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./solve.html" rel="next">
-<link href="./scenario_shocks.html" rel="prev">
+<link href="./compose.html" rel="next">
+<link href="./solve.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -284,7 +284,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./deploy.html">Deploying and solving the model</a></li><li class="breadcrumb-item"><a href="./deploy.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Deploying the model</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./deploy.html">Deploying and solving the model</a></li><li class="breadcrumb-item"><a href="./solve_in_situ.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Solving in-situ</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -405,7 +405,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./deploy.html" class="sidebar-item-text sidebar-link active">
+  <a href="./deploy.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Deploying the model</span></span></a>
   </div>
 </li>
@@ -417,7 +417,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./solve_in_situ.html" class="sidebar-item-text sidebar-link">
+  <a href="./solve_in_situ.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Solving in-situ</span></span></a>
   </div>
 </li>
@@ -439,23 +439,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">9.1</span> Overview</a></li>
-  <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments"><span class="header-section-number">9.2</span> Arguments</a></li>
-  <li><a href="#basic-usage" id="toc-basic-usage" class="nav-link" data-scroll-target="#basic-usage"><span class="header-section-number">9.3</span> Basic usage</a></li>
-  <li><a href="#deploying-with-shocks-and-swaps" id="toc-deploying-with-shocks-and-swaps" class="nav-link" data-scroll-target="#deploying-with-shocks-and-swaps"><span class="header-section-number">9.4</span> Deploying with shocks and swaps</a></li>
-  <li><a href="#closure-swaps" id="toc-closure-swaps" class="nav-link" data-scroll-target="#closure-swaps"><span class="header-section-number">9.5</span> Closure swaps</a></li>
-  <li><a href="#user-generated-inputs" id="toc-user-generated-inputs" class="nav-link" data-scroll-target="#user-generated-inputs"><span class="header-section-number">9.6</span> User generated inputs</a></li>
-  <li><a href="#persistent-files" id="toc-persistent-files" class="nav-link" data-scroll-target="#persistent-files"><span class="header-section-number">9.7</span> Persistent files</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">11.1</span> Overview</a></li>
+  <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments"><span class="header-section-number">11.2</span> Arguments</a></li>
+  <li><a href="#input-files" id="toc-input-files" class="nav-link" data-scroll-target="#input-files"><span class="header-section-number">11.3</span> Input files</a></li>
+  <li><a href="#using-with-ems_deploy-output" id="toc-using-with-ems_deploy-output" class="nav-link" data-scroll-target="#using-with-ems_deploy-output"><span class="header-section-number">11.4</span> Using with <code>ems_deploy()</code> output</a></li>
+  <li><a href="#output-modes" id="toc-output-modes" class="nav-link" data-scroll-target="#output-modes"><span class="header-section-number">11.5</span> Output modes</a></li>
+  <li><a href="#persistent-output" id="toc-persistent-output" class="nav-link" data-scroll-target="#persistent-output"><span class="header-section-number">11.6</span> Persistent output</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/deploy.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/solve_in_situ.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./deploy.html">Deploying and solving the model</a></li><li class="breadcrumb-item"><a href="./deploy.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Deploying the model</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./deploy.html">Deploying and solving the model</a></li><li class="breadcrumb-item"><a href="./solve_in_situ.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Solving in-situ</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Deploying the model</span></h1>
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Solving in-situ</span></h1>
 </div>
 
 
@@ -472,12 +471,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="overview" class="level2" data-number="9.1">
-<h2 data-number="9.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">9.1</span> Overview</h2>
-<p><code>ems_deploy()</code> consolidates all user inputs and carries out all operations necessary to run a CGE model. It accumulates and validates data and model inputs, processes shocks and closure swaps, and writes all required input files to disk. The output file path serves as a required input to <code>ems_solve()</code>.</p>
+<section id="overview" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">11.1</span> Overview</h2>
+<p><code>solve_in_situ()</code> is a wrapper for the <a href="https://github.com/teemsphere/teems-solver">teems-solver</a> which conducts a minimal number of checks prior to attempting to solve the constrained optimization problem. In contrast to <code>ems_solve()</code>, all model input files must be provided by the user in their final form. No checks or modifications are conducted on input files used in this manner.</p>
+<p>This function is intended for users who wish to use the teems solver with their own pre-prepared input files, bypassing the <code>ems_data()</code> / <code>ems_model()</code> / <code>ems_deploy()</code> pipeline, or in combination with it by reusing the files it writes to disk.</p>
 </section>
-<section id="arguments" class="level2" data-number="9.2">
-<h2 data-number="9.2" class="anchored" data-anchor-id="arguments"><span class="header-section-number">9.2</span> Arguments</h2>
+<section id="arguments" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="arguments"><span class="header-section-number">11.2</span> Arguments</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 31%">
@@ -493,108 +493,176 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>.data</code></td>
+<td><code>...</code></td>
 <td></td>
-<td>A list of data.tables generated by <code>ems_data()</code></td>
+<td>Named arguments corresponding to input files necessary for an in-situ model run. Names must correspond to “File” statements within the model Tablo file. Values correspond to file paths where these files are found</td>
 </tr>
 <tr class="even">
-<td><code>model</code></td>
+<td><code>model_input</code></td>
 <td></td>
-<td>A tibble generated by <code>ems_model()</code></td>
+<td>Path to the model Tablo (.tab) file</td>
 </tr>
 <tr class="odd">
-<td><code>shock</code></td>
-<td><code>NULL</code></td>
-<td>A shock object or list of shock objects produced by <code>ems_uniform_shock()</code>, <code>ems_custom_shock()</code>, or <code>ems_scenario_shock()</code>. When <code>NULL</code>, a null shock is carried out which effectively returns base data</td>
+<td><code>closure_file</code></td>
+<td></td>
+<td>Path to the closure (.cls) file</td>
 </tr>
 <tr class="even">
-<td><code>swap_in</code></td>
-<td><code>NULL</code></td>
-<td>Character vector, <code>ems_swap()</code> object, or a list of any combination. Variables to be made exogenous</td>
+<td><code>shock_file</code></td>
+<td></td>
+<td>Path to the shock file</td>
 </tr>
 <tr class="odd">
-<td><code>swap_out</code></td>
-<td><code>NULL</code></td>
-<td>Character vector, <code>ems_swap()</code> object, or a list of any combination. Variables to be made endogenous</td>
-</tr>
-<tr class="even">
 <td><code>write_dir</code></td>
 <td><code>tools::R_user_dir("teems", "cache")</code></td>
-<td>Base directory where the “teems” subdirectory will be created for input files and model solution</td>
+<td>Base directory for output files</td>
+</tr>
+<tr class="even">
+<td><code>writeout</code></td>
+<td><code>FALSE</code></td>
+<td>Whether to parse the Tablo file and append “Write” declarations for all model output coefficients and sets. If <code>TRUE</code>, a successful writeout may require modifications to the provided <code>model_input</code>. If <code>FALSE</code>, outputs will consist of model variables only</td>
 </tr>
 <tr class="odd">
-<td><code>shock_file</code></td>
+<td><code>n_tasks</code></td>
+<td><code>1L</code></td>
+<td>Number of tasks to run in parallel. Must be <code>1L</code> if <code>matrix_method</code> is <code>"LU"</code></td>
+</tr>
+<tr class="even">
+<td><code>n_subintervals</code></td>
+<td><code>1L</code></td>
+<td>Number of subintervals for the applied shock</td>
+</tr>
+<tr class="odd">
+<td><code>matrix_method</code></td>
+<td><code>"LU"</code></td>
+<td>Matrix solution method: <code>"LU"</code>, <code>"DBBD"</code>, <code>"SBBD"</code>, or <code>"NDBBD"</code></td>
+</tr>
+<tr class="even">
+<td><code>solution_method</code></td>
+<td><code>"Johansen"</code></td>
+<td>Solution method: <code>"Johansen"</code> or <code>"mod_midpoint"</code></td>
+</tr>
+<tr class="odd">
+<td><code>steps</code></td>
+<td><code>c(2L, 4L, 8L)</code></td>
+<td>Vector of steps for the modified midpoint method</td>
+</tr>
+<tr class="even">
+<td><code>laA</code></td>
+<td><code>300L</code></td>
+<td>Memory parameter (%) for <code>"LU"</code> and <code>"SBBD"</code> methods</td>
+</tr>
+<tr class="odd">
+<td><code>laD</code></td>
+<td><code>200L</code></td>
+<td>Memory parameter (%) for <code>"DBBD"</code> and <code>"NDBBD"</code> methods</td>
+</tr>
+<tr class="even">
+<td><code>laDi</code></td>
+<td><code>500L</code></td>
+<td>Memory parameter (%) for <code>"NDBBD"</code> method</td>
+</tr>
+<tr class="odd">
+<td><code>terminal_run</code></td>
+<td><code>FALSE</code></td>
+<td>When <code>TRUE</code>, exits without running the solver</td>
+</tr>
+<tr class="even">
+<td><code>suppress_outputs</code></td>
+<td><code>FALSE</code></td>
+<td>When <code>TRUE</code>, returns the CMF file path instead of parsed outputs</td>
+</tr>
+<tr class="odd">
+<td><code>n_timesteps</code></td>
 <td><code>NULL</code></td>
-<td>Path to a CSV representing a final shock file. No checks or modifications will be conducted on this file</td>
+<td>Number of timesteps, required if <code>matrix_method</code> is <code>"NDBBD"</code></td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="basic-usage" class="level2" data-number="9.3">
-<h2 data-number="9.3" class="anchored" data-anchor-id="basic-usage"><span class="header-section-number">9.3</span> Basic usage</h2>
-<p>The simplest deployment requires only data and model inputs. With no shock supplied, a null shock is carried out:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>cmf_path <span class="ot">&lt;-</span> <span class="fu">ems_deploy</span>(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">.data =</span> .data,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> model</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="input-files" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="input-files"><span class="header-section-number">11.3</span> Input files</h2>
+<p>All model-declared input files as well as <code>model_input</code>, <code>closure_file</code>, and <code>shock_file</code> are required. Input files are passed as named arguments via <code>...</code>, where each name must correspond to a “File” statement in the model Tablo file. For GTAP-RE, the Tablo file declares:</p>
+<pre><code>File GTAPDATA # base data file;
+File GTAPINT  # intertemporal data file;
+File GTAPPARM # parameter file;
+File GTAPSETS # set file;</code></pre>
+<p>These names are then used as the named arguments to <code>solve_in_situ()</code>.</p>
 </section>
-<section id="deploying-with-shocks-and-swaps" class="level2" data-number="9.4">
-<h2 data-number="9.4" class="anchored" data-anchor-id="deploying-with-shocks-and-swaps"><span class="header-section-number">9.4</span> Deploying with shocks and swaps</h2>
-<p>A single shock can be passed directly:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>shock <span class="ot">&lt;-</span> <span class="fu">ems_uniform_shock</span>(<span class="at">var =</span> <span class="st">"pop"</span>, <span class="at">value =</span> <span class="dv">1</span>)</span>
+<section id="using-with-ems_deploy-output" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="using-with-ems_deploy-output"><span class="header-section-number">11.4</span> Using with <code>ems_deploy()</code> output</h2>
+<p>A common use case is to run the standard pipeline to generate validated input files, and then re-solve with different solver options using <code>solve_in_situ()</code>. The files written by <code>ems_deploy()</code> can be located in the write directory:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(teems)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>cmf_path <span class="ot">&lt;-</span> <span class="fu">ems_deploy</span>(</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">.data =</span> .data,</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> model,</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">shock =</span> shock</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Multiple shocks are combined in a list:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pop_shk <span class="ot">&lt;-</span> <span class="fu">ems_uniform_shock</span>(<span class="at">var =</span> <span class="st">"pop"</span>, <span class="at">value =</span> <span class="dv">1</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>aoall_shk <span class="ot">&lt;-</span> <span class="fu">ems_custom_shock</span>(<span class="at">var =</span> <span class="st">"aoall"</span>, <span class="at">input =</span> aoall_df)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>cmf_path <span class="ot">&lt;-</span> <span class="fu">ems_deploy</span>(</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">.data =</span> .data,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> model,</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">shock =</span> <span class="fu">list</span>(pop_shk, aoall_shk)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Standard pipeline to generate input files</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_input =</span> <span class="st">"~/dat/GTAP/v11c/flexAgg11c17/gsdfdat.har"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_input =</span> <span class="st">"~/dat/GTAP/v11c/flexAgg11c17/gsdfpar.har"</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_input =</span> <span class="st">"~/dat/GTAP/v11c/flexAgg11c17/gsdfset.har"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">REG =</span> <span class="st">"big3"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">COMM =</span> <span class="st">"macro_sector"</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">ACTS =</span> <span class="st">"macro_sector"</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">ENDW =</span> <span class="st">"labor_agg"</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">time_steps =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">16</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">ems_model</span>(</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_input =</span> <span class="st">"GTAP-REv1"</span>,</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">var_omit =</span> <span class="fu">c</span>(<span class="st">"atall"</span>, <span class="st">"avaall"</span>, <span class="st">"tfe"</span>, <span class="st">"tfd"</span>, <span class="st">"tfm"</span>, <span class="st">"tgd"</span>, <span class="st">"tgm"</span>, <span class="st">"tid"</span>, <span class="st">"tim"</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>shock <span class="ot">&lt;-</span> <span class="fu">ems_scenario_shock</span>(<span class="at">var =</span> <span class="st">"pop"</span>, <span class="at">input =</span> pop)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>write_dir <span class="ot">&lt;-</span> <span class="fu">tempdir</span>()</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>cmf_path <span class="ot">&lt;-</span> <span class="fu">ems_deploy</span>(</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">write_dir =</span> write_dir,</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">.data =</span> data,</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> model,</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">shock =</span> shock</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Re-solve in-situ using the files written by ems_deploy()</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="fu">solve_in_situ</span>(</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">GTAPDATA =</span> <span class="fu">file.path</span>(write_dir, <span class="st">"teems"</span>, <span class="st">"GTAPDATA.txt"</span>),</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">GTAPINT  =</span> <span class="fu">file.path</span>(write_dir, <span class="st">"teems"</span>, <span class="st">"GTAPINT.txt"</span>),</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">GTAPPARM =</span> <span class="fu">file.path</span>(write_dir, <span class="st">"teems"</span>, <span class="st">"GTAPPARM.txt"</span>),</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">GTAPSETS =</span> <span class="fu">file.path</span>(write_dir, <span class="st">"teems"</span>, <span class="st">"GTAPSETS.txt"</span>),</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_input  =</span> <span class="st">"../teems-models/GTAP-REv1/GTAP-REv1.tab"</span>,</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">closure_file =</span> <span class="st">"../teems-models/GTAP-REv1/GTAP-REv1.cls"</span>,</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>  <span class="at">shock_file   =</span> <span class="fu">list.files</span>(<span class="fu">file.path</span>(write_dir, <span class="st">"teems"</span>),</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>                            <span class="at">pattern =</span> <span class="st">"shf"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>  <span class="at">write_dir =</span> <span class="st">"~/Documents/test/in_situ_test/"</span>,</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_tasks =</span> <span class="dv">1</span>,</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_subintervals =</span> <span class="dv">1</span>,</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix_method =</span> <span class="st">"SBBD"</span>,</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="st">"mod_midpoint"</span>,</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">writeout =</span> <span class="cn">TRUE</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="closure-swaps" class="level2" data-number="9.5">
-<h2 data-number="9.5" class="anchored" data-anchor-id="closure-swaps"><span class="header-section-number">9.5</span> Closure swaps</h2>
-<p>Full variable swaps can be passed as strings. Partial swaps use <code>ems_swap()</code> objects. These can be mixed in a list:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Full variable swap (strings)</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>cmf_path <span class="ot">&lt;-</span> <span class="fu">ems_deploy</span>(</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">.data =</span> .data,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> model,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">shock =</span> shock,</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_in =</span> <span class="st">"qfd"</span>,</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_out =</span> <span class="st">"tfd"</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Mixed partial and full swaps</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>qfd <span class="ot">&lt;-</span> <span class="fu">ems_swap</span>(<span class="at">var =</span> <span class="st">"qfd"</span>, <span class="at">REGs =</span> <span class="st">"usa"</span>, <span class="at">PROD_COMMj =</span> <span class="st">"crops"</span>)</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>tfd <span class="ot">&lt;-</span> <span class="fu">ems_swap</span>(<span class="at">var =</span> <span class="st">"tfd"</span>, <span class="at">REGr =</span> <span class="st">"usa"</span>, <span class="at">PROD_COMMj =</span> <span class="st">"crops"</span>)</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>cmf_path <span class="ot">&lt;-</span> <span class="fu">ems_deploy</span>(</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">.data =</span> .data,</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> model,</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">shock =</span> <span class="fu">list</span>(partial, full),</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_in =</span> <span class="fu">list</span>(qfd, <span class="st">"yp"</span>),</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_out =</span> <span class="fu">list</span>(tfd, <span class="st">"dppriv"</span>)</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="output-modes" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="output-modes"><span class="header-section-number">11.5</span> Output modes</h2>
+<p>By default, <code>solve_in_situ()</code> returns a list of data.tables containing model variables. The <code>writeout</code> parameter controls whether coefficients and sets are also included:</p>
+<ul>
+<li><code>writeout = FALSE</code> (default): returns a list of data.tables with model variables only</li>
+<li><code>writeout = TRUE</code>: returns a tibble containing model output variables, coefficients, and sets. Note that a successful writeout may require modifications to the Tablo file provided</li>
+</ul>
+<p>If <code>suppress_outputs</code> is <code>TRUE</code>, the function returns the CMF file path instead of parsed outputs. This path can be passed to <code>ems_compose()</code> for manual parsing.</p>
 </section>
-<section id="user-generated-inputs" class="level2" data-number="9.6">
-<h2 data-number="9.6" class="anchored" data-anchor-id="user-generated-inputs"><span class="header-section-number">9.6</span> User generated inputs</h2>
-<p><code>ems_deploy()</code> allows for user-generated shock files via the <code>shock_file</code> argument. In the case of shock files, no checks or operations will be conducted (i.e., the shock file as loaded is considered the final input). User-supplied closure files will however be processed if swaps are supplied.</p>
-</section>
-<section id="persistent-files" class="level2" data-number="9.7">
-<h2 data-number="9.7" class="anchored" data-anchor-id="persistent-files"><span class="header-section-number">9.7</span> Persistent files</h2>
-<p>Good practice in R dictates that a user’s machine state is not modified. In order to comply with this guidance, <a href="https://github.com/teemsphere/teems-R"><code>teems</code></a> will only write to temporary folders associated with the <a href="https://github.com/teemsphere/teems-R"><code>teems</code></a> package and these files will be removed upon closure of the session or loading of a subsequent model. If persistent data is desired, users must provide a path to a local directory via <code>write_dir</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cmf_path <span class="ot">&lt;-</span> <span class="fu">ems_deploy</span>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">write_dir =</span> <span class="st">"~/my_project/output"</span>,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">.data =</span> .data,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> model,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">shock =</span> shock</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="persistent-output" class="level2" data-number="11.6">
+<h2 data-number="11.6" class="anchored" data-anchor-id="persistent-output"><span class="header-section-number">11.6</span> Persistent output</h2>
+<p>As with <code>ems_deploy()</code>, output files are written to a temporary directory by default and removed on session close. Specify <code>write_dir</code> for persistent output:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> <span class="fu">solve_in_situ</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">GTAPDATA =</span> <span class="st">"path/to/GTAPDATA.txt"</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">GTAPINT  =</span> <span class="st">"path/to/GTAPINT.txt"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">GTAPPARM =</span> <span class="st">"path/to/GTAPPARM.txt"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">GTAPSETS =</span> <span class="st">"path/to/GTAPSETS.txt"</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_input  =</span> <span class="st">"path/to/GTAP-REv1.tab"</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">closure_file =</span> <span class="st">"path/to/GTAP-REv1.cls"</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">shock_file   =</span> <span class="st">"path/to/shocks.shf"</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">write_dir =</span> <span class="st">"~/my_project/output"</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix_method =</span> <span class="st">"LU"</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="st">"Johansen"</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
@@ -1014,13 +1082,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./scenario_shocks.html" class="pagination-link" aria-label="Scenario shocks">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Scenario shocks</span></span>
+      <a href="./solve.html" class="pagination-link" aria-label="Solving the model">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Solving the model</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./solve.html" class="pagination-link" aria-label="Solving the model">
-        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Solving the model</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./compose.html" class="pagination-link" aria-label="Composing results">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Composing results</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1029,4 +1097,4 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/deploy.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/solve_in_situ.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>

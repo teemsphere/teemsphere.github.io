@@ -183,11 +183,22 @@
     ]
   },
   {
+    "objectID": "model_load.html#closure-selection",
+    "href": "model_load.html#closure-selection",
+    "title": "4  Loading models",
+    "section": "5.1 Closure selection",
+    "text": "5.1 Closure selection\nStandard model-specific closures are available within the model repository: teems-models. The general format consistens of: 1. Character string “exogenous” 2. A “” delimited list of exogenous variables 3. “;” 4. “rest exogenous” 5. “;”",
+    "crumbs": [
+      "Data and model inputs",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Loading models</span>"
+    ]
+  },
+  {
     "objectID": "model_load.html#incompatible-features",
     "href": "model_load.html#incompatible-features",
     "title": "4  Loading models",
-    "section": "5.1 Incompatible features",
-    "text": "5.1 Incompatible features\nThe teems-solver was originally designed as a GEMPack emulator and we have no intention of attempting to reproduce the very thorough GEMPack documentation on the Tablo scripting language and underlying solution software. Most Tablo model files (.tab) that work with GEMPack will also work with the teems-solver with some minor modifications. There are however a range of newer GEMPack features that are not compatible and are not likely to be incorporated. Fortunately there are workarounds for the vast majority as described below.\nConsiderable efforts have been made to correctly parse Tablo files but it is likely that custom Tablo files will need to be modified. If you find an incompatibility not listed here and feel that it should be addressed, please feel free to contact us with your model file. Some of the more frequent incompatibilities and workarounds are listed here.\n\n5.1.1 Supported Tablo statements\nThe parser recognizes the following Tablo statements: File, Coefficient, Read, Update, Set, Subset, Formula, Assertion, Variable, Equation, Write, and Zerodivide. Statements not in this list are either unsupported (e.g., Omit, raising an error) or ignored (Postsim, raising a warning).\n\n\n5.1.2 Set and subset declarations\nMultiple + or - operators within a single declaration are not supported. Instead of\nSet A123 = A1 + A2 + A3;\nUse\nSet A12 = A1 + A1;\nSet A123 = A12 + A3;\nIdentical set assignment without a Read statement is not supported. Instead of\nSet A # example set A # maximum size 5 read elements from file GTAPSETS header \"H2\";\nSet B # example set # = Set A;\nUse\nSet A # example set A # maximum size 5 read elements from file GTAPSETS header \"H2\";\nSet B # example set B # maximum size 5 read elements from file GTAPSETS header \"H2\";\nBinary set switches using a colon within a Set definition is not supported. The SLUG coefficient is not used to identify sluggish endowments. Declare these sets explicitly or via set operations.\nInstead of\nSet ENDWM # mobile endowments # = (all,e,ENDW:ENDOWFLAG(e,\"mobile\") ne 0);\nDeclare sets explicitly within the Tablo file:\nSet ENDWM # mobile endowment # (capital, unsklab, sklab);\nNote that sets in the full form (all elements) and subsetted form (model-specific aggregations) can be loaded using ... with ems_model() and set with ems_aux().\nCapital goods The CGDS sector in v6.2 format models is renamed to zcgds by default due to R data.table C-locale sorting and preference for all set elements to be lowercase.\n\n\n5.1.3 Formulas and Equations\nNo IF statements in Formula or Equation RHS (use sets). Instead of\nFormula (all,c,COMM)(all,r,REG)\n    VCB(c,r) = VDB(c,r) + sum{d,REG, VXSB(c,r,d)} + IF[c in MARG, VST(c,r)];\nUse\nFormula (all,c,MARG)(all,r,REG)\n    VCB(c,r) = VDB(c,r) + sum{d,REG, VXSB(c,r,d)} + VST(c,r);\nFormula (all,c,NMRG)(all,r,REG)\n    VCB(c,r) = VDB(c,r) + sum{d,REG, VXSB(c,r,d)};",
+    "section": "5.2 Incompatible features",
+    "text": "5.2 Incompatible features\nThe teems-solver was originally designed as a GEMPack emulator and we have no intention of attempting to reproduce the very thorough GEMPack documentation on the Tablo scripting language and underlying solution software. Most Tablo model files (.tab) that work with GEMPack will also work with the teems-solver with some minor modifications. There are however a range of newer GEMPack features that are not compatible and are not likely to be incorporated. Fortunately there are workarounds for the vast majority as described below.\nConsiderable efforts have been made to correctly parse Tablo files but it is likely that custom Tablo files will need to be modified. If you find an incompatibility not listed here and feel that it should be addressed, please feel free to contact us with your model file. Some of the more frequent incompatibilities and workarounds are listed here.\n\n5.2.1 Supported Tablo statements\nThe parser recognizes the following Tablo statements: File, Coefficient, Read, Update, Set, Subset, Formula, Assertion, Variable, Equation, Write, and Zerodivide. Statements not in this list are either unsupported (e.g., Omit, raising an error) or ignored (Postsim, raising a warning).\n\n\n5.2.2 Set and subset declarations\nMultiple + or - operators within a single declaration are not supported. Instead of\nSet A123 = A1 + A2 + A3;\nUse\nSet A12 = A1 + A1;\nSet A123 = A12 + A3;\nIdentical set assignment without a Read statement is not supported. Instead of\nSet A # example set A # maximum size 5 read elements from file GTAPSETS header \"H2\";\nSet B # example set # = Set A;\nUse\nSet A # example set A # maximum size 5 read elements from file GTAPSETS header \"H2\";\nSet B # example set B # maximum size 5 read elements from file GTAPSETS header \"H2\";\nBinary set switches using a colon within a Set definition is not supported. The SLUG coefficient is not used to identify sluggish endowments. Declare these sets explicitly or via set operations.\nInstead of\nSet ENDWM # mobile endowments # = (all,e,ENDW:ENDOWFLAG(e,\"mobile\") ne 0);\nDeclare sets explicitly within the Tablo file:\nSet ENDWM # mobile endowment # (capital, unsklab, sklab);\nNote that sets in the full form (all elements) and subsetted form (model-specific aggregations) can be loaded using ... with ems_model() and set with ems_aux().\nCapital goods The CGDS sector in v6.2 format models is renamed to zcgds by default due to R data.table C-locale sorting and preference for all set elements to be lowercase.\n\n\n5.2.3 Formulas and Equations\nNo IF statements in Formula or Equation RHS (use sets). Instead of\nFormula (all,c,COMM)(all,r,REG)\n    VCB(c,r) = VDB(c,r) + sum{d,REG, VXSB(c,r,d)} + IF[c in MARG, VST(c,r)];\nUse\nFormula (all,c,MARG)(all,r,REG)\n    VCB(c,r) = VDB(c,r) + sum{d,REG, VXSB(c,r,d)} + VST(c,r);\nFormula (all,c,NMRG)(all,r,REG)\n    VCB(c,r) = VDB(c,r) + sum{d,REG, VXSB(c,r,d)};",
     "crumbs": [
       "Data and model inputs",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Loading models</span>"
@@ -197,8 +208,8 @@
     "objectID": "model_load.html#var_omit",
     "href": "model_load.html#var_omit",
     "title": "4  Loading models",
-    "section": "5.2 Variable omissions",
-    "text": "5.2 Variable omissions\nVariables specified with var_omit will be removed from the model closure and replaced with 0 within the model file. If a variable designated for omission is not found in the model, an error is raised.\nStandard v7.0 data format variable omissions: c(\"atall\", \"avaall\", \"tfe\", \"tfm\", \"tgd\", \"tgm\", \"tid\", \"tim\") Standard v6.2 data format variable omissions: c(\"atall\", \"tfd\", \"avaall\", \"tf\", \"tfm\", \"tgd\", \"tgm\", \"tpd\", \"tpm\")",
+    "section": "5.3 Variable omissions",
+    "text": "5.3 Variable omissions\nVariables specified with var_omit will be removed from the model closure and replaced with 0 within the model file. If a variable designated for omission is not found in the model, an error is raised.\nStandard v7.0 data format variable omissions: c(\"atall\", \"avaall\", \"tfe\", \"tfm\", \"tgd\", \"tgm\", \"tid\", \"tim\") Standard v6.2 data format variable omissions: c(\"atall\", \"tfd\", \"avaall\", \"tf\", \"tfm\", \"tgd\", \"tgm\", \"tpd\", \"tpm\")",
     "crumbs": [
       "Data and model inputs",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Loading models</span>"
@@ -208,8 +219,8 @@
     "objectID": "model_load.html#coeff_inject",
     "href": "model_load.html#coeff_inject",
     "title": "4  Loading models",
-    "section": "5.3 Coefficient value injection",
-    "text": "5.3 Coefficient value injection\nThe ... argument in ems_model() allows users to assign aggregation-specific values to model coefficients. This is used to inject modified values into existing coefficients as well as provide data to new coefficients. All data inputted here must be model-aggregation specific and will not be subject to aggregation. For loading disaggregated data, see ems_aux() and ems_data(). The left-hand side (name) must correspond to a coefficient (not header) declared within the model input. Three input types are supported, with model “Read” and “Formula” declarations modified accordingly:\n\n5.3.1 Uniform numeric value\nA single numeric value can be assigned to a coefficient. All set combinations for that coefficient will receive this uniform value.\nmodel &lt;- ems_model(\n  model_input = ems_example(\"GTAP_RE.tab\"),\n  closure_file = ems_example(\"GTAP_RE.cls\"),\n  KAPPA = 0.54321\n)\nProviding a numeric vector of length greater than 1 will raise an error. Instead here use a data frame with the appropriate sets to assign multiple heterogeneous values to a coefficient.\n\n\n5.3.2 Data frame\nA data frame (or data frame extension such as tibble or data.table) can be used to assign heterogeneous values across set combinations. The data frame must contain columns for each set index using the model-specific naming convention (set name + variable index, e.g., REGr, COMMc, ALLTIMEt) and a Value column.\n# Heterogeneous values for SUBPAR coefficient (Read-type)\nCOMMc &lt;- c(\"crops\", \"food\", \"livestock\", \"mnfcs\", \"svces\")\nREGr &lt;- c(\"usa\", \"chn\", \"row\")\nALLTIMEt &lt;- seq(0, 10)\n\nSUBPAR &lt;- expand.grid(\n  COMMc = COMMc,\n  REGr = REGr,\n  ALLTIMEt = ALLTIMEt\n)\nSUBPAR$Value &lt;- runif(nrow(SUBPAR))\n\nmodel &lt;- ems_model(\n  model_input = ems_example(\"GTAP_RE.tab\"),\n  closure_file = ems_example(\"GTAP_RE.cls\"),\n  SUBPAR = SUBPAR\n)\nThis works for both Read-type and Formula-type coefficients:\n# Heterogeneous values for CPHI coefficient (Formula-type)\nREGr &lt;- c(\"usa\", \"chn\", \"row\")\nALLTIMEt &lt;- seq(0, 10)\n\nCPHI &lt;- expand.grid(\n  REGr = REGr,\n  ALLTIMEt = ALLTIMEt\n)\nCPHI$Value &lt;- runif(nrow(CPHI))\n\nmodel &lt;- ems_model(\n  model_input = ems_example(\"GTAP_RE.tab\"),\n  closure_file = ems_example(\"GTAP_RE.cls\"),\n  CPHI = CPHI\n)\n\n\n5.3.3 CSV file\nA path to a CSV file can be used as an alternative to a data frame. The CSV must follow the same structure: set index columns and a Value column.\n# Write coefficient data to CSV\nwrite.csv(SUBPAR, \"SUBPAR.csv\", row.names = FALSE)\n\nmodel &lt;- ems_model(\n  model_input = ems_example(\"GTAP_RE.tab\"),\n  closure_file = ems_example(\"GTAP_RE.cls\"),\n  SUBPAR = \"SUBPAR.csv\"\n)\n\n\n5.3.4 Combining injections\nMultiple coefficient injections can be combined in a single call along with variable omissions:\nmodel &lt;- ems_model(\n  model_input = ems_example(\"GTAP_RE.tab\"),\n  closure_file = ems_example(\"GTAP_RE.cls\"),\n  var_omit = c(\"atall\", \"avaall\", \"tfe\", \"tfm\", \"tgd\", \"tgm\", \"tid\", \"tim\"),\n  KAPPA = 0.03,\n  SUBPAR = SUBPAR,\n  CPHI = CPHI\n)\nIf the coefficient name is not found in the model, an error is raised indicating that the aggregated data coefficient is not declared within the provided model input.\n\n\n5.3.5 Set naming convention\nSet names in any loaded data must be provided as the model-specific concatenation of the standard set name plus the variable-specific index. For example:\n\n\n\nSet\nIndex\nColumn name\n\n\n\n\nREG\nr\nREGr\n\n\nCOMM\nc\nCOMMc\n\n\nACTS\na\nACTSa\n\n\nENDW\ne\nENDWe\n\n\nALLTIME\nt\nALLTIMEt\n\n\n\nThis naming convention disambiguates variables that have multiple instances of the same set. Set position (i.e., column order) is inconsequential for any inputs.",
+    "section": "5.4 Coefficient value injection",
+    "text": "5.4 Coefficient value injection\nThe ... argument in ems_model() allows users to assign aggregation-specific values to model coefficients. This is used to inject modified values into existing coefficients as well as provide data to new coefficients. All data inputted here must be model-aggregation specific and will not be subject to aggregation. For loading disaggregated data, see ems_aux() and ems_data(). The left-hand side (name) must correspond to a coefficient (not header) declared within the model input. Three input types are supported, with model “Read” and “Formula” declarations modified accordingly:\n\n5.4.1 Uniform numeric value\nA single numeric value can be assigned to a coefficient. All set combinations for that coefficient will receive this uniform value.\nmodel &lt;- ems_model(\n  model_input = ems_example(\"GTAP_RE.tab\"),\n  closure_file = ems_example(\"GTAP_RE.cls\"),\n  KAPPA = 0.54321\n)\nProviding a numeric vector of length greater than 1 will raise an error. Instead here use a data frame with the appropriate sets to assign multiple heterogeneous values to a coefficient.\n\n\n5.4.2 Data frame\nA data frame (or data frame extension such as tibble or data.table) can be used to assign heterogeneous values across set combinations. The data frame must contain columns for each set index using the model-specific naming convention (set name + variable index, e.g., REGr, COMMc, ALLTIMEt) and a Value column.\n# Heterogeneous values for SUBPAR coefficient (Read-type)\nCOMMc &lt;- c(\"crops\", \"food\", \"livestock\", \"mnfcs\", \"svces\")\nREGr &lt;- c(\"usa\", \"chn\", \"row\")\nALLTIMEt &lt;- seq(0, 10)\n\nSUBPAR &lt;- expand.grid(\n  COMMc = COMMc,\n  REGr = REGr,\n  ALLTIMEt = ALLTIMEt\n)\nSUBPAR$Value &lt;- runif(nrow(SUBPAR))\n\nmodel &lt;- ems_model(\n  model_input = ems_example(\"GTAP_RE.tab\"),\n  closure_file = ems_example(\"GTAP_RE.cls\"),\n  SUBPAR = SUBPAR\n)\nThis works for both Read-type and Formula-type coefficients:\n# Heterogeneous values for CPHI coefficient (Formula-type)\nREGr &lt;- c(\"usa\", \"chn\", \"row\")\nALLTIMEt &lt;- seq(0, 10)\n\nCPHI &lt;- expand.grid(\n  REGr = REGr,\n  ALLTIMEt = ALLTIMEt\n)\nCPHI$Value &lt;- runif(nrow(CPHI))\n\nmodel &lt;- ems_model(\n  model_input = ems_example(\"GTAP_RE.tab\"),\n  closure_file = ems_example(\"GTAP_RE.cls\"),\n  CPHI = CPHI\n)\n\n\n5.4.3 CSV file\nA path to a CSV file can be used as an alternative to a data frame. The CSV must follow the same structure: set index columns and a Value column.\n# Write coefficient data to CSV\nwrite.csv(SUBPAR, \"SUBPAR.csv\", row.names = FALSE)\n\nmodel &lt;- ems_model(\n  model_input = ems_example(\"GTAP_RE.tab\"),\n  closure_file = ems_example(\"GTAP_RE.cls\"),\n  SUBPAR = \"SUBPAR.csv\"\n)\n\n\n5.4.4 Combining injections\nMultiple coefficient injections can be combined in a single call along with variable omissions:\nmodel &lt;- ems_model(\n  model_input = ems_example(\"GTAP_RE.tab\"),\n  closure_file = ems_example(\"GTAP_RE.cls\"),\n  var_omit = c(\"atall\", \"avaall\", \"tfe\", \"tfm\", \"tgd\", \"tgm\", \"tid\", \"tim\"),\n  KAPPA = 0.03,\n  SUBPAR = SUBPAR,\n  CPHI = CPHI\n)\nIf the coefficient name is not found in the model, an error is raised indicating that the aggregated data coefficient is not declared within the provided model input.\n\n\n5.4.5 Set naming convention\nSet names in any loaded data must be provided as the model-specific concatenation of the standard set name plus the variable-specific index. For example:\n\n\n\nSet\nIndex\nColumn name\n\n\n\n\nREG\nr\nREGr\n\n\nCOMM\nc\nCOMMc\n\n\nACTS\na\nACTSa\n\n\nENDW\ne\nENDWe\n\n\nALLTIME\nt\nALLTIMEt\n\n\n\nThis naming convention disambiguates variables that have multiple instances of the same set. Set position (i.e., column order) is inconsequential for any inputs.",
     "crumbs": [
       "Data and model inputs",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Loading models</span>"
@@ -219,8 +230,8 @@
     "objectID": "model_load.html#intertemporal",
     "href": "model_load.html#intertemporal",
     "title": "4  Loading models",
-    "section": "5.4 Intertemporal models",
-    "text": "5.4 Intertemporal models\nFor intertemporal models, ems_model() determines temporal dynamics by detecting the timestep header in the Tablo file. By default, the expected header in the GTAP-RE model is \"YEAR\". If a model uses a different header for timestep data, set it via ems_option_set():\nems_option_set(timestep_header = \"AYRS\")\nIf the expected timestep header is not found in the model, an error will be raised with a suggestion to use ems_option_set() to configure a custom timestep header. The same concept applies to the number of timesteps:\nems_option_set(n_timestep_header = \"NINTERVAL\")\nDefault values for these settings (and others) may be obtained using:\nems_option_get()",
+    "section": "5.5 Intertemporal models",
+    "text": "5.5 Intertemporal models\nFor intertemporal models, ems_model() determines temporal dynamics by detecting the timestep header in the Tablo file. By default, the expected header in the GTAP-RE model is \"YEAR\". If a model uses a different header for timestep data, set it via ems_option_set():\nems_option_set(timestep_header = \"AYRS\")\nIf the expected timestep header is not found in the model, an error will be raised with a suggestion to use ems_option_set() to configure a custom timestep header. The same concept applies to the number of timesteps:\nems_option_set(n_timestep_header = \"NINTERVAL\")\nDefault values for these settings (and others) may be obtained using:\nems_option_get()",
     "crumbs": [
       "Data and model inputs",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Loading models</span>"
@@ -230,231 +241,473 @@
     "objectID": "model_load.html#future-expansions",
     "href": "model_load.html#future-expansions",
     "title": "4  Loading models",
-    "section": "5.5 Future expansions",
-    "text": "5.5 Future expansions\n\nWrite bidirectional Tablo \\(\\leftrightarrow\\) conversion script to allow for model files\nauto-omit switch to automatically drop as many variables as possible based on closure and shock specifications\nModel file checks are still rudimentary and a more thorough suite of checks will gradually be put in place",
+    "section": "5.6 Future expansions",
+    "text": "5.6 Future expansions\n\nWrite bidirectional Tablo \\(\\leftrightarrow\\) conversion script to allow for model files\nauto-omit switch to automatically drop as many variables as possible based on closure and shock specifications\nModel file checks are still rudimentary and a more thorough suite of checks will gradually be put in place",
     "crumbs": [
       "Data and model inputs",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Loading models</span>"
     ]
   },
   {
-    "objectID": "closure_load.html",
-    "href": "closure_load.html",
-    "title": "5  Loading closures",
-    "section": "",
-    "text": "5.1 Overview\nClosures are either inferred from the use of an internal Tablo file or inputted to the closure_file argument of ems_deploy().",
-    "crumbs": [
-      "Closures",
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Loading closures</span>"
-    ]
-  },
-  {
-    "objectID": "closure_load.html#closure-selection",
-    "href": "closure_load.html#closure-selection",
-    "title": "5  Loading closures",
-    "section": "5.2 Closure selection",
-    "text": "5.2 Closure selection\nIf an internally supported Tablo file is chosen and no closure file specified, a standard model-specific closure will be used. These are available within the model repository: teems-models. The general format consistens of: 1. Character string “exogenous” 2. A “” delimited list of exogenous variables 3. “;” 4. “rest exogenous” 5. “;”\nFor example the standard closure for GTAP-RE is as follows:\nexogenous\nafall\nafcom\nafeall\nafecom\nafereg\nafesec\nafreg\nafsec\naintall\naintreg\naintsec\nams\naoall\naoreg\naosec\natall\natd\natf\natm\nats\nau\navaall\navareg\navasec\ncgdslack\ndpgov\ndppriv\ndpsave\nendwslack\nincomeslack\nkdelta\npfactwld\npop\nprofitslack\npsaveslack\nqe(ENDWC,REG,INITIME)\nqe(ENDWMSNC,REG,ALLTIME)\nqesf\nror_exo\ntfd\ntfe\ntfm\ntgd\ntgm\ntid\ntim\ntinc\ntm\ntms\nto\ntpd\ntpm\ntpreg\ntradslack\ntx\ntxs\n;\nrest endogenous\n;\nNote that no other operations (e.g., swaps) are to be listed witin the closure file. See swaps for instructions …\nClosure files can be explitly loaded as a “.cls” file within the ems_deploy() function.\nems_deploy(data = data,\n           model = model,\n           closure_file = \"path/to/usr_cls.cls\")",
-    "crumbs": [
-      "Closures",
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Loading closures</span>"
-    ]
-  },
-  {
     "objectID": "swaps.html",
     "href": "swaps.html",
-    "title": "6  Closure swaps",
+    "title": "5  Closure swaps",
     "section": "",
-    "text": "6.1 Overview\nSimple full variable swaps can be directly inputted as a string into the swap_in and swap_out arguments of ems_deploy(). More complex swaps must be handled with the dedicated ems_swap() function.",
+    "text": "5.1 Overview\nSimple full variable swaps can be directly inputted as a string into the swap_in and swap_out arguments of ems_deploy(). More complex swaps must be handled with the dedicated ems_swap() function.",
     "crumbs": [
-      "Closures",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Closure swaps</span>"
+      "Swaps and shocks",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Closure swaps</span>"
     ]
   },
   {
     "objectID": "swaps.html#simple-full-variable-swaps",
     "href": "swaps.html#simple-full-variable-swaps",
-    "title": "6  Closure swaps",
-    "section": "6.2 Simple (full variable) swaps",
-    "text": "6.2 Simple (full variable) swaps\nHere simple swaps refers swaps in which a variable and all its components are being swapped. This is the most common type of swap and is directly handled within ems_deploy().\nA single full variable swap\ncmf_path &lt;- ems_deploy(\n  data = data,\n  model = model,\n  swap_in = \"qfd\",\n  swap_out = \"tfd\"\n)\nMultiple full variable swaps\ncmf_path &lt;- ems_deploy(\n  data = data,\n  model = model,\n  swap_in = c(\"qfd\", \"yp\"),\n  swap_out = c(\"tfd\", \"dppriv\")\n)\nNote that swaps (and validity checks) are handled in the order they are inputted and swaps “in” are handled before swaps “out”.",
+    "title": "5  Closure swaps",
+    "section": "5.2 Simple (full variable) swaps",
+    "text": "5.2 Simple (full variable) swaps\nHere simple swaps refers swaps in which a variable and all its components are being swapped. This is the most common type of swap and is directly handled within ems_deploy().\nA single full variable swap\ncmf_path &lt;- ems_deploy(\n  data = data,\n  model = model,\n  swap_in = \"qfd\",\n  swap_out = \"tfd\"\n)\nMultiple full variable swaps\ncmf_path &lt;- ems_deploy(\n  data = data,\n  model = model,\n  swap_in = c(\"qfd\", \"yp\"),\n  swap_out = c(\"tfd\", \"dppriv\")\n)\nNote that swaps (and validity checks) are handled in the order they are inputted and swaps “in” are handled before swaps “out”.",
     "crumbs": [
-      "Closures",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Closure swaps</span>"
+      "Swaps and shocks",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Closure swaps</span>"
     ]
   },
   {
     "objectID": "swaps.html#complex-partial-variable-swaps",
     "href": "swaps.html#complex-partial-variable-swaps",
-    "title": "6  Closure swaps",
-    "section": "6.3 Complex (partial variable) swaps",
-    "text": "6.3 Complex (partial variable) swaps\nPartial variable swaps entail swapping parts of a variable (i.e., subsets of the constituitive sets) and must be processed through the ems_swap() function. In the above example the full “qfd” and “yp” variables were made exogenous while the full “tfd” and “dppriv” variable become endogenous. Within the GTAPv7.0 model, “qfd” encompasses the “COMM”, “ACTS”, and “REG” sets:\nVariable (orig_level=VDFB)(all,c,COMM)(all,a,ACTS)(all,r,REG)\n    qfd(c,a,r) # demand for domestic commodity c by activity a in region r #;\nWhat if we wish to shock only certain parts of this variable (e.g., a region or commodity) and allow the remainder of the variable to endogenously adjust according to model equations? In this case we would swap on the parts of the variable that we will provide values to and leave the remainder. If, for example, we have a shock value for “asia” within “REG” and “crops” within “ACTS”, the following ems_swap() call will prepare this swap for input into the swap_in argument of ems_deploy():\nqfd_in &lt;- ems_swap(\n  var = \"qfd\",\n  REGr = \"asia\",\n  ACTSa = \"crops\"\n)\n\nNote that sets specified in this manner are identified by the model-specific concatenation of the standard set name plus the variable-specific index. This is necessary because many variables contain multiple instances of the same set and none of the teems functions relies upon input entry order or order within the model to make distinctions. In this case the “qfd” set subindices are “c”, “a”, and “r”, yielding “COMMc”, “ACTSa”, and “REGr”. In order to retain a valid closure we also use the same approach to the outgoing variable “tfd”:\ntfd_out &lt;- ems_swap(\n  var = \"tfd\",\n  REGr = \"asia\",\n  ACTSa = \"crops\"\n)\nWhile the subindices for both variables are the same within GTAPv7.0, note that these may vary in some models such as GTAPv6.2 where the REG subindex is “s” for “qfd” and “r” for “tfd”. Both swaps may now be loaded within ems_deploy():\ncmf_path &lt;- ems_deploy(\n  data = data,\n  model = model,\n  swap_in = qfd_in,\n  swap_out = tfd_out\n)\nOr if additional full variable swaps are also desired, a list is used to load multiple swaps for each direction\ncmf_path &lt;- ems_deploy(\n  data = data,\n  model = model,\n  swap_in = list(qfd_in \"yp\"),\n  swap_out = list(tfd_out, \"dppriv\")\n)\n\nFinally, selection of multiple elements for each set will expand the swap to encompass all associated tuples. For example:\nqfd_in &lt;- ems_swap(\n  var = \"qfd\",\n  REGr = c(\"asia\", \"lam\"),\n  ACTSa = \"crops\"\n)\nis equivalent to loading\nqfd_in_1 &lt;- ems_swap(\n  var = \"qfd\",\n  REGr = \"asia\",\n  ACTSa = \"crops\"\n)\nand\nqfd_in_2 &lt;- ems_swap(\n  var = \"qfd\",\n  REGr = \"lam\",\n  ACTSa = \"crops\"\n)",
+    "title": "5  Closure swaps",
+    "section": "5.3 Complex (partial variable) swaps",
+    "text": "5.3 Complex (partial variable) swaps\nPartial variable swaps entail swapping parts of a variable (i.e., subsets of the constituitive sets) and must be processed through the ems_swap() function. In the above example the full “qfd” and “yp” variables were made exogenous while the full “tfd” and “dppriv” variable become endogenous. Within the GTAPv7.0 model, “qfd” encompasses the “COMM”, “ACTS”, and “REG” sets:\nVariable (orig_level=VDFB)(all,c,COMM)(all,a,ACTS)(all,r,REG)\n    qfd(c,a,r) # demand for domestic commodity c by activity a in region r #;\nWhat if we wish to shock only certain parts of this variable (e.g., a region or commodity) and allow the remainder of the variable to endogenously adjust according to model equations? In this case we would swap on the parts of the variable that we will provide values to and leave the remainder. If, for example, we have a shock value for “asia” within “REG” and “crops” within “ACTS”, the following ems_swap() call will prepare this swap for input into the swap_in argument of ems_deploy():\nqfd_in &lt;- ems_swap(\n  var = \"qfd\",\n  REGr = \"asia\",\n  ACTSa = \"crops\"\n)\n\nNote that sets specified in this manner are identified by the model-specific concatenation of the standard set name plus the variable-specific index. This is necessary because many variables contain multiple instances of the same set and none of the teems functions relies upon input entry order or order within the model to make distinctions. In this case the “qfd” set subindices are “c”, “a”, and “r”, yielding “COMMc”, “ACTSa”, and “REGr”. In order to retain a valid closure we also use the same approach to the outgoing variable “tfd”:\ntfd_out &lt;- ems_swap(\n  var = \"tfd\",\n  REGr = \"asia\",\n  ACTSa = \"crops\"\n)\nWhile the subindices for both variables are the same within GTAPv7.0, note that these may vary in some models such as GTAPv6.2 where the REG subindex is “s” for “qfd” and “r” for “tfd”. Both swaps may now be loaded within ems_deploy():\ncmf_path &lt;- ems_deploy(\n  data = data,\n  model = model,\n  swap_in = qfd_in,\n  swap_out = tfd_out\n)\nOr if additional full variable swaps are also desired, a list is used to load multiple swaps for each direction\ncmf_path &lt;- ems_deploy(\n  data = data,\n  model = model,\n  swap_in = list(qfd_in \"yp\"),\n  swap_out = list(tfd_out, \"dppriv\")\n)\n\nFinally, selection of multiple elements for each set will expand the swap to encompass all associated tuples. For example:\nqfd_in &lt;- ems_swap(\n  var = \"qfd\",\n  REGr = c(\"asia\", \"lam\"),\n  ACTSa = \"crops\"\n)\nis equivalent to loading\nqfd_in_1 &lt;- ems_swap(\n  var = \"qfd\",\n  REGr = \"asia\",\n  ACTSa = \"crops\"\n)\nand\nqfd_in_2 &lt;- ems_swap(\n  var = \"qfd\",\n  REGr = \"lam\",\n  ACTSa = \"crops\"\n)",
     "crumbs": [
-      "Closures",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Closure swaps</span>"
+      "Swaps and shocks",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Closure swaps</span>"
     ]
   },
   {
     "objectID": "swaps.html#future-expansions",
     "href": "swaps.html#future-expansions",
-    "title": "6  Closure swaps",
-    "section": "6.4 Future expansions",
-    "text": "6.4 Future expansions\n\nList of vetted swaps by model",
+    "title": "5  Closure swaps",
+    "section": "5.4 Future expansions",
+    "text": "5.4 Future expansions\n\nList of vetted swaps by model",
     "crumbs": [
-      "Closures",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Closure swaps</span>"
+      "Swaps and shocks",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Closure swaps</span>"
     ]
   },
   {
     "objectID": "uniform_shocks.html",
     "href": "uniform_shocks.html",
-    "title": "7  Uniform shocks",
+    "title": "6  Uniform shocks",
     "section": "",
-    "text": "7.1 Overview\nThe \"uniform\" shock type via ems_shock() allows for a homogenous shock over an entire variable or variable elements (using ...) at a single specified \"value\" which represents a percentage change applied to the specified variable \"var\".",
+    "text": "6.1 Overview\nems_uniform_shock() applies a homogenous percentage change \"value\" over an entire variable or variable elements (using ...). The accepted values for ... depend on the \"var\" specified and set mappings associated with this variable.",
     "crumbs": [
-      "Shocks",
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Uniform shocks</span>"
+      "Swaps and shocks",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Uniform shocks</span>"
     ]
   },
   {
     "objectID": "uniform_shocks.html#full-variable-uniform-shocks",
     "href": "uniform_shocks.html#full-variable-uniform-shocks",
-    "title": "7  Uniform shocks",
-    "section": "7.2 Full variable uniform shocks",
-    "text": "7.2 Full variable uniform shocks\nThe most simple uniform shock is applied to a full variable, meaning that all combinations of sets associated with that variable are allocated the same exogenous value. In the example below all regions (as determined by selected region mappings) will by increased by 1%.\npop_shk &lt;- ems_shock(var = \"pop\",\n                     type = \"uniform\",\n                     value = 1\n)\nHere is an example of the usage above. Numeraire shocks (in static models) can be carried out using a uniform shock:\npfact_shk &lt;- ems_shock(var = \"pfactwld\",\n                       type = \"uniform\",\n                       value = 2\n)",
+    "title": "6  Uniform shocks",
+    "section": "6.2 Full variable uniform shocks",
+    "text": "6.2 Full variable uniform shocks\nThe most simple uniform shock is applied to a full variable, meaning that all combinations of sets associated with that variable are allocated the same exogenous value. In the example below all regions (as determined by selected region mappings) will by increased by 1%.\npop_shk &lt;- ems_uniform_shock(var = \"pop\",\n                             value = 1\n)\nHere is an example of the usage above. Numeraire shocks (in static models) can be carried out using a uniform shock:\npfact_shk &lt;- ems_uniform_shock(var = \"pfactwld\",\n                               value = 1\n)",
     "crumbs": [
-      "Shocks",
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Uniform shocks</span>"
+      "Swaps and shocks",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Uniform shocks</span>"
     ]
   },
   {
     "objectID": "uniform_shocks.html#partial-variable-uniform-shocks",
     "href": "uniform_shocks.html#partial-variable-uniform-shocks",
-    "title": "7  Uniform shocks",
-    "section": "7.3 Partial variable uniform shocks",
-    "text": "7.3 Partial variable uniform shocks\nAs with the syntax regarding swaps (link), the scope of a uniform shock may be determined by specifying elements within the sets associated with the shocked variable. For example, if we have a region “chn” and wish to allocate a shock specifically to this region:\npop_shk &lt;- ems_shock(var = \"pop\",\n                     type = \"uniform\",\n                     REGr = \"chn\",\n                     value = 1\n)\nHere is an example of a partial variable swap followed by a partial variable uniform shock. If a full swap is followed by a partial variable shock (example), the unshocked elements will remain at 0.\nIn the case of intertemporal models, the shock year may be specified using a chronological or timestep format (see “Time step summary” output from ems_data()).\naoall_shk &lt;- ems_shock(\n  var = \"aoall\",\n  type = \"uniform\",\n  REGr = \"asia\",\n  Year = 2019,\n  ACTSa = \"crops\",\n  value = -3\n)\nHere is an full example using chronological formats and a uniform shock. Note that sets specified in this manner are identified by the model-specific concatenation of the standard set name plus the variable-specific index. Also note that exogenous components of a variable not allocated a shock (all other regions except “chn”) will not vary. Multiple elements may also be specified to allocated a single shock value to multiple elements:\npop_shk &lt;- ems_shock(var = \"pop\",\n                     type = \"uniform\",\n                     REGr = c(\"chn\", \"hkg\"),\n                     value = 1.5\n)",
+    "title": "6  Uniform shocks",
+    "section": "6.3 Partial variable uniform shocks",
+    "text": "6.3 Partial variable uniform shocks\nAs with the syntax regarding swaps (link), the scope of a uniform shock may be determined by specifying elements within the sets associated with the shocked variable. For example, if we have a region “chn” and wish to allocate a shock specifically to this region:\npartial &lt;- ems_uniform_shock(var = \"aoall\",\n                             REGr = \"chn\",\n                             PROD_COMMj = \"crops\",\n                             value = -1\n)\nHere is an example of a partial variable swap followed by a partial variable uniform shock. If a full swap is followed by a partial variable shock (example), the unshocked elements will remain at 0.\nIn the case of intertemporal models, the shock year may be specified using a chronological or timestep format (see “Time step summary” output from ems_data()).\npartial &lt;- ems_uniform_shock(\n  var = \"aoall\",\n  REGr = \"chn\",\n  PROD_COMMj = \"crops\",\n  Year = 2017,\n  value = -1\n)\nHere is a full example using chronological formats and a uniform shock.\nNote that sets specified in this manner are identified by the model-specific concatenation of the standard set name plus the variable-specific index. Also note that exogenous components of a variable not allocated a shock (all other regions except “chn”) will not vary.",
     "crumbs": [
-      "Shocks",
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Uniform shocks</span>"
+      "Swaps and shocks",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Uniform shocks</span>"
+    ]
+  },
+  {
+    "objectID": "uniform_shocks.html#multiple-shocks-and-mixed-swaps",
+    "href": "uniform_shocks.html#multiple-shocks-and-mixed-swaps",
+    "title": "6  Uniform shocks",
+    "section": "6.4 Multiple shocks and mixed swaps",
+    "text": "6.4 Multiple shocks and mixed swaps\nMultiple uniform shocks of different scope can be combined in a list and passed to ems_deploy(). Swaps can also be mixed, combining partial ems_swap() objects with full variable strings:\npartial &lt;- ems_uniform_shock(\n  var = \"qfd\",\n  REGs = \"usa\",\n  PROD_COMMj = \"crops\",\n  value = -1\n)\n\nfull &lt;- ems_uniform_shock(\n  var = \"yp\",\n  value = 0.1\n)\n\nqfd &lt;- ems_swap(\n  var = \"qfd\",\n  REGs = \"usa\",\n  PROD_COMMj = \"crops\"\n)\n\ntfd &lt;- ems_swap(\n  var = \"tfd\",\n  REGr = \"usa\",\n  PROD_COMMj = \"crops\"\n)\n\ncmf_path &lt;- ems_deploy(\n  .data = .data,\n  model = model,\n  shock = list(partial, full),\n  swap_in = list(qfd, \"yp\"),\n  swap_out = list(tfd, \"dppriv\")\n)",
+    "crumbs": [
+      "Swaps and shocks",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Uniform shocks</span>"
     ]
   },
   {
     "objectID": "custom_shocks.html",
     "href": "custom_shocks.html",
-    "title": "8  Custom shocks",
+    "title": "7  Custom shocks",
     "section": "",
-    "text": "8.1 Overview\nThe \"custom\" shock type via ems_shock() allows for granular control over heterogenous shocks that are allocated on a tuple-specific basis, inputted as a CSV file or dataframe (or dataframe equivalent) through \"input\".",
+    "text": "7.1 Overview\nems_custom_shock() allows for granular control over heterogenous shocks that are allocated on a tuple-specific basis, inputted as a CSV file or dataframe (or dataframe equivalent) through \"input\". The input must contain a \"Value\" column as the last column, representing percentage-change shocks to each respective tuple.",
     "crumbs": [
-      "Shocks",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Custom shocks</span>"
+      "Swaps and shocks",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Custom shocks</span>"
     ]
   },
   {
     "objectID": "custom_shocks.html#full-variable-custom-shocks",
     "href": "custom_shocks.html#full-variable-custom-shocks",
-    "title": "8  Custom shocks",
-    "section": "8.2 Full variable custom shocks",
-    "text": "8.2 Full variable custom shocks\nHere is a demonstration of 4 custom shocks carried out on all variable tuples for a range of variable dimensions with the GTAP-RE model.\nElements for data frame construction\ntime_steps &lt;- c(0, 1, 2, 3, 4, 6, 8, 10, 12, 14, 16)\nREGr &lt;- c(\"asia\", \"eit\", \"lam\", \"maf\", \"oecd\")\nENDWe &lt;- c(\"labor\", \"capital\", \"natlres\", \"land\")\nCOMMc &lt;- c(\"svces\", \"food\", \"crops\", \"mnfcs\", \"livestock\")\nACTSa &lt;- c(\"svces\", \"food\", \"crops\", \"mnfcs\", \"livestock\")\nMARGm &lt;- \"svces\"\nALLTIMEt &lt;- seq(0, length(time_steps) - 1)\n2D data frame and shock\npop &lt;- expand.grid(\n  REGr = REGr,\n  ALLTIMEt = ALLTIMEt,\n  stringsAsFactors = FALSE\n)\n\npop &lt;- pop[do.call(order, pop), ]\npop$Value &lt;- runif(nrow(pop))\n\npop_shk &lt;- ems_shock(\n  var = \"pop\",\n  type = \"custom\",\n  input = pop\n)\n3D data frame and shock\naoall &lt;- expand.grid(\n  ACTSa = ACTSa,\n  REGr = REGr,\n  ALLTIMEt = ALLTIMEt,\n  stringsAsFactors = FALSE\n)\n\naoall &lt;- aoall[do.call(order, aoall), ]\naoall$Value &lt;- runif(nrow(aoall))\n\naoall_shk &lt;- ems_shock(\n  var = \"aoall\",\n  type = \"custom\",\n  input = aoall\n)\n4D data frame and shock\nafeall &lt;- expand.grid(\n  ENDWe = ENDWe,\n  ACTSa = ACTSa,\n  REGr = REGr,\n  ALLTIMEt = ALLTIMEt,\n  stringsAsFactors = FALSE\n)\n\nafeall &lt;- afeall[do.call(order, afeall), ]\nafeall$Value &lt;- runif(nrow(afeall))\n\nafeall_shk &lt;- ems_shock(\n  var = \"afeall\",\n  type = \"custom\",\n  input = afeall\n)\n5D data frame and shock\natall &lt;- expand.grid(\n  MARGm = MARGm,\n  COMMc = COMMc,\n  REGs = REGr,\n  REGd = REGr,\n  ALLTIMEt = ALLTIMEt,\n  stringsAsFactors = FALSE\n)\n\natall &lt;- atall[do.call(order, atall), ]\natall$Value &lt;- runif(nrow(atall))\n\natall_shk &lt;- ems_shock(\n  var = \"atall\",\n  type = \"custom\",\n  input = atall\n)",
+    "title": "7  Custom shocks",
+    "section": "7.2 Full variable custom shocks",
+    "text": "7.2 Full variable custom shocks\nHere is a demonstration of 4 custom shocks carried out on all variable tuples for a range of variable dimensions with the GTAP-INT model.\nElements for data frame construction\ntime_steps &lt;- c(0, 1, 2, 3)\nREG &lt;- c(\"chn\", \"usa\", \"row\")\nENDW_COMM &lt;- c(\"labor\", \"capital\", \"natlres\", \"land\")\nTRAD_COMM &lt;- c(\"svces\", \"food\", \"crops\", \"mnfcs\", \"livestock\")\nPROD_COMM &lt;- c(\"svces\", \"food\", \"crops\", \"mnfcs\", \"livestock\", \"zcgds\")\nMARG_COMM &lt;- \"svces\"\nALLTIME &lt;- seq(0, length(time_steps) - 1)\n2D data frame and shock\npop &lt;- expand.grid(\n  REGr = REG,\n  ALLTIMEt = ALLTIME,\n  stringsAsFactors = FALSE\n)\n\npop &lt;- pop[do.call(order, pop), ]\npop$Value &lt;- runif(nrow(pop))\n\npop_shk &lt;- ems_custom_shock(\n  var = \"pop\",\n  input = pop\n)\n3D data frame and shock\naoall &lt;- expand.grid(\n  PROD_COMMj = PROD_COMM,\n  REGr = REG,\n  ALLTIMEt = ALLTIME,\n  stringsAsFactors = FALSE\n)\n\naoall &lt;- aoall[do.call(order, aoall), ]\naoall$Value &lt;- runif(nrow(aoall))\n\naoall_shk &lt;- ems_custom_shock(\n  var = \"aoall\",\n  input = aoall\n)\n4D data frame and shock\nafeall &lt;- expand.grid(\n  ENDW_COMMi = ENDW_COMM,\n  PROD_COMMj = PROD_COMM,\n  REGr = REG,\n  ALLTIMEt = ALLTIME,\n  stringsAsFactors = FALSE\n)\n\nafeall &lt;- afeall[do.call(order, afeall), ]\nafeall$Value &lt;- runif(nrow(afeall))\n\nafeall_shk &lt;- ems_custom_shock(\n  var = \"afeall\",\n  input = afeall\n)\n5D data frame and shock\natall &lt;- expand.grid(\n  MARG_COMMm = MARG_COMM,\n  TRAD_COMMi = TRAD_COMM,\n  REGr = REG,\n  REGs = REG,\n  ALLTIMEt = ALLTIME,\n  stringsAsFactors = FALSE\n)\n\natall &lt;- atall[do.call(order, atall), ]\natall$Value &lt;- runif(nrow(atall))\n\natall_shk &lt;- ems_custom_shock(\n  var = \"atall\",\n  input = atall\n)\nMultiple custom shocks are combined in a list for ems_deploy():\ncmf_path &lt;- ems_deploy(\n  .data = .data,\n  model = model,\n  shock = list(pop_shk, aoall_shk, afeall_shk, atall_shk)\n)\nCustom shocks can also be loaded from CSV files by passing a file path to \"input\" instead of a data frame.",
     "crumbs": [
-      "Shocks",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Custom shocks</span>"
+      "Swaps and shocks",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Custom shocks</span>"
     ]
   },
   {
     "objectID": "custom_shocks.html#partial-variable-custom-shocks",
     "href": "custom_shocks.html#partial-variable-custom-shocks",
-    "title": "8  Custom shocks",
-    "section": "8.3 Partial variable custom shocks",
-    "text": "8.3 Partial variable custom shocks\nCustom shocks are only carried out on tuples included within the input data frame or CSV. Here we make appropriate swaps and carry out a custom shock (heterogenous values) across part of a variable. Note how the custom shock data frame for REGr “lam”\nqfd_shk &lt;- expand.grid(\n  COMMc = c(\"svces\", \"food\", \"crops\", \"mnfcs\", \"livestock\"),\n  REGr = \"lam\",\n  ACTSa = \"crops\",\n  ALLTIMEt = seq(0, length(time_steps) - 1),\n  stringsAsFactors = FALSE\n)\nmust span all COMMc compared to that for “oecd”\nqfd_shk &lt;- rbind(qfd_shk, data.frame(\n  COMMc = \"food\",\n  REGr = \"oecd\",\n  ACTSa = \"crops\",\n  ALLTIMEt = seq(0, length(time_steps) - 1)\n))\ndue to more uniformity in the “lam” swaps\nqfd_in &lt;- ems_swap(\n  var = \"qfd\",\n  REGr = \"lam\",\n  ACTSa = \"crops\"\n)\n\ntfd_out &lt;- ems_swap(\n  var = \"tfd\",\n  REGr = \"lam\",\n  ACTSa = \"crops\"\n)\ncompared to the “oecd” swaps\nqfd_in2 &lt;- ems_swap(\n  var = \"qfd\",\n  COMMc = \"food\",\n  REGr = \"oecd\",\n  ACTSa = \"crops\"\n)\n\ntfd_out2 &lt;- ems_swap(\n  var = \"tfd\",\n  COMMc = \"food\",\n  REGr = \"oecd\",\n  ACTSa = \"crops\"\n)",
+    "title": "7  Custom shocks",
+    "section": "7.3 Partial variable custom shocks",
+    "text": "7.3 Partial variable custom shocks\nCustom shocks are only carried out on tuples included within the input data frame or CSV. Here we make appropriate swaps and carry out a custom shock (heterogenous values) across part of a variable. Note how the custom shock data frame for REGr “lam”\nqfd_shk &lt;- expand.grid(\n  COMMc = c(\"svces\", \"food\", \"crops\", \"mnfcs\", \"livestock\"),\n  REGr = \"lam\",\n  ACTSa = \"crops\",\n  ALLTIMEt = seq(0, length(time_steps) - 1),\n  stringsAsFactors = FALSE\n)\nmust span all COMMc compared to that for “oecd”\nqfd_shk &lt;- rbind(qfd_shk, data.frame(\n  COMMc = \"food\",\n  REGr = \"oecd\",\n  ACTSa = \"crops\",\n  ALLTIMEt = seq(0, length(time_steps) - 1)\n))\ndue to more uniformity in the “lam” swaps\nqfd_in &lt;- ems_swap(\n  var = \"qfd\",\n  REGr = \"lam\",\n  ACTSa = \"crops\"\n)\n\ntfd_out &lt;- ems_swap(\n  var = \"tfd\",\n  REGr = \"lam\",\n  ACTSa = \"crops\"\n)\ncompared to the “oecd” swaps\nqfd_in2 &lt;- ems_swap(\n  var = \"qfd\",\n  COMMc = \"food\",\n  REGr = \"oecd\",\n  ACTSa = \"crops\"\n)\n\ntfd_out2 &lt;- ems_swap(\n  var = \"tfd\",\n  COMMc = \"food\",\n  REGr = \"oecd\",\n  ACTSa = \"crops\"\n)",
     "crumbs": [
-      "Shocks",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Custom shocks</span>"
+      "Swaps and shocks",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Custom shocks</span>"
     ]
   },
   {
     "objectID": "scenario_shocks.html",
     "href": "scenario_shocks.html",
-    "title": "9  Scenario shocks",
+    "title": "8  Scenario shocks",
     "section": "",
-    "text": "9.1 Overview\nThe \"scenario\" shock type via ems_shock() is a dedicated intertemporal shock type that allows for granular control over heterogenous shocks allocated on a tuple-specific basis, inputted as a CSV file or dataframe (or dataframe equivalent) through \"input\" in the form of absolute values. This is in contrast with custom shocks where the inputs are denominated in percentage change values.",
+    "text": "8.1 Overview\nems_scenario_shock() is a dedicated intertemporal shock type that allows for granular control over heterogenous shocks allocated on a tuple-specific basis, inputted as a CSV file or dataframe (or dataframe equivalent) through \"input\" in the form of absolute values. This is in contrast with custom shocks where the inputs are denominated in percentage change values.",
     "crumbs": [
-      "Shocks",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Scenario shocks</span>"
+      "Swaps and shocks",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Scenario shocks</span>"
     ]
   },
   {
     "objectID": "scenario_shocks.html#using-scenario-shocks",
     "href": "scenario_shocks.html#using-scenario-shocks",
-    "title": "9  Scenario shocks",
-    "section": "9.2 Using scenario shocks",
-    "text": "9.2 Using scenario shocks\nScenario shocks differ from custom shocks in a number of respects:\n\nOnly available for intertemporal models\nInputs must contain all preaggregation tuples associated with a variable\nInputs must span all elements (no partial variable scenario shock)\nInputs are denominated in actual values (e.g., million USD)\nThe input dataframe or CSV must contain one column “Year”, corresponding to the chronological year for a shock in a specific tuple\n\nThere are several applications where it is advantageous to use scenario shock rather than a custom shock. The primary advantage is that scenario shocks allow for seamless changes to model aggregations since the shocks themselves are subject to mappings and aggregation. If we have trajectories available for all tuples within a given variable, a scenario shock will adjust to set mapping inputs in ems_data(). The actual values provided do not necessarily need to correspond to realworld values. We could for example use the integer 1 as a base and vary our components according to this base value in the year corresponding to t0.",
+    "title": "8  Scenario shocks",
+    "section": "8.2 Using scenario shocks",
+    "text": "8.2 Using scenario shocks\nScenario shocks differ from custom shocks in a number of respects:\n\nOnly available for intertemporal models\nInputs must contain all preaggregation tuples associated with a variable\nInputs must span all elements (no partial variable scenario shock)\nInputs are denominated in actual values (e.g., million USD)\nThe input dataframe or CSV must contain one column “Year”, corresponding to the chronological year for a shock in a specific tuple\n\nThere are several applications where it is advantageous to use scenario shock rather than a custom shock. The primary advantage is that scenario shocks allow for seamless changes to model aggregations since the shocks themselves are subject to mappings and aggregation. If we have trajectories available for all tuples within a given variable, a scenario shock will adjust to set mapping inputs in ems_data(). The actual values provided do not necessarily need to correspond to realworld values. We could for example use the integer 1 as a base and vary our components according to this base value in the year corresponding to t0.",
     "crumbs": [
-      "Shocks",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Scenario shocks</span>"
+      "Swaps and shocks",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Scenario shocks</span>"
     ]
   },
   {
     "objectID": "scenario_shocks.html#population-trajectory-example",
     "href": "scenario_shocks.html#population-trajectory-example",
-    "title": "9  Scenario shocks",
-    "section": "9.3 Population trajectory example",
-    "text": "9.3 Population trajectory example\nHere is an example that takes base year population data from the GTAP database (typically not read into the model) and constructs hypothetical pathways for every region in the model. These pathways are valid for any regional aggregation chosen.\nGrab population data with REGr set to “full” to keep regions disaggregated\npop &lt;- ems_data(\n  dat_input = \"~/dat/GTAP/v11c/flexAgg11c17/gsdfdat.har\",\n  par_input = \"~/dat/GTAP/v11c/flexAgg11c17/gsdfpar.har\",\n  set_input = \"~/dat/GTAP/v11c/flexAgg11c17/gsdfset.har\",\n  REG = \"full\",\n  COMM = \"macro_sector\",\n  ACTS = \"macro_sector\",\n  ENDW = \"labor_agg\"\n)$POP\nConstruct a data frame with random growth rates through 2033 using the 2017 base year data\npop$Year &lt;- 2017\nregions &lt;- unique(pop$REG)\npop_traj &lt;- expand.grid(\n  REG = regions,\n  Value = 0,\n  Year = c(2018, 2019, 2020, 2021, 2023, 2025, 2027, 2029, 2031, 2033),\n  stringsAsFactors = FALSE\n)\npop &lt;- rbind(pop, pop_traj)\n\ngrowth_rates &lt;- data.frame(\n  REG = regions,\n  growth_rate = runif(length(regions), min = -0.01, max = 0.05)\n)\n\npop &lt;- merge(pop, growth_rates, by = \"REG\")\nbase_values &lt;- pop[pop$Year == 2017, c(\"REG\", \"Value\")]\nnames(base_values)[2] &lt;- \"base_value\"\npop &lt;- merge(pop, base_values, by = \"REG\")\n\npop$Value[pop$Year &gt; 2017] &lt;-\n  pop$base_value[pop$Year &gt; 2017] *\n    (1 + pop$growth_rate[pop$Year &gt; 2017])^(pop$Year[pop$Year &gt; 2017] - 2017)\npop$growth_rate &lt;- NULL\npop$base_value &lt;- NULL\npop &lt;- pop[order(pop$REG, pop$Year), ]\npop &lt;- pop[, c(\"REG\", \"Year\", \"Value\")]\ncolnames(pop)[1] &lt;- \"REGr\"\nAnd simply load as a scenario shock\npop_trajectory &lt;- ems_shock(\n  var = \"pop\",\n  type = \"scenario\",\n  input = pop\n)\nNote that the object “pop” may also be save as a .csv and loaded directly from storage.",
+    "title": "8  Scenario shocks",
+    "section": "8.3 Population trajectory example",
+    "text": "8.3 Population trajectory example\nHere is an example that takes base year population data from the GTAP database (typically not read into the model) and constructs hypothetical pathways for every region in the model. These pathways are valid for any regional aggregation chosen.\nGrab population data with REG set to “full” to keep regions disaggregated\npop &lt;- ems_data(\n  dat_input = \"~/dat/GTAP/v11c/flexAgg11c17/gsdfdat.har\",\n  par_input = \"~/dat/GTAP/v11c/flexAgg11c17/gsdfpar.har\",\n  set_input = \"~/dat/GTAP/v11c/flexAgg11c17/gsdfset.har\",\n  REG = \"full\",\n  TRAD_COMM = \"macro_sector\",\n  ENDW_COMM = \"labor_agg\"\n)$POP\nConstruct a data frame with random growth rates through 2033 using the 2017 base year data\npop$Year &lt;- 2017\nregions &lt;- unique(pop$REG)\npop_traj &lt;- expand.grid(\n  REG = regions,\n  Value = 0,\n  Year = c(2018, 2019, 2020, 2021, 2023, 2025, 2027, 2029, 2031, 2033),\n  stringsAsFactors = FALSE\n)\npop &lt;- rbind(pop, pop_traj)\n\ngrowth_rates &lt;- data.frame(\n  REG = regions,\n  growth_rate = runif(length(regions), min = -0.01, max = 0.05)\n)\n\npop &lt;- merge(pop, growth_rates, by = \"REG\")\nbase_values &lt;- pop[pop$Year == 2017, c(\"REG\", \"Value\")]\nnames(base_values)[2] &lt;- \"base_value\"\npop &lt;- merge(pop, base_values, by = \"REG\")\n\npop$Value[pop$Year &gt; 2017] &lt;-\n  pop$base_value[pop$Year &gt; 2017] *\n    (1 + pop$growth_rate[pop$Year &gt; 2017])^(pop$Year[pop$Year &gt; 2017] - 2017)\npop$growth_rate &lt;- NULL\npop$base_value &lt;- NULL\npop &lt;- pop[order(pop$REG, pop$Year), ]\npop &lt;- pop[, c(\"REG\", \"Year\", \"Value\")]\ncolnames(pop)[1] &lt;- \"REGr\"\nAnd load as a scenario shock\npop_trajectory &lt;- ems_scenario_shock(\n  var = \"pop\",\n  input = pop\n)\nNote that the object “pop” may also be saved as a .csv and loaded directly from storage.",
     "crumbs": [
-      "Shocks",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Scenario shocks</span>"
+      "Swaps and shocks",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Scenario shocks</span>"
     ]
   },
   {
     "objectID": "deploy.html",
     "href": "deploy.html",
-    "title": "10  Deploying the model",
+    "title": "9  Deploying the model",
     "section": "",
-    "text": "10.1 Overview\nThe ems_deploy() function combines outputs from all model components, producing a solution-ready directory. Outputs from ems_data() and ems_model() are required inputs to \"data\", \"model\" arguments respectively. This function also loads all swaps, shocks, and any user-generated files (shock and closure files). Finally, here a persistent directory is specified \"write_dir\" for the writing of input files and ultimately model outputs. If a directory is not specified, all files will be written to tools::R_user_dir(\"teems\", \"cache\") and removed upon closure of the R session.",
+    "text": "9.1 Overview\nems_deploy() consolidates all user inputs and carries out all operations necessary to run a CGE model. It accumulates and validates data and model inputs, processes shocks and closure swaps, and writes all required input files to disk. The output file path serves as a required input to ems_solve().",
     "crumbs": [
       "Deploying and solving the model",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Deploying the model</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Deploying the model</span>"
+    ]
+  },
+  {
+    "objectID": "deploy.html#arguments",
+    "href": "deploy.html#arguments",
+    "title": "9  Deploying the model",
+    "section": "9.2 Arguments",
+    "text": "9.2 Arguments\n\n\n\n\n\n\n\n\nArgument\nDefault\nDescription\n\n\n\n\n.data\n\nA list of data.tables generated by ems_data()\n\n\nmodel\n\nA tibble generated by ems_model()\n\n\nshock\nNULL\nA shock object or list of shock objects produced by ems_uniform_shock(), ems_custom_shock(), or ems_scenario_shock(). When NULL, a null shock is carried out which effectively returns base data\n\n\nswap_in\nNULL\nCharacter vector, ems_swap() object, or a list of any combination. Variables to be made exogenous\n\n\nswap_out\nNULL\nCharacter vector, ems_swap() object, or a list of any combination. Variables to be made endogenous\n\n\nwrite_dir\ntools::R_user_dir(\"teems\", \"cache\")\nBase directory where the “teems” subdirectory will be created for input files and model solution\n\n\nshock_file\nNULL\nPath to a CSV representing a final shock file. No checks or modifications will be conducted on this file",
+    "crumbs": [
+      "Deploying and solving the model",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Deploying the model</span>"
+    ]
+  },
+  {
+    "objectID": "deploy.html#basic-usage",
+    "href": "deploy.html#basic-usage",
+    "title": "9  Deploying the model",
+    "section": "9.3 Basic usage",
+    "text": "9.3 Basic usage\nThe simplest deployment requires only data and model inputs. With no shock supplied, a null shock is carried out:\ncmf_path &lt;- ems_deploy(\n  .data = .data,\n  model = model\n)",
+    "crumbs": [
+      "Deploying and solving the model",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Deploying the model</span>"
+    ]
+  },
+  {
+    "objectID": "deploy.html#deploying-with-shocks-and-swaps",
+    "href": "deploy.html#deploying-with-shocks-and-swaps",
+    "title": "9  Deploying the model",
+    "section": "9.4 Deploying with shocks and swaps",
+    "text": "9.4 Deploying with shocks and swaps\nA single shock can be passed directly:\nshock &lt;- ems_uniform_shock(var = \"pop\", value = 1)\n\ncmf_path &lt;- ems_deploy(\n  .data = .data,\n  model = model,\n  shock = shock\n)\nMultiple shocks are combined in a list:\npop_shk &lt;- ems_uniform_shock(var = \"pop\", value = 1)\naoall_shk &lt;- ems_custom_shock(var = \"aoall\", input = aoall_df)\n\ncmf_path &lt;- ems_deploy(\n  .data = .data,\n  model = model,\n  shock = list(pop_shk, aoall_shk)\n)",
+    "crumbs": [
+      "Deploying and solving the model",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Deploying the model</span>"
+    ]
+  },
+  {
+    "objectID": "deploy.html#closure-swaps",
+    "href": "deploy.html#closure-swaps",
+    "title": "9  Deploying the model",
+    "section": "9.5 Closure swaps",
+    "text": "9.5 Closure swaps\nFull variable swaps can be passed as strings. Partial swaps use ems_swap() objects. These can be mixed in a list:\n# Full variable swap (strings)\ncmf_path &lt;- ems_deploy(\n  .data = .data,\n  model = model,\n  shock = shock,\n  swap_in = \"qfd\",\n  swap_out = \"tfd\"\n)\n\n# Mixed partial and full swaps\nqfd &lt;- ems_swap(var = \"qfd\", REGs = \"usa\", PROD_COMMj = \"crops\")\ntfd &lt;- ems_swap(var = \"tfd\", REGr = \"usa\", PROD_COMMj = \"crops\")\n\ncmf_path &lt;- ems_deploy(\n  .data = .data,\n  model = model,\n  shock = list(partial, full),\n  swap_in = list(qfd, \"yp\"),\n  swap_out = list(tfd, \"dppriv\")\n)",
+    "crumbs": [
+      "Deploying and solving the model",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Deploying the model</span>"
     ]
   },
   {
     "objectID": "deploy.html#user-generated-inputs",
     "href": "deploy.html#user-generated-inputs",
-    "title": "10  Deploying the model",
-    "section": "10.2 User generated inputs",
-    "text": "10.2 User generated inputs\nems_deploy() allows for user-generated shock and closure files. In the case of shock files, no checks or operations will be conducted (i.e., the shock file as loaded is considered the final input). User-supplied closure files will however be processed if swaps are supplied.",
+    "title": "9  Deploying the model",
+    "section": "9.6 User generated inputs",
+    "text": "9.6 User generated inputs\nems_deploy() allows for user-generated shock files via the shock_file argument. In the case of shock files, no checks or operations will be conducted (i.e., the shock file as loaded is considered the final input). User-supplied closure files will however be processed if swaps are supplied.",
     "crumbs": [
       "Deploying and solving the model",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Deploying the model</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Deploying the model</span>"
     ]
   },
   {
     "objectID": "deploy.html#persistent-files",
     "href": "deploy.html#persistent-files",
-    "title": "10  Deploying the model",
-    "section": "10.3 Persistent files",
-    "text": "10.3 Persistent files\nGood practice in R dictates that a user’s machine state is not modified. In order to comply with this guidance, teems will only write to temporary folders associated with the teems package and these files will be removed upon closure of the session or loading of a subsequent model. If persistent data is desired, users must provide a path to a local directory where input and output data will be written.",
+    "title": "9  Deploying the model",
+    "section": "9.7 Persistent files",
+    "text": "9.7 Persistent files\nGood practice in R dictates that a user’s machine state is not modified. In order to comply with this guidance, teems will only write to temporary folders associated with the teems package and these files will be removed upon closure of the session or loading of a subsequent model. If persistent data is desired, users must provide a path to a local directory via write_dir:\ncmf_path &lt;- ems_deploy(\n  write_dir = \"~/my_project/output\",\n  .data = .data,\n  model = model,\n  shock = shock\n)",
     "crumbs": [
       "Deploying and solving the model",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Deploying the model</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Deploying the model</span>"
     ]
   },
   {
     "objectID": "solve.html",
     "href": "solve.html",
-    "title": "11  Solving the model",
+    "title": "10  Solving the model",
     "section": "",
-    "text": "11.1 Overview\nems_solve() solves the constrained optimization problem according to a wide range of runtime configuration options. In order to solve, a teems Docker container must be prebuilt according to these specifications. Singularity, accuracy, and error checks are carried out following a successful run.",
+    "text": "10.1 Overview\nems_solve() solves the constrained optimization problem according to a range of runtime configuration options. In order to solve, a teems Docker image must be prebuilt. Singularity, accuracy, and error checks are carried out following a successful run. By default, solver outputs are automatically parsed into structured R objects via ems_compose().",
     "crumbs": [
       "Deploying and solving the model",
-      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Solving the model</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Solving the model</span>"
     ]
   },
   {
-    "objectID": "solve.html#solver-options",
-    "href": "solve.html#solver-options",
-    "title": "11  Solving the model",
-    "section": "11.2 Solver options",
-    "text": "11.2 Solver options\nA thorough guide to solver options is under construction. In the meantime, see ?ems_solve.",
+    "objectID": "solve.html#arguments",
+    "href": "solve.html#arguments",
+    "title": "10  Solving the model",
+    "section": "10.2 Arguments",
+    "text": "10.2 Arguments\n\n\n\n\n\n\n\n\nArgument\nDefault\nDescription\n\n\n\n\ncmf_path\nNULL\nPath to the CMF file generated by ems_deploy()\n\n\nn_tasks\n1L\nNumber of tasks to run in parallel. Must be 1L if matrix_method is \"LU\"\n\n\nn_subintervals\n1L\nNumber of subintervals for the applied shock. More subintervals may alleviate accuracy issues stemming from large shock magnitudes\n\n\nmatrix_method\n\"LU\"\nMatrix solution method (see below)\n\n\nsolution_method\n\"Johansen\"\nSolution method (see below)\n\n\nsteps\nc(2L, 4L, 8L)\nVector of steps for the modified midpoint method. Must be all odd or all even, length 3\n\n\nlaA\n300L\nMemory parameter (%) for \"LU\" and \"SBBD\" methods\n\n\nlaD\n200L\nMemory parameter (%) for \"DBBD\" and \"NDBBD\" methods\n\n\nlaDi\n500L\nMemory parameter (%) for \"NDBBD\" method\n\n\nterminal_run\nFALSE\nWhen TRUE, exits without running the solver, allowing the user to close R and run from the terminal\n\n\nsuppress_outputs\nFALSE\nWhen TRUE, solver outputs are not automatically parsed with ems_compose()\n\n\nn_timesteps\nNULL\nNumber of timesteps, must be manually entered if matrix_method is \"NDBBD\"",
     "crumbs": [
       "Deploying and solving the model",
-      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Solving the model</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Solving the model</span>"
+    ]
+  },
+  {
+    "objectID": "solve.html#basic-usage",
+    "href": "solve.html#basic-usage",
+    "title": "10  Solving the model",
+    "section": "10.3 Basic usage",
+    "text": "10.3 Basic usage\noutputs &lt;- ems_solve(\n  cmf_path = cmf_path,\n  matrix_method = \"LU\",\n  solution_method = \"Johansen\"\n)",
+    "crumbs": [
+      "Deploying and solving the model",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Solving the model</span>"
+    ]
+  },
+  {
+    "objectID": "solve.html#matrix-methods",
+    "href": "solve.html#matrix-methods",
+    "title": "10  Solving the model",
+    "section": "10.4 Matrix methods",
+    "text": "10.4 Matrix methods\n\n\n\n\n\n\n\nMethod\nDescription\n\n\n\n\n\"LU\"\nStandard LU decomposition. The most robust and potentially slowest for large models. n_tasks must be 1L. Works with both static and dynamic models\n\n\n\"DBBD\"\nDoubly bordered block diagonal. Parallel solution method for static models. Potentially faster than \"LU\" although less robust\n\n\n\"SBBD\"\nSingly bordered block diagonal. Parallel solution method for intertemporal models. Potentially faster than \"LU\" although less robust\n\n\n\"NDBBD\"\nNested doubly bordered block diagonal. Parallel solution method for large intertemporal models with many timesteps. Requires n_timesteps to be specified",
+    "crumbs": [
+      "Deploying and solving the model",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Solving the model</span>"
+    ]
+  },
+  {
+    "objectID": "solve.html#solution-methods",
+    "href": "solve.html#solution-methods",
+    "title": "10  Solving the model",
+    "section": "10.5 Solution methods",
+    "text": "10.5 Solution methods\n\n\n\nMethod\nDescription\n\n\n\n\n\"Johansen\"\nFast one-step approximation. Should only be used as a rough approximation due to handling of nonlinear equations. See COPS manual\n\n\n\"mod_midpoint\"\nModified midpoint method that performs multiple passes for improved accuracy. The steps parameter controls the number of passes. See COPS manual",
+    "crumbs": [
+      "Deploying and solving the model",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Solving the model</span>"
+    ]
+  },
+  {
+    "objectID": "solve.html#memory-parameters",
+    "href": "solve.html#memory-parameters",
+    "title": "10  Solving the model",
+    "section": "10.6 Memory parameters",
+    "text": "10.6 Memory parameters\nIf the solver returns “Error return from MA48B/BD because LA is …”, increase the relevant memory parameter gradually:\n\nlaA applies to \"LU\" and \"SBBD\" methods\nlaD applies to \"DBBD\" and \"NDBBD\" methods\nlaDi applies to the \"NDBBD\" method only\n\noutputs &lt;- ems_solve(\n  cmf_path = cmf_path,\n  matrix_method = \"LU\",\n  solution_method = \"Johansen\",\n  laA = 500L\n)",
+    "crumbs": [
+      "Deploying and solving the model",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Solving the model</span>"
+    ]
+  },
+  {
+    "objectID": "solve.html#parallel-solving",
+    "href": "solve.html#parallel-solving",
+    "title": "10  Solving the model",
+    "section": "10.7 Parallel solving",
+    "text": "10.7 Parallel solving\nFor models that support parallel matrix methods, increase n_tasks:\noutputs &lt;- ems_solve(\n  cmf_path = cmf_path,\n  n_tasks = 4L,\n  matrix_method = \"SBBD\",\n  solution_method = \"Johansen\"\n)",
+    "crumbs": [
+      "Deploying and solving the model",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Solving the model</span>"
+    ]
+  },
+  {
+    "objectID": "solve.html#multi-step-solution",
+    "href": "solve.html#multi-step-solution",
+    "title": "10  Solving the model",
+    "section": "10.8 Multi-step solution",
+    "text": "10.8 Multi-step solution\nFor greater accuracy, use the modified midpoint method with subintervals:\noutputs &lt;- ems_solve(\n  cmf_path = cmf_path,\n  n_subintervals = 3L,\n  matrix_method = \"LU\",\n  solution_method = \"mod_midpoint\",\n  steps = c(2L, 4L, 8L)\n)",
+    "crumbs": [
+      "Deploying and solving the model",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Solving the model</span>"
+    ]
+  },
+  {
+    "objectID": "solve.html#terminal-mode",
+    "href": "solve.html#terminal-mode",
+    "title": "10  Solving the model",
+    "section": "10.9 Terminal mode",
+    "text": "10.9 Terminal mode\nFor long-running models, terminal_run allows the user to close any R IDE prior to running from the terminal:\nems_solve(\n  cmf_path = cmf_path,\n  matrix_method = \"LU\",\n  solution_method = \"Johansen\",\n  terminal_run = TRUE\n)",
+    "crumbs": [
+      "Deploying and solving the model",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Solving the model</span>"
+    ]
+  },
+  {
+    "objectID": "solve_in_situ.html",
+    "href": "solve_in_situ.html",
+    "title": "11  Solving in-situ",
+    "section": "",
+    "text": "11.1 Overview\nsolve_in_situ() is a wrapper for the teems-solver which conducts a minimal number of checks prior to attempting to solve the constrained optimization problem. In contrast to ems_solve(), all model input files must be provided by the user in their final form. No checks or modifications are conducted on input files used in this manner.\nThis function is intended for users who wish to use the teems solver with their own pre-prepared input files, bypassing the ems_data() / ems_model() / ems_deploy() pipeline, or in combination with it by reusing the files it writes to disk.",
+    "crumbs": [
+      "Deploying and solving the model",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Solving in-situ</span>"
+    ]
+  },
+  {
+    "objectID": "solve_in_situ.html#arguments",
+    "href": "solve_in_situ.html#arguments",
+    "title": "11  Solving in-situ",
+    "section": "11.2 Arguments",
+    "text": "11.2 Arguments\n\n\n\n\n\n\n\n\nArgument\nDefault\nDescription\n\n\n\n\n...\n\nNamed arguments corresponding to input files necessary for an in-situ model run. Names must correspond to “File” statements within the model Tablo file. Values correspond to file paths where these files are found\n\n\nmodel_input\n\nPath to the model Tablo (.tab) file\n\n\nclosure_file\n\nPath to the closure (.cls) file\n\n\nshock_file\n\nPath to the shock file\n\n\nwrite_dir\ntools::R_user_dir(\"teems\", \"cache\")\nBase directory for output files\n\n\nwriteout\nFALSE\nWhether to parse the Tablo file and append “Write” declarations for all model output coefficients and sets. If TRUE, a successful writeout may require modifications to the provided model_input. If FALSE, outputs will consist of model variables only\n\n\nn_tasks\n1L\nNumber of tasks to run in parallel. Must be 1L if matrix_method is \"LU\"\n\n\nn_subintervals\n1L\nNumber of subintervals for the applied shock\n\n\nmatrix_method\n\"LU\"\nMatrix solution method: \"LU\", \"DBBD\", \"SBBD\", or \"NDBBD\"\n\n\nsolution_method\n\"Johansen\"\nSolution method: \"Johansen\" or \"mod_midpoint\"\n\n\nsteps\nc(2L, 4L, 8L)\nVector of steps for the modified midpoint method\n\n\nlaA\n300L\nMemory parameter (%) for \"LU\" and \"SBBD\" methods\n\n\nlaD\n200L\nMemory parameter (%) for \"DBBD\" and \"NDBBD\" methods\n\n\nlaDi\n500L\nMemory parameter (%) for \"NDBBD\" method\n\n\nterminal_run\nFALSE\nWhen TRUE, exits without running the solver\n\n\nsuppress_outputs\nFALSE\nWhen TRUE, returns the CMF file path instead of parsed outputs\n\n\nn_timesteps\nNULL\nNumber of timesteps, required if matrix_method is \"NDBBD\"",
+    "crumbs": [
+      "Deploying and solving the model",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Solving in-situ</span>"
+    ]
+  },
+  {
+    "objectID": "solve_in_situ.html#input-files",
+    "href": "solve_in_situ.html#input-files",
+    "title": "11  Solving in-situ",
+    "section": "11.3 Input files",
+    "text": "11.3 Input files\nAll model-declared input files as well as model_input, closure_file, and shock_file are required. Input files are passed as named arguments via ..., where each name must correspond to a “File” statement in the model Tablo file. For GTAP-RE, the Tablo file declares:\nFile GTAPDATA # base data file;\nFile GTAPINT  # intertemporal data file;\nFile GTAPPARM # parameter file;\nFile GTAPSETS # set file;\nThese names are then used as the named arguments to solve_in_situ().",
+    "crumbs": [
+      "Deploying and solving the model",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Solving in-situ</span>"
+    ]
+  },
+  {
+    "objectID": "solve_in_situ.html#using-with-ems_deploy-output",
+    "href": "solve_in_situ.html#using-with-ems_deploy-output",
+    "title": "11  Solving in-situ",
+    "section": "11.4 Using with ems_deploy() output",
+    "text": "11.4 Using with ems_deploy() output\nA common use case is to run the standard pipeline to generate validated input files, and then re-solve with different solver options using solve_in_situ(). The files written by ems_deploy() can be located in the write directory:\nlibrary(teems)\n\n# Standard pipeline to generate input files\ndata &lt;- ems_data(\n  dat_input = \"~/dat/GTAP/v11c/flexAgg11c17/gsdfdat.har\",\n  par_input = \"~/dat/GTAP/v11c/flexAgg11c17/gsdfpar.har\",\n  set_input = \"~/dat/GTAP/v11c/flexAgg11c17/gsdfset.har\",\n  REG = \"big3\",\n  COMM = \"macro_sector\",\n  ACTS = \"macro_sector\",\n  ENDW = \"labor_agg\",\n  time_steps = c(0, 1, 2, 3, 4, 6, 8, 10, 12, 14, 16)\n)\n\nmodel &lt;- ems_model(\n  model_input = \"GTAP-REv1\",\n  var_omit = c(\"atall\", \"avaall\", \"tfe\", \"tfd\", \"tfm\", \"tgd\", \"tgm\", \"tid\", \"tim\")\n)\n\nshock &lt;- ems_scenario_shock(var = \"pop\", input = pop)\n\nwrite_dir &lt;- tempdir()\ncmf_path &lt;- ems_deploy(\n  write_dir = write_dir,\n  .data = data,\n  model = model,\n  shock = shock\n)\n\n# Re-solve in-situ using the files written by ems_deploy()\nsolve_in_situ(\n  GTAPDATA = file.path(write_dir, \"teems\", \"GTAPDATA.txt\"),\n  GTAPINT  = file.path(write_dir, \"teems\", \"GTAPINT.txt\"),\n  GTAPPARM = file.path(write_dir, \"teems\", \"GTAPPARM.txt\"),\n  GTAPSETS = file.path(write_dir, \"teems\", \"GTAPSETS.txt\"),\n  model_input  = \"../teems-models/GTAP-REv1/GTAP-REv1.tab\",\n  closure_file = \"../teems-models/GTAP-REv1/GTAP-REv1.cls\",\n  shock_file   = list.files(file.path(write_dir, \"teems\"),\n                            pattern = \"shf\", full.names = TRUE),\n  write_dir = \"~/Documents/test/in_situ_test/\",\n  n_tasks = 1,\n  n_subintervals = 1,\n  matrix_method = \"SBBD\",\n  solution_method = \"mod_midpoint\",\n  writeout = TRUE\n)",
+    "crumbs": [
+      "Deploying and solving the model",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Solving in-situ</span>"
+    ]
+  },
+  {
+    "objectID": "solve_in_situ.html#output-modes",
+    "href": "solve_in_situ.html#output-modes",
+    "title": "11  Solving in-situ",
+    "section": "11.5 Output modes",
+    "text": "11.5 Output modes\nBy default, solve_in_situ() returns a list of data.tables containing model variables. The writeout parameter controls whether coefficients and sets are also included:\n\nwriteout = FALSE (default): returns a list of data.tables with model variables only\nwriteout = TRUE: returns a tibble containing model output variables, coefficients, and sets. Note that a successful writeout may require modifications to the Tablo file provided\n\nIf suppress_outputs is TRUE, the function returns the CMF file path instead of parsed outputs. This path can be passed to ems_compose() for manual parsing.",
+    "crumbs": [
+      "Deploying and solving the model",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Solving in-situ</span>"
+    ]
+  },
+  {
+    "objectID": "solve_in_situ.html#persistent-output",
+    "href": "solve_in_situ.html#persistent-output",
+    "title": "11  Solving in-situ",
+    "section": "11.6 Persistent output",
+    "text": "11.6 Persistent output\nAs with ems_deploy(), output files are written to a temporary directory by default and removed on session close. Specify write_dir for persistent output:\noutputs &lt;- solve_in_situ(\n  GTAPDATA = \"path/to/GTAPDATA.txt\",\n  GTAPINT  = \"path/to/GTAPINT.txt\",\n  GTAPPARM = \"path/to/GTAPPARM.txt\",\n  GTAPSETS = \"path/to/GTAPSETS.txt\",\n  model_input  = \"path/to/GTAP-REv1.tab\",\n  closure_file = \"path/to/GTAP-REv1.cls\",\n  shock_file   = \"path/to/shocks.shf\",\n  write_dir = \"~/my_project/output\",\n  matrix_method = \"LU\",\n  solution_method = \"Johansen\"\n)",
+    "crumbs": [
+      "Deploying and solving the model",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Solving in-situ</span>"
+    ]
+  },
+  {
+    "objectID": "compose.html",
+    "href": "compose.html",
+    "title": "12  Composing results",
+    "section": "",
+    "text": "12.1 Overview\nems_compose() retrieves and processes results from a solved model run. Results are parsed according to the specified type (variables, coefficients, or all). Data validation and consistency checks are performed during the parsing process.\nBy default, ems_solve() calls ems_compose() automatically, so this function is primarily used when suppress_outputs = TRUE was passed to ems_solve() or solve_in_situ(), or when re-parsing results from a previous run.",
+    "crumbs": [
+      "Deploying and solving the model",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Composing results</span>"
+    ]
+  },
+  {
+    "objectID": "compose.html#arguments",
+    "href": "compose.html#arguments",
+    "title": "12  Composing results",
+    "section": "12.2 Arguments",
+    "text": "12.2 Arguments\n\n\n\n\n\n\n\n\nArgument\nDefault\nDescription\n\n\n\n\ncmf_path\n\nPath to the CMF file generated by ems_deploy()\n\n\ntype\n\"all\"\nType of data to parse: \"all\", \"variable\", or \"coefficient\"\n\n\nname\nNULL\nCharacter vector to filter results by name, returning a subset of the selected type\n\n\nminimal\nFALSE\nWhether to run a minimal number of checks and modifications to output data",
+    "crumbs": [
+      "Deploying and solving the model",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Composing results</span>"
+    ]
+  },
+  {
+    "objectID": "compose.html#basic-usage",
+    "href": "compose.html#basic-usage",
+    "title": "12  Composing results",
+    "section": "12.3 Basic usage",
+    "text": "12.3 Basic usage\nAfter a standard model run with suppressed outputs:\nems_solve(\n  cmf_path = cmf_path,\n  matrix_method = \"LU\",\n  solution_method = \"Johansen\",\n  suppress_outputs = TRUE\n)\n\n# Parse all results\noutputs &lt;- ems_compose(cmf_path = cmf_path)",
+    "crumbs": [
+      "Deploying and solving the model",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Composing results</span>"
+    ]
+  },
+  {
+    "objectID": "compose.html#output-types",
+    "href": "compose.html#output-types",
+    "title": "12  Composing results",
+    "section": "12.4 Output types",
+    "text": "12.4 Output types\nThe type argument controls what is parsed from the solver output:\n# All model variables and coefficients\nall_outputs &lt;- ems_compose(cmf_path = cmf_path, type = \"all\")\n\n# Percentage change values for model variables only\nvariables &lt;- ems_compose(cmf_path = cmf_path, type = \"variable\")\n\n# Values for model coefficients only\ncoefficients &lt;- ems_compose(cmf_path = cmf_path, type = \"coefficient\")",
+    "crumbs": [
+      "Deploying and solving the model",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Composing results</span>"
+    ]
+  },
+  {
+    "objectID": "compose.html#filtering-by-name",
+    "href": "compose.html#filtering-by-name",
+    "title": "12  Composing results",
+    "section": "12.5 Filtering by name",
+    "text": "12.5 Filtering by name\nThe name argument filters results to a subset of the selected type:\n# Retrieve a single variable\nqfd &lt;- ems_compose(cmf_path = cmf_path, type = \"variable\", name = \"qfd\")\n\n# Retrieve multiple variables\ntrade_vars &lt;- ems_compose(cmf_path = cmf_path, type = \"variable\",\n                          name = c(\"qfd\", \"qfm\", \"qgd\"))",
+    "crumbs": [
+      "Deploying and solving the model",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Composing results</span>"
+    ]
+  },
+  {
+    "objectID": "compose.html#minimal-mode",
+    "href": "compose.html#minimal-mode",
+    "title": "12  Composing results",
+    "section": "12.6 Minimal mode",
+    "text": "12.6 Minimal mode\nWhen minimal = TRUE, a reduced number of checks and modifications are applied to the output data:\n\nChronological data is not loaded and the model file is not parsed\nNo post-model set checks are conducted between model sets as written out from the model input and solver set binaries\nTime steps remain in their model format (integer indices rather than chronological years)\n\nThis option must be set to TRUE when using output from solve_in_situ() with writeout = FALSE, since there is no set writeout to validate against:\noutputs &lt;- solve_in_situ(\n  ...,\n  model_input  = \"model.tab\",\n  closure_file = \"model.cls\",\n  shock_file   = \"shocks.shf\",\n  suppress_outputs = TRUE\n)\n\nvariables &lt;- ems_compose(cmf_path = outputs, type = \"variable\", minimal = TRUE)",
+    "crumbs": [
+      "Deploying and solving the model",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Composing results</span>"
     ]
   }
 ]
