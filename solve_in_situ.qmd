@@ -1,0 +1,122 @@
+# Solving in-situ
+
+## Overview
+`solve_in_situ()` is a wrapper for the [teems-solver](https://github.com/teemsphere/teems-solver) which conducts a minimal number of checks prior to attempting to solve the constrained optimization problem. In contrast to `ems_solve()`, all model input files must be provided by the user in their final form. No checks or modifications are conducted on input files used in this manner.
+
+This function is intended for users who wish to use the teems solver with their own pre-prepared input files, bypassing the `ems_data()` / `ems_model()` / `ems_deploy()` pipeline, or in combination with it by reusing the files it writes to disk.
+
+## Arguments
+
+| Argument | Default | Description |
+|----------|---------|-------------|
+| `...` | | Named arguments corresponding to input files necessary for an in-situ model run. Names must correspond to "File" statements within the model Tablo file. Values correspond to file paths where these files are found |
+| `model_input` | | Path to the model Tablo (.tab) file |
+| `closure_file` | | Path to the closure (.cls) file |
+| `shock_file` | | Path to the shock file |
+| `write_dir` | `tools::R_user_dir("teems", "cache")` | Base directory for output files |
+| `writeout` | `FALSE` | Whether to parse the Tablo file and append "Write" declarations for all model output coefficients and sets. If `TRUE`, a successful writeout may require modifications to the provided `model_input`. If `FALSE`, outputs will consist of model variables only |
+| `n_tasks` | `1L` | Number of tasks to run in parallel. Must be `1L` if `matrix_method` is `"LU"` |
+| `n_subintervals` | `1L` | Number of subintervals for the applied shock |
+| `matrix_method` | `"LU"` | Matrix solution method: `"LU"`, `"DBBD"`, `"SBBD"`, or `"NDBBD"` |
+| `solution_method` | `"Johansen"` | Solution method: `"Johansen"` or `"mod_midpoint"` |
+| `steps` | `c(2L, 4L, 8L)` | Vector of steps for the modified midpoint method |
+| `laA` | `300L` | Memory parameter (%) for `"LU"` and `"SBBD"` methods |
+| `laD` | `200L` | Memory parameter (%) for `"DBBD"` and `"NDBBD"` methods |
+| `laDi` | `500L` | Memory parameter (%) for `"NDBBD"` method |
+| `terminal_run` | `FALSE` | When `TRUE`, exits without running the solver |
+| `suppress_outputs` | `FALSE` | When `TRUE`, returns the CMF file path instead of parsed outputs |
+| `n_timesteps` | `NULL` | Number of timesteps, required if `matrix_method` is `"NDBBD"` |
+
+## Input files
+
+All model-declared input files as well as `model_input`, `closure_file`, and `shock_file` are required. Input files are passed as named arguments via `...`, where each name must correspond to a "File" statement in the model Tablo file. For GTAP-RE, the Tablo file declares:
+
+```
+File GTAPDATA # base data file;
+File GTAPINT  # intertemporal data file;
+File GTAPPARM # parameter file;
+File GTAPSETS # set file;
+```
+
+These names are then used as the named arguments to `solve_in_situ()`.
+
+## Using with `ems_deploy()` output
+
+A common use case is to run the standard pipeline to generate validated input files, and then re-solve with different solver options using `solve_in_situ()`. The files written by `ems_deploy()` can be located in the write directory:
+
+```r
+library(teems)
+
+# Standard pipeline to generate input files
+data <- ems_data(
+  dat_input = "~/dat/GTAP/v11c/flexAgg11c17/gsdfdat.har",
+  par_input = "~/dat/GTAP/v11c/flexAgg11c17/gsdfpar.har",
+  set_input = "~/dat/GTAP/v11c/flexAgg11c17/gsdfset.har",
+  REG = "big3",
+  COMM = "macro_sector",
+  ACTS = "macro_sector",
+  ENDW = "labor_agg",
+  time_steps = c(0, 1, 2, 3, 4, 6, 8, 10, 12, 14, 16)
+)
+
+model <- ems_model(
+  model_input = "GTAP-REv1",
+  var_omit = c("atall", "avaall", "tfe", "tfd", "tfm", "tgd", "tgm", "tid", "tim")
+)
+
+shock <- ems_scenario_shock(var = "pop", input = pop)
+
+write_dir <- tempdir()
+cmf_path <- ems_deploy(
+  write_dir = write_dir,
+  .data = data,
+  model = model,
+  shock = shock
+)
+
+# Re-solve in-situ using the files written by ems_deploy()
+solve_in_situ(
+  GTAPDATA = file.path(write_dir, "teems", "GTAPDATA.txt"),
+  GTAPINT  = file.path(write_dir, "teems", "GTAPINT.txt"),
+  GTAPPARM = file.path(write_dir, "teems", "GTAPPARM.txt"),
+  GTAPSETS = file.path(write_dir, "teems", "GTAPSETS.txt"),
+  model_input  = "../teems-models/GTAP-REv1/GTAP-REv1.tab",
+  closure_file = "../teems-models/GTAP-REv1/GTAP-REv1.cls",
+  shock_file   = list.files(file.path(write_dir, "teems"),
+                            pattern = "shf", full.names = TRUE),
+  write_dir = "~/Documents/test/in_situ_test/",
+  n_tasks = 1,
+  n_subintervals = 1,
+  matrix_method = "SBBD",
+  solution_method = "mod_midpoint",
+  writeout = TRUE
+)
+```
+
+## Output modes
+
+By default, `solve_in_situ()` returns a list of data.tables containing model variables. The `writeout` parameter controls whether coefficients and sets are also included:
+
+- `writeout = FALSE` (default): returns a list of data.tables with model variables only
+- `writeout = TRUE`: returns a tibble containing model output variables, coefficients, and sets. Note that a successful writeout may require modifications to the Tablo file provided
+
+If `suppress_outputs` is `TRUE`, the function returns the CMF file path instead of parsed outputs. This path can be passed to `ems_compose()` for manual parsing.
+
+## Persistent output
+
+As with `ems_deploy()`, output files are written to a temporary directory by default and removed on session close. Specify `write_dir` for persistent output:
+
+```r
+outputs <- solve_in_situ(
+  GTAPDATA = "path/to/GTAPDATA.txt",
+  GTAPINT  = "path/to/GTAPINT.txt",
+  GTAPPARM = "path/to/GTAPPARM.txt",
+  GTAPSETS = "path/to/GTAPSETS.txt",
+  model_input  = "path/to/GTAP-REv1.tab",
+  closure_file = "path/to/GTAP-REv1.cls",
+  shock_file   = "path/to/shocks.shf",
+  write_dir = "~/my_project/output",
+  matrix_method = "LU",
+  solution_method = "Johansen"
+)
+```

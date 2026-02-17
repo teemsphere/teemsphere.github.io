@@ -23,16 +23,9 @@ book:
       chapters:
         - data_load.qmd
         - model_load.qmd
-      #   - part: "Input data"
-  #     chapters:
-  #       - crew.qmd
-  #       - performance.qmd
-    - part: "Closures"
+    - part: "Swaps and shocks"
       chapters:
-        - closure_load.qmd
         - swaps.qmd
-    - part: "Shocks"
-      chapters:
         - uniform_shocks.qmd
         - custom_shocks.qmd
         - scenario_shocks.qmd
@@ -40,6 +33,8 @@ book:
       chapters:
         - deploy.qmd
         - solve.qmd
+        - solve_in_situ.qmd
+        - compose.qmd
         # - data_mod.qmd
   #   - part: "Solving the model"
   #     chapters:
