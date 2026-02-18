@@ -319,6 +319,7 @@ mapping.
 
 ### GTAP v6.2 format parameter weight methodology
 Headers, descriptions, and index ranges for parameters and associated data within the GTAP v6.2 model. GTAP-INT weights are identical to GTAP v6.2 with the addition of an invariant time set.
+
 ::: {.table-scroll .table-wide}
 |                        | Header | Description                                          | Set Index                                                                 |
 |------------------------|--------|------------------------------------------------------|---------------------------------------------------------------------------|
