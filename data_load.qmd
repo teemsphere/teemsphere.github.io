@@ -6,8 +6,6 @@ The `ems_data()` function loads and prepares GTAP database files for use in CGE 
 It handles the three core GTAP data files (dat, par, and set) and can optionally convert between GTAP v6.2 and v7.0 formats.
 This function is also used to input any time steps (for temporally dynamic models), load set mappings for sets that are read into the model (i.e., not constructed from set operations), and incorporate auxiliary data via `ems_aux()`.
 
-## Function signature
-
 ```r
 ems_data(dat_input, par_input, set_input, time_steps = NULL,
          aux_input = NULL, target_format = NULL, ...)
@@ -23,16 +21,19 @@ ems_data(dat_input, par_input, set_input, time_steps = NULL,
 | `target_format` | Character or `NULL` | Target data format conversion: `"GTAPv6"` or `"GTAPv7"` |
 | `...` | Named arguments | Set mappings for read-in sets (see [Set mappings]) |
 
-All three input files (`dat_input`, `par_input`, `set_input`) are required.
+All three input files (`dat_input`, `par_input`, `set_input`) and model-specific set mappings are required.
+`time_steps` is required for intertemporal models.
 
 ## Input files
 Compatible input files are currently limited to those produced by the Global Trade Analysis Project [(GTAP)](https://www.gtap.agecon.purdue.edu/).
 Although the most recent database releases are proprietary, GTAP has consistently open-accessed databases two versions out (GTAP 9 database as of the current GTAP 11 release).
+
 In order to access the freely available database, users will need to [register](https://www.gtap.agecon.purdue.edu/access_member/profile/profile_addnew.aspx) with GTAP and download the "FlexAgg" format.
 For GTAP 9 this is accessible under the "GDyn 9 Data Base for 2011" subheader in the "Satellite Data and Utilities" section [here](https://www.gtap.agecon.purdue.edu/databases/archives.asp).
 For paying GTAP members, the current [`teems`](https://github.com/teemsphere/teems-R) version is capable of handling the "FlexAgg" format for GTAP Databases 10 and 11.
 
-At a minimum, the basedata "dat", parameter "par", and set "set" files are required inputs for the `dat_input`, `par_input`, and `set_input` arguments respectively.
+The following command will load data consistent with the [standard GTAP model](https://www.gtap.agecon.purdue.edu/resources/res_display.asp?RecordID=6438), using broad aggregations for regions, commodities, and endowments. Users will need to specify the location of data (`"path/to/flexAgg11c17/gsdfdat.har"` placeholder).
+
 ```r
 v7_data <- ems_data(dat_input = "path/to/flexAgg11c17/gsdfdat.har", # basedata coefficients
                     par_input = "path/to/flexAgg11c17/gsdfpar.har", # parameter coefficients
@@ -43,7 +44,8 @@ v7_data <- ems_data(dat_input = "path/to/flexAgg11c17/gsdfdat.har", # basedata c
                     ENDW = "labor_diff"
 )
 ```
-Note that the actual names of the files vary according the GTAP release.
+
+Note that the actual names of HAR data files vary according the GTAP release.
 
 | Input Type | GTAP v9 | GTAP v10 | GTAP v11 |
 |------------|---------|----------|----------|
@@ -53,7 +55,7 @@ Note that the actual names of the files vary according the GTAP release.
 
 
 ## Set mappings
-In addition to input files, set mappings for sets that are read in from the final sets input file must be provided.
+In addition to input files, set mappings for sets that are read in must be provided.
 Read-in sets consist of sets that in the model Tablo file contain a "read" qualifier.
 For example, the region set below requires a set mapping to be loaded:
 
@@ -95,12 +97,12 @@ Internal sector mappings are according to the following focuses and number of el
 The set names used in `...` depend on the data format. For example the GTAP v6.2 model format uses `REG`, `TRAD_COMM`, and `ENDW_COMM`:
 
 ```r
-v62_data <- ems_data(dat_input = "path/to/flexagg10AY14/gsddat.har",
-                     par_input = "path/to/flexagg10AY14/gsdpar.har",
-                     set_input = "path/to/flexagg10AY14/gsdset.har",
-                     REG = "big3",            # China, USA, ROW
-                     TRAD_COMM = "macro_sector", # crops, food, livestock, mnfcs, svces
-                     ENDW_COMM = "labor_agg"     # capital, labor, land, natlres
+v6_data <- ems_data(dat_input = "path/to/flexagg10AY14/gsddat.har",
+                    par_input = "path/to/flexagg10AY14/gsdpar.har",
+                    set_input = "path/to/flexagg10AY14/gsdset.har",
+                    REG = "big3",            # China, USA, ROW
+                    TRAD_COMM = "macro_sector", # crops, food, livestock, mnfcs, svces
+                    ENDW_COMM = "labor_agg"     # capital, labor, land, natlres
 )
 ```
 
@@ -110,10 +112,10 @@ while the GTAP v7.0 model format uses `REG`, `COMM`, `ACTS`, and `ENDW`:
 v7_data <- ems_data(dat_input = "path/to/flexAgg11c17/gsdfdat.har",
                     par_input = "path/to/flexAgg11c17/gsdfpar.har",
                     set_input = "path/to/flexAgg11c17/gsdfset.har",
-                    REG = "AR5",
-                    COMM = "agriculture",
-                    ACTS = "agriculture",
-                    ENDW = "labor_diff"
+                    REG = "AR5", # asia, eit, lam, maf, oecd
+                    COMM = "agriculture", # b_t, c_b, cmt, ctl, fsh, gro, mil, mnfcs, oap, ocr, ofd, omt, ...
+                    ACTS = "agriculture", # ... osd, pcr, pdr, pfb, rmk, sgr, svces, v_f, vol, wht, wol
+                    ENDW = "labor_diff" # capital, land, natlres, sklab, unsklab
 )
 ```
 
@@ -148,12 +150,11 @@ v7_data <- ems_data(dat_input = "path/to/flexagg10AY14/gsddat.har",
 
 
 ## Auxiliary inputs {#auxiliary-inputs}
-
+With more complex models it is often necessary to load auxiliary data.
+There are also cases were users may wish to directly modify headers in existing base data.
 The `ems_aux()` function loads and prepares auxiliary data for injection into the `ems_data()` pipeline via the `aux_input` argument.
 Auxiliary data can replace existing headers or introduce novel headers not present in the original database.
 All auxiliary data is loaded at full (unaggregated) resolution and is subsequently aggregated by `ems_data()` according to the set mappings and data type.
-
-### Function signature
 
 ```r
 ems_aux(dat = NULL, par = NULL, set = NULL)
@@ -175,35 +176,34 @@ Each parameter accepts a list whose elements can be in one of three formats:
 
 ```r
 # Extract and modify a header from ems_data output
-d <- ems_data(
+pop <- ems_data(
   dat_input = "path/to/gsddat.har",
   par_input = "path/to/gsdpar.har",
   set_input = "path/to/gsdset.har",
   REG = "full",
   TRAD_COMM = "full",
-  ENDW_COMM = "labor_agg",
-  time_steps = c(0, 1, 2, 3, 4, 6, 8, 10, 12, 14, 16)
-)
-
-pop <- d$POP
-class(pop) <- "data.frame"
+  ENDW_COMM = "labor_agg"
+)$POP
 
 # Modify values
-SAVE <- pop
-SAVE$Value <- runif(nrow(SAVE))
+pop$Value <- pop$Value * 1.25
+
+# Create aux object
+aux_pop <- ems_aux(dat = list(POP = pop))
 ```
 
-**Named CSV file** -- The list element name corresponds to the header and the value is a file path to a CSV file formatted identically to the data frame format above (set columns + `Value` column).
+**Named CSV file** -- The list element name corresponds to the header and the value is a file path to a CSV file formatted identically to the data frame format above (set columns + `Value` column). 
 
+Using the `pop` object created above:
 ```r
-pop_csv <- "path/to/pop.csv"
-write.csv(pop, pop_csv, row.names = FALSE)
+write.csv(pop, "path/to/pop.csv", row.names = FALSE)
+aux_pop <- ems_aux(dat = list(POP = "path/to/pop.csv"))
 ```
 
-**Unnamed HAR file** -- An unnamed list element containing a file path to a GTAP header array (`.har`) file. All headers within the file are loaded.
+**Unnamed HAR file** -- An unnamed list element containing a file path to a GTAP header array (`.har`) file. All headers within the file are loaded and no names are necessary (metadata already contains header information).
 
 ```r
-har_file <- "path/to/gdpextra.har"
+aux_gdp <- ems_aux(par = "path/to/gdpextra.har")
 ```
 
 ### Constructing auxiliary inputs
@@ -211,13 +211,19 @@ har_file <- "path/to/gdpextra.har"
 These formats can be mixed freely within a single `ems_aux()` call. The `dat` and `par` arguments control how the data is aggregated downstream: `dat` inputs undergo simple sum aggregation while `par` inputs undergo mean or weighted mean aggregation.
 
 ```r
+.data <- ems_data(
+  dat_input = "path/to/gsddat.har",
+  par_input = "path/to/gsdpar.har",
+  set_input = "path/to/gsdset.har",
+  REG = "full",
+  TRAD_COMM = "full",
+  ENDW_COMM = "labor_agg"
+)
+
 aux <- ems_aux(
-  dat = list(POP = pop_csv,          # CSV file for POP header
-             SAVE = SAVE,            # data frame for SAVE header
-             VTWR = d$VTWR,          # data.table directly from ems_data
-             rndm = d$VTWR),         # novel header with same structure
-  par = list(POP = pop_csv,          # same header can appear in both
-             har_file)               # unnamed HAR path loads all headers
+  dat = list(POP = pop_csv,          # CSV created above for POP header
+             VTWR = .data$VTWR),     # data.table directly from ems_data
+  par = "path/to/gdpextra.har"       # unnamed HAR path loads all headers
 )
 ```
 
@@ -234,8 +240,7 @@ The output of `ems_aux()` is passed directly to the `aux_input` argument of `ems
   REG = "big3",
   COMM = "macro_sector",
   ACTS = "macro_sector",
-  ENDW = "labor_agg",
-  time_steps = c(0, 1, 2, 3, 4, 6, 8, 10, 12, 14, 16)
+  ENDW = "labor_agg"
 )
 ```
 
@@ -245,8 +250,7 @@ When `ems_data()` processes auxiliary input, it merges the auxiliary data into t
 
 **Replacement headers** directly overwrite an existing header. The auxiliary data must have the same dimensions and include all elements found in the original data. For example, providing a modified `POP` header replaces the population data loaded from the basedata HAR file.
 
-**Novel headers** introduce data not present in the original database. The set columns of the data frame are matched against sets loaded from the set input file. If a column name exactly matches a loaded set, its elements are validated. If the column name does not match but its elements are a subset of a known set, `teems` will issue a warning and rename the dimension accordingly.
-
+**Novel headers** introduce data not present in the original database. The set columns of the data frame are matched against sets loaded from the set input file. If a column name exactly matches a loaded set, its elements are validated. If the column name does not match but its elements are identical to a known set, `teems` will issue a warning and rename the dimension accordingly. This inference is necessary when a single header contains multiples of the same set (with different names such as REGr and REGs region sets).
 
 ## Time steps
 For temporally dynamic models (e.g., [GTAP-INT](https://github.com/teemsphere/teems-models/tree/main/GTAP-INTv1), [GTAP-RE](https://github.com/teemsphere/teems-models/tree/main/GTAP-REv1)), time steps must be provided representing t0 plus actual year steps from t0.
@@ -284,13 +288,13 @@ Note that set mappings are to be specified according to the model to be used, *n
 
 GTAP 11 database converted to v6.2 data format:
 ```r
-v62_data <- ems_data(dat_input = "path/to/flexAgg11c17/gsdfdat.har",
-                     par_input = "path/to/flexAgg11c17/gsdfpar.har",
-                     set_input = "path/to/flexAgg11c17/gsdfset.har",
-                     REG = "big3",
-                     TRAD_COMM = "macro_sector",
-                     ENDW_COMM = "labor_agg",
-                     target_format = "GTAPv6"
+v6_data <- ems_data(dat_input = "path/to/flexAgg11c17/gsdfdat.har",
+                    par_input = "path/to/flexAgg11c17/gsdfpar.har",
+                    set_input = "path/to/flexAgg11c17/gsdfset.har",
+                    REG = "big3",
+                    TRAD_COMM = "macro_sector",
+                    ENDW_COMM = "labor_agg",
+                    target_format = "GTAPv6"
 )
 ```
 
@@ -309,7 +313,7 @@ v7_data <- ems_data(dat_input = "path/to/flexagg10AY14/gsddat.har",
 ## Data aggregation
 Data is aggregated according to type, with non-parameter coefficients summed by target set mappings and weighted averages calculated for the parameters below.
 A simple mean is applied to parameters not listed below.
-If custom parameter values are desired, these can be loaded in their final format into the [`ems_model()`](https://teemsphere.github.io/model_load.html) function.
+If custom parameter values are desired, these can be loaded in their final format into the [`ems_model()`](https://teemsphere.github.io/model_load.html) function, and no aggregation or modification will take place.
 In the below notation, hat (ˆ) indicates the new parameter value while asterisk (*) indicates the destination set.
 mapping.
 
@@ -319,19 +323,19 @@ Headers, descriptions, and index ranges for parameters and associated data withi
 |                        | Header | Description                                          | Set Index                                                                 |
 |------------------------|--------|------------------------------------------------------|---------------------------------------------------------------------------|
 | **Param.**             |        |                                                      |                                                                           |
-| $\sigma_\text{d}$      | ESBD   | Armington CES for domestic/imported allocation       | $i \in \text{TRAD\_COMM}$                                                 |
+| $\sigma_\text{d}$      | ESBD   | Armington CES for dom./imp. allocation       | $i \in \text{TRAD\_COMM}$                                                 |
 | $\sigma_\text{m}$      | ESBM   | Armington CES for regional allocation of imports     | $i \in \text{TRAD\_COMM}$                                                 |
 | $\sigma_\text{va}$     | ESBV   | CES between primary factors in production            | $j \in \text{PROD\_COMM}$                                                 |
 | $\gamma$               | INCP   | CDE expansion parameter                              | $i \in \text{TRAD\_COMM},\ r \in \text{REG}$                             |
 | $\beta$                | SUBP   | CDE substitution parameter                           | $i \in \text{TRAD\_COMM},\ r \in \text{REG}$                             |
 | **Data**               |        |                                                      |                                                                           |
 |                        | EVFA   | Endowments – Firms purchases at agents' prices       | $i \in \text{ENDW\_COMM},\ j \in \text{PROD\_COMM},\ r \in \text{REG}$   |
-|                        | VDFA   | Inter. – Firms' domestic purchases at agents' prices | $i \in \text{TRAD\_COMM},\ j \in \text{PROD\_COMM},\ r \in \text{REG}$   |
-|                        | VDGA   | Inter. – Government domestic purchases at agents'    | $i \in \text{TRAD\_COMM},\ r \in \text{REG}$                             |
-|                        | VDPA   | Inter. – Household domestic purchases at agents'     | $i \in \text{TRAD\_COMM},\ r \in \text{REG}$                             |
-|                        | VIFA   | Inter. – Firms' imports at agents' prices            | $i \in \text{TRAD\_COMM},\ j \in \text{PROD\_COMM},\ r \in \text{REG}$   |
-|                        | VIGA   | Inter. – Government imports at agents' prices        | $i \in \text{TRAD\_COMM},\ r \in \text{REG}$                             |
-|                        | VIPA   | Inter. – Household imports at agents' prices         | $i \in \text{TRAD\_COMM},\ r \in \text{REG}$                             |
+|                        | VDFA   | Inter. – Firms' dom. purchases at agents' prices | $i \in \text{TRAD\_COMM},\ j \in \text{PROD\_COMM},\ r \in \text{REG}$   |
+|                        | VDGA   | Inter. – Government dom. purchases at agents'    | $i \in \text{TRAD\_COMM},\ r \in \text{REG}$                             |
+|                        | VDPA   | Inter. – Household dom. purchases at agents'     | $i \in \text{TRAD\_COMM},\ r \in \text{REG}$                             |
+|                        | VIFA   | Inter. – Firms' imp. at agents' prices            | $i \in \text{TRAD\_COMM},\ j \in \text{PROD\_COMM},\ r \in \text{REG}$   |
+|                        | VIGA   | Inter. – Government imp. at agents' prices        | $i \in \text{TRAD\_COMM},\ r \in \text{REG}$                             |
+|                        | VIPA   | Inter. – Household imp. at agents' prices         | $i \in \text{TRAD\_COMM},\ r \in \text{REG}$                             |
 
 :::
 
