@@ -1,96 +1,114 @@
 # Custom shocks
 
 ## Overview
-The `"custom"` shock type via `ems_shock()` allows for granular control over heterogenous shocks that are allocated on a tuple-specific basis, inputted as a CSV file or dataframe (or dataframe equivalent) through `"input"`.
+`ems_shock()` with `type = "custom"` allows for heterogeneous shocks specified on a tuple-by-tuple basis, supplied as a data frame or CSV file through `input`.
+Values are denominated in percentage change. Only the tuples present in `input` are shocked; remaining elements are unaffected.
+
+```r
+ems_shock(var, type = "custom", input)
+```
+
+| Argument | Type | Description |
+|----------|------|-------------|
+| `var` | Character | Variable name as it appears in the model file |
+| `type` | Character | Set to `"custom"` |
+| `input` | Data frame or Character | Data frame or path to a CSV file containing set columns and a `Value` column (percentage changes) |
 
 ## Full variable custom shocks
-Here is a demonstration of 4 custom shocks carried out on all variable tuples for a range of variable dimensions with the [GTAP-RE](https://github.com/teemsphere/teems-models/tree/main/GTAP-REv1) model.
+Here is a demonstration of 4 custom shocks carried out on all variable tuples for a range of variable dimensions with the [GTAP-INT](https://github.com/teemsphere/teems-models/tree/main/GTAP-INTv1) model.
 
 Elements for data frame construction
 ```r
-time_steps <- c(0, 1, 2, 3, 4, 6, 8, 10, 12, 14, 16)
-REGr <- c("asia", "eit", "lam", "maf", "oecd")
-ENDWe <- c("labor", "capital", "natlres", "land")
-COMMc <- c("svces", "food", "crops", "mnfcs", "livestock")
-ACTSa <- c("svces", "food", "crops", "mnfcs", "livestock")
-MARGm <- "svces"
-ALLTIMEt <- seq(0, length(time_steps) - 1)
+time_steps <- c(0, 1, 2, 3)
+REG <- c("chn", "usa", "row")
+ENDW_COMM <- c("labor", "capital", "natlres", "land")
+TRAD_COMM <- c("svces", "food", "crops", "mnfcs", "livestock")
+PROD_COMM <- c("svces", "food", "crops", "mnfcs", "livestock", "zcgds")
+MARG_COMM <- "svces"
+ALLTIME <- seq(0, length(time_steps) - 1)
 ```
 
 2D data frame and shock
 ```r
 pop <- expand.grid(
-  REGr = REGr,
-  ALLTIMEt = ALLTIMEt,
+  REGr = REG,
+  ALLTIMEt = ALLTIME,
   stringsAsFactors = FALSE
 )
 
 pop <- pop[do.call(order, pop), ]
 pop$Value <- runif(nrow(pop))
 
-pop_shk <- ems_shock(
+pop_shk <- ems_custom_shock(
   var = "pop",
-  type = "custom",
   input = pop
 )
 ```
 3D data frame and shock
 ```r
 aoall <- expand.grid(
-  ACTSa = ACTSa,
-  REGr = REGr,
-  ALLTIMEt = ALLTIMEt,
+  PROD_COMMj = PROD_COMM,
+  REGr = REG,
+  ALLTIMEt = ALLTIME,
   stringsAsFactors = FALSE
 )
 
 aoall <- aoall[do.call(order, aoall), ]
 aoall$Value <- runif(nrow(aoall))
 
-aoall_shk <- ems_shock(
+aoall_shk <- ems_custom_shock(
   var = "aoall",
-  type = "custom",
   input = aoall
 )
 ```
 4D data frame and shock
 ```r
 afeall <- expand.grid(
-  ENDWe = ENDWe,
-  ACTSa = ACTSa,
-  REGr = REGr,
-  ALLTIMEt = ALLTIMEt,
+  ENDW_COMMi = ENDW_COMM,
+  PROD_COMMj = PROD_COMM,
+  REGr = REG,
+  ALLTIMEt = ALLTIME,
   stringsAsFactors = FALSE
 )
 
 afeall <- afeall[do.call(order, afeall), ]
 afeall$Value <- runif(nrow(afeall))
 
-afeall_shk <- ems_shock(
+afeall_shk <- ems_custom_shock(
   var = "afeall",
-  type = "custom",
   input = afeall
 )
 ```
 5D data frame and shock
 ```r
 atall <- expand.grid(
-  MARGm = MARGm,
-  COMMc = COMMc,
-  REGs = REGr,
-  REGd = REGr,
-  ALLTIMEt = ALLTIMEt,
+  MARG_COMMm = MARG_COMM,
+  TRAD_COMMi = TRAD_COMM,
+  REGr = REG,
+  REGs = REG,
+  ALLTIMEt = ALLTIME,
   stringsAsFactors = FALSE
 )
 
 atall <- atall[do.call(order, atall), ]
 atall$Value <- runif(nrow(atall))
 
-atall_shk <- ems_shock(
+atall_shk <- ems_custom_shock(
   var = "atall",
-  type = "custom",
   input = atall
 )
 ```
+
+Multiple custom shocks are combined in a list for `ems_deploy()`:
+```r
+cmf_path <- ems_deploy(
+  .data = .data,
+  model = model,
+  shock = list(pop_shk, aoall_shk, afeall_shk, atall_shk)
+)
+```
+
+Custom shocks can also be loaded from CSV files by passing a file path to `"input"` instead of a data frame.
 
 ## Partial variable custom shocks
 Custom shocks are only carried out on tuples included within the input data frame or CSV. Here we make appropriate swaps and carry out a custom shock (heterogenous values) across part of a variable. Note how the custom shock data frame for `REGr` "lam"

@@ -4,7 +4,6 @@
 
 The `ems_model()` function loads the model and its closure, conducts pre-deployment checks, determines temporal dynamics, and allows for the loading of aggregated coefficient data. The output of this function is a tibble with attributes containing the parsed model input and is a required input to the `"model"` argument of the [`ems_deploy()`] function.
 
-## Function signature
 ```r
 ems_model(model_input, closure_file, var_omit = NULL, ...)
 ```
@@ -41,7 +40,8 @@ model <- ems_model(
 We recommend that users seeking to load custom models first review the formatting of the vetted models at [teems-models](https://github.com/teems-org/teems-models) in order to make any necessary modifications for use within the `teems` software ecosystem. In some cases it may be easiest to use existing compatible models as a starting point for modifications. Although the [teems-solver](https://github.com/teemsphere/teems-solver) does not support all current GEMPack declarations, there is usually a workaround. Running a `diff` on the original GTAP models and those in [teems-models](https://github.com/teems-org/teems-models) is a good starting point for understanding potential incompatibilities.
 
 ## Closure selection
-Standard model-specific closures are available within the model repository: [teems-models](https://github.com/teemsphere/teems-models). The general format consistens of:
+Standard model-specific closures are available within the model repository: [teems-models](https://github.com/teemsphere/teems-models). The general format consists of:
+
 1. Character string "exogenous"
 2. A "\n" delimited list of exogenous variables
 3. ";"
@@ -123,7 +123,7 @@ Standard v6.2 data format variable omissions: `c("atall", "tfd", "avaall", "tf",
 
 ## Coefficient value injection {#coeff_inject}
 
-The `...` argument in `ems_model()` allows users to assign aggregation-specific values to model coefficients. This is used to inject modified values into existing coefficients as well as provide data to new coefficients. All data inputted here must be model-aggregation specific and will not be subject to aggregation. For loading disaggregated data, see `ems_aux()` and `ems_data()`. The left-hand side (name) must correspond to a coefficient (not header) declared within the model input. Three input types are supported, with model "Read" and "Formula" declarations modified accordingly:
+The `...` argument in `ems_model()` allows users to assign aggregation-specific values to model coefficients. This is used to inject modified values into existing coefficients as well as provide data to new coefficients (aggregated). All data inputted here must be model-aggregation specific and will not be subject to aggregation. For loading disaggregated data, see `ems_aux()` and `ems_data()`. The left-hand side (name) must correspond to a coefficient (not header) declared within the model input. Three input types are supported, with model "Read" and "Formula" declarations modified accordingly:
 
 ### Uniform numeric value
 
@@ -154,6 +154,7 @@ SUBPAR <- expand.grid(
   REGr = REGr,
   ALLTIMEt = ALLTIMEt
 )
+
 SUBPAR$Value <- runif(nrow(SUBPAR))
 
 model <- ems_model(

@@ -1,7 +1,19 @@
 # Scenario shocks
 
 ## Overview
-The `"scenario"` shock type via `ems_shock()` is a dedicated intertemporal shock type that allows for granular control over heterogenous shocks allocated on a tuple-specific basis, inputted as a CSV file or dataframe (or dataframe equivalent) through `"input"` in the form of absolute values. This is in contrast with custom shocks where the inputs are denominated in percentage change values.
+`ems_shock()` with `type = "scenario"` is an intertemporal shock type that specifies heterogeneous shocks at the tuple level as absolute values.
+Inputs must cover all pre-aggregation tuples and span the full extent of the variable — no partial variable scenario shocks are permitted.
+Values are aggregated according to the set mappings in `ems_data()` and then converted to percentage changes internally, making scenario shocks portable across different model aggregations.
+
+```r
+ems_shock(var, type = "scenario", input)
+```
+
+| Argument | Type | Description |
+|----------|------|-------------|
+| `var` | Character | Variable name as it appears in the model file |
+| `type` | Character | Set to `"scenario"` |
+| `input` | Data frame or Character | Data frame or path to a CSV file containing all pre-aggregation tuples, a `Year` column (chronological years), and a `Value` column (absolute values) |
 
 ## Using scenario shocks
 Scenario shocks differ from custom shocks in a number of respects:
@@ -21,16 +33,15 @@ There are several applications where it is advantageous to use scenario shock ra
 ## Population trajectory example
 Here is an example that takes base year population data from the GTAP database (typically not read into the model) and constructs hypothetical pathways for every region in the model. These pathways are valid for any regional aggregation chosen.
 
-Grab population data with `REGr` set to "full" to keep regions disaggregated
+Grab population data with `REG` set to "full" to keep regions disaggregated
 ```r
 pop <- ems_data(
   dat_input = "~/dat/GTAP/v11c/flexAgg11c17/gsdfdat.har",
   par_input = "~/dat/GTAP/v11c/flexAgg11c17/gsdfpar.har",
   set_input = "~/dat/GTAP/v11c/flexAgg11c17/gsdfset.har",
   REG = "full",
-  COMM = "macro_sector",
-  ACTS = "macro_sector",
-  ENDW = "labor_agg"
+  TRAD_COMM = "macro_sector",
+  ENDW_COMM = "labor_agg"
 )$POP
 ```
 
@@ -66,13 +77,12 @@ pop <- pop[, c("REG", "Year", "Value")]
 colnames(pop)[1] <- "REGr"
 ```
 
-And simply load as a scenario shock
+And load as a scenario shock
 ```r
-pop_trajectory <- ems_shock(
+pop_trajectory <- ems_scenario_shock(
   var = "pop",
-  type = "scenario",
   input = pop
 )
 ```
 
-Note that the object "pop" may also be save as a .csv and loaded directly from storage.
+Note that the object "pop" may also be saved as a .csv and loaded directly from storage.

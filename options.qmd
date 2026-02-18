@@ -1,0 +1,54 @@
+# Package options
+
+## Overview
+teems provides a set of advanced options that control package behavior across function calls. Options are managed through three functions:
+
+- `ems_option_get()` retrieves current option values
+- `ems_option_set()` modifies option values
+- `ems_option_reset()` restores all options to their defaults
+
+Options persist for the duration of the R session and are reset on package reload.
+
+## Retrieving options
+
+View all current options:
+```r
+ems_option_get()
+```
+
+Retrieve a specific option by name:
+```r
+ems_option_get("verbose")
+ems_option_get("ndigits")
+```
+
+## Setting options
+
+One or more options can be set in a single call:
+```r
+ems_option_set(verbose = FALSE)
+ems_option_set(verbose = FALSE, ndigits = 8)
+```
+
+## Resetting options
+
+Reset all options to their default values:
+```r
+ems_option_reset()
+```
+
+## Available options
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `verbose` | `TRUE` | If `FALSE`, function-specific diagnostics are silenced |
+| `ndigits` | `6` | Number of digits to the right of the decimal point written to file for numeric type double. Passed to `format()` nsmall and `round()` digits |
+| `docker_tag` | `"latest"` | Docker tag specifying which teems Docker image to use |
+| `accuracy_threshold` | `0.8` | Threshold (converted to a percentage) against which 4-digit precision is compared. A warning is generated if the threshold is not met |
+| `write_sub_dir` | `"teems"` | Name of the subdirectory within the base `write_dir` set by `ems_deploy()` |
+| `margin_sectors` | `c("atp", "otp", "wtp")` | Default margin sectors |
+| `check_shock_status` | `TRUE` | If `FALSE`, no check on shock element endogenous/exogenous status is conducted |
+| `expand_ETRE` | `TRUE` | If `TRUE`, missing tuples in the ETRE (ETRAE) data header are added with value -1e-05 and the sluggish endowment set is replaced with the general endowment set. The ETRE header is not consistent across databases regarding inclusion of non-sluggish endowments |
+| `full_exclude` | `c("DREL", "DVER", "XXCR", "XXCD", "XXCP", "SLUG", "EFLG")` | Headers to fully exclude from all aspects of the model run. Failure to designate these headers properly will result in errors because some headers cannot be aggregated or mapped. Modify with caution |
+| `timestep_header` | `"YEAR"` | Coefficient containing a numeric vector of timestep intervals. For novel intertemporal models - modify with caution |
+| `n_timestep_header` | `"NTSP"` | Coefficient containing a numeric vector length one with sum of timestep intervals. For novel intertemporal models - modify with caution |

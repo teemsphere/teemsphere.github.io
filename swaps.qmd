@@ -9,7 +9,7 @@ Here simple swaps refers swaps in which a variable and all its components are be
 A single full variable swap
 ```r
 cmf_path <- ems_deploy(
-  data = data,
+  .data = .data,
   model = model,
   swap_in = "qfd",
   swap_out = "tfd"
@@ -18,7 +18,7 @@ cmf_path <- ems_deploy(
 Multiple full variable swaps
 ```r
 cmf_path <- ems_deploy(
-  data = data,
+  .data = .data,
   model = model,
   swap_in = c("qfd", "yp"),
   swap_out = c("tfd", "dppriv")
@@ -28,6 +28,20 @@ cmf_path <- ems_deploy(
 Note that swaps (and validity checks) are handled in the order they are inputted and swaps "in" are handled before swaps "out". 
 
 ## Complex (partial variable) swaps
+
+### ems_swap()
+`ems_swap()` prepares a partial variable swap for use in the `swap_in` or `swap_out` arguments of `ems_deploy()`.
+Set arguments in `...` use the model-specific set-index naming convention (set name concatenated with the variable's index letter, e.g. `REGr`, `ACTSa`) to identify which tuples to include in the swap.
+
+```r
+ems_swap(var, ...)
+```
+
+| Argument | Type | Description |
+|----------|------|-------------|
+| `var` | Character | Variable name as it appears in the model file |
+| `...` | Named arguments | Set-index pairs identifying the tuples to include in the swap |
+
 Partial variable swaps entail swapping parts of a variable (i.e., subsets of the constituitive sets) and must be processed through the `ems_swap()` function. In the above example the full "qfd" and "yp" variables were made exogenous while the full "tfd" and "dppriv" variable become endogenous. Within the [GTAPv7.0](https://github.com/teemsphere/teems-models/blob/main/GTAPv7.0/GTAPv7.0.tab) model, "qfd" encompasses the "COMM", "ACTS", and "REG" sets:
 ```
 Variable (orig_level=VDFB)(all,c,COMM)(all,a,ACTS)(all,r,REG)

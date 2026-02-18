@@ -35,6 +35,9 @@ book:
         - solve.qmd
         - solve_in_situ.qmd
         - compose.qmd
+    - part: "Configuration"
+      chapters:
+        - options.qmd
         # - data_mod.qmd
   #   - part: "Solving the model"
   #     chapters:
