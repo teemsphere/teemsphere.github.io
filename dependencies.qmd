@@ -4,18 +4,12 @@ execute:
 ---
 
 # Dependencies {#dependencies}
-
-```{r, message = FALSE, warning = FALSE, echo = FALSE}
-knitr::opts_knit$set(root.dir = fs::dir_create(tempfile()))
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>", eval = TRUE)
-options(crayon.enabled = FALSE)
-```
-
 This chapter outlines what is needed to run your first CGE model.
-Ideally all components would be open-source and maybe one day they will be but for the moment there are still some minor hurdles to overcome.
+Ideally all components would be open-source and maybe one day they will be, but for the moment there are still some minor hurdles to overcome.
 Before beginning to write model scripts in [R](https://www.r-project.org/) with [`teems`](https://github.com/teemsphere/teems-R), users will need to gain access to a GTAP database and build the [teems-solver](https://github.com/teemsphere/teems-solver).
 [GEMPack](https://www.copsmodels.com/gempack.htm) users can skip the solver step although they will be missing out on a considerable degree of functionality both within the solution process itself as well as regarding post-model data availability.
-For those skeptical of using R or under the impression that R is only for statistical analysis, we would invite you to investigate speed tests between the R [data.table](https://r-datatable.com/) package (widely employed within [`teems`](https://github.com/teemsphere/teems-R)) and comparable packages in [Python](https://www.python.org/) and [Julia](https://julialang.org/).
+
+For those skeptical of using R or under the impression that R is only for statistical analysis, we would invite you to investigate speed tests between the R [data.table](https://r-datatable.com/) package (widely employed within [`teems`](https://github.com/teemsphere/teems-R)) and comparable packages in [Python](https://www.python.org/) and [Julia](https://julialang.org/). For all but the largest models, the time needed to prepare input files is trivial. The solver itself is written in C and uses highly performant Fortran libraries.
 
 ## Data
 Currently the only data for teems-compatible CGE model runs is available from the Global Trade Analysis Project [(GTAP)](https://www.gtap.agecon.purdue.edu/).
@@ -25,10 +19,24 @@ For GTAP 9 this is accessible under the "GDyn 9 Data Base for 2011" subheader in
 For GTAP members that have purchased a database, the current [`teems`](https://github.com/teemsphere/teems-R) version is capable of handling the "FlexAgg" format for GTAP Databases 10 and 11.
 
 ## teems-R package
-The R [package](https://github.com/teemsphere/teems-R) is currently in beta and open for testing.
-Installation is via [remotes](https://github.com/r-lib/remotes) and instructions can be found here: [teems](https://github.com/teemsphere/teems-R).
+The R [package](https://github.com/teemsphere/teems-R) is currently in beta (v0.0.0.99) and open for testing.
+It requires R >= 4.3.0 and is installed via [remotes](https://github.com/r-lib/remotes):
+
+```r
+remotes::install_github("teemsphere/teems-R@v0.0.0.99")
+```
 
 ## teems-solver
-[`teems`](https://github.com/teemsphere/teems-R) calls Docker in order to solve the constrained optimization problem using low-level C and Fortran routines.
-For those unable to use Docker, Singularity-based containerization will be made available in future releases.
+[`teems`](https://github.com/teemsphere/teems-R) calls Docker to solve the constrained optimization problem using low-level C and Fortran routines.
 The solver build is available here: [teems-solver](https://github.com/teemsphere/teems-solver).
+
+### Prerequisites
+
+Two prerequisites beyond Docker are required before building:
+
+- **Docker** --- install from [docker.com](https://www.docker.com/get-started/). Linux users must also configure Docker to [run without `sudo`](https://docs.docker.com/engine/install/linux-postinstall/).
+- **HSL libraries** --- four sparse linear algebra libraries (MA48, MA51, HSL_MC66, HSL_MP48) must be obtained directly from [HSL](https://www.hsl.rl.ac.uk/) prior to building. These are available at no cost for academic use.
+
+### Build options
+
+Two Docker build approaches are available. The **expedited build** (~5 min) is recommended for most users and uses a pre-built base image containing all open-source dependencies. The **full build** (~40 min) compiles everything from source.
