@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -394,6 +429,23 @@ ul.task-list li input[type="checkbox"] {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Configuration</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./options.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Package options</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -406,7 +458,11 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#data" id="toc-data" class="nav-link active" data-scroll-target="#data"><span class="header-section-number">2.1</span> Data</a></li>
   <li><a href="#teems-r-package" id="toc-teems-r-package" class="nav-link" data-scroll-target="#teems-r-package"><span class="header-section-number">2.2</span> teems-R package</a></li>
-  <li><a href="#teems-solver" id="toc-teems-solver" class="nav-link" data-scroll-target="#teems-solver"><span class="header-section-number">2.3</span> teems-solver</a></li>
+  <li><a href="#teems-solver" id="toc-teems-solver" class="nav-link" data-scroll-target="#teems-solver"><span class="header-section-number">2.3</span> teems-solver</a>
+  <ul class="collapse">
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites"><span class="header-section-number">2.3.1</span> Prerequisites</a></li>
+  <li><a href="#build-options" id="toc-build-options" class="nav-link" data-scroll-target="#build-options"><span class="header-section-number">2.3.2</span> Build options</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/dependencies.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -433,20 +489,34 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This chapter outlines what is needed to run your first CGE model. Ideally all components would be open-source and maybe one day they will be but for the moment there are still some minor hurdles to overcome. Before beginning to write model scripts in <a href="https://www.r-project.org/">R</a> with <a href="https://github.com/teemsphere/teems-R"><code>teems</code></a>, users will need to gain access to a GTAP database and build the <a href="https://github.com/teemsphere/teems-solver">teems-solver</a>. <a href="https://www.copsmodels.com/gempack.htm">GEMPack</a> users can skip the solver step although they will be missing out on a considerable degree of functionality both within the solution process itself as well as regarding post-model data availability. For those skeptical of using R or under the impression that R is only for statistical analysis, we would invite you to investigate speed tests between the R <a href="https://r-datatable.com/">data.table</a> package (widely employed within <a href="https://github.com/teemsphere/teems-R"><code>teems</code></a>) and comparable packages in <a href="https://www.python.org/">Python</a> and <a href="https://julialang.org/">Julia</a>.</p>
+<p>This chapter outlines what is needed to run your first CGE model. Ideally all components would be open-source and maybe one day they will be, but for the moment there are still some minor hurdles to overcome. Before beginning to write model scripts in <a href="https://www.r-project.org/">R</a> with <a href="https://github.com/teemsphere/teems-R"><code>teems</code></a>, users will need to gain access to a GTAP database and build the <a href="https://github.com/teemsphere/teems-solver">teems-solver</a>. <a href="https://www.copsmodels.com/gempack.htm">GEMPack</a> users can skip the solver step although they will be missing out on a considerable degree of functionality both within the solution process itself as well as regarding post-model data availability.</p>
+<p>For those skeptical of using R or under the impression that R is only for statistical analysis, we would invite you to investigate speed tests between the R <a href="https://r-datatable.com/">data.table</a> package (widely employed within <a href="https://github.com/teemsphere/teems-R"><code>teems</code></a>) and comparable packages in <a href="https://www.python.org/">Python</a> and <a href="https://julialang.org/">Julia</a>. For all but the largest models, the time needed to prepare input files is trivial. The solver itself is written in C and uses highly performant Fortran libraries.</p>
 <section id="data" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="data"><span class="header-section-number">2.1</span> Data</h2>
 <p>Currently the only data for teems-compatible CGE model runs is available from the Global Trade Analysis Project <a href="https://www.gtap.agecon.purdue.edu/">(GTAP)</a>. Although the most recent databases are proprietary, GTAP has consistently open-accessed databases two versions out (GTAP 9 database as of the current GTAP 11 release). In order to access the freely available database, users will need to <a href="https://www.gtap.agecon.purdue.edu/access_member/profile/profile_addnew.aspx">register</a> with GTAP and download the “FlexAgg” format. For GTAP 9 this is accessible under the “GDyn 9 Data Base for 2011” subheader in the “Satellite Data and Utilities” section <a href="https://www.gtap.agecon.purdue.edu/databases/archives.asp">here</a>. For GTAP members that have purchased a database, the current <a href="https://github.com/teemsphere/teems-R"><code>teems</code></a> version is capable of handling the “FlexAgg” format for GTAP Databases 10 and 11.</p>
 </section>
 <section id="teems-r-package" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="teems-r-package"><span class="header-section-number">2.2</span> teems-R package</h2>
-<p>The R <a href="https://github.com/teemsphere/teems-R">package</a> is currently in beta and open for testing. Installation is via <a href="https://github.com/r-lib/remotes">remotes</a> and instructions can be found here: <a href="https://github.com/teemsphere/teems-R">teems</a>.</p>
+<p>The R <a href="https://github.com/teemsphere/teems-R">package</a> is currently in beta (v0.0.0.99) and open for testing. It requires R &gt;= 4.3.0 and is installed via <a href="https://github.com/r-lib/remotes">remotes</a>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"teemsphere/teems-R@v0.0.0.99"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="teems-solver" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="teems-solver"><span class="header-section-number">2.3</span> teems-solver</h2>
-<p><a href="https://github.com/teemsphere/teems-R"><code>teems</code></a> calls Docker in order to solve the constrained optimization problem using low-level C and Fortran routines. For those unable to use Docker, Singularity-based containerization will be made available in future releases. The solver build is available here: <a href="https://github.com/teemsphere/teems-solver">teems-solver</a>.</p>
+<p><a href="https://github.com/teemsphere/teems-R"><code>teems</code></a> calls Docker to solve the constrained optimization problem using low-level C and Fortran routines. The solver build is available here: <a href="https://github.com/teemsphere/teems-solver">teems-solver</a>.</p>
+<section id="prerequisites" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="prerequisites"><span class="header-section-number">2.3.1</span> Prerequisites</h3>
+<p>Two prerequisites beyond Docker are required before building:</p>
+<ul>
+<li><strong>Docker</strong> — install from <a href="https://www.docker.com/get-started/">docker.com</a>. Linux users must also configure Docker to <a href="https://docs.docker.com/engine/install/linux-postinstall/">run without <code>sudo</code></a>.</li>
+<li><strong>HSL libraries</strong> — four sparse linear algebra libraries (MA48, MA51, HSL_MC66, HSL_MP48) must be obtained directly from <a href="https://www.hsl.rl.ac.uk/">HSL</a> prior to building. These are available at no cost for academic use.</li>
+</ul>
+</section>
+<section id="build-options" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="build-options"><span class="header-section-number">2.3.2</span> Build options</h3>
+<p>Two Docker build approaches are available. The <strong>expedited build</strong> (~5 min) is recommended for most users and uses a pre-built base image containing all open-source dependencies. The <strong>full build</strong> (~40 min) compiles everything from source.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

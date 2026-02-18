@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "The {teems} R package user manual",
     "section": "",
-    "text": "1 Introduction\nReproducibility within computable general equilibrium (CGE) and partial equilibrium modelling analyses has long been elusive, in part due to proprietary data and software. Here we address one aspect of this equation with the introduciton of the TEEMS (Trade and Environment Equilibrium Modelling System) open-source software suite. At its core, TEEMS comprises an R package teems used to compose model runs and teems-solver, a C-based solver capable of solving a large system of nonlinear equations by leveraging a range of mathematical and scientific computation libraries. Auxillary repositories to facilitate model runs also include teems-models, containing internally available and immediately compatible models, and teems-mappings.\nThese tools working in conjunction allow for open and modular CGE model runs from head to tail as well as completely reproducible workflows. With a base within the general purpose R scripting language, users able to seamlessly adjust model components including set aggregations, parameter weighting, closure and shock specifications as well as a large number of options pertaining to the solution and model outputs. Model scripts can then be shared with colleagues, reviewers, and policy-makers for vetting, modification, and reproduction.",
+    "text": "1 Introduction\nReproducibility within computable general equilibrium (CGE) and partial equilibrium modelling analyses has long been elusive, in part due to proprietary data and software. Here we address one aspect of this equation with the introduction of the TEEMS (Trade and Environment Equilibrium Modelling System) open-source software suite.\nAt its core, TEEMS comprises an R package teems used to compose model runs and teems-solver, a C-based solver capable of solving a large system of nonlinear equations by leveraging a range of mathematical and scientific computation libraries. Auxiliary repositories to facilitate model runs also include teems-models, containing internally available and immediately compatible models, and teems-mappings.\nThe above tools working in conjunction allow for open and modular CGE model runs from head to tail as well as completely reproducible workflows. With a base within the general purpose R scripting language, users able to seamlessly adjust model components including set aggregations, parameter weighting, closure and shock specifications as well as a large number of options pertaining to the solution and model outputs. Model scripts can then be shared with colleagues, reviewers, and policy-makers for vetting, modification, and reproduction.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
@@ -14,7 +14,7 @@
     "href": "index.html#motivation",
     "title": "The {teems} R package user manual",
     "section": "1.1 Motivation",
-    "text": "1.1 Motivation\nReproducibility has been elusive in large part due to the proprietary nature of associated software and data for CGE modelling but also due to the shear complexity of compiling a single model run. A single “simple” model run for example broadly involves:\n\nData and set selection\nSet mappings\nModel selection\nVariable omission\nClosure selection including any swaps\nShock designation\nSet-specific basedata loading, modification, and aggregation\nSet- and weight-specific parameter loading, modification, and aggregation\nSelection of matrix solution methods\nNumber of step and subinterval designations\nConstrained optimization solution\nComposition of all outputs into structured data\n\nIndeed, in the course of building the TEEMS framework we have found that without a reproducible architecture, there is a very high possibility of persistent logic errors propagating through to the output without any obvious indications that this is taking place in most cases. Models which incorporate time steps and additional auxillary data (e.g., land-use data) or are coupled with other models such as is the case with most integrated assessment models (IAMs) are even more complex, and therefore susceptable to a wide range of errors. Ultimately we hope that this software mitigates the steep learning curve requisite to running equilibrium models and allows scientists from various disciplines to advance model representation of their fields. The TLDR – running a CGE model does not have to be so hard!",
+    "text": "1.1 Motivation\nReproducibility has been elusive in large part due to the proprietary nature of associated software and data for CGE modelling but also due to the shear complexity of compiling a single model run. A single “simple” model run for example broadly involves:\n\nData and set selection\nSet mappings\nModel selection\nVariable omission\nClosure selection including any swaps\nShock designation\nSet-specific basedata loading, modification, and aggregation\nSet- and weight-specific parameter loading, modification, and aggregation\nSelection of matrix solution methods\nNumber of step and subinterval designations\nConstrained optimization solution\nComposition of all outputs into structured data\n\nIndeed, in the course of building the TEEMS framework we have found that without a reproducible architecture, there is a very high possibility of persistent logic errors propagating through to the output without any obvious indications that this is taking place.\nModels which incorporate time steps and additional auxiliary data (e.g., land-use data) or are coupled with other models such as is the case with most integrated assessment models (IAMs) are even more complex and more susceptable to a wide range of errors.\nUltimately we hope that this software mitigates the steep learning curve requisite to running equilibrium models and allows scientists from various disciplines to advance model representation of their fields. The TLDR – running a CGE model does not have to be so hard!",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
@@ -24,7 +24,7 @@
     "href": "index.html#errors-and-model-compatibility",
     "title": "The {teems} R package user manual",
     "section": "1.2 Errors and model compatibility",
-    "text": "1.2 Errors and model compatibility\nThis software suite has been under development for many years. Despite our best efforts, it is very likely that you will encounter issues – particularly given the wide range of Tablo model files that exist in this field. We are providing access in this current beta stage to crowdsource your efforts and address any significant issues before submitting a package to CRAN. If your model file does not work, please get in touch and we will seek to expand compatibility.",
+    "text": "1.2 Errors and model compatibility\nThis software suite has been under development for many years. Despite our best efforts, it is possible that you will encounter issues – particularly given the wide range of Tablo model files that exist in this field. We are providing access in this current beta stage to crowdsource your efforts and address any significant issues before submitting the package to CRAN. If your model file does not work, please get in touch and we will seek to expand compatibility.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
@@ -44,7 +44,7 @@
     "href": "dependencies.html",
     "title": "2  Dependencies",
     "section": "",
-    "text": "2.1 Data\nThis chapter outlines what is needed to run your first CGE model. Ideally all components would be open-source and maybe one day they will be but for the moment there are still some minor hurdles to overcome. Before beginning to write model scripts in R with teems, users will need to gain access to a GTAP database and build the teems-solver. GEMPack users can skip the solver step although they will be missing out on a considerable degree of functionality both within the solution process itself as well as regarding post-model data availability. For those skeptical of using R or under the impression that R is only for statistical analysis, we would invite you to investigate speed tests between the R data.table package (widely employed within teems) and comparable packages in Python and Julia.\nCurrently the only data for teems-compatible CGE model runs is available from the Global Trade Analysis Project (GTAP). Although the most recent databases are proprietary, GTAP has consistently open-accessed databases two versions out (GTAP 9 database as of the current GTAP 11 release). In order to access the freely available database, users will need to register with GTAP and download the “FlexAgg” format. For GTAP 9 this is accessible under the “GDyn 9 Data Base for 2011” subheader in the “Satellite Data and Utilities” section here. For GTAP members that have purchased a database, the current teems version is capable of handling the “FlexAgg” format for GTAP Databases 10 and 11.",
+    "text": "2.1 Data\nThis chapter outlines what is needed to run your first CGE model. Ideally all components would be open-source and maybe one day they will be, but for the moment there are still some minor hurdles to overcome. Before beginning to write model scripts in R with teems, users will need to gain access to a GTAP database and build the teems-solver. GEMPack users can skip the solver step although they will be missing out on a considerable degree of functionality both within the solution process itself as well as regarding post-model data availability.\nFor those skeptical of using R or under the impression that R is only for statistical analysis, we would invite you to investigate speed tests between the R data.table package (widely employed within teems) and comparable packages in Python and Julia. For all but the largest models, the time needed to prepare input files is trivial. The solver itself is written in C and uses highly performant Fortran libraries.\nCurrently the only data for teems-compatible CGE model runs is available from the Global Trade Analysis Project (GTAP). Although the most recent databases are proprietary, GTAP has consistently open-accessed databases two versions out (GTAP 9 database as of the current GTAP 11 release). In order to access the freely available database, users will need to register with GTAP and download the “FlexAgg” format. For GTAP 9 this is accessible under the “GDyn 9 Data Base for 2011” subheader in the “Satellite Data and Utilities” section here. For GTAP members that have purchased a database, the current teems version is capable of handling the “FlexAgg” format for GTAP Databases 10 and 11.",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Dependencies</span>"
@@ -55,7 +55,7 @@
     "href": "dependencies.html#teems-r-package",
     "title": "2  Dependencies",
     "section": "2.2 teems-R package",
-    "text": "2.2 teems-R package\nThe R package is currently in beta and open for testing. Installation is via remotes and instructions can be found here: teems.",
+    "text": "2.2 teems-R package\nThe R package is currently in beta (v0.0.0.99) and open for testing. It requires R &gt;= 4.3.0 and is installed via remotes:\nremotes::install_github(\"teemsphere/teems-R@v0.0.0.99\")",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Dependencies</span>"
@@ -66,7 +66,7 @@
     "href": "dependencies.html#teems-solver",
     "title": "2  Dependencies",
     "section": "2.3 teems-solver",
-    "text": "2.3 teems-solver\nteems calls Docker in order to solve the constrained optimization problem using low-level C and Fortran routines. For those unable to use Docker, Singularity-based containerization will be made available in future releases. The solver build is available here: teems-solver.",
+    "text": "2.3 teems-solver\nteems calls Docker to solve the constrained optimization problem using low-level C and Fortran routines. The solver build is available here: teems-solver.\n\n2.3.1 Prerequisites\nTwo prerequisites beyond Docker are required before building:\n\nDocker — install from docker.com. Linux users must also configure Docker to run without sudo.\nHSL libraries — four sparse linear algebra libraries (MA48, MA51, HSL_MC66, HSL_MP48) must be obtained directly from HSL prior to building. These are available at no cost for academic use.\n\n\n\n2.3.2 Build options\nTwo Docker build approaches are available. The expedited build (~5 min) is recommended for most users and uses a pre-built base image containing all open-source dependencies. The full build (~40 min) compiles everything from source.",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Dependencies</span>"
@@ -708,6 +708,72 @@
     "crumbs": [
       "Deploying and solving the model",
       "<span class='chapter-number'>12</span>  <span class='chapter-title'>Composing results</span>"
+    ]
+  },
+  {
+    "objectID": "options.html",
+    "href": "options.html",
+    "title": "13  Package options",
+    "section": "",
+    "text": "13.1 Overview\nteems provides a set of advanced options that control package behavior across function calls. Options are managed through three functions:\nOptions persist for the duration of the R session and are reset on package reload.",
+    "crumbs": [
+      "Configuration",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Package options</span>"
+    ]
+  },
+  {
+    "objectID": "options.html#overview",
+    "href": "options.html#overview",
+    "title": "13  Package options",
+    "section": "",
+    "text": "ems_option_get() retrieves current option values\nems_option_set() modifies option values\nems_option_reset() restores all options to their defaults",
+    "crumbs": [
+      "Configuration",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Package options</span>"
+    ]
+  },
+  {
+    "objectID": "options.html#retrieving-options",
+    "href": "options.html#retrieving-options",
+    "title": "13  Package options",
+    "section": "13.2 Retrieving options",
+    "text": "13.2 Retrieving options\nView all current options:\nems_option_get()\nRetrieve a specific option by name:\nems_option_get(\"verbose\")\nems_option_get(\"ndigits\")",
+    "crumbs": [
+      "Configuration",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Package options</span>"
+    ]
+  },
+  {
+    "objectID": "options.html#setting-options",
+    "href": "options.html#setting-options",
+    "title": "13  Package options",
+    "section": "13.3 Setting options",
+    "text": "13.3 Setting options\nOne or more options can be set in a single call:\nems_option_set(verbose = FALSE)\nems_option_set(verbose = FALSE, ndigits = 8)",
+    "crumbs": [
+      "Configuration",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Package options</span>"
+    ]
+  },
+  {
+    "objectID": "options.html#resetting-options",
+    "href": "options.html#resetting-options",
+    "title": "13  Package options",
+    "section": "13.4 Resetting options",
+    "text": "13.4 Resetting options\nReset all options to their default values:\nems_option_reset()",
+    "crumbs": [
+      "Configuration",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Package options</span>"
+    ]
+  },
+  {
+    "objectID": "options.html#available-options",
+    "href": "options.html#available-options",
+    "title": "13  Package options",
+    "section": "13.5 Available options",
+    "text": "13.5 Available options\n\n\n\n\n\n\n\n\nOption\nDefault\nDescription\n\n\n\n\nverbose\nTRUE\nIf FALSE, function-specific diagnostics are silenced\n\n\nndigits\n6\nNumber of digits to the right of the decimal point written to file for numeric type double. Passed to format() nsmall and round() digits\n\n\ndocker_tag\n\"latest\"\nDocker tag specifying which teems Docker image to use\n\n\naccuracy_threshold\n0.8\nThreshold (converted to a percentage) against which 4-digit precision is compared. A warning is generated if the threshold is not met\n\n\nwrite_sub_dir\n\"teems\"\nName of the subdirectory within the base write_dir set by ems_deploy()\n\n\nmargin_sectors\nc(\"atp\", \"otp\", \"wtp\")\nDefault margin sectors\n\n\ncheck_shock_status\nTRUE\nIf FALSE, no check on shock element endogenous/exogenous status is conducted\n\n\nexpand_ETRE\nTRUE\nIf TRUE, missing tuples in the ETRE (ETRAE) data header are added with value -1e-05 and the sluggish endowment set is replaced with the general endowment set. The ETRE header is not consistent across databases regarding inclusion of non-sluggish endowments\n\n\nfull_exclude\nc(\"DREL\", \"DVER\", \"XXCR\", \"XXCD\", \"XXCP\", \"SLUG\", \"EFLG\")\nHeaders to fully exclude from all aspects of the model run. Failure to designate these headers properly will result in errors because some headers cannot be aggregated or mapped. Modify with caution\n\n\ntimestep_header\n\"YEAR\"\nCoefficient containing a numeric vector of timestep intervals. For novel intertemporal models - modify with caution\n\n\nn_timestep_header\n\"NTSP\"\nCoefficient containing a numeric vector length one with sum of timestep intervals. For novel intertemporal models - modify with caution",
+    "crumbs": [
+      "Configuration",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Package options</span>"
     ]
   }
 ]
