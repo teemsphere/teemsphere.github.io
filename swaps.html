@@ -458,7 +458,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">5.1</span> Overview</a></li>
   <li><a href="#simple-full-variable-swaps" id="toc-simple-full-variable-swaps" class="nav-link" data-scroll-target="#simple-full-variable-swaps"><span class="header-section-number">5.2</span> Simple (full variable) swaps</a></li>
-  <li><a href="#complex-partial-variable-swaps" id="toc-complex-partial-variable-swaps" class="nav-link" data-scroll-target="#complex-partial-variable-swaps"><span class="header-section-number">5.3</span> Complex (partial variable) swaps</a></li>
+  <li><a href="#complex-partial-variable-swaps" id="toc-complex-partial-variable-swaps" class="nav-link" data-scroll-target="#complex-partial-variable-swaps"><span class="header-section-number">5.3</span> Complex (partial variable) swaps</a>
+  <ul class="collapse">
+  <li><a href="#ems_swap" id="toc-ems_swap" class="nav-link" data-scroll-target="#ems_swap"><span class="header-section-number">5.3.1</span> ems_swap()</a></li>
+  </ul></li>
   <li><a href="#future-expansions" id="toc-future-expansions" class="nav-link" data-scroll-target="#future-expansions"><span class="header-section-number">5.4</span> Future expansions</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/swaps.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
@@ -495,14 +498,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Here simple swaps refers swaps in which a variable and all its components are being swapped. This is the most common type of swap and is directly handled within <code>ems_deploy()</code>.</p>
 <p>A single full variable swap</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>cmf_path <span class="ot">&lt;-</span> <span class="fu">ems_deploy</span>(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">.data =</span> .data,</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> model,</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_in =</span> <span class="st">"qfd"</span>,</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_out =</span> <span class="st">"tfd"</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Multiple full variable swaps</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cmf_path <span class="ot">&lt;-</span> <span class="fu">ems_deploy</span>(</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">.data =</span> .data,</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> model,</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_in =</span> <span class="fu">c</span>(<span class="st">"qfd"</span>, <span class="st">"yp"</span>),</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_out =</span> <span class="fu">c</span>(<span class="st">"tfd"</span>, <span class="st">"dppriv"</span>)</span>
@@ -511,55 +514,86 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="complex-partial-variable-swaps" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="complex-partial-variable-swaps"><span class="header-section-number">5.3</span> Complex (partial variable) swaps</h2>
+<section id="ems_swap" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="ems_swap"><span class="header-section-number">5.3.1</span> ems_swap()</h3>
+<p><code>ems_swap()</code> prepares a partial variable swap for use in the <code>swap_in</code> or <code>swap_out</code> arguments of <code>ems_deploy()</code>. Set arguments in <code>...</code> use the model-specific set-index naming convention (set name concatenated with the variable’s index letter, e.g.&nbsp;<code>REGr</code>, <code>ACTSa</code>) to identify which tuples to include in the swap.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_swap</span>(var, ...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 34%">
+<col style="width: 20%">
+<col style="width: 44%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Argument</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>var</code></td>
+<td>Character</td>
+<td>Variable name as it appears in the model file</td>
+</tr>
+<tr class="even">
+<td><code>...</code></td>
+<td>Named arguments</td>
+<td>Set-index pairs identifying the tuples to include in the swap</td>
+</tr>
+</tbody>
+</table>
 <p>Partial variable swaps entail swapping parts of a variable (i.e., subsets of the constituitive sets) and must be processed through the <code>ems_swap()</code> function. In the above example the full “qfd” and “yp” variables were made exogenous while the full “tfd” and “dppriv” variable become endogenous. Within the <a href="https://github.com/teemsphere/teems-models/blob/main/GTAPv7.0/GTAPv7.0.tab">GTAPv7.0</a> model, “qfd” encompasses the “COMM”, “ACTS”, and “REG” sets:</p>
 <pre><code>Variable (orig_level=VDFB)(all,c,COMM)(all,a,ACTS)(all,r,REG)
     qfd(c,a,r) # demand for domestic commodity c by activity a in region r #;</code></pre>
 <p>What if we wish to shock only certain parts of this variable (e.g., a region or commodity) and allow the remainder of the variable to endogenously adjust according to model equations? In this case we would swap on the parts of the variable that we will provide values to and leave the remainder. If, for example, we have a shock value for “asia” within “REG” and “crops” within “ACTS”, the following <code>ems_swap()</code> call will prepare this swap for input into the <code>swap_in</code> argument of <code>ems_deploy()</code>:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>qfd_in <span class="ot">&lt;-</span> <span class="fu">ems_swap</span>(</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">var =</span> <span class="st">"qfd"</span>,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">REGr =</span> <span class="st">"asia"</span>,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ACTSa =</span> <span class="st">"crops"</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<!-- [Here](https://github.com/teemsphere/teems-scripts/blob/main/GTAP-REv1/v11_uni_partvar_shk_partswap.R) is an example of a partial variable swap followed by a partial variable uniform shock. -->
-<p><strong><em>Note that sets specified in this manner are identified by the model-specific concatenation of the standard set name plus the variable-specific index.</em></strong> This is necessary because many variables contain multiple instances of the same set and none of the <code>teems</code> functions relies upon input entry order or order within the model to make distinctions. In this case the “qfd” set subindices are “c”, “a”, and “r”, yielding “COMMc”, “ACTSa”, and “REGr”. In order to retain a valid closure we also use the same approach to the outgoing variable “tfd”:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>tfd_out <span class="ot">&lt;-</span> <span class="fu">ems_swap</span>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">var =</span> <span class="st">"tfd"</span>,</span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>qfd_in <span class="ot">&lt;-</span> <span class="fu">ems_swap</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">var =</span> <span class="st">"qfd"</span>,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">REGr =</span> <span class="st">"asia"</span>,</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ACTSa =</span> <span class="st">"crops"</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<!-- [Here](https://github.com/teemsphere/teems-scripts/blob/main/GTAP-REv1/v11_uni_partvar_shk_partswap.R) is an example of a partial variable swap followed by a partial variable uniform shock. -->
+<p><strong><em>Note that sets specified in this manner are identified by the model-specific concatenation of the standard set name plus the variable-specific index.</em></strong> This is necessary because many variables contain multiple instances of the same set and none of the <code>teems</code> functions relies upon input entry order or order within the model to make distinctions. In this case the “qfd” set subindices are “c”, “a”, and “r”, yielding “COMMc”, “ACTSa”, and “REGr”. In order to retain a valid closure we also use the same approach to the outgoing variable “tfd”:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>tfd_out <span class="ot">&lt;-</span> <span class="fu">ems_swap</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">var =</span> <span class="st">"tfd"</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">REGr =</span> <span class="st">"asia"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ACTSa =</span> <span class="st">"crops"</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>While the subindices for both variables are the same within GTAPv7.0, note that these may vary in some models such as GTAPv6.2 where the REG subindex is “s” for “qfd” and “r” for “tfd”. Both swaps may now be loaded within <code>ems_deploy()</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>cmf_path <span class="ot">&lt;-</span> <span class="fu">ems_deploy</span>(</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data,</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> model,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_in =</span> qfd_in,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_out =</span> tfd_out</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Or if additional full variable swaps are also desired, a list is used to load multiple swaps for each direction</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>cmf_path <span class="ot">&lt;-</span> <span class="fu">ems_deploy</span>(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data,</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> model,</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_in =</span> <span class="fu">list</span>(qfd_in <span class="st">"yp"</span>),</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_out =</span> <span class="fu">list</span>(tfd_out, <span class="st">"dppriv"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_in =</span> qfd_in,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_out =</span> tfd_out</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Or if additional full variable swaps are also desired, a list is used to load multiple swaps for each direction</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cmf_path <span class="ot">&lt;-</span> <span class="fu">ems_deploy</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> model,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_in =</span> <span class="fu">list</span>(qfd_in <span class="st">"yp"</span>),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_out =</span> <span class="fu">list</span>(tfd_out, <span class="st">"dppriv"</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <!-- [Here](https://github.com/teemsphere/teems-scripts/blob/main/GTAP-REv1/v11_uni_swap_mixed_multishk.R) is an example of the approach above (mixed format swap inputs with uniform shocks). -->
 <p>Finally, selection of multiple elements for each set will expand the swap to encompass all associated tuples. For example:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>qfd_in <span class="ot">&lt;-</span> <span class="fu">ems_swap</span>(</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">var =</span> <span class="st">"qfd"</span>,</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">REGr =</span> <span class="fu">c</span>(<span class="st">"asia"</span>, <span class="st">"lam"</span>),</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ACTSa =</span> <span class="st">"crops"</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>is equivalent to loading</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>qfd_in_1 <span class="ot">&lt;-</span> <span class="fu">ems_swap</span>(</span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>qfd_in <span class="ot">&lt;-</span> <span class="fu">ems_swap</span>(</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">var =</span> <span class="st">"qfd"</span>,</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">REGr =</span> <span class="st">"asia"</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">REGr =</span> <span class="fu">c</span>(<span class="st">"asia"</span>, <span class="st">"lam"</span>),</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ACTSa =</span> <span class="st">"crops"</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>and</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>qfd_in_2 <span class="ot">&lt;-</span> <span class="fu">ems_swap</span>(</span>
+<p>is equivalent to loading</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>qfd_in_1 <span class="ot">&lt;-</span> <span class="fu">ems_swap</span>(</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">var =</span> <span class="st">"qfd"</span>,</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">REGr =</span> <span class="st">"lam"</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">REGr =</span> <span class="st">"asia"</span>,</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ACTSa =</span> <span class="st">"crops"</span></span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>and</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>qfd_in_2 <span class="ot">&lt;-</span> <span class="fu">ems_swap</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">var =</span> <span class="st">"qfd"</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">REGr =</span> <span class="st">"lam"</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ACTSa =</span> <span class="st">"crops"</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
 </section>
 <section id="future-expansions" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="future-expansions"><span class="header-section-number">5.4</span> Future expansions</h2>

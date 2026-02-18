@@ -486,7 +486,6 @@ window.Quarto = {
    
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">4.1</span> Overview</a></li>
-  <li><a href="#function-signature" id="toc-function-signature" class="nav-link" data-scroll-target="#function-signature"><span class="header-section-number">4.2</span> Function signature</a></li>
   <li><a href="#tab_files" id="toc-tab_files" class="nav-link" data-scroll-target="#tab_files"><span class="header-section-number">5</span> The model file</a>
   <ul class="collapse">
   <li><a href="#closure-selection" id="toc-closure-selection" class="nav-link" data-scroll-target="#closure-selection"><span class="header-section-number">5.1</span> Closure selection</a></li>
@@ -537,9 +536,6 @@ window.Quarto = {
 <section id="overview" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">4.1</span> Overview</h2>
 <p>The <code>ems_model()</code> function loads the model and its closure, conducts pre-deployment checks, determines temporal dynamics, and allows for the loading of aggregated coefficient data. The output of this function is a tibble with attributes containing the parsed model input and is a required input to the <code>"model"</code> argument of the [<code>ems_deploy()</code>] function.</p>
-</section>
-<section id="function-signature" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="function-signature"><span class="header-section-number">4.2</span> Function signature</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_model</span>(model_input, closure_file, <span class="at">var_omit =</span> <span class="cn">NULL</span>, ...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <table class="caption-top table">
 <colgroup>
@@ -621,7 +617,14 @@ window.Quarto = {
 <p>We recommend that users seeking to load custom models first review the formatting of the vetted models at <a href="https://github.com/teems-org/teems-models">teems-models</a> in order to make any necessary modifications for use within the <code>teems</code> software ecosystem. In some cases it may be easiest to use existing compatible models as a starting point for modifications. Although the <a href="https://github.com/teemsphere/teems-solver">teems-solver</a> does not support all current GEMPack declarations, there is usually a workaround. Running a <code>diff</code> on the original GTAP models and those in <a href="https://github.com/teems-org/teems-models">teems-models</a> is a good starting point for understanding potential incompatibilities.</p>
 <section id="closure-selection" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="closure-selection"><span class="header-section-number">5.1</span> Closure selection</h2>
-<p>Standard model-specific closures are available within the model repository: <a href="https://github.com/teemsphere/teems-models">teems-models</a>. The general format consistens of: 1. Character string “exogenous” 2. A “” delimited list of exogenous variables 3. “;” 4. “rest exogenous” 5. “;”</p>
+<p>Standard model-specific closures are available within the model repository: <a href="https://github.com/teemsphere/teems-models">teems-models</a>. The general format consists of:</p>
+<ol type="1">
+<li>Character string “exogenous”</li>
+<li>A “” delimited list of exogenous variables</li>
+<li>“;”</li>
+<li>“rest exogenous”</li>
+<li>“;”</li>
+</ol>
 </section>
 <section id="incompatible-features" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="incompatible-features"><span class="header-section-number">5.2</span> Incompatible features</h2>
@@ -671,7 +674,7 @@ Formula (all,c,NMRG)(all,r,REG)
 </section>
 <section id="coeff_inject" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="coeff_inject"><span class="header-section-number">5.4</span> Coefficient value injection</h2>
-<p>The <code>...</code> argument in <code>ems_model()</code> allows users to assign aggregation-specific values to model coefficients. This is used to inject modified values into existing coefficients as well as provide data to new coefficients. All data inputted here must be model-aggregation specific and will not be subject to aggregation. For loading disaggregated data, see <code>ems_aux()</code> and <code>ems_data()</code>. The left-hand side (name) must correspond to a coefficient (not header) declared within the model input. Three input types are supported, with model “Read” and “Formula” declarations modified accordingly:</p>
+<p>The <code>...</code> argument in <code>ems_model()</code> allows users to assign aggregation-specific values to model coefficients. This is used to inject modified values into existing coefficients as well as provide data to new coefficients (aggregated). All data inputted here must be model-aggregation specific and will not be subject to aggregation. For loading disaggregated data, see <code>ems_aux()</code> and <code>ems_data()</code>. The left-hand side (name) must correspond to a coefficient (not header) declared within the model input. Three input types are supported, with model “Read” and “Formula” declarations modified accordingly:</p>
 <section id="uniform-numeric-value" class="level3" data-number="5.4.1">
 <h3 data-number="5.4.1" class="anchored" data-anchor-id="uniform-numeric-value"><span class="header-section-number">5.4.1</span> Uniform numeric value</h3>
 <p>A single numeric value can be assigned to a coefficient. All set combinations for that coefficient will receive this uniform value.</p>
@@ -695,13 +698,14 @@ Formula (all,c,NMRG)(all,r,REG)
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">REGr =</span> REGr,</span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">ALLTIMEt =</span> ALLTIMEt</span>
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>SUBPAR<span class="sc">$</span>Value <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="fu">nrow</span>(SUBPAR))</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">ems_model</span>(</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_input =</span> <span class="fu">ems_example</span>(<span class="st">"GTAP_RE.tab"</span>),</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">closure_file =</span> <span class="fu">ems_example</span>(<span class="st">"GTAP_RE.cls"</span>),</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">SUBPAR =</span> SUBPAR</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>SUBPAR<span class="sc">$</span>Value <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="fu">nrow</span>(SUBPAR))</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">ems_model</span>(</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_input =</span> <span class="fu">ems_example</span>(<span class="st">"GTAP_RE.tab"</span>),</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">closure_file =</span> <span class="fu">ems_example</span>(<span class="st">"GTAP_RE.cls"</span>),</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">SUBPAR =</span> SUBPAR</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This works for both <code>Read</code>-type and <code>Formula</code>-type coefficients:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Heterogeneous values for CPHI coefficient (Formula-type)</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>REGr <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"usa"</span>, <span class="st">"chn"</span>, <span class="st">"row"</span>)</span>

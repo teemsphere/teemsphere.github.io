@@ -487,7 +487,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="overview" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">8.1</span> Overview</h2>
-<p><code>ems_scenario_shock()</code> is a dedicated intertemporal shock type that allows for granular control over heterogenous shocks allocated on a tuple-specific basis, inputted as a CSV file or dataframe (or dataframe equivalent) through <code>"input"</code> in the form of absolute values. This is in contrast with custom shocks where the inputs are denominated in percentage change values.</p>
+<p><code>ems_shock()</code> with <code>type = "scenario"</code> is an intertemporal shock type that specifies heterogeneous shocks at the tuple level as absolute values. Inputs must cover all pre-aggregation tuples and span the full extent of the variable — no partial variable scenario shocks are permitted. Values are aggregated according to the set mappings in <code>ems_data()</code> and then converted to percentage changes internally, making scenario shocks portable across different model aggregations.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_shock</span>(var, <span class="at">type =</span> <span class="st">"scenario"</span>, input)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 34%">
+<col style="width: 20%">
+<col style="width: 44%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Argument</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>var</code></td>
+<td>Character</td>
+<td>Variable name as it appears in the model file</td>
+</tr>
+<tr class="even">
+<td><code>type</code></td>
+<td>Character</td>
+<td>Set to <code>"scenario"</code></td>
+</tr>
+<tr class="odd">
+<td><code>input</code></td>
+<td>Data frame or Character</td>
+<td>Data frame or path to a CSV file containing all pre-aggregation tuples, a <code>Year</code> column (chronological years), and a <code>Value</code> column (absolute values)</td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="using-scenario-shocks" class="level2" data-number="8.2">
 <h2 data-number="8.2" class="anchored" data-anchor-id="using-scenario-shocks"><span class="header-section-number">8.2</span> Using scenario shocks</h2>
@@ -505,48 +537,48 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="8.3" class="anchored" data-anchor-id="population-trajectory-example"><span class="header-section-number">8.3</span> Population trajectory example</h2>
 <p>Here is an example that takes base year population data from the GTAP database (typically not read into the model) and constructs hypothetical pathways for every region in the model. These pathways are valid for any regional aggregation chosen.</p>
 <p>Grab population data with <code>REG</code> set to “full” to keep regions disaggregated</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_input =</span> <span class="st">"~/dat/GTAP/v11c/flexAgg11c17/gsdfdat.har"</span>,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_input =</span> <span class="st">"~/dat/GTAP/v11c/flexAgg11c17/gsdfpar.har"</span>,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_input =</span> <span class="st">"~/dat/GTAP/v11c/flexAgg11c17/gsdfset.har"</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">REG =</span> <span class="st">"full"</span>,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">TRAD_COMM =</span> <span class="st">"macro_sector"</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ENDW_COMM =</span> <span class="st">"labor_agg"</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)<span class="sc">$</span>POP</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_input =</span> <span class="st">"~/dat/GTAP/v11c/flexAgg11c17/gsdfdat.har"</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_input =</span> <span class="st">"~/dat/GTAP/v11c/flexAgg11c17/gsdfpar.har"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_input =</span> <span class="st">"~/dat/GTAP/v11c/flexAgg11c17/gsdfset.har"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">REG =</span> <span class="st">"full"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">TRAD_COMM =</span> <span class="st">"macro_sector"</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ENDW_COMM =</span> <span class="st">"labor_agg"</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>)<span class="sc">$</span>POP</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Construct a data frame with random growth rates through 2033 using the 2017 base year data</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pop<span class="sc">$</span>Year <span class="ot">&lt;-</span> <span class="dv">2017</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>regions <span class="ot">&lt;-</span> <span class="fu">unique</span>(pop<span class="sc">$</span>REG)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>pop_traj <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">REG =</span> regions,</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Value =</span> <span class="dv">0</span>,</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Year =</span> <span class="fu">c</span>(<span class="dv">2018</span>, <span class="dv">2019</span>, <span class="dv">2020</span>, <span class="dv">2021</span>, <span class="dv">2023</span>, <span class="dv">2025</span>, <span class="dv">2027</span>, <span class="dv">2029</span>, <span class="dv">2031</span>, <span class="dv">2033</span>),</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">rbind</span>(pop, pop_traj)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>growth_rates <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">REG =</span> regions,</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">growth_rate =</span> <span class="fu">runif</span>(<span class="fu">length</span>(regions), <span class="at">min =</span> <span class="sc">-</span><span class="fl">0.01</span>, <span class="at">max =</span> <span class="fl">0.05</span>)</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">merge</span>(pop, growth_rates, <span class="at">by =</span> <span class="st">"REG"</span>)</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>base_values <span class="ot">&lt;-</span> pop[pop<span class="sc">$</span>Year <span class="sc">==</span> <span class="dv">2017</span>, <span class="fu">c</span>(<span class="st">"REG"</span>, <span class="st">"Value"</span>)]</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(base_values)[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="st">"base_value"</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">merge</span>(pop, base_values, <span class="at">by =</span> <span class="st">"REG"</span>)</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>pop<span class="sc">$</span>Value[pop<span class="sc">$</span>Year <span class="sc">&gt;</span> <span class="dv">2017</span>] <span class="ot">&lt;-</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  pop<span class="sc">$</span>base_value[pop<span class="sc">$</span>Year <span class="sc">&gt;</span> <span class="dv">2017</span>] <span class="sc">*</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">+</span> pop<span class="sc">$</span>growth_rate[pop<span class="sc">$</span>Year <span class="sc">&gt;</span> <span class="dv">2017</span>])<span class="sc">^</span>(pop<span class="sc">$</span>Year[pop<span class="sc">$</span>Year <span class="sc">&gt;</span> <span class="dv">2017</span>] <span class="sc">-</span> <span class="dv">2017</span>)</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>pop<span class="sc">$</span>growth_rate <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>pop<span class="sc">$</span>base_value <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> pop[<span class="fu">order</span>(pop<span class="sc">$</span>REG, pop<span class="sc">$</span>Year), ]</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> pop[, <span class="fu">c</span>(<span class="st">"REG"</span>, <span class="st">"Year"</span>, <span class="st">"Value"</span>)]</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(pop)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">"REGr"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pop<span class="sc">$</span>Year <span class="ot">&lt;-</span> <span class="dv">2017</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>regions <span class="ot">&lt;-</span> <span class="fu">unique</span>(pop<span class="sc">$</span>REG)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>pop_traj <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">REG =</span> regions,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Value =</span> <span class="dv">0</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Year =</span> <span class="fu">c</span>(<span class="dv">2018</span>, <span class="dv">2019</span>, <span class="dv">2020</span>, <span class="dv">2021</span>, <span class="dv">2023</span>, <span class="dv">2025</span>, <span class="dv">2027</span>, <span class="dv">2029</span>, <span class="dv">2031</span>, <span class="dv">2033</span>),</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">rbind</span>(pop, pop_traj)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>growth_rates <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">REG =</span> regions,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">growth_rate =</span> <span class="fu">runif</span>(<span class="fu">length</span>(regions), <span class="at">min =</span> <span class="sc">-</span><span class="fl">0.01</span>, <span class="at">max =</span> <span class="fl">0.05</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">merge</span>(pop, growth_rates, <span class="at">by =</span> <span class="st">"REG"</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>base_values <span class="ot">&lt;-</span> pop[pop<span class="sc">$</span>Year <span class="sc">==</span> <span class="dv">2017</span>, <span class="fu">c</span>(<span class="st">"REG"</span>, <span class="st">"Value"</span>)]</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(base_values)[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="st">"base_value"</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">merge</span>(pop, base_values, <span class="at">by =</span> <span class="st">"REG"</span>)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>pop<span class="sc">$</span>Value[pop<span class="sc">$</span>Year <span class="sc">&gt;</span> <span class="dv">2017</span>] <span class="ot">&lt;-</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  pop<span class="sc">$</span>base_value[pop<span class="sc">$</span>Year <span class="sc">&gt;</span> <span class="dv">2017</span>] <span class="sc">*</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">+</span> pop<span class="sc">$</span>growth_rate[pop<span class="sc">$</span>Year <span class="sc">&gt;</span> <span class="dv">2017</span>])<span class="sc">^</span>(pop<span class="sc">$</span>Year[pop<span class="sc">$</span>Year <span class="sc">&gt;</span> <span class="dv">2017</span>] <span class="sc">-</span> <span class="dv">2017</span>)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>pop<span class="sc">$</span>growth_rate <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>pop<span class="sc">$</span>base_value <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> pop[<span class="fu">order</span>(pop<span class="sc">$</span>REG, pop<span class="sc">$</span>Year), ]</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> pop[, <span class="fu">c</span>(<span class="st">"REG"</span>, <span class="st">"Year"</span>, <span class="st">"Value"</span>)]</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(pop)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">"REGr"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>And load as a scenario shock</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pop_trajectory <span class="ot">&lt;-</span> <span class="fu">ems_scenario_shock</span>(</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">var =</span> <span class="st">"pop"</span>,</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">input =</span> pop</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pop_trajectory <span class="ot">&lt;-</span> <span class="fu">ems_scenario_shock</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">var =</span> <span class="st">"pop"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">input =</span> pop</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Note that the object “pop” may also be saved as a .csv and loaded directly from storage.</p>
 
 
