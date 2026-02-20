@@ -19,11 +19,11 @@ For GTAP 9 this is accessible under the "GDyn 9 Data Base for 2011" subheader in
 For GTAP members that have purchased a database, the current [`teems`](https://github.com/teemsphere/teems-R) version is capable of handling the "FlexAgg" format for GTAP Databases 10 and 11.
 
 ## teems-R package
-The R [package](https://github.com/teemsphere/teems-R) is currently in beta (v0.0.0.99) and open for testing.
+The R [package](https://github.com/teemsphere/teems-R) is currently in beta (v0.0.2) and open for testing.
 It requires R >= 4.3.0 and is installed via [remotes](https://github.com/r-lib/remotes):
 
 ```r
-remotes::install_github("teemsphere/teems-R@v0.0.0.99")
+remotes::install_github("teemsphere/teems-R@v0.0.2")
 ```
 
 ## teems-solver
