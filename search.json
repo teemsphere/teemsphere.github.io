@@ -55,7 +55,7 @@
     "href": "dependencies.html#teems-r-package",
     "title": "2  Dependencies",
     "section": "2.2 teems-R package",
-    "text": "2.2 teems-R package\nThe R package is currently in beta (v0.0.0.99) and open for testing. It requires R &gt;= 4.3.0 and is installed via remotes:\nremotes::install_github(\"teemsphere/teems-R@v0.0.0.99\")",
+    "text": "2.2 teems-R package\nThe R package is currently in beta (v0.0.2) and open for testing. It requires R &gt;= 4.3.0 and is installed via remotes:\nremotes::install_github(\"teemsphere/teems-R@v0.0.2\")",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Dependencies</span>"
