@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>4&nbsp; teems sets – The {teems} R package user manual</title>
+<title>4&nbsp; Loading and specifying sets – The {teems} R package user manual</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -285,7 +285,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./set_mappings.html">Data and model inputs</a></li><li class="breadcrumb-item"><a href="./set_mappings.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">teems sets</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./set_mappings.html">Data and model inputs</a></li><li class="breadcrumb-item"><a href="./set_mappings.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Loading and specifying sets</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -355,7 +355,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./set_mappings.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">teems sets</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Loading and specifying sets</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -508,9 +508,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./set_mappings.html">Data and model inputs</a></li><li class="breadcrumb-item"><a href="./set_mappings.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">teems sets</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./set_mappings.html">Data and model inputs</a></li><li class="breadcrumb-item"><a href="./set_mappings.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Loading and specifying sets</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">teems sets</span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Loading and specifying sets</span></h1>
 </div>
 
 
@@ -728,7 +728,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="set-naming-convention" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="set-naming-convention"><span class="header-section-number">4.4</span> Set naming convention</h2>
-<p>Set names in any loaded data must be provided as the model-specific concatenation of the standard set name plus the variable-specific index. For example:</p>
+<p>Set names in <strong><em>any loaded data</em></strong> must be provided as the model-specific concatenation of the standard set name plus the variable-specific index. For example:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -744,28 +744,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td><code>REGr</code></td>
 </tr>
 <tr class="even">
+<td>REG</td>
+<td>s</td>
+<td><code>REGs</code></td>
+</tr>
+<tr class="odd">
 <td>COMM</td>
 <td>c</td>
 <td><code>COMMc</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>ACTS</td>
 <td>a</td>
 <td><code>ACTSa</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>ENDW</td>
 <td>e</td>
 <td><code>ENDWe</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>ALLTIME</td>
 <td>t</td>
 <td><code>ALLTIMEt</code></td>
 </tr>
 </tbody>
 </table>
-<p>This naming convention disambiguates variables that have multiple instances of the same set. Set position (i.e., column order) is inconsequential for any inputs.</p>
+<p>This naming convention disambiguates data entries for variables that have multiple instances of the same set. Set position (i.e., column order) is inconsequential for any inputs.</p>
 
 
 </section>
