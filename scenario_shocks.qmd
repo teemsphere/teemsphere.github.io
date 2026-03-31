@@ -1,18 +1,17 @@
 # Scenario shocks
 
 ## Overview
-`ems_shock()` with `type = "scenario"` is an intertemporal shock type that specifies heterogeneous shocks at the tuple level as absolute values.
+`ems_scenario_shock()` is an intertemporal shock type that specifies heterogeneous shocks at the tuple level as absolute values.
 Inputs must cover all pre-aggregation tuples and span the full extent of the variable — no partial variable scenario shocks are permitted.
-Values are aggregated according to the set mappings in `ems_data()` and then converted to percentage changes internally, making scenario shocks portable across different model aggregations.
+Values are aggregated according to the set mappings in [`ems_data()`](data_load.qmd) and then converted to percentage changes internally, making scenario shocks portable across different model aggregations.
 
 ```r
-ems_shock(var, type = "scenario", input)
+ems_scenario_shock(var, input)
 ```
 
 | Argument | Type | Description |
 |----------|------|-------------|
 | `var` | Character | Variable name as it appears in the model file |
-| `type` | Character | Set to `"scenario"` |
 | `input` | Data frame or Character | Data frame or path to a CSV file containing all pre-aggregation tuples, a `Year` column (chronological years), and a `Value` column (absolute values) |
 
 ## Using scenario shocks

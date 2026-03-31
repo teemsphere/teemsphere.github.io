@@ -1,10 +1,10 @@
 # Closure swaps
 
 ## Overview
-Simple full variable swaps can be directly inputted as a string into the `swap_in` and `swap_out` arguments of `ems_deploy()`. More complex swaps must be handled with the dedicated `ems_swap()` function.
+Simple full variable swaps can be directly inputted as a string into the `swap_in` and `swap_out` arguments of [`ems_deploy()`](deploy.qmd). More complex swaps must be handled with the dedicated `ems_swap()` function.
 
 ## Simple (full variable) swaps
-Here simple swaps refers swaps in which a variable and all its components are being swapped. This is the most common type of swap and is directly handled within `ems_deploy()`. 
+Here simple swaps refers swaps in which a variable and all its components are being swapped. This is the most common type of swap and is directly handled within [`ems_deploy()`](deploy.qmd). 
 
 A single full variable swap
 ```r
@@ -30,7 +30,7 @@ Note that swaps (and validity checks) are handled in the order they are inputted
 ## Complex (partial variable) swaps
 
 ### ems_swap()
-`ems_swap()` prepares a partial variable swap for use in the `swap_in` or `swap_out` arguments of `ems_deploy()`.
+`ems_swap()` prepares a partial variable swap for use in the `swap_in` or `swap_out` arguments of [`ems_deploy()`](deploy.qmd).
 Set arguments in `...` use the model-specific set-index naming convention (set name concatenated with the variable's index letter, e.g. `REGr`, `ACTSa`) to identify which tuples to include in the swap.
 
 ```r
@@ -64,7 +64,7 @@ tfd_out <- ems_swap(
   ACTSa = "crops"
 )
 ```
-While the subindices for both variables are the same within GTAPv7.0, note that these may vary in some models such as GTAPv6.2 where the REG subindex is "s" for "qfd" and "r" for "tfd". Both swaps may now be loaded within `ems_deploy()`:
+While the subindices for both variables are the same within GTAPv7.0, note that these may vary in some models such as GTAPv6.2 where the REG subindex is "s" for "qfd" and "r" for "tfd". Both swaps may now be loaded within [`ems_deploy()`](deploy.qmd):
 ```r
 cmf_path <- ems_deploy(
   data = data,

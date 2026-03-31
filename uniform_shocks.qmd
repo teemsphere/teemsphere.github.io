@@ -1,17 +1,16 @@
 # Uniform shocks
 
 ## Overview
-`ems_shock()` with `type = "uniform"` applies a homogeneous percentage change over an entire variable or a subset of its elements.
-The set arguments accepted in `...` depend on the variable specified and the set mappings loaded in `ems_data()`.
+`ems_uniform_shock()` applies a homogeneous percentage change over an entire variable or a subset of its elements.
+The set arguments accepted in `...` depend on the variable specified and the set mappings loaded in [`ems_data()`](data_load.qmd).
 
 ```r
-ems_shock(var, type = "uniform", value, ...)
+ems_uniform_shock(var, value, ...)
 ```
 
 | Argument | Type | Description |
 |----------|------|-------------|
 | `var` | Character | Variable name as it appears in the model file |
-| `type` | Character | Set to `"uniform"` |
 | `value` | Numeric | Percentage change applied to all targeted elements |
 | `...` | Named arguments | Set-index pairs for partial variable shocks (see [Partial variable uniform shocks]) |
 
@@ -40,7 +39,7 @@ partial <- ems_uniform_shock(var = "aoall",
 ```
 [Here](https://github.com/teemsphere/teems-scripts/blob/main/GTAP-REv1/v11_uni_partvar_shk_partswap.R) is an example of a partial variable swap followed by a partial variable uniform shock. If a full swap is followed by a partial variable shock ([example](https://github.com/teemsphere/teems-scripts/blob/main/GTAP-REv1/v11_uni_partvar_shk_fullswap.R)), the unshocked elements will remain at 0.
 
-In the case of intertemporal models, the shock year may be specified using a chronological or timestep format (see "Time step summary" output from `ems_data()`).
+In the case of intertemporal models, the shock year may be specified using a chronological or timestep format (see "Time step summary" output from [`ems_data()`](data_load.qmd)).
 ```r
 partial <- ems_uniform_shock(
   var = "aoall",
@@ -55,7 +54,7 @@ partial <- ems_uniform_shock(
 ***Note that sets specified in this manner are identified by the model-specific concatenation of the standard set name plus the variable-specific index.*** Also note that exogenous components of a variable not allocated a shock (all other regions except "chn") will not vary.
 
 ## Multiple shocks and mixed swaps
-Multiple uniform shocks of different scope can be combined in a list and passed to `ems_deploy()`. Swaps can also be mixed, combining partial `ems_swap()` objects with full variable strings:
+Multiple uniform shocks of different scope can be combined in a list and passed to [`ems_deploy()`](deploy.qmd). Swaps can also be mixed, combining partial [`ems_swap()`](swaps.qmd) objects with full variable strings:
 ```r
 partial <- ems_uniform_shock(
   var = "qfd",

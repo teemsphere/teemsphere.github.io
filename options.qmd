@@ -45,7 +45,7 @@ ems_option_reset()
 | `ndigits` | `6` | Number of digits to the right of the decimal point written to file for numeric type double. Passed to `format()` nsmall and `round()` digits |
 | `docker_tag` | `"latest"` | Docker tag specifying which teems Docker image to use |
 | `accuracy_threshold` | `0.8` | Threshold (converted to a percentage) against which 4-digit precision is compared. A warning is generated if the threshold is not met |
-| `write_sub_dir` | `"teems"` | Name of the subdirectory within the base `write_dir` set by `ems_deploy()` |
+| `write_sub_dir` | `"teems"` | Name of the subdirectory within the base `write_dir` set by [`ems_deploy()`](deploy.qmd) |
 | `margin_sectors` | `c("atp", "otp", "wtp")` | Default margin sectors |
 | `check_shock_status` | `TRUE` | If `FALSE`, no check on shock element endogenous/exogenous status is conducted |
 | `expand_ETRE` | `TRUE` | If `TRUE`, missing tuples in the ETRE (ETRAE) data header are added with value -1e-05 and the sluggish endowment set is replaced with the general endowment set. The ETRE header is not consistent across databases regarding inclusion of non-sluggish endowments |

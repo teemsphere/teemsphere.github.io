@@ -1,4 +1,4 @@
-# Set mappings
+# teems sets
 
 ## Overview
 
@@ -67,7 +67,7 @@ Sector mappings apply to `TRAD_COMM` in GTAPv6.2 and to both `COMM` and `ACTS` i
 
 Note that margin sectors (`atp`, `otp`, `wtp` by default) are not specified directly but are inferred from the chosen sectoral aggregation.
 If these elements are aggregated into a broader sector by the chosen mapping, the margin set reflects that aggregation accordingly.
-The default margin sector elements can be viewed and modified with `ems_option_get()` and `ems_option_set()`:
+The default margin sector elements can be viewed and modified with [`ems_option_get()`](options.qmd) and [`ems_option_set()`](options.qmd):
 
 ```r
 ems_option_get("margin_sectors")
@@ -100,3 +100,17 @@ v7_data <- ems_data(dat_input = "path/to/gsdfdat.har",
                     ENDW = "labor_agg"
 )
 ```
+
+## Set naming convention
+
+Set names in any loaded data must be provided as the model-specific concatenation of the standard set name plus the variable-specific index. For example:
+
+| Set | Index | Column name |
+|-----|-------|-------------|
+| REG | r | `REGr` |
+| COMM | c | `COMMc` |
+| ACTS | a | `ACTSa` |
+| ENDW | e | `ENDWe` |
+| ALLTIME | t | `ALLTIMEt` |
+
+This naming convention disambiguates variables that have multiple instances of the same set. Set position (i.e., column order) is inconsequential for any inputs.

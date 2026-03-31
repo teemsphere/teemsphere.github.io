@@ -1,17 +1,16 @@
 # Custom shocks
 
 ## Overview
-`ems_shock()` with `type = "custom"` allows for heterogeneous shocks specified on a tuple-by-tuple basis, supplied as a data frame or CSV file through `input`.
+`ems_custom_shock()` allows for heterogeneous shocks specified on a tuple-by-tuple basis, supplied as a data frame or CSV file through `input`.
 Values are denominated in percentage change. Only the tuples present in `input` are shocked; remaining elements are unaffected.
 
 ```r
-ems_shock(var, type = "custom", input)
+ems_custom_shock(var, input)
 ```
 
 | Argument | Type | Description |
 |----------|------|-------------|
 | `var` | Character | Variable name as it appears in the model file |
-| `type` | Character | Set to `"custom"` |
 | `input` | Data frame or Character | Data frame or path to a CSV file containing set columns and a `Value` column (percentage changes) |
 
 ## Full variable custom shocks
@@ -99,7 +98,7 @@ atall_shk <- ems_custom_shock(
 )
 ```
 
-Multiple custom shocks are combined in a list for `ems_deploy()`:
+Multiple custom shocks are combined in a list for [`ems_deploy()`](deploy.qmd):
 ```r
 cmf_path <- ems_deploy(
   .data = .data,

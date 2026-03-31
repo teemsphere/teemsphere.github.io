@@ -23,7 +23,7 @@ Two output modes are available, controlled by the `type` argument:
 
 ## Writing model files
 
-The simplest use of `ems_example()` extracts a model's Tablo and closure files so they can be inspected or used directly with `ems_model()` or `solve_in_situ()`.
+The simplest use of `ems_example()` extracts a model's Tablo and closure files so they can be inspected or used directly with [`ems_model()`](model_load.qmd) or [`solve_in_situ()`](solve_in_situ.qmd).
 
 ```r
 library(teems)
@@ -42,7 +42,7 @@ paths$model_file   # path to the .tab file
 paths$closure_file # path to the .cls file
 ```
 
-These can be passed directly to `ems_model()`:
+These can be passed directly to [`ems_model()`](model_load.qmd):
 
 ```r
 model <- ems_model(
@@ -159,9 +159,8 @@ model <- ems_model(
   closure_file = closure_file
 )
 
-partial <- ems_shock(
+partial <- ems_uniform_shock(
   var = "aoall",
-  type = "uniform",
   REGr = "chn",
   PROD_COMMj = "crops",
   value = -1
@@ -199,7 +198,7 @@ source(target)
 Common edits new users make:
 
 - **Aggregation**: swap `"big3"` / `"macro_sector"` for any mapping listed in the [Set mappings](set_mappings.qmd) chapter.
-- **Shock target**: change `REGr`, `PROD_COMMj`, and `value` in `ems_shock()` to match your scenario.
+- **Shock target**: change `REGr`, `PROD_COMMj`, and `value` in [`ems_uniform_shock()`](uniform_shocks.qmd) to match your scenario.
 - **Solver accuracy**: change `solution_method = "Johansen"` to `"mod_midpoint"` for multi-step solutions.
 - **Output location**: set `write_dir` to a persistent directory so result files are not removed when the R session ends.
 

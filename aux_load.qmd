@@ -2,9 +2,9 @@
 
 ## Overview
 
-`ems_aux()` prepares a single auxiliary input for injection into the `ems_data()` pipeline via the `aux_input` argument.
+`ems_aux()` prepares a single auxiliary input for injection into the [`ems_data()`](data_load.qmd) pipeline via the `aux_input` argument.
 Auxiliary data can replace an existing header in the loaded database or introduce a novel header not present in the original files.
-All auxiliary data is loaded at full (unaggregated) resolution; `ems_data()` subsequently aggregates it according to the active set mappings and the `type` argument.
+All auxiliary data is loaded at full (unaggregated) resolution; [`ems_data()`](data_load.qmd) subsequently aggregates it according to the active set mappings and the `type` argument.
 
 ```r
 ems_aux(input, type, header = NULL)
@@ -73,7 +73,7 @@ tax_types <- c("prodtax", "pfacttax", "inctax", "inputtax",
 aux_tax <- ems_aux(input = tax_types, type = "set", header = "ALLTAX")
 ```
 
-The resulting object is passed to `aux_input` in `ems_data()` and will be available in the loaded data under the name `ALLTAX`.
+The resulting object is passed to `aux_input` in [`ems_data()`](data_load.qmd) and will be available in the loaded data under the name `ALLTAX`.
 
 ## Using auxiliary data in `ems_data()`
 
@@ -99,13 +99,13 @@ A single `ems_aux()` output may be passed directly to `aux_input`, or multiple o
 )
 ```
 
-When `ems_data()` processes auxiliary input, it merges each item into the loaded database before aggregation.
+When [`ems_data()`](data_load.qmd) processes auxiliary input, it merges each item into the loaded database before aggregation.
 The merge behaviour differs depending on whether the header already exists in the database.
 
 ## Replacement headers
 
 A **replacement header** is an auxiliary input whose `header` name matches an existing header in the loaded database.
-The supplied data overwrites the original; `ems_data()` then aggregates the replacement using the active set mappings.
+The supplied data overwrites the original; [`ems_data()`](data_load.qmd) then aggregates the replacement using the active set mappings.
 
 ### Dimension validation
 
@@ -120,7 +120,7 @@ aux <- ems_aux(input = wrong_dim, type = "dat", header = "POP")
 ems_data(..., aux_input = aux, REG = "big3", ...)
 #> Error: The dimensions of replacement data for POP, 2 and 2, are not
 #>        identical to the data being replaced: 160.
-#> i For loading aggregated data, use the `...` argument of `teems::ems_model()`.
+#> i For loading aggregated data, use the `...` argument of [`teems::ems_model()`](model_load.qmd).
 ```
 
 ### Element validation
@@ -142,7 +142,7 @@ ems_data(..., aux_input = aux, REG = "big3", ...)
 ### Type mismatch
 
 The `type` argument supplied to `ems_aux()` is recorded alongside the data.
-If it differs from the type of the header being replaced, `ems_data()` issues a warning and proceeds using the declared type:
+If it differs from the type of the header being replaced, [`ems_data()`](data_load.qmd) issues a warning and proceeds using the declared type:
 
 ```r
 # POP is a "dat" header; providing type = "par" triggers a warning
@@ -155,7 +155,7 @@ ems_data(..., aux_input = aux, ...)
 
 ### Column name mismatch
 
-If a set dimension column in the replacement data does not match the expected name but its elements are identical to the expected set, `ems_data()` issues a warning and renames the dimension before merging:
+If a set dimension column in the replacement data does not match the expected name but its elements are identical to the expected set, [`ems_data()`](data_load.qmd) issues a warning and renames the dimension before merging:
 
 ```r
 header <- .data_full$POP
@@ -173,11 +173,11 @@ ems_data(..., aux_input = aux, ...)
 
 A **novel header** is an auxiliary input whose `header` name does not match any existing header in the loaded database.
 Novel headers extend the data available for model deployment.
-Because there is no existing header to validate against, `ems_data()` instead matches each set dimension column against the sets loaded from the set input file.
+Because there is no existing header to validate against, [`ems_data()`](data_load.qmd) instead matches each set dimension column against the sets loaded from the set input file.
 
 ### Set matching by elements
 
-If a set column name does not exactly match any loaded set but its elements are a subset of a known set, `ems_data()` infers the correspondence, renames the column, and issues a warning:
+If a set column name does not exactly match any loaded set but its elements are a subset of a known set, [`ems_data()`](data_load.qmd) infers the correspondence, renames the column, and issues a warning:
 
 ```r
 new_data <- .data_full$POP

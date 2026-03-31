@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `ems_model()` function loads the model and its closure, conducts pre-deployment checks, determines temporal dynamics, and allows for the loading of aggregated coefficient data. The output of this function is a tibble with attributes containing the parsed model input and is a required input to the `"model"` argument of the [`ems_deploy()`] function.
+The `ems_model()` function loads the model and its closure, conducts pre-deployment checks, determines temporal dynamics, and allows for the loading of aggregated coefficient data. The output of this function is a tibble with attributes containing the parsed model input and is a required input to the `"model"` argument of the [`ems_deploy()`](deploy.qmd) function.
 
 ```r
 ems_model(model_file, closure_file, var_omit = NULL, ...)
@@ -94,7 +94,7 @@ Declare sets explicitly within the Tablo file:
 Set ENDWM # mobile endowment # (capital, unsklab, sklab);
 ```
 
-Note that sets in the full form (all elements) and subsetted form (model-specific aggregations) can be loaded using `...` with `ems_model()` and `type = "set"` with `ems_aux()`.
+Note that sets in the full form (all elements) and subsetted form (model-specific aggregations) can be loaded using `...` with `ems_model()` and `type = "set"` with [`ems_aux()`](aux_load.qmd).
 
 **Capital goods** The `CGDS` sector in v6.2 format models is renamed to `zcgds` by default due to R `data.table` C-locale sorting and preference for all set elements to be lowercase.
 
@@ -123,7 +123,7 @@ Standard v6.2 data format variable omissions: `c("atall", "tfd", "avaall", "tf",
 
 ## Coefficient value injection {#coeff_inject}
 
-The `...` argument in `ems_model()` allows users to assign aggregation-specific values to model coefficients. This is used to inject modified values into existing coefficients as well as provide data to new coefficients (aggregated). All data inputted here must be model-aggregation specific and will not be subject to aggregation. For loading disaggregated data, see `ems_aux()` and `ems_data()`. The left-hand side (name) must correspond to a coefficient (not header) declared within the model input. Three input types are supported, with model "Read" and "Formula" declarations modified accordingly:
+The `...` argument in `ems_model()` allows users to assign aggregation-specific values to model coefficients. This is used to inject modified values into existing coefficients as well as provide data to new coefficients (aggregated). All data inputted here must be model-aggregation specific and will not be subject to aggregation. For loading disaggregated data, see [`ems_aux()`](aux_load.qmd) and [`ems_data()`](data_load.qmd). The left-hand side (name) must correspond to a coefficient (not header) declared within the model input. Three input types are supported, with model "Read" and "Formula" declarations modified accordingly:
 
 ### Uniform numeric value
 
@@ -218,27 +218,18 @@ If the coefficient name is not found in the model, an error is raised indicating
 
 ### Set naming convention
 
-Set names in any loaded data must be provided as the model-specific concatenation of the standard set name plus the variable-specific index. For example:
-
-| Set | Index | Column name |
-|-----|-------|-------------|
-| REG | r | `REGr` |
-| COMM | c | `COMMc` |
-| ACTS | a | `ACTSa` |
-| ENDW | e | `ENDWe` |
-| ALLTIME | t | `ALLTIMEt` |
-
-This naming convention disambiguates variables that have multiple instances of the same set. Set position (i.e., column order) is inconsequential for any inputs.
+Set names follow a model-specific concatenation of the standard set name and the variable-specific index (e.g., `REGr`, `COMMc`, `ACTSa`).
+See the [teems sets](set_mappings.qmd) chapter for the full convention table.
 
 ## Intertemporal models {#intertemporal}
 
-For intertemporal models, `ems_model()` determines temporal dynamics by detecting the timestep header in the Tablo file. By default, the expected header in the GTAP-RE model is `"YEAR"`. If a model uses a different header for timestep data, set it via `ems_option_set()`:
+For intertemporal models, `ems_model()` determines temporal dynamics by detecting the timestep header in the Tablo file. By default, the expected header in the GTAP-RE model is `"YEAR"`. If a model uses a different header for timestep data, set it via [`ems_option_set()`](options.qmd):
 
 ```r
 ems_option_set(timestep_header = "AYRS")
 ```
 
-If the expected timestep header is not found in the model, an error will be raised with a suggestion to use `ems_option_set()` to configure a custom timestep header.
+If the expected timestep header is not found in the model, an error will be raised with a suggestion to use [`ems_option_set()`](options.qmd) to configure a custom timestep header.
 The same concept applies to the number of timesteps:
 
 ```r

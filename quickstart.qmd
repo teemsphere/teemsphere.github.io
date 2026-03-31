@@ -11,7 +11,7 @@ Before continuing, make sure you have completed all prerequisites in the [Depend
 
 ## Generate example scripts
 
-`ems_example()` writes a set of ready-to-run R scripts to disk, with your data paths already injected at the top of each file.
+[`ems_example()`](example.qmd) writes a set of ready-to-run R scripts to disk, with your data paths already injected at the top of each file.
 Point it at your HAR files and a project directory:
 
 ```r

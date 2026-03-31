@@ -1,9 +1,9 @@
 # Solving in-situ
 
 ## Overview
-`solve_in_situ()` is a wrapper for the [teems-solver](https://github.com/teemsphere/teems-solver) which conducts a minimal number of checks prior to attempting to solve the constrained optimization problem. In contrast to `ems_solve()`, all model input files must be provided by the user in their final form. No checks or modifications are conducted on input files used in this manner.
+`solve_in_situ()` is a wrapper for the [teems-solver](https://github.com/teemsphere/teems-solver) which conducts a minimal number of checks prior to attempting to solve the constrained optimization problem. In contrast to [`ems_solve()`](solve.qmd), all model input files must be provided by the user in their final form. No checks or modifications are conducted on input files used in this manner.
 
-This function is intended for users who wish to use the teems solver with their own pre-prepared input files, bypassing the `ems_data()` / `ems_model()` / `ems_deploy()` pipeline, or in combination with it by reusing the files it writes to disk.
+This function is intended for users who wish to use the teems solver with their own pre-prepared input files, bypassing the [`ems_data()`](data_load.qmd) / [`ems_model()`](model_load.qmd) / [`ems_deploy()`](deploy.qmd) pipeline, or in combination with it by reusing the files it writes to disk.
 
 ## Arguments
 
@@ -42,7 +42,7 @@ These names are then used as the named arguments to `solve_in_situ()`.
 
 ## Using with `ems_deploy()` output
 
-A common use case is to run the standard pipeline to generate validated input files, and then re-solve with different solver options using `solve_in_situ()`. The files written by `ems_deploy()` can be located in the write directory:
+A common use case is to run the standard pipeline to generate validated input files, and then re-solve with different solver options using `solve_in_situ()`. The files written by [`ems_deploy()`](deploy.qmd) can be located in the write directory:
 
 ```r
 library(teems)
@@ -101,11 +101,11 @@ By default, `solve_in_situ()` returns a list of data.tables containing model var
 - `writeout = FALSE` (default): returns a list of data.tables with model variables only
 - `writeout = TRUE`: returns a tibble containing model output variables, coefficients, and sets. Note that a successful writeout may require modifications to the Tablo file provided
 
-If `suppress_outputs` is `TRUE`, the function returns the CMF file path instead of parsed outputs. This path can be passed to `ems_compose()` for manual parsing.
+If `suppress_outputs` is `TRUE`, the function returns the CMF file path instead of parsed outputs. This path can be passed to [`ems_compose()`](compose.qmd) for manual parsing.
 
 ## Persistent output
 
-As with `ems_deploy()`, output files are written to a temporary directory by default and removed on session close. Specify `write_dir` for persistent output:
+As with [`ems_deploy()`](deploy.qmd), output files are written to a temporary directory by default and removed on session close. Specify `write_dir` for persistent output:
 
 ```r
 outputs <- solve_in_situ(

@@ -4,6 +4,8 @@ project:
 book:
   title: "The {teems} R package user manual"
   author: "Matthew Cantele"
+  favicon: man/figures/logo.png
+  cover-image: man/figures/logo.png
   site-url: https://teemsphere.github.io/
   repo-url: https://github.com/teemsphere/teemsphere.github.io
   repo-branch: main
@@ -22,6 +24,7 @@ book:
     #     - debugging.qmd
     - part: "Data and model inputs"
       chapters:
+        - set_mappings.qmd
         - data_load.qmd
         - aux_load.qmd
         - model_load.qmd
