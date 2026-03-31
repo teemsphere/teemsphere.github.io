@@ -2,7 +2,7 @@
 
 ## Overview
 `ems_custom_shock()` allows for heterogeneous shocks specified on a tuple-by-tuple basis, supplied as a data frame or CSV file through `input`.
-Values are denominated in percentage change. Only the tuples present in `input` are shocked; remaining elements are unaffected.
+Values are denominated in percentage change. Only the tuples present in `input` are shocked.
 
 ```r
 ems_custom_shock(var, input)
@@ -14,6 +14,7 @@ ems_custom_shock(var, input)
 | `input` | Data frame or Character | Data frame or path to a CSV file containing set columns and a `Value` column (percentage changes) |
 
 ## Full variable custom shocks
+Custom shocks can be carried out over the full variable, with every tuple receiving a specified shock value.
 Here is a demonstration of 4 custom shocks carried out on all variable tuples for a range of variable dimensions with the [GTAP-INT](https://github.com/teemsphere/teems-models/tree/main/GTAP-INTv1) model.
 
 Elements for data frame construction
@@ -110,52 +111,22 @@ cmf_path <- ems_deploy(
 Custom shocks can also be loaded from CSV files by passing a file path to `"input"` instead of a data frame.
 
 ## Partial variable custom shocks
-Custom shocks are only carried out on tuples included within the input data frame or CSV. Here we make appropriate swaps and carry out a custom shock (heterogenous values) across part of a variable. Note how the custom shock data frame for `REGr` "lam"
+Custom shocks are only carried out on tuples included within the input data frame or CSV.
+Here we carry out a custom shock (heterogenous values) across part of the `aoall` variable.
+The non-shocked values will remain at `0` due to their exogenous status.
+
 ```r
-qfd_shk <- expand.grid(
-  COMMc = c("svces", "food", "crops", "mnfcs", "livestock"),
-  REGr = "lam",
-  ACTSa = "crops",
-  ALLTIMEt = seq(0, length(time_steps) - 1),
+aoall_full <- expand.grid(
+  PROD_COMMj = PROD_COMM,
+  REGr = REG,
+  ALLTIMEt = ALLTIME,
   stringsAsFactors = FALSE
 )
-```
-must span all `COMMc` compared to that for "oecd"
-```r
-qfd_shk <- rbind(qfd_shk, data.frame(
-  COMMc = "food",
-  REGr = "oecd",
-  ACTSa = "crops",
-  ALLTIMEt = seq(0, length(time_steps) - 1)
-))
-```
-due to more uniformity in the "lam" swaps
-```r
-qfd_in <- ems_swap(
-  var = "qfd",
-  REGr = "lam",
-  ACTSa = "crops"
-)
+aoall_full$Value <- 0
+aoall_full <- aoall_full[do.call(order, aoall_full), ]
 
-tfd_out <- ems_swap(
-  var = "tfd",
-  REGr = "lam",
-  ACTSa = "crops"
-)
-```
-compared to the "oecd" swaps
-```r
-qfd_in2 <- ems_swap(
-  var = "qfd",
-  COMMc = "food",
-  REGr = "oecd",
-  ACTSa = "crops"
-)
+aoall <- aoall_full[aoall_full$PROD_COMMj == "crops" & aoall_full$REGr == "chn", ]
+aoall$Value <- runif(nrow(aoall))
 
-tfd_out2 <- ems_swap(
-  var = "tfd",
-  COMMc = "food",
-  REGr = "oecd",
-  ACTSa = "crops"
-)
+aoall_shk <- ems_custom_shock(var = "aoall", input = aoall)
 ```

@@ -18,7 +18,6 @@
 | `laDi` | `500L` | Memory parameter (%) for `"NDBBD"` method |
 | `terminal_run` | `FALSE` | When `TRUE`, exits without running the solver, allowing the user to close R and run from the terminal |
 | `suppress_outputs` | `FALSE` | When `TRUE`, solver outputs are not automatically parsed with [`ems_compose()`](compose.qmd) |
-| `n_timesteps` | `NULL` | Number of timesteps, must be manually entered if `matrix_method` is `"NDBBD"` |
 
 ## Basic usage
 
@@ -37,7 +36,7 @@ outputs <- ems_solve(
 | `"LU"` | Standard LU decomposition. The most robust and potentially slowest for large models. `n_tasks` must be `1L`. Works with both static and dynamic models |
 | `"DBBD"` | Doubly bordered block diagonal. Parallel solution method for static models. Potentially faster than `"LU"` although less robust |
 | `"SBBD"` | Singly bordered block diagonal. Parallel solution method for intertemporal models. Potentially faster than `"LU"` although less robust |
-| `"NDBBD"` | Nested doubly bordered block diagonal. Parallel solution method for large intertemporal models with many timesteps. Requires `n_timesteps` to be specified |
+| `"NDBBD"` | Nested doubly bordered block diagonal. Parallel solution method for large intertemporal models with many timesteps |
 
 ## Solution methods
 

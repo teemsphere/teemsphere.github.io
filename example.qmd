@@ -103,33 +103,6 @@ Script file names encode the shock and swap configuration:
 | `custom_full_year.R` | Heterogeneous shock with a time dimension |
 | `scenario.R` | Scenario shock from absolute values (intertemporal models only) |
 
-Start with `null.R` to confirm the solver is working, then graduate to the pattern closest to your actual use case.
-
-### Selecting a script
-
-```r
-paths <- ems_example(
-  model     = "GTAP-INT",
-  write_dir = "~/my_project",
-  type      = "scripts",
-  dat_input = "~/dat/GTAP/v10/flexAgg/gsddat.har",
-  par_input = "~/dat/GTAP/v10/flexAgg/gsdpar.har",
-  set_input = "~/dat/GTAP/v10/flexAgg/gsdset.har"
-)
-
-# List the written scripts
-basename(paths)
-#>  [1] "custom_full_csv.R"            "custom_full.R"
-#>  [3] "custom_full_year.R"           "full_uniform.R"
-#>  [5] "null.R"                       "numeraire.R"
-#>  [7] "part_uniform_full_swap.R"     "part_uniform_part_swap_mixed.R"
-#>  [9] "part_uniform_part_swap.R"     "part_uniform.R"
-#> [11] "part_uniform_year.R"          "scenario.R"
-
-# Pick the one closest to your use case
-target <- paths[basename(paths) == "part_uniform.R"]
-```
-
 ### Structure of a generated script
 
 Each script begins with the injected assignments followed by the template body. Opening `part_uniform.R` in an editor shows:
@@ -179,28 +152,6 @@ outputs <- ems_solve(
   solution_method = "Johansen"
 )
 ```
-
-### Running and customising
-
-Run the script as-is to confirm it works end-to-end, then adjust the parts relevant to your analysis:
-
-```r
-# Run as-is
-source(target)
-
-# Or open in your IDE and edit before running, e.g.:
-#   - Change REG = "big3" to a finer aggregation like REG = "AR5"
-#   - Change the shocked variable, target region, or shock value
-#   - Switch matrix_method to "SBBD" for parallel intertemporal runs
-#   - Add swap_in / swap_out arguments to ems_deploy() for closure swaps
-```
-
-Common edits new users make:
-
-- **Aggregation**: swap `"big3"` / `"macro_sector"` for any mapping listed in the [Loading and specifying sets](set_mappings.qmd) chapter.
-- **Shock target**: change `REGr`, `PROD_COMMj`, and `value` in [`ems_uniform_shock()`](uniform_shocks.qmd) to match your scenario.
-- **Solver accuracy**: change `solution_method = "Johansen"` to `"mod_midpoint"` for multi-step solutions.
-- **Output location**: set `write_dir` to a persistent directory so result files are not removed when the R session ends.
 
 ## Output
 

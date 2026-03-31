@@ -25,7 +25,6 @@ This function is intended for users who wish to use the teems solver with their 
 | `laDi` | `500L` | Memory parameter (%) for `"NDBBD"` method |
 | `terminal_run` | `FALSE` | When `TRUE`, exits without running the solver |
 | `suppress_outputs` | `FALSE` | When `TRUE`, returns the CMF file path instead of parsed outputs |
-| `n_timesteps` | `NULL` | Number of timesteps, required if `matrix_method` is `"NDBBD"` |
 
 ## Input files
 

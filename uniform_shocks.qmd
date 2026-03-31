@@ -33,7 +33,6 @@ As with the syntax regarding swaps (link), the scope of a uniform shock may be d
 ```r
 partial <- ems_uniform_shock(var = "aoall",
                              REGr = "chn",
-                             PROD_COMMj = "crops",
                              value = -1
 )
 ```
