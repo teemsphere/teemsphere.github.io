@@ -15,6 +15,7 @@ book:
     - part: "Getting started"
       chapters:
         - dependencies.qmd
+        - quickstart.qmd
     #    - getting_started.qmd
     #    - overview.qmd
     #     - help.qmd

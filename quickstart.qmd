@@ -1,0 +1,85 @@
+# Quickstart {#quickstart}
+
+This chapter gets you from a fresh install to a solved CGE model in as few steps as possible, using the freely available GTAP 10 database and the classic GTAP model (version 6.2).
+
+Before continuing, make sure you have completed all prerequisites in the [Dependencies](dependencies.qmd) chapter:
+
+- R (>= 4.3.0) installed
+- `teems` R package installed
+- GTAP 10 FlexAgg HAR files downloaded
+- `teems-solver` Docker image built
+
+## Generate example scripts
+
+`ems_example()` writes a set of ready-to-run R scripts to disk, with your data paths already injected at the top of each file.
+Point it at your HAR files and a project directory:
+
+```r
+library(teems)
+
+paths <- ems_example(
+  model     = "GTAPv6",
+  write_dir = "~/my_project",
+  type      = "scripts",
+  dat_input = "~/dat/GTAP/v10/flexAgg/gsddat.har",
+  par_input = "~/dat/GTAP/v10/flexAgg/gsdpar.har",
+  set_input = "~/dat/GTAP/v10/flexAgg/gsdset.har"
+)
+```
+
+`paths` is a character vector of the written script file paths.
+Each script is self-contained and immediately runnable — no further editing is required to get a first run off the ground.
+
+## Step 1: verify the solver with a null run
+
+Run `null.R` first. A null run applies no shocks, so every model variable should return zero.
+If it completes without error and all values are zero, the solver, data pipeline, and model file are all working correctly.
+Note that we use `source()` to run a specific script but for interactive runs opening the script within RStudio is recommended. 
+
+```r
+source(paths[basename(paths) == "null.R"])
+
+# null.R performs these checks automatically:
+check        # TRUE  — all variable values are 0
+var_check    # TRUE  — output contains the expected number of variables
+coeff_check  # TRUE  — output contains the expected number of coefficients
+```
+
+If `check` is `TRUE`, the setup is confirmed and you are ready to apply shocks.
+
+## Step 2: run a uniform shock
+
+`full_uniform.R` applies a 1% population shock (`pop`) uniformly across all regions.
+It is the simplest non-trivial run and a good sanity check before customizing anything.
+
+```r
+source(paths[basename(paths) == "full_uniform.R"])
+
+# full_uniform.R checks that the shock came through:
+check  # TRUE — all pop values equal 1 (percentage change)
+```
+
+`outputs` is a data frame where each row corresponds to a solved variable or coefficient.
+The `dat` column holds the result data for that row.
+
+```r
+# Inspect results for one variable
+outputs$dat$pop
+```
+
+See the [Compose](compose.qmd) chapter for a full guide to working with `outputs`.
+
+## Next steps
+
+The other scripts in `paths` cover the full range of shock and swap configurations available for GTAPv6.
+Recommended progression:
+
+| Script | Try it when… |
+|--------|-------------|
+| `part_uniform.R` | You want to shock a single region or sector |
+| `part_uniform_part_swap.R` | You need to change the closure for part of the model |
+| `custom_full.R` | You have heterogeneous shock values from external data |
+| `full_uniform.R` with a different variable | You want to explore other exogenous variables |
+
+For a deeper look at each script pattern and how to customize them, see the [Example files](example.qmd) chapter.
+For data aggregation options (region and sector mappings), see [Set mappings](set_mappings.qmd).
