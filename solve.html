@@ -597,11 +597,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td><code>FALSE</code></td>
 <td>When <code>TRUE</code>, solver outputs are not automatically parsed with <a href="./compose.html"><code>ems_compose()</code></a></td>
 </tr>
-<tr class="even">
-<td><code>n_timesteps</code></td>
-<td><code>NULL</code></td>
-<td>Number of timesteps, must be manually entered if <code>matrix_method</code> is <code>"NDBBD"</code></td>
-</tr>
 </tbody>
 </table>
 </section>
@@ -641,7 +636,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td><code>"NDBBD"</code></td>
-<td>Nested doubly bordered block diagonal. Parallel solution method for large intertemporal models with many timesteps. Requires <code>n_timesteps</code> to be specified</td>
+<td>Nested doubly bordered block diagonal. Parallel solution method for large intertemporal models with many timesteps</td>
 </tr>
 </tbody>
 </table>
