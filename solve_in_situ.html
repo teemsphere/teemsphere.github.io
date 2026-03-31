@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>13&nbsp; Solving in-situ – The {teems} R package user manual</title>
+<title>14&nbsp; Solving in-situ – The {teems} R package user manual</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -67,6 +67,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="./">
 <link href="./compose.html" rel="next">
 <link href="./solve.html" rel="prev">
+<link href="./man/figures/logo.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -284,7 +285,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./deploy.html">Deploying and solving the model</a></li><li class="breadcrumb-item"><a href="./solve_in_situ.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Solving in-situ</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./deploy.html">Deploying and solving the model</a></li><li class="breadcrumb-item"><a href="./solve_in_situ.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Solving in-situ</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -353,20 +354,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./set_mappings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">teems sets</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./data_load.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Loading data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Loading data</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./aux_load.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Auxiliary data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Auxiliary data</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./model_load.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Loading models</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Loading models</span></span></a>
   </div>
 </li>
       </ul>
@@ -383,25 +390,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./swaps.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Closure swaps</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Closure swaps</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./uniform_shocks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Uniform shocks</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Uniform shocks</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./custom_shocks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Custom shocks</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Custom shocks</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./scenario_shocks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Scenario shocks</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Scenario shocks</span></span></a>
   </div>
 </li>
       </ul>
@@ -418,25 +425,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./deploy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Deploying the model</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Deploying the model</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./solve.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Solving the model</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Solving the model</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./solve_in_situ.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Solving in-situ</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Solving in-situ</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./compose.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Composing results</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Composing results</span></span></a>
   </div>
 </li>
       </ul>
@@ -453,7 +460,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./options.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Package options</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Package options</span></span></a>
   </div>
 </li>
       </ul>
@@ -470,7 +477,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./example.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Example files</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Example files</span></span></a>
   </div>
 </li>
       </ul>
@@ -485,12 +492,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">13.1</span> Overview</a></li>
-  <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments"><span class="header-section-number">13.2</span> Arguments</a></li>
-  <li><a href="#input-files" id="toc-input-files" class="nav-link" data-scroll-target="#input-files"><span class="header-section-number">13.3</span> Input files</a></li>
-  <li><a href="#using-with-ems_deploy-output" id="toc-using-with-ems_deploy-output" class="nav-link" data-scroll-target="#using-with-ems_deploy-output"><span class="header-section-number">13.4</span> Using with <code>ems_deploy()</code> output</a></li>
-  <li><a href="#output-modes" id="toc-output-modes" class="nav-link" data-scroll-target="#output-modes"><span class="header-section-number">13.5</span> Output modes</a></li>
-  <li><a href="#persistent-output" id="toc-persistent-output" class="nav-link" data-scroll-target="#persistent-output"><span class="header-section-number">13.6</span> Persistent output</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">14.1</span> Overview</a></li>
+  <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments"><span class="header-section-number">14.2</span> Arguments</a></li>
+  <li><a href="#input-files" id="toc-input-files" class="nav-link" data-scroll-target="#input-files"><span class="header-section-number">14.3</span> Input files</a></li>
+  <li><a href="#using-with-ems_deploy-output" id="toc-using-with-ems_deploy-output" class="nav-link" data-scroll-target="#using-with-ems_deploy-output"><span class="header-section-number">14.4</span> Using with <code>ems_deploy()</code> output</a></li>
+  <li><a href="#output-modes" id="toc-output-modes" class="nav-link" data-scroll-target="#output-modes"><span class="header-section-number">14.5</span> Output modes</a></li>
+  <li><a href="#persistent-output" id="toc-persistent-output" class="nav-link" data-scroll-target="#persistent-output"><span class="header-section-number">14.6</span> Persistent output</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/solve_in_situ.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -498,9 +505,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./deploy.html">Deploying and solving the model</a></li><li class="breadcrumb-item"><a href="./solve_in_situ.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Solving in-situ</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./deploy.html">Deploying and solving the model</a></li><li class="breadcrumb-item"><a href="./solve_in_situ.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Solving in-situ</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Solving in-situ</span></h1>
+<h1 class="title"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Solving in-situ</span></h1>
 </div>
 
 
@@ -517,13 +524,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="overview" class="level2" data-number="13.1">
-<h2 data-number="13.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">13.1</span> Overview</h2>
-<p><code>solve_in_situ()</code> is a wrapper for the <a href="https://github.com/teemsphere/teems-solver">teems-solver</a> which conducts a minimal number of checks prior to attempting to solve the constrained optimization problem. In contrast to <code>ems_solve()</code>, all model input files must be provided by the user in their final form. No checks or modifications are conducted on input files used in this manner.</p>
-<p>This function is intended for users who wish to use the teems solver with their own pre-prepared input files, bypassing the <code>ems_data()</code> / <code>ems_model()</code> / <code>ems_deploy()</code> pipeline, or in combination with it by reusing the files it writes to disk.</p>
+<section id="overview" class="level2" data-number="14.1">
+<h2 data-number="14.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">14.1</span> Overview</h2>
+<p><code>solve_in_situ()</code> is a wrapper for the <a href="https://github.com/teemsphere/teems-solver">teems-solver</a> which conducts a minimal number of checks prior to attempting to solve the constrained optimization problem. In contrast to <a href="./solve.html"><code>ems_solve()</code></a>, all model input files must be provided by the user in their final form. No checks or modifications are conducted on input files used in this manner.</p>
+<p>This function is intended for users who wish to use the teems solver with their own pre-prepared input files, bypassing the <a href="./data_load.html"><code>ems_data()</code></a> / <a href="./model_load.html"><code>ems_model()</code></a> / <a href="./deploy.html"><code>ems_deploy()</code></a> pipeline, or in combination with it by reusing the files it writes to disk.</p>
 </section>
-<section id="arguments" class="level2" data-number="13.2">
-<h2 data-number="13.2" class="anchored" data-anchor-id="arguments"><span class="header-section-number">13.2</span> Arguments</h2>
+<section id="arguments" class="level2" data-number="14.2">
+<h2 data-number="14.2" class="anchored" data-anchor-id="arguments"><span class="header-section-number">14.2</span> Arguments</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 31%">
@@ -626,8 +633,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </section>
-<section id="input-files" class="level2" data-number="13.3">
-<h2 data-number="13.3" class="anchored" data-anchor-id="input-files"><span class="header-section-number">13.3</span> Input files</h2>
+<section id="input-files" class="level2" data-number="14.3">
+<h2 data-number="14.3" class="anchored" data-anchor-id="input-files"><span class="header-section-number">14.3</span> Input files</h2>
 <p>All model-declared input files as well as <code>model_file</code>, <code>closure_file</code>, and <code>shock_file</code> are required. Input files are passed as named arguments via <code>...</code>, where each name must correspond to a “File” statement in the model Tablo file. For GTAP-RE, the Tablo file declares:</p>
 <pre><code>File GTAPDATA # base data file;
 File GTAPINT  # intertemporal data file;
@@ -635,9 +642,9 @@ File GTAPPARM # parameter file;
 File GTAPSETS # set file;</code></pre>
 <p>These names are then used as the named arguments to <code>solve_in_situ()</code>.</p>
 </section>
-<section id="using-with-ems_deploy-output" class="level2" data-number="13.4">
-<h2 data-number="13.4" class="anchored" data-anchor-id="using-with-ems_deploy-output"><span class="header-section-number">13.4</span> Using with <code>ems_deploy()</code> output</h2>
-<p>A common use case is to run the standard pipeline to generate validated input files, and then re-solve with different solver options using <code>solve_in_situ()</code>. The files written by <code>ems_deploy()</code> can be located in the write directory:</p>
+<section id="using-with-ems_deploy-output" class="level2" data-number="14.4">
+<h2 data-number="14.4" class="anchored" data-anchor-id="using-with-ems_deploy-output"><span class="header-section-number">14.4</span> Using with <code>ems_deploy()</code> output</h2>
+<p>A common use case is to run the standard pipeline to generate validated input files, and then re-solve with different solver options using <code>solve_in_situ()</code>. The files written by <a href="./deploy.html"><code>ems_deploy()</code></a> can be located in the write directory:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(teems)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Standard pipeline to generate input files</span></span>
@@ -686,18 +693,18 @@ File GTAPSETS # set file;</code></pre>
 <span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>  <span class="at">writeout =</span> <span class="cn">TRUE</span></span>
 <span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="output-modes" class="level2" data-number="13.5">
-<h2 data-number="13.5" class="anchored" data-anchor-id="output-modes"><span class="header-section-number">13.5</span> Output modes</h2>
+<section id="output-modes" class="level2" data-number="14.5">
+<h2 data-number="14.5" class="anchored" data-anchor-id="output-modes"><span class="header-section-number">14.5</span> Output modes</h2>
 <p>By default, <code>solve_in_situ()</code> returns a list of data.tables containing model variables. The <code>writeout</code> parameter controls whether coefficients and sets are also included:</p>
 <ul>
 <li><code>writeout = FALSE</code> (default): returns a list of data.tables with model variables only</li>
 <li><code>writeout = TRUE</code>: returns a tibble containing model output variables, coefficients, and sets. Note that a successful writeout may require modifications to the Tablo file provided</li>
 </ul>
-<p>If <code>suppress_outputs</code> is <code>TRUE</code>, the function returns the CMF file path instead of parsed outputs. This path can be passed to <code>ems_compose()</code> for manual parsing.</p>
+<p>If <code>suppress_outputs</code> is <code>TRUE</code>, the function returns the CMF file path instead of parsed outputs. This path can be passed to <a href="./compose.html"><code>ems_compose()</code></a> for manual parsing.</p>
 </section>
-<section id="persistent-output" class="level2" data-number="13.6">
-<h2 data-number="13.6" class="anchored" data-anchor-id="persistent-output"><span class="header-section-number">13.6</span> Persistent output</h2>
-<p>As with <code>ems_deploy()</code>, output files are written to a temporary directory by default and removed on session close. Specify <code>write_dir</code> for persistent output:</p>
+<section id="persistent-output" class="level2" data-number="14.6">
+<h2 data-number="14.6" class="anchored" data-anchor-id="persistent-output"><span class="header-section-number">14.6</span> Persistent output</h2>
+<p>As with <a href="./deploy.html"><code>ems_deploy()</code></a>, output files are written to a temporary directory by default and removed on session close. Specify <code>write_dir</code> for persistent output:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> <span class="fu">solve_in_situ</span>(</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">GTAPDATA =</span> <span class="st">"path/to/GTAPDATA.txt"</span>,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">GTAPINT  =</span> <span class="st">"path/to/GTAPINT.txt"</span>,</span>
@@ -1130,12 +1137,12 @@ File GTAPSETS # set file;</code></pre>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./solve.html" class="pagination-link" aria-label="Solving the model">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Solving the model</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Solving the model</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./compose.html" class="pagination-link" aria-label="Composing results">
-        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Composing results</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Composing results</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

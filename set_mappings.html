@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>6&nbsp; Auxiliary data – The {teems} R package user manual</title>
+<title>4&nbsp; teems sets – The {teems} R package user manual</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./model_load.html" rel="next">
-<link href="./data_load.html" rel="prev">
+<link href="./data_load.html" rel="next">
+<link href="./quickstart.html" rel="prev">
 <link href="./man/figures/logo.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -285,7 +285,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./set_mappings.html">Data and model inputs</a></li><li class="breadcrumb-item"><a href="./aux_load.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Auxiliary data</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./set_mappings.html">Data and model inputs</a></li><li class="breadcrumb-item"><a href="./set_mappings.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">teems sets</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -354,7 +354,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./set_mappings.html" class="sidebar-item-text sidebar-link">
+  <a href="./set_mappings.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">teems sets</span></span></a>
   </div>
 </li>
@@ -366,7 +366,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./aux_load.html" class="sidebar-item-text sidebar-link active">
+  <a href="./aux_load.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Auxiliary data</span></span></a>
   </div>
 </li>
@@ -492,38 +492,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">6.1</span> Overview</a></li>
-  <li><a href="#input-formats" id="toc-input-formats" class="nav-link" data-scroll-target="#input-formats"><span class="header-section-number">6.2</span> Input formats</a>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">4.1</span> Overview</a></li>
+  <li><a href="#internal-mappings" id="toc-internal-mappings" class="nav-link" data-scroll-target="#internal-mappings"><span class="header-section-number">4.2</span> Internal mappings</a>
   <ul class="collapse">
-  <li><a href="#data-frame" id="toc-data-frame" class="nav-link" data-scroll-target="#data-frame"><span class="header-section-number">6.2.1</span> Data frame</a></li>
-  <li><a href="#csv-file" id="toc-csv-file" class="nav-link" data-scroll-target="#csv-file"><span class="header-section-number">6.2.2</span> CSV file</a></li>
-  <li><a href="#har-file" id="toc-har-file" class="nav-link" data-scroll-target="#har-file"><span class="header-section-number">6.2.3</span> HAR file</a></li>
-  <li><a href="#character-vector-type-set" id="toc-character-vector-type-set" class="nav-link" data-scroll-target="#character-vector-type-set"><span class="header-section-number">6.2.4</span> Character vector (<code>type = "set"</code>)</a></li>
+  <li><a href="#region-reg" id="toc-region-reg" class="nav-link" data-scroll-target="#region-reg"><span class="header-section-number">4.2.1</span> Region (<code>REG</code>)</a></li>
+  <li><a href="#sector-trad_comm-comm-acts" id="toc-sector-trad_comm-comm-acts" class="nav-link" data-scroll-target="#sector-trad_comm-comm-acts"><span class="header-section-number">4.2.2</span> Sector (<code>TRAD_COMM</code>, <code>COMM</code>, <code>ACTS</code>)</a></li>
+  <li><a href="#endowment-endw_comm-endw" id="toc-endowment-endw_comm-endw" class="nav-link" data-scroll-target="#endowment-endw_comm-endw"><span class="header-section-number">4.2.3</span> Endowment (<code>ENDW_COMM</code>, <code>ENDW</code>)</a></li>
   </ul></li>
-  <li><a href="#using-auxiliary-data-in-ems_data" id="toc-using-auxiliary-data-in-ems_data" class="nav-link" data-scroll-target="#using-auxiliary-data-in-ems_data"><span class="header-section-number">6.3</span> Using auxiliary data in <code>ems_data()</code></a></li>
-  <li><a href="#replacement-headers" id="toc-replacement-headers" class="nav-link" data-scroll-target="#replacement-headers"><span class="header-section-number">6.4</span> Replacement headers</a>
-  <ul class="collapse">
-  <li><a href="#dimension-validation" id="toc-dimension-validation" class="nav-link" data-scroll-target="#dimension-validation"><span class="header-section-number">6.4.1</span> Dimension validation</a></li>
-  <li><a href="#element-validation" id="toc-element-validation" class="nav-link" data-scroll-target="#element-validation"><span class="header-section-number">6.4.2</span> Element validation</a></li>
-  <li><a href="#type-mismatch" id="toc-type-mismatch" class="nav-link" data-scroll-target="#type-mismatch"><span class="header-section-number">6.4.3</span> Type mismatch</a></li>
-  <li><a href="#column-name-mismatch" id="toc-column-name-mismatch" class="nav-link" data-scroll-target="#column-name-mismatch"><span class="header-section-number">6.4.4</span> Column name mismatch</a></li>
-  </ul></li>
-  <li><a href="#novel-headers" id="toc-novel-headers" class="nav-link" data-scroll-target="#novel-headers"><span class="header-section-number">6.5</span> Novel headers</a>
-  <ul class="collapse">
-  <li><a href="#set-matching-by-elements" id="toc-set-matching-by-elements" class="nav-link" data-scroll-target="#set-matching-by-elements"><span class="header-section-number">6.5.1</span> Set matching by elements</a></li>
-  <li><a href="#missing-elements-in-novel-headers" id="toc-missing-elements-in-novel-headers" class="nav-link" data-scroll-target="#missing-elements-in-novel-headers"><span class="header-section-number">6.5.2</span> Missing elements in novel headers</a></li>
-  <li><a href="#unrecognizable-sets" id="toc-unrecognizable-sets" class="nav-link" data-scroll-target="#unrecognizable-sets"><span class="header-section-number">6.5.3</span> Unrecognizable sets</a></li>
-  </ul></li>
+  <li><a href="#external-mappings" id="toc-external-mappings" class="nav-link" data-scroll-target="#external-mappings"><span class="header-section-number">4.3</span> External mappings</a></li>
+  <li><a href="#set-naming-convention" id="toc-set-naming-convention" class="nav-link" data-scroll-target="#set-naming-convention"><span class="header-section-number">4.4</span> Set naming convention</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/aux_load.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/set_mappings.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./set_mappings.html">Data and model inputs</a></li><li class="breadcrumb-item"><a href="./aux_load.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Auxiliary data</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./set_mappings.html">Data and model inputs</a></li><li class="breadcrumb-item"><a href="./set_mappings.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">teems sets</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Auxiliary data</span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">teems sets</span></h1>
 </div>
 
 
@@ -540,205 +527,247 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="overview" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">6.1</span> Overview</h2>
-<p><code>ems_aux()</code> prepares a single auxiliary input for injection into the <a href="./data_load.html"><code>ems_data()</code></a> pipeline via the <code>aux_input</code> argument. Auxiliary data can replace an existing header in the loaded database or introduce a novel header not present in the original files. All auxiliary data is loaded at full (unaggregated) resolution; <a href="./data_load.html"><code>ems_data()</code></a> subsequently aggregates it according to the active set mappings and the <code>type</code> argument.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_aux</span>(input, type, <span class="at">header =</span> <span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="overview" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">4.1</span> Overview</h2>
+<p>Set mappings aggregate the fine-grained regions, sectors, and endowments in the GTAP database down to the resolution required for a given model run. In <code>ems_data()</code>, these are passed as named arguments via <code>...</code>, where each argument name corresponds to a set name in the model Tablo file.</p>
+<p>Mappings are only required for sets declared with a <code>read</code> qualifier in the Tablo file – sets whose elements are loaded directly from the GTAP database. For example, the region set below is a read-in set and requires a mapping:</p>
+<pre><code>Set
+    REG # regions #
+    read elements from file GTAPSETS header "REG";</code></pre>
+<p>Sets constructed from set operations over read-in sets do not require mappings:</p>
+<pre><code>Set
+    NMRG # non-margin commodities # = COMM - MARG;</code></pre>
+<p>The set names passed to <code>ems_data()</code> depend on the data format:</p>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 34%">
-<col style="width: 20%">
-<col style="width: 44%">
-</colgroup>
 <thead>
 <tr class="header">
-<th>Argument</th>
-<th>Type</th>
+<th>Format</th>
+<th>Sets requiring mappings</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GTAPv6.2</td>
+<td><code>REG</code>, <code>TRAD_COMM</code>, <code>ENDW_COMM</code></td>
+</tr>
+<tr class="even">
+<td>GTAPv7.0</td>
+<td><code>REG</code>, <code>COMM</code>, <code>ACTS</code>, <code>ENDW</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="internal-mappings" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="internal-mappings"><span class="header-section-number">4.2</span> Internal mappings</h2>
+<p>Internal mappings ship with <a href="https://github.com/teemsphere/teems-mappings"><code>teems</code></a> and are specified by a string name without a <code>.csv</code> extension. All internal mappings, organized by database version, data format, and set name, are available at <a href="https://github.com/teemsphere/teems-mappings">teems-mappings</a>.</p>
+<section id="region-reg" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="region-reg"><span class="header-section-number">4.2.1</span> Region (<code>REG</code>)</h3>
+<p>Region mappings apply to the <code>REG</code> set in both GTAPv6.2 and GTAPv7.0 formats. The <code>AR5</code>, <code>WB7</code>, and <code>WB23</code> mappings are derived from the <a href="https://vincentarelbundock.github.io/countrycode/#/man/codelist">countrycode</a> R package (ar5, region, and region23 respectively).</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Name</th>
+<th style="text-align: right;">Regions</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>input</code></td>
-<td>Data frame, character vector, or file path</td>
-<td>The auxiliary data to load. Accepts a data frame or data frame extension (e.g., tibble, data.table) for <code>"dat"</code> and <code>"par"</code> types; a character vector for <code>"set"</code>; or a path to a CSV or GTAP HAR file</td>
+<td><code>big3</code></td>
+<td style="text-align: right;">3</td>
+<td>China (<code>chn</code>), United States (<code>usa</code>), rest of world (<code>row</code>)</td>
 </tr>
 <tr class="even">
-<td><code>type</code></td>
-<td>Character</td>
-<td>Aggregation type: <code>"dat"</code> (sum aggregation), <code>"par"</code> (mean or weighted mean aggregation), or <code>"set"</code> (final set elements, no aggregation)</td>
+<td><code>AR5</code></td>
+<td style="text-align: right;">5</td>
+<td>IPCC Fifth Assessment Report regions: asia, eit, lam, maf, oecd</td>
 </tr>
 <tr class="odd">
-<td><code>header</code></td>
-<td>Character or <code>NULL</code></td>
-<td>Header name for the input. Required unless <code>input</code> is a GTAP HAR file, which already contains header metadata</td>
+<td><code>WB7</code></td>
+<td style="text-align: right;">7</td>
+<td>World Bank 7-region classification</td>
+</tr>
+<tr class="even">
+<td><code>WB23</code></td>
+<td style="text-align: right;">19</td>
+<td>World Bank 23-region classification</td>
+</tr>
+<tr class="odd">
+<td><code>R32</code></td>
+<td style="text-align: right;">33</td>
+<td>IIASA-based <a href="https://tntcat.iiasa.ac.at/SspDb/dsd?Action=htmlpage&amp;page=10">SSP 32-region</a> mapping</td>
+</tr>
+<tr class="even">
+<td><code>medium</code></td>
+<td style="text-align: right;">65</td>
+<td>Custom medium-resolution aggregation</td>
+</tr>
+<tr class="odd">
+<td><code>large</code></td>
+<td style="text-align: right;">104</td>
+<td>Custom large-resolution aggregation</td>
+</tr>
+<tr class="even">
+<td><code>huge</code></td>
+<td style="text-align: right;">153</td>
+<td>Near country-level with minor groupings</td>
+</tr>
+<tr class="odd">
+<td><code>full</code></td>
+<td style="text-align: right;">160</td>
+<td>Full (unaggregated)</td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="input-formats" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="input-formats"><span class="header-section-number">6.2</span> Input formats</h2>
-<p><code>ems_aux()</code> accepts three input formats determined by <code>input</code>.</p>
-<section id="data-frame" class="level3" data-number="6.2.1">
-<h3 data-number="6.2.1" class="anchored" data-anchor-id="data-frame"><span class="header-section-number">6.2.1</span> Data frame</h3>
-<p>A data frame, tibble, or data.table containing a <code>Value</code> column and one or more set columns identifying the dimensions of the coefficient. The <code>header</code> argument is required.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load at full resolution, modify, then prepare as auxiliary input</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>.data_full <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_input =</span> <span class="st">"path/to/gsdfdat.har"</span>,</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_input =</span> <span class="st">"path/to/gsdfpar.har"</span>,</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_input =</span> <span class="st">"path/to/gsdfset.har"</span>,</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">REG =</span> <span class="st">"full"</span>, <span class="at">COMM =</span> <span class="st">"full"</span>, <span class="at">ACTS =</span> <span class="st">"full"</span>, <span class="at">ENDW =</span> <span class="st">"labor_agg"</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> .data_full<span class="sc">$</span>POP</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>pop<span class="sc">$</span>Value <span class="ot">&lt;-</span> pop<span class="sc">$</span>Value <span class="sc">*</span> <span class="fl">1.25</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>aux_pop <span class="ot">&lt;-</span> <span class="fu">ems_aux</span>(<span class="at">input =</span> pop, <span class="at">type =</span> <span class="st">"dat"</span>, <span class="at">header =</span> <span class="st">"POP"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="sector-trad_comm-comm-acts" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="sector-trad_comm-comm-acts"><span class="header-section-number">4.2.2</span> Sector (<code>TRAD_COMM</code>, <code>COMM</code>, <code>ACTS</code>)</h3>
+<p>Sector mappings apply to <code>TRAD_COMM</code> in GTAPv6.2 and to both <code>COMM</code> and <code>ACTS</code> in GTAPv7.0. <code>COMM</code> and <code>ACTS</code> share the same set of available internal mappings.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 32%">
+<col style="width: 46%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th style="text-align: right;">Sectors</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>macro_sector</code></td>
+<td style="text-align: right;">5</td>
+<td>Broadest aggregation: crops, food, livestock, mnfcs, svces</td>
+</tr>
+<tr class="even">
+<td><code>food</code></td>
+<td style="text-align: right;">21</td>
+<td>Food-focused: disaggregated food and agriculture; aggregated manufacturing and services</td>
+</tr>
+<tr class="odd">
+<td><code>energy</code></td>
+<td style="text-align: right;">23</td>
+<td>Energy-focused: disaggregated energy sectors</td>
+</tr>
+<tr class="even">
+<td><code>manufacturing</code></td>
+<td style="text-align: right;">31</td>
+<td>Manufacturing-focused: disaggregated manufacturing sectors</td>
+</tr>
+<tr class="odd">
+<td><code>services</code></td>
+<td style="text-align: right;">23</td>
+<td>Services-focused: disaggregated services sectors</td>
+</tr>
+<tr class="even">
+<td><code>medium</code></td>
+<td style="text-align: right;">40</td>
+<td>Custom medium-resolution aggregation</td>
+</tr>
+<tr class="odd">
+<td><code>full</code></td>
+<td style="text-align: right;">65</td>
+<td>Full (unaggregated)</td>
+</tr>
+</tbody>
+</table>
+<p>Note that margin sectors (<code>atp</code>, <code>otp</code>, <code>wtp</code> by default) are not specified directly but are inferred from the chosen sectoral aggregation. If these elements are aggregated into a broader sector by the chosen mapping, the margin set reflects that aggregation accordingly. The default margin sector elements can be viewed and modified with <a href="./options.html"><code>ems_option_get()</code></a> and <a href="./options.html"><code>ems_option_set()</code></a>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_option_get</span>(<span class="st">"margin_sectors"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_option_set</span>(<span class="at">margin_sectors =</span> <span class="fu">c</span>(<span class="st">"atp"</span>, <span class="st">"otp"</span>, <span class="st">"wtp"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="csv-file" class="level3" data-number="6.2.2">
-<h3 data-number="6.2.2" class="anchored" data-anchor-id="csv-file"><span class="header-section-number">6.2.2</span> CSV file</h3>
-<p>A path to a CSV file formatted identically to the data frame format above (set columns + <code>Value</code> column). The <code>header</code> argument is required.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(pop, <span class="st">"path/to/pop.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>aux_pop <span class="ot">&lt;-</span> <span class="fu">ems_aux</span>(<span class="at">input =</span> <span class="st">"path/to/pop.csv"</span>, <span class="at">type =</span> <span class="st">"dat"</span>, <span class="at">header =</span> <span class="st">"POP"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="har-file" class="level3" data-number="6.2.3">
-<h3 data-number="6.2.3" class="anchored" data-anchor-id="har-file"><span class="header-section-number">6.2.3</span> HAR file</h3>
-<p>A path to a GTAP header array (<code>.har</code>) file. All headers within the file are loaded as a named list. The <code>header</code> argument is not required because the metadata is already contained in the file.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>aux_gdp <span class="ot">&lt;-</span> <span class="fu">ems_aux</span>(<span class="at">input =</span> <span class="st">"path/to/gdpextra.har"</span>, <span class="at">type =</span> <span class="st">"par"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="character-vector-type-set" class="level3" data-number="6.2.4">
-<h3 data-number="6.2.4" class="anchored" data-anchor-id="character-vector-type-set"><span class="header-section-number">6.2.4</span> Character vector (<code>type = "set"</code>)</h3>
-<p>When <code>type = "set"</code>, <code>input</code> is a character vector of set elements. Set inputs define a new named set in the loaded data and are not aggregated; the elements provided become the final set. This is useful when a model references a set that is not derived from the GTAP database (e.g., a tax instrument classification).</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>tax_types <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"prodtax"</span>, <span class="st">"pfacttax"</span>, <span class="st">"inctax"</span>, <span class="st">"inputtax"</span>,</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>               <span class="st">"contax"</span>, <span class="st">"invtax"</span>, <span class="st">"govtax"</span>, <span class="st">"xtax"</span>, <span class="st">"mtax"</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>aux_tax <span class="ot">&lt;-</span> <span class="fu">ems_aux</span>(<span class="at">input =</span> tax_types, <span class="at">type =</span> <span class="st">"set"</span>, <span class="at">header =</span> <span class="st">"ALLTAX"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The resulting object is passed to <code>aux_input</code> in <a href="./data_load.html"><code>ems_data()</code></a> and will be available in the loaded data under the name <code>ALLTAX</code>.</p>
-</section>
-</section>
-<section id="using-auxiliary-data-in-ems_data" class="level2" data-number="6.3">
-<h2 data-number="6.3" class="anchored" data-anchor-id="using-auxiliary-data-in-ems_data"><span class="header-section-number">6.3</span> Using auxiliary data in <code>ems_data()</code></h2>
-<p>A single <code>ems_aux()</code> output may be passed directly to <code>aux_input</code>, or multiple outputs combined in a list:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Single auxiliary input</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>.data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_input =</span> <span class="st">"path/to/gsdfdat.har"</span>,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_input =</span> <span class="st">"path/to/gsdfpar.har"</span>,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_input =</span> <span class="st">"path/to/gsdfset.har"</span>,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">aux_input =</span> aux_pop,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">REG =</span> <span class="st">"big3"</span>, <span class="at">COMM =</span> <span class="st">"macro_sector"</span>, <span class="at">ACTS =</span> <span class="st">"macro_sector"</span>, <span class="at">ENDW =</span> <span class="st">"labor_agg"</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiple auxiliary inputs</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>.data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_input =</span> <span class="st">"path/to/gsdfdat.har"</span>,</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_input =</span> <span class="st">"path/to/gsdfpar.har"</span>,</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_input =</span> <span class="st">"path/to/gsdfset.har"</span>,</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">aux_input =</span> <span class="fu">list</span>(aux_pop, aux_tax, aux_gdp),</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">REG =</span> <span class="st">"big3"</span>, <span class="at">COMM =</span> <span class="st">"macro_sector"</span>, <span class="at">ACTS =</span> <span class="st">"macro_sector"</span>, <span class="at">ENDW =</span> <span class="st">"labor_agg"</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>When <a href="./data_load.html"><code>ems_data()</code></a> processes auxiliary input, it merges each item into the loaded database before aggregation. The merge behaviour differs depending on whether the header already exists in the database.</p>
-</section>
-<section id="replacement-headers" class="level2" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="replacement-headers"><span class="header-section-number">6.4</span> Replacement headers</h2>
-<p>A <strong>replacement header</strong> is an auxiliary input whose <code>header</code> name matches an existing header in the loaded database. The supplied data overwrites the original; <a href="./data_load.html"><code>ems_data()</code></a> then aggregates the replacement using the active set mappings.</p>
-<section id="dimension-validation" class="level3" data-number="6.4.1">
-<h3 data-number="6.4.1" class="anchored" data-anchor-id="dimension-validation"><span class="header-section-number">6.4.1</span> Dimension validation</h3>
-<p>The replacement data must have the same number of dimensions as the original. Providing data with a different shape raises an error:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># POP has 160 elements at full resolution; providing 2 × 2 fails</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>wrong_dim <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">REG =</span> <span class="fu">c</span>(<span class="st">"usa"</span>, <span class="st">"chn"</span>), <span class="at">extra =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>), <span class="at">Value =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">ems_aux</span>(<span class="at">input =</span> wrong_dim, <span class="at">type =</span> <span class="st">"dat"</span>, <span class="at">header =</span> <span class="st">"POP"</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_data</span>(..., <span class="at">aux_input =</span> aux, <span class="at">REG =</span> <span class="st">"big3"</span>, ...)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error: The dimensions of replacement data for POP, 2 and 2, are not</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        identical to the data being replaced: 160.</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; i For loading aggregated data, use the `...` argument of [`teems::ems_model()`](model_load.qmd).</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="element-validation" class="level3" data-number="6.4.2">
-<h3 data-number="6.4.2" class="anchored" data-anchor-id="element-validation"><span class="header-section-number">6.4.2</span> Element validation</h3>
-<p>Every element present in the original data must also appear in the replacement data. Missing elements raise an error:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>bad_pop <span class="ot">&lt;-</span> .data_full<span class="sc">$</span>POP</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>bad_pop<span class="sc">$</span>REG[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">"nonexistent_region"</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">ems_aux</span>(<span class="at">input =</span> bad_pop, <span class="at">type =</span> <span class="st">"dat"</span>, <span class="at">header =</span> <span class="st">"POP"</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_data</span>(..., <span class="at">aux_input =</span> aux, <span class="at">REG =</span> <span class="st">"big3"</span>, ...)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error: The POP element names provided for 'REG' do not contain all</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        elements within the data being replaced.</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; i Missing elements include "afg".</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="type-mismatch" class="level3" data-number="6.4.3">
-<h3 data-number="6.4.3" class="anchored" data-anchor-id="type-mismatch"><span class="header-section-number">6.4.3</span> Type mismatch</h3>
-<p>The <code>type</code> argument supplied to <code>ems_aux()</code> is recorded alongside the data. If it differs from the type of the header being replaced, <a href="./data_load.html"><code>ems_data()</code></a> issues a warning and proceeds using the declared type:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># POP is a "dat" header; providing type = "par" triggers a warning</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">ems_aux</span>(<span class="at">input =</span> .data_full<span class="sc">$</span>POP, <span class="at">type =</span> <span class="st">"par"</span>, <span class="at">header =</span> <span class="st">"POP"</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_data</span>(..., <span class="at">aux_input =</span> aux, ...)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: The `type` provided to POP differs from that of the data it</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          replaces: "dat".</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="column-name-mismatch" class="level3" data-number="6.4.4">
-<h3 data-number="6.4.4" class="anchored" data-anchor-id="column-name-mismatch"><span class="header-section-number">6.4.4</span> Column name mismatch</h3>
-<p>If a set dimension column in the replacement data does not match the expected name but its elements are identical to the expected set, <a href="./data_load.html"><code>ems_data()</code></a> issues a warning and renames the dimension before merging:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>header <span class="ot">&lt;-</span> .data_full<span class="sc">$</span>POP</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(header)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">"RREG"</span>   <span class="co"># REG elements, wrong name</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">ems_aux</span>(<span class="at">input =</span> header, <span class="at">type =</span> <span class="st">"dat"</span>, <span class="at">header =</span> <span class="st">"POP"</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_data</span>(..., <span class="at">aux_input =</span> aux, ...)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: An inconsistent set name (RREG) was identified when compared to</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          the header to be replaced.</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; i All associated set elements are present so this is likely due to a set</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   used in multiple positions and will be presumed to be equivalent to REG.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="endowment-endw_comm-endw" class="level3" data-number="4.2.3">
+<h3 data-number="4.2.3" class="anchored" data-anchor-id="endowment-endw_comm-endw"><span class="header-section-number">4.2.3</span> Endowment (<code>ENDW_COMM</code>, <code>ENDW</code>)</h3>
+<p>Endowment mappings apply to <code>ENDW_COMM</code> in GTAPv6.2 and <code>ENDW</code> in GTAPv7.0.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 32%">
+<col style="width: 46%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th style="text-align: right;">Factors</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>labor_agg</code></td>
+<td style="text-align: right;">4</td>
+<td>Aggregated labor: capital, labor, land, natlres</td>
+</tr>
+<tr class="even">
+<td><code>labor_diff</code></td>
+<td style="text-align: right;">5</td>
+<td>Differentiated labor: capital, land, natlres, sklab, unsklab</td>
+</tr>
+<tr class="odd">
+<td><code>full</code></td>
+<td style="text-align: right;">8</td>
+<td>Full (unaggregated)</td>
+</tr>
+</tbody>
+</table>
 </section>
 </section>
-<section id="novel-headers" class="level2" data-number="6.5">
-<h2 data-number="6.5" class="anchored" data-anchor-id="novel-headers"><span class="header-section-number">6.5</span> Novel headers</h2>
-<p>A <strong>novel header</strong> is an auxiliary input whose <code>header</code> name does not match any existing header in the loaded database. Novel headers extend the data available for model deployment. Because there is no existing header to validate against, <a href="./data_load.html"><code>ems_data()</code></a> instead matches each set dimension column against the sets loaded from the set input file.</p>
-<section id="set-matching-by-elements" class="level3" data-number="6.5.1">
-<h3 data-number="6.5.1" class="anchored" data-anchor-id="set-matching-by-elements"><span class="header-section-number">6.5.1</span> Set matching by elements</h3>
-<p>If a set column name does not exactly match any loaded set but its elements are a subset of a known set, <a href="./data_load.html"><code>ems_data()</code></a> infers the correspondence, renames the column, and issues a warning:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>new_data <span class="ot">&lt;-</span> .data_full<span class="sc">$</span>POP</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(new_data)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">"population"</span>  <span class="co"># unknown name, but REG elements</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">ems_aux</span>(<span class="at">input =</span> new_data, <span class="at">type =</span> <span class="st">"dat"</span>, <span class="at">header =</span> <span class="st">"new_header"</span>)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_data</span>(..., <span class="at">aux_input =</span> aux, ...)</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: The set population within new_header has been renamed to REG</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          due to identical elements.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Similarly, a column named <code>RREG</code> whose elements match <code>REG</code> will be silently resolved with the same warning. This inference is particularly useful when a coefficient has multiple indices over the same set (e.g., <code>REGr</code> and <code>REGs</code>), where one of the column names may differ from the canonical set name.</p>
+<section id="external-mappings" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="external-mappings"><span class="header-section-number">4.3</span> External mappings</h2>
+<p>Custom mappings can be provided as a file path to a two-column CSV or a data frame (e.g., <code>data.table</code> or <code>tibble</code>), where the first column contains origin elements and the second column contains destination (aggregated) elements. See <a href="https://github.com/teemsphere/teems-mappings">teems-mappings</a> for example files. Note that all set elements are transformed to lowercase within the solver outputs.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>v7_data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> <span class="st">"path/to/gsdfdat.har"</span>,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">par_input =</span> <span class="st">"path/to/gsdfpar.har"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">set_input =</span> <span class="st">"path/to/gsdfset.har"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">REG =</span> <span class="st">"path/to/custom_REG_mapping.csv"</span>,  <span class="co"># external mapping</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">COMM =</span> <span class="st">"macro_sector"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ACTS =</span> <span class="st">"macro_sector"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENDW =</span> <span class="st">"labor_agg"</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="missing-elements-in-novel-headers" class="level3" data-number="6.5.2">
-<h3 data-number="6.5.2" class="anchored" data-anchor-id="missing-elements-in-novel-headers"><span class="header-section-number">6.5.2</span> Missing elements in novel headers</h3>
-<p>If a set column is matched to a known set but its elements do not cover the full set membership, an error is raised:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>bad_data <span class="ot">&lt;-</span> .data_full<span class="sc">$</span>POP</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>bad_data<span class="sc">$</span>REG[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">"nonexistent_region"</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">ems_aux</span>(<span class="at">input =</span> bad_data, <span class="at">type =</span> <span class="st">"dat"</span>, <span class="at">header =</span> <span class="st">"new_header"</span>)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_data</span>(..., <span class="at">aux_input =</span> aux, ...)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error: The {.field new_header} element names provided for 'new_header'</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        do not contain all elements associated with the set REG.</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; i Missing elements include "afg".</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="unrecognizable-sets" class="level3" data-number="6.5.3">
-<h3 data-number="6.5.3" class="anchored" data-anchor-id="unrecognizable-sets"><span class="header-section-number">6.5.3</span> Unrecognizable sets</h3>
-<p>If a set column cannot be matched to any loaded set — neither by name nor by element membership — an error is raised. This applies both when the column name is unknown and its elements overlap only partially with a known set, and when the name and elements are entirely foreign:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Column named "population" with a nonexistent element — partial overlap, unresolvable</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>wrong_set <span class="ot">&lt;-</span> .data_full<span class="sc">$</span>POP</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(wrong_set)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">"population"</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>wrong_set<span class="sc">$</span>population[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">"nonexistent_region"</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">ems_aux</span>(<span class="at">input =</span> wrong_set, <span class="at">type =</span> <span class="st">"dat"</span>, <span class="at">header =</span> <span class="st">"new_header"</span>)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_data</span>(..., <span class="at">aux_input =</span> aux, ...)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error: The new_header set population is not found among loaded data,</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        neither in terms of its name or constituitive elements.</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Entirely unknown set name and elements</span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>bad_set <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">FAKE_SET =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>), <span class="at">Value =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">ems_aux</span>(<span class="at">input =</span> bad_set, <span class="at">type =</span> <span class="st">"dat"</span>, <span class="at">header =</span> <span class="st">"rndm"</span>)</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_data</span>(..., <span class="at">aux_input =</span> aux, ...)</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error: The rndm set FAKE_SET is not found among loaded data,</span></span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        neither in terms of its name or constituitive elements.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="set-naming-convention" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="set-naming-convention"><span class="header-section-number">4.4</span> Set naming convention</h2>
+<p>Set names in any loaded data must be provided as the model-specific concatenation of the standard set name plus the variable-specific index. For example:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Set</th>
+<th>Index</th>
+<th>Column name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>REG</td>
+<td>r</td>
+<td><code>REGr</code></td>
+</tr>
+<tr class="even">
+<td>COMM</td>
+<td>c</td>
+<td><code>COMMc</code></td>
+</tr>
+<tr class="odd">
+<td>ACTS</td>
+<td>a</td>
+<td><code>ACTSa</code></td>
+</tr>
+<tr class="even">
+<td>ENDW</td>
+<td>e</td>
+<td><code>ENDWe</code></td>
+</tr>
+<tr class="odd">
+<td>ALLTIME</td>
+<td>t</td>
+<td><code>ALLTIMEt</code></td>
+</tr>
+</tbody>
+</table>
+<p>This naming convention disambiguates variables that have multiple instances of the same set. Set position (i.e., column order) is inconsequential for any inputs.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -1156,13 +1185,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./data_load.html" class="pagination-link" aria-label="Loading data">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Loading data</span></span>
+      <a href="./quickstart.html" class="pagination-link" aria-label="Quickstart">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Quickstart</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./model_load.html" class="pagination-link" aria-label="Loading models">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Loading models</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./data_load.html" class="pagination-link" aria-label="Loading data">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Loading data</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1171,4 +1200,4 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/aux_load.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/set_mappings.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>
