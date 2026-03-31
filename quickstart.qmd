@@ -82,4 +82,4 @@ Recommended progression:
 | `full_uniform.R` with a different variable | You want to explore other exogenous variables |
 
 For a deeper look at each script pattern and how to customize them, see the [Example files](example.qmd) chapter.
-For data aggregation options (region and sector mappings), see [Set mappings](set_mappings.qmd).
+For data aggregation options (region and sector mappings), see [Loading and specifying sets](set_mappings.qmd).

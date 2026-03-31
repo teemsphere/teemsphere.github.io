@@ -19,7 +19,7 @@ ems_data(dat_input, par_input, set_input, time_steps = NULL,
 | `time_steps` | Integer vector or `NULL` | Time steps for intertemporal models (see [Time steps]) |
 | `aux_input` | List or `NULL` | Auxiliary data created with [`ems_aux()`](aux_load.qmd) (see [Auxiliary inputs]) |
 | `target_format` | Character or `NULL` | Target data format conversion: `"GTAPv6"` or `"GTAPv7"` |
-| `...` | Named arguments | Set mappings for read-in sets (see [Set mappings]) |
+| `...` | Named arguments | Set mappings for read-in sets (see [Loading and specifying sets](set_mappings.qmd)) |
 
 All three input files (`dat_input`, `par_input`, `set_input`) and model-specific set mappings are required.
 `time_steps` is required for intertemporal models.
@@ -57,7 +57,7 @@ Note that the actual names of HAR data files vary according the GTAP release.
 ## Set mappings
 
 Set mappings aggregate the fine-grained regions, sectors, and endowments in the GTAP database down to the resolution required for a given model run.
-The set names used in `...` depend on the data format — see the [teems sets](set_mappings.qmd) chapter for the full list of internal mappings and instructions for supplying custom CSV mappings.
+The set names used in `...` depend on the data format — see the [Loading and specifying sets](set_mappings.qmd) chapter for the full list of internal mappings and instructions for supplying custom CSV mappings.
 
 
 ## Auxiliary inputs {#auxiliary-inputs}

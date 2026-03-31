@@ -197,7 +197,7 @@ source(target)
 
 Common edits new users make:
 
-- **Aggregation**: swap `"big3"` / `"macro_sector"` for any mapping listed in the [Set mappings](set_mappings.qmd) chapter.
+- **Aggregation**: swap `"big3"` / `"macro_sector"` for any mapping listed in the [Loading and specifying sets](set_mappings.qmd) chapter.
 - **Shock target**: change `REGr`, `PROD_COMMj`, and `value` in [`ems_uniform_shock()`](uniform_shocks.qmd) to match your scenario.
 - **Solver accuracy**: change `solution_method = "Johansen"` to `"mod_midpoint"` for multi-step solutions.
 - **Output location**: set `write_dir` to a persistent directory so result files are not removed when the R session ends.

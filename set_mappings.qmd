@@ -1,4 +1,4 @@
-# teems sets
+# Loading and specifying sets
 
 ## Overview
 
@@ -103,14 +103,15 @@ v7_data <- ems_data(dat_input = "path/to/gsdfdat.har",
 
 ## Set naming convention
 
-Set names in any loaded data must be provided as the model-specific concatenation of the standard set name plus the variable-specific index. For example:
+Set names in ***any loaded data*** must be provided as the model-specific concatenation of the standard set name plus the variable-specific index. For example:
 
 | Set | Index | Column name |
 |-----|-------|-------------|
 | REG | r | `REGr` |
+| REG | s | `REGs` |
 | COMM | c | `COMMc` |
 | ACTS | a | `ACTSa` |
 | ENDW | e | `ENDWe` |
 | ALLTIME | t | `ALLTIMEt` |
 
-This naming convention disambiguates variables that have multiple instances of the same set. Set position (i.e., column order) is inconsequential for any inputs.
+This naming convention disambiguates data entries for variables that have multiple instances of the same set. Set position (i.e., column order) is inconsequential for any inputs.

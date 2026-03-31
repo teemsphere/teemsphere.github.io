@@ -219,7 +219,7 @@ If the coefficient name is not found in the model, an error is raised indicating
 ### Set naming convention
 
 Set names follow a model-specific concatenation of the standard set name and the variable-specific index (e.g., `REGr`, `COMMc`, `ACTSa`).
-See the [teems sets](set_mappings.qmd) chapter for the full convention table.
+See the [Loading and specifying sets](set_mappings.qmd) chapter for the full convention table.
 
 ## Intertemporal models {#intertemporal}
 
