@@ -1,0 +1,233 @@
+# Auxiliary data
+
+## Overview
+
+`ems_aux()` prepares a single auxiliary input for injection into the `ems_data()` pipeline via the `aux_input` argument.
+Auxiliary data can replace an existing header in the loaded database or introduce a novel header not present in the original files.
+All auxiliary data is loaded at full (unaggregated) resolution; `ems_data()` subsequently aggregates it according to the active set mappings and the `type` argument.
+
+```r
+ems_aux(input, type, header = NULL)
+```
+
+| Argument | Type | Description |
+|----------|------|-------------|
+| `input` | Data frame, character vector, or file path | The auxiliary data to load. Accepts a data frame or data frame extension (e.g., tibble, data.table) for `"dat"` and `"par"` types; a character vector for `"set"`; or a path to a CSV or GTAP HAR file |
+| `type` | Character | Aggregation type: `"dat"` (sum aggregation), `"par"` (mean or weighted mean aggregation), or `"set"` (final set elements, no aggregation) |
+| `header` | Character or `NULL` | Header name for the input. Required unless `input` is a GTAP HAR file, which already contains header metadata |
+
+## Input formats
+
+`ems_aux()` accepts three input formats determined by `input`.
+
+### Data frame
+
+A data frame, tibble, or data.table containing a `Value` column and one or more set columns identifying the dimensions of the coefficient.
+The `header` argument is required.
+
+```r
+# Load at full resolution, modify, then prepare as auxiliary input
+.data_full <- ems_data(
+  dat_input = "path/to/gsdfdat.har",
+  par_input = "path/to/gsdfpar.har",
+  set_input = "path/to/gsdfset.har",
+  REG = "full", COMM = "full", ACTS = "full", ENDW = "labor_agg"
+)
+
+pop <- .data_full$POP
+pop$Value <- pop$Value * 1.25
+
+aux_pop <- ems_aux(input = pop, type = "dat", header = "POP")
+```
+
+### CSV file
+
+A path to a CSV file formatted identically to the data frame format above (set columns + `Value` column).
+The `header` argument is required.
+
+```r
+write.csv(pop, "path/to/pop.csv", row.names = FALSE)
+aux_pop <- ems_aux(input = "path/to/pop.csv", type = "dat", header = "POP")
+```
+
+### HAR file
+
+A path to a GTAP header array (`.har`) file.
+All headers within the file are loaded as a named list.
+The `header` argument is not required because the metadata is already contained in the file.
+
+```r
+aux_gdp <- ems_aux(input = "path/to/gdpextra.har", type = "par")
+```
+
+### Character vector (`type = "set"`)
+
+When `type = "set"`, `input` is a character vector of set elements.
+Set inputs define a new named set in the loaded data and are not aggregated; the elements provided become the final set.
+This is useful when a model references a set that is not derived from the GTAP database (e.g., a tax instrument classification).
+
+```r
+tax_types <- c("prodtax", "pfacttax", "inctax", "inputtax",
+               "contax", "invtax", "govtax", "xtax", "mtax")
+
+aux_tax <- ems_aux(input = tax_types, type = "set", header = "ALLTAX")
+```
+
+The resulting object is passed to `aux_input` in `ems_data()` and will be available in the loaded data under the name `ALLTAX`.
+
+## Using auxiliary data in `ems_data()`
+
+A single `ems_aux()` output may be passed directly to `aux_input`, or multiple outputs combined in a list:
+
+```r
+# Single auxiliary input
+.data <- ems_data(
+  dat_input = "path/to/gsdfdat.har",
+  par_input = "path/to/gsdfpar.har",
+  set_input = "path/to/gsdfset.har",
+  aux_input = aux_pop,
+  REG = "big3", COMM = "macro_sector", ACTS = "macro_sector", ENDW = "labor_agg"
+)
+
+# Multiple auxiliary inputs
+.data <- ems_data(
+  dat_input = "path/to/gsdfdat.har",
+  par_input = "path/to/gsdfpar.har",
+  set_input = "path/to/gsdfset.har",
+  aux_input = list(aux_pop, aux_tax, aux_gdp),
+  REG = "big3", COMM = "macro_sector", ACTS = "macro_sector", ENDW = "labor_agg"
+)
+```
+
+When `ems_data()` processes auxiliary input, it merges each item into the loaded database before aggregation.
+The merge behaviour differs depending on whether the header already exists in the database.
+
+## Replacement headers
+
+A **replacement header** is an auxiliary input whose `header` name matches an existing header in the loaded database.
+The supplied data overwrites the original; `ems_data()` then aggregates the replacement using the active set mappings.
+
+### Dimension validation
+
+The replacement data must have the same number of dimensions as the original.
+Providing data with a different shape raises an error:
+
+```r
+# POP has 160 elements at full resolution; providing 2 × 2 fails
+wrong_dim <- data.frame(REG = c("usa", "chn"), extra = c("a", "b"), Value = 1:2)
+aux <- ems_aux(input = wrong_dim, type = "dat", header = "POP")
+
+ems_data(..., aux_input = aux, REG = "big3", ...)
+#> Error: The dimensions of replacement data for POP, 2 and 2, are not
+#>        identical to the data being replaced: 160.
+#> i For loading aggregated data, use the `...` argument of `teems::ems_model()`.
+```
+
+### Element validation
+
+Every element present in the original data must also appear in the replacement data.
+Missing elements raise an error:
+
+```r
+bad_pop <- .data_full$POP
+bad_pop$REG[1] <- "nonexistent_region"
+aux <- ems_aux(input = bad_pop, type = "dat", header = "POP")
+
+ems_data(..., aux_input = aux, REG = "big3", ...)
+#> Error: The POP element names provided for 'REG' do not contain all
+#>        elements within the data being replaced.
+#> i Missing elements include "afg".
+```
+
+### Type mismatch
+
+The `type` argument supplied to `ems_aux()` is recorded alongside the data.
+If it differs from the type of the header being replaced, `ems_data()` issues a warning and proceeds using the declared type:
+
+```r
+# POP is a "dat" header; providing type = "par" triggers a warning
+aux <- ems_aux(input = .data_full$POP, type = "par", header = "POP")
+
+ems_data(..., aux_input = aux, ...)
+#> Warning: The `type` provided to POP differs from that of the data it
+#>          replaces: "dat".
+```
+
+### Column name mismatch
+
+If a set dimension column in the replacement data does not match the expected name but its elements are identical to the expected set, `ems_data()` issues a warning and renames the dimension before merging:
+
+```r
+header <- .data_full$POP
+colnames(header)[1] <- "RREG"   # REG elements, wrong name
+aux <- ems_aux(input = header, type = "dat", header = "POP")
+
+ems_data(..., aux_input = aux, ...)
+#> Warning: An inconsistent set name (RREG) was identified when compared to
+#>          the header to be replaced.
+#> i All associated set elements are present so this is likely due to a set
+#>   used in multiple positions and will be presumed to be equivalent to REG.
+```
+
+## Novel headers
+
+A **novel header** is an auxiliary input whose `header` name does not match any existing header in the loaded database.
+Novel headers extend the data available for model deployment.
+Because there is no existing header to validate against, `ems_data()` instead matches each set dimension column against the sets loaded from the set input file.
+
+### Set matching by elements
+
+If a set column name does not exactly match any loaded set but its elements are a subset of a known set, `ems_data()` infers the correspondence, renames the column, and issues a warning:
+
+```r
+new_data <- .data_full$POP
+colnames(new_data)[1] <- "population"  # unknown name, but REG elements
+aux <- ems_aux(input = new_data, type = "dat", header = "new_header")
+
+ems_data(..., aux_input = aux, ...)
+#> Warning: The set population within new_header has been renamed to REG
+#>          due to identical elements.
+```
+
+Similarly, a column named `RREG` whose elements match `REG` will be silently resolved with the same warning.
+This inference is particularly useful when a coefficient has multiple indices over the same set (e.g., `REGr` and `REGs`), where one of the column names may differ from the canonical set name.
+
+### Missing elements in novel headers
+
+If a set column is matched to a known set but its elements do not cover the full set membership, an error is raised:
+
+```r
+bad_data <- .data_full$POP
+bad_data$REG[1] <- "nonexistent_region"
+aux <- ems_aux(input = bad_data, type = "dat", header = "new_header")
+
+ems_data(..., aux_input = aux, ...)
+#> Error: The {.field new_header} element names provided for 'new_header'
+#>        do not contain all elements associated with the set REG.
+#> i Missing elements include "afg".
+```
+
+### Unrecognizable sets
+
+If a set column cannot be matched to any loaded set — neither by name nor by element membership — an error is raised.
+This applies both when the column name is unknown and its elements overlap only partially with a known set, and when the name and elements are entirely foreign:
+
+```r
+# Column named "population" with a nonexistent element — partial overlap, unresolvable
+wrong_set <- .data_full$POP
+colnames(wrong_set)[1] <- "population"
+wrong_set$population[1] <- "nonexistent_region"
+aux <- ems_aux(input = wrong_set, type = "dat", header = "new_header")
+
+ems_data(..., aux_input = aux, ...)
+#> Error: The new_header set population is not found among loaded data,
+#>        neither in terms of its name or constituitive elements.
+
+# Entirely unknown set name and elements
+bad_set <- data.frame(FAKE_SET = c("a", "b", "c"), Value = 1:3)
+aux <- ems_aux(input = bad_set, type = "dat", header = "rndm")
+
+ems_data(..., aux_input = aux, ...)
+#> Error: The rndm set FAKE_SET is not found among loaded data,
+#>        neither in terms of its name or constituitive elements.
+```

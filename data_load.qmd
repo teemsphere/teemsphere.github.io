@@ -100,7 +100,7 @@ The set names used in `...` depend on the data format. For example the GTAP v6.2
 v6_data <- ems_data(dat_input = "path/to/flexagg10AY14/gsddat.har",
                     par_input = "path/to/flexagg10AY14/gsdpar.har",
                     set_input = "path/to/flexagg10AY14/gsdset.har",
-                    REG = "big3",            # China, USA, ROW
+                    REG = "big3",            # chn, usa, row
                     TRAD_COMM = "macro_sector", # crops, food, livestock, mnfcs, svces
                     ENDW_COMM = "labor_agg"     # capital, labor, land, natlres
 )
@@ -113,8 +113,8 @@ v7_data <- ems_data(dat_input = "path/to/flexAgg11c17/gsdfdat.har",
                     par_input = "path/to/flexAgg11c17/gsdfpar.har",
                     set_input = "path/to/flexAgg11c17/gsdfset.har",
                     REG = "AR5", # asia, eit, lam, maf, oecd
-                    COMM = "agriculture", # b_t, c_b, cmt, ctl, fsh, gro, mil, mnfcs, oap, ocr, ofd, omt, ...
-                    ACTS = "agriculture", # ... osd, pcr, pdr, pfb, rmk, sgr, svces, v_f, vol, wht, wol
+                    COMM = "food", # b_t, c_b, cmt, ctl, fsh, gro, mil, mnfcs, oap, ocr, ... 
+                    ACTS = "food", # ofd, omt, osd, pcr, pdr, rmk, sgr, svces, v_f, vol, wht
                     ENDW = "labor_diff" # capital, land, natlres, sklab, unsklab
 )
 ```
@@ -134,8 +134,9 @@ All internal mappings by data format, database version, and set can be viewed he
 
 ### External mappings
 
-External mappings may be provided in the form of a filepath to a two column csv file where the first column represents origin elements and the second column represents mapped (aggregated) elements.
+External mappings may be provided in the form of a filepath to a two column csv file or data frame equivalent (e.g., tibble data table) where the first column represents origin elements and the second column represents mapped (aggregated) elements.
 See [teems-mappings](https://github.com/teemsphere/teems-mappings) for example mappings.
+Note that all set elements will be transformed to lowercase within the solver outputs.
 
 ```r
 v7_data <- ems_data(dat_input = "path/to/flexagg10AY14/gsddat.har",
@@ -150,107 +151,10 @@ v7_data <- ems_data(dat_input = "path/to/flexagg10AY14/gsddat.har",
 
 
 ## Auxiliary inputs {#auxiliary-inputs}
-With more complex models it is often necessary to load auxiliary data.
-There are also cases were users may wish to directly modify headers in existing base data.
-The `ems_aux()` function loads and prepares auxiliary data for injection into the `ems_data()` pipeline via the `aux_input` argument.
-Auxiliary data can replace existing headers or introduce novel headers not present in the original database.
-All auxiliary data is loaded at full (unaggregated) resolution and is subsequently aggregated by `ems_data()` according to the set mappings and data type.
 
-```r
-ems_aux(dat = NULL, par = NULL, set = NULL)
-```
-
-| Argument | Type | Description |
-|----------|------|-------------|
-| `dat` | List or `NULL` | Auxiliary inputs for non-parameter coefficients (sum aggregation) |
-| `par` | List or `NULL` | Auxiliary inputs for parameter coefficients (mean/weighted mean aggregation) |
-| `set` | List or `NULL` | Under development |
-
-At least one of `dat` or `par` must be provided.
-
-### Input formats
-
-Each parameter accepts a list whose elements can be in one of three formats:
-
-**Named data frame** -- The list element name corresponds to the header. The data frame must contain a `Value` column alongside one or more set columns. The set columns identify the dimensions of the coefficient.
-
-```r
-# Extract and modify a header from ems_data output
-pop <- ems_data(
-  dat_input = "path/to/gsddat.har",
-  par_input = "path/to/gsdpar.har",
-  set_input = "path/to/gsdset.har",
-  REG = "full",
-  TRAD_COMM = "full",
-  ENDW_COMM = "labor_agg"
-)$POP
-
-# Modify values
-pop$Value <- pop$Value * 1.25
-
-# Create aux object
-aux_pop <- ems_aux(dat = list(POP = pop))
-```
-
-**Named CSV file** -- The list element name corresponds to the header and the value is a file path to a CSV file formatted identically to the data frame format above (set columns + `Value` column). 
-
-Using the `pop` object created above:
-```r
-write.csv(pop, "path/to/pop.csv", row.names = FALSE)
-aux_pop <- ems_aux(dat = list(POP = "path/to/pop.csv"))
-```
-
-**Unnamed HAR file** -- An unnamed list element containing a file path to a GTAP header array (`.har`) file. All headers within the file are loaded and no names are necessary (metadata already contains header information).
-
-```r
-aux_gdp <- ems_aux(par = "path/to/gdpextra.har")
-```
-
-### Constructing auxiliary inputs
-
-These formats can be mixed freely within a single `ems_aux()` call. The `dat` and `par` arguments control how the data is aggregated downstream: `dat` inputs undergo simple sum aggregation while `par` inputs undergo mean or weighted mean aggregation.
-
-```r
-.data <- ems_data(
-  dat_input = "path/to/gsddat.har",
-  par_input = "path/to/gsdpar.har",
-  set_input = "path/to/gsdset.har",
-  REG = "full",
-  TRAD_COMM = "full",
-  ENDW_COMM = "labor_agg"
-)
-
-aux <- ems_aux(
-  dat = list(POP = pop_csv,          # CSV created above for POP header
-             VTWR = .data$VTWR),     # data.table directly from ems_data
-  par = "path/to/gdpextra.har"       # unnamed HAR path loads all headers
-)
-```
-
-### Using auxiliary data in `ems_data()`
-
-The output of `ems_aux()` is passed directly to the `aux_input` argument of `ems_data()`:
-
-```r
-.data <- ems_data(
-  dat_input = "path/to/gsddat.har",
-  par_input = "path/to/gsdpar.har",
-  set_input = "path/to/gsdset.har",
-  aux_input = aux,
-  REG = "big3",
-  COMM = "macro_sector",
-  ACTS = "macro_sector",
-  ENDW = "labor_agg"
-)
-```
-
-When `ems_data()` processes auxiliary input, it merges the auxiliary data into the loaded database before aggregation. Headers that match existing database headers are validated for dimensional consistency -- the replacement data must have the same dimensions and contain all elements present in the original. Novel headers (those not in the original database) are matched against loaded sets by name and element membership.
-
-### Replacement vs. novel headers
-
-**Replacement headers** directly overwrite an existing header. The auxiliary data must have the same dimensions and include all elements found in the original data. For example, providing a modified `POP` header replaces the population data loaded from the basedata HAR file.
-
-**Novel headers** introduce data not present in the original database. The set columns of the data frame are matched against sets loaded from the set input file. If a column name exactly matches a loaded set, its elements are validated. If the column name does not match but its elements are identical to a known set, `teems` will issue a warning and rename the dimension accordingly. This inference is necessary when a single header contains multiples of the same set (with different names such as REGr and REGs region sets).
+With more complex models it is often necessary to load auxiliary data or directly modify existing database headers.
+The `ems_aux()` function prepares auxiliary inputs for injection via the `aux_input` argument.
+See the dedicated [Auxiliary data](aux_load.qmd) chapter for full documentation, including input formats, `type = "set"` for new set creation, replacement vs. novel header behaviour, and error/warning reference.
 
 ## Time steps
 For temporally dynamic models (e.g., [GTAP-INT](https://github.com/teemsphere/teems-models/tree/main/GTAP-INTv1), [GTAP-RE](https://github.com/teemsphere/teems-models/tree/main/GTAP-REv1)), time steps must be provided representing t0 plus actual year steps from t0.

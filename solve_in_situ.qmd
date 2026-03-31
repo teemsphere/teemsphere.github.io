@@ -10,11 +10,11 @@ This function is intended for users who wish to use the teems solver with their 
 | Argument | Default | Description |
 |----------|---------|-------------|
 | `...` | | Named arguments corresponding to input files necessary for an in-situ model run. Names must correspond to "File" statements within the model Tablo file. Values correspond to file paths where these files are found |
-| `model_input` | | Path to the model Tablo (.tab) file |
+| `model_file` | | Path to the model Tablo (.tab) file |
 | `closure_file` | | Path to the closure (.cls) file |
 | `shock_file` | | Path to the shock file |
 | `write_dir` | `tools::R_user_dir("teems", "cache")` | Base directory for output files |
-| `writeout` | `FALSE` | Whether to parse the Tablo file and append "Write" declarations for all model output coefficients and sets. If `TRUE`, a successful writeout may require modifications to the provided `model_input`. If `FALSE`, outputs will consist of model variables only |
+| `writeout` | `FALSE` | Whether to parse the Tablo file and append "Write" declarations for all model output coefficients and sets. If `TRUE`, a successful writeout may require modifications to the provided `model_file`. If `FALSE`, outputs will consist of model variables only |
 | `n_tasks` | `1L` | Number of tasks to run in parallel. Must be `1L` if `matrix_method` is `"LU"` |
 | `n_subintervals` | `1L` | Number of subintervals for the applied shock |
 | `matrix_method` | `"LU"` | Matrix solution method: `"LU"`, `"DBBD"`, `"SBBD"`, or `"NDBBD"` |
@@ -29,7 +29,7 @@ This function is intended for users who wish to use the teems solver with their 
 
 ## Input files
 
-All model-declared input files as well as `model_input`, `closure_file`, and `shock_file` are required. Input files are passed as named arguments via `...`, where each name must correspond to a "File" statement in the model Tablo file. For GTAP-RE, the Tablo file declares:
+All model-declared input files as well as `model_file`, `closure_file`, and `shock_file` are required. Input files are passed as named arguments via `...`, where each name must correspond to a "File" statement in the model Tablo file. For GTAP-RE, the Tablo file declares:
 
 ```
 File GTAPDATA # base data file;
@@ -60,7 +60,8 @@ data <- ems_data(
 )
 
 model <- ems_model(
-  model_input = "GTAP-REv1",
+  model_file = "GTAP-REv1.tab",
+  closure_file = "GTAP-REv1.cls",
   var_omit = c("atall", "avaall", "tfe", "tfd", "tfm", "tgd", "tgm", "tid", "tim")
 )
 
@@ -80,11 +81,11 @@ solve_in_situ(
   GTAPINT  = file.path(write_dir, "teems", "GTAPINT.txt"),
   GTAPPARM = file.path(write_dir, "teems", "GTAPPARM.txt"),
   GTAPSETS = file.path(write_dir, "teems", "GTAPSETS.txt"),
-  model_input  = "../teems-models/GTAP-REv1/GTAP-REv1.tab",
-  closure_file = "../teems-models/GTAP-REv1/GTAP-REv1.cls",
+  model_file = "GTAP-REv1.tab",
+  closure_file = "GTAP-REv1.cls",
   shock_file   = list.files(file.path(write_dir, "teems"),
                             pattern = "shf", full.names = TRUE),
-  write_dir = "~/Documents/test/in_situ_test/",
+  write_dir = "~/in_situ_run/",
   n_tasks = 1,
   n_subintervals = 1,
   matrix_method = "SBBD",
@@ -112,7 +113,7 @@ outputs <- solve_in_situ(
   GTAPINT  = "path/to/GTAPINT.txt",
   GTAPPARM = "path/to/GTAPPARM.txt",
   GTAPSETS = "path/to/GTAPSETS.txt",
-  model_input  = "path/to/GTAP-REv1.tab",
+  model_file  = "path/to/GTAP-REv1.tab",
   closure_file = "path/to/GTAP-REv1.cls",
   shock_file   = "path/to/shocks.shf",
   write_dir = "~/my_project/output",

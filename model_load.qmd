@@ -5,17 +5,17 @@
 The `ems_model()` function loads the model and its closure, conducts pre-deployment checks, determines temporal dynamics, and allows for the loading of aggregated coefficient data. The output of this function is a tibble with attributes containing the parsed model input and is a required input to the `"model"` argument of the [`ems_deploy()`] function.
 
 ```r
-ems_model(model_input, closure_file, var_omit = NULL, ...)
+ems_model(model_file, closure_file, var_omit = NULL, ...)
 ```
 
 | Argument | Type | Description |
 |----------|------|-------------|
-| `model_input` | Character | File name in working directory or path to a `.tab` file |
+| `model_file` | Character | File name in working directory or path to a `.tab` file |
 | `closure_file` | Character | File name in working directory or path to a `.cls` closure file |
 | `var_omit` | Character vector or `NULL` | Variables to substitute with `0` and remove from closure |
 | `...` | Named arguments | Coefficient value injections (numeric, data frame, or CSV path) |
 
-Both `model_input` and `closure_file` are required arguments.
+Both `model_file` and `closure_file` are required arguments.
 
 # The model file {#tab_files}
 
@@ -32,7 +32,7 @@ Model input in `teems` is currently limited to Tablo (`.tab`) files. Vetted mode
 Users may load their own models by providing a path to a Tablo file and closure:
 ```r
 model <- ems_model(
-  model_input = "path/to/custom_model.tab",
+  model_file = "path/to/custom_model.tab",
   closure_file = "path/to/custom_model.cls"
 )
 ```
@@ -94,7 +94,7 @@ Declare sets explicitly within the Tablo file:
 Set ENDWM # mobile endowment # (capital, unsklab, sklab);
 ```
 
-Note that sets in the full form (all elements) and subsetted form (model-specific aggregations) can be loaded using `...` with `ems_model()` and `set` with `ems_aux()`.
+Note that sets in the full form (all elements) and subsetted form (model-specific aggregations) can be loaded using `...` with `ems_model()` and `type = "set"` with `ems_aux()`.
 
 **Capital goods** The `CGDS` sector in v6.2 format models is renamed to `zcgds` by default due to R `data.table` C-locale sorting and preference for all set elements to be lowercase.
 
@@ -131,7 +131,7 @@ A single numeric value can be assigned to a coefficient. All set combinations fo
 
 ```r
 model <- ems_model(
-  model_input = ems_example("GTAP_RE.tab"),
+  model_file = ems_example("GTAP_RE.tab"),
   closure_file = ems_example("GTAP_RE.cls"),
   KAPPA = 0.54321
 )
@@ -158,7 +158,7 @@ SUBPAR <- expand.grid(
 SUBPAR$Value <- runif(nrow(SUBPAR))
 
 model <- ems_model(
-  model_input = ems_example("GTAP_RE.tab"),
+  model_file = ems_example("GTAP_RE.tab"),
   closure_file = ems_example("GTAP_RE.cls"),
   SUBPAR = SUBPAR
 )
@@ -178,7 +178,7 @@ CPHI <- expand.grid(
 CPHI$Value <- runif(nrow(CPHI))
 
 model <- ems_model(
-  model_input = ems_example("GTAP_RE.tab"),
+  model_file = ems_example("GTAP_RE.tab"),
   closure_file = ems_example("GTAP_RE.cls"),
   CPHI = CPHI
 )
@@ -193,7 +193,7 @@ A path to a CSV file can be used as an alternative to a data frame. The CSV must
 write.csv(SUBPAR, "SUBPAR.csv", row.names = FALSE)
 
 model <- ems_model(
-  model_input = ems_example("GTAP_RE.tab"),
+  model_file = ems_example("GTAP_RE.tab"),
   closure_file = ems_example("GTAP_RE.cls"),
   SUBPAR = "SUBPAR.csv"
 )
@@ -205,7 +205,7 @@ Multiple coefficient injections can be combined in a single call along with vari
 
 ```r
 model <- ems_model(
-  model_input = ems_example("GTAP_RE.tab"),
+  model_file = ems_example("GTAP_RE.tab"),
   closure_file = ems_example("GTAP_RE.cls"),
   var_omit = c("atall", "avaall", "tfe", "tfm", "tgd", "tgm", "tid", "tim"),
   KAPPA = 0.03,

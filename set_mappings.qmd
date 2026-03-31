@@ -1,0 +1,102 @@
+# Set mappings
+
+## Overview
+
+Set mappings aggregate the fine-grained regions, sectors, and endowments in the GTAP database down to the resolution required for a given model run.
+In `ems_data()`, these are passed as named arguments via `...`, where each argument name corresponds to a set name in the model Tablo file.
+
+Mappings are only required for sets declared with a `read` qualifier in the Tablo file -- sets whose elements are loaded directly from the GTAP database.
+For example, the region set below is a read-in set and requires a mapping:
+
+```
+Set
+    REG # regions #
+    read elements from file GTAPSETS header "REG";
+```
+
+Sets constructed from set operations over read-in sets do not require mappings:
+
+```
+Set
+    NMRG # non-margin commodities # = COMM - MARG;
+```
+
+The set names passed to `ems_data()` depend on the data format:
+
+| Format | Sets requiring mappings |
+|--------|------------------------|
+| GTAPv6.2 | `REG`, `TRAD_COMM`, `ENDW_COMM` |
+| GTAPv7.0 | `REG`, `COMM`, `ACTS`, `ENDW` |
+
+## Internal mappings
+
+Internal mappings ship with [`teems`](https://github.com/teemsphere/teems-mappings) and are specified by a string name without a `.csv` extension.
+All internal mappings, organized by database version, data format, and set name, are available at [teems-mappings](https://github.com/teemsphere/teems-mappings).
+
+### Region (`REG`)
+
+Region mappings apply to the `REG` set in both GTAPv6.2 and GTAPv7.0 formats.
+The `AR5`, `WB7`, and `WB23` mappings are derived from the [countrycode](https://vincentarelbundock.github.io/countrycode/#/man/codelist) R package (ar5, region, and region23 respectively).
+
+| Name | Regions | Description |
+|------|--------:|-------------|
+| `big3` | 3 | China (`chn`), United States (`usa`), rest of world (`row`) |
+| `AR5` | 5 | IPCC Fifth Assessment Report regions: asia, eit, lam, maf, oecd |
+| `WB7` | 7 | World Bank 7-region classification |
+| `WB23` | 19 | World Bank 23-region classification |
+| `R32` | 33 | IIASA-based [SSP 32-region](https://tntcat.iiasa.ac.at/SspDb/dsd?Action=htmlpage&page=10) mapping |
+| `medium` | 65 | Custom medium-resolution aggregation |
+| `large` | 104 | Custom large-resolution aggregation |
+| `huge` | 153 | Near country-level with minor groupings |
+| `full` | 160 | Full (unaggregated) |
+
+### Sector (`TRAD_COMM`, `COMM`, `ACTS`)
+
+Sector mappings apply to `TRAD_COMM` in GTAPv6.2 and to both `COMM` and `ACTS` in GTAPv7.0.
+`COMM` and `ACTS` share the same set of available internal mappings.
+
+| Name | Sectors | Description |
+|------|--------:|-------------|
+| `macro_sector` | 5 | Broadest aggregation: crops, food, livestock, mnfcs, svces |
+| `food` | 21 | Food-focused: disaggregated food and agriculture; aggregated manufacturing and services |
+| `energy` | 23 | Energy-focused: disaggregated energy sectors |
+| `manufacturing` | 31 | Manufacturing-focused: disaggregated manufacturing sectors |
+| `services` | 23 | Services-focused: disaggregated services sectors |
+| `medium` | 40 | Custom medium-resolution aggregation |
+| `full` | 65 | Full (unaggregated) |
+
+Note that margin sectors (`atp`, `otp`, `wtp` by default) are not specified directly but are inferred from the chosen sectoral aggregation.
+If these elements are aggregated into a broader sector by the chosen mapping, the margin set reflects that aggregation accordingly.
+The default margin sector elements can be viewed and modified with `ems_option_get()` and `ems_option_set()`:
+
+```r
+ems_option_get("margin_sectors")
+ems_option_set(margin_sectors = c("atp", "otp", "wtp"))
+```
+
+### Endowment (`ENDW_COMM`, `ENDW`)
+
+Endowment mappings apply to `ENDW_COMM` in GTAPv6.2 and `ENDW` in GTAPv7.0.
+
+| Name | Factors | Description |
+|------|--------:|-------------|
+| `labor_agg` | 4 | Aggregated labor: capital, labor, land, natlres |
+| `labor_diff` | 5 | Differentiated labor: capital, land, natlres, sklab, unsklab |
+| `full` | 8 | Full (unaggregated) |
+
+## External mappings
+
+Custom mappings can be provided as a file path to a two-column CSV or a data frame (e.g., `data.table` or `tibble`), where the first column contains origin elements and the second column contains destination (aggregated) elements.
+See [teems-mappings](https://github.com/teemsphere/teems-mappings) for example files.
+Note that all set elements are transformed to lowercase within the solver outputs.
+
+```r
+v7_data <- ems_data(dat_input = "path/to/gsdfdat.har",
+                    par_input = "path/to/gsdfpar.har",
+                    set_input = "path/to/gsdfset.har",
+                    REG = "path/to/custom_REG_mapping.csv",  # external mapping
+                    COMM = "macro_sector",
+                    ACTS = "macro_sector",
+                    ENDW = "labor_agg"
+)
+```

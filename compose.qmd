@@ -68,7 +68,7 @@ This option must be set to `TRUE` when using output from `solve_in_situ()` with 
 ```r
 outputs <- solve_in_situ(
   ...,
-  model_input  = "model.tab",
+  model_file  = "model.tab",
   closure_file = "model.cls",
   shock_file   = "shocks.shf",
   suppress_outputs = TRUE
