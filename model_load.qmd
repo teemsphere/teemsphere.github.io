@@ -42,11 +42,11 @@ We recommend that users seeking to load custom models first review the formattin
 ## Closure selection
 Standard model-specific closures are available within the model repository: [teems-models](https://github.com/teemsphere/teems-models). The general format consists of:
 
-1. Character string "exogenous"
-2. A "\n" delimited list of exogenous variables
-3. ";"
-4. "rest exogenous"
-5. ";"
+1. exogenous
+2. A `\n` delimited list of exogenous variables
+3. ;
+4. rest exogenous
+5. ;
 
 ## Incompatible features
 
