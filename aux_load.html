@@ -501,19 +501,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#character-vector-type-set" id="toc-character-vector-type-set" class="nav-link" data-scroll-target="#character-vector-type-set"><span class="header-section-number">6.2.4</span> Character vector (<code>type = "set"</code>)</a></li>
   </ul></li>
   <li><a href="#using-auxiliary-data-in-ems_data" id="toc-using-auxiliary-data-in-ems_data" class="nav-link" data-scroll-target="#using-auxiliary-data-in-ems_data"><span class="header-section-number">6.3</span> Using auxiliary data in <code>ems_data()</code></a></li>
-  <li><a href="#replacement-headers" id="toc-replacement-headers" class="nav-link" data-scroll-target="#replacement-headers"><span class="header-section-number">6.4</span> Replacement headers</a>
-  <ul class="collapse">
-  <li><a href="#dimension-validation" id="toc-dimension-validation" class="nav-link" data-scroll-target="#dimension-validation"><span class="header-section-number">6.4.1</span> Dimension validation</a></li>
-  <li><a href="#element-validation" id="toc-element-validation" class="nav-link" data-scroll-target="#element-validation"><span class="header-section-number">6.4.2</span> Element validation</a></li>
-  <li><a href="#type-mismatch" id="toc-type-mismatch" class="nav-link" data-scroll-target="#type-mismatch"><span class="header-section-number">6.4.3</span> Type mismatch</a></li>
-  <li><a href="#column-name-mismatch" id="toc-column-name-mismatch" class="nav-link" data-scroll-target="#column-name-mismatch"><span class="header-section-number">6.4.4</span> Column name mismatch</a></li>
-  </ul></li>
-  <li><a href="#novel-headers" id="toc-novel-headers" class="nav-link" data-scroll-target="#novel-headers"><span class="header-section-number">6.5</span> Novel headers</a>
-  <ul class="collapse">
-  <li><a href="#set-matching-by-elements" id="toc-set-matching-by-elements" class="nav-link" data-scroll-target="#set-matching-by-elements"><span class="header-section-number">6.5.1</span> Set matching by elements</a></li>
-  <li><a href="#missing-elements-in-novel-headers" id="toc-missing-elements-in-novel-headers" class="nav-link" data-scroll-target="#missing-elements-in-novel-headers"><span class="header-section-number">6.5.2</span> Missing elements in novel headers</a></li>
-  <li><a href="#unrecognizable-sets" id="toc-unrecognizable-sets" class="nav-link" data-scroll-target="#unrecognizable-sets"><span class="header-section-number">6.5.3</span> Unrecognizable sets</a></li>
-  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/aux_load.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -608,7 +595,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="character-vector-type-set" class="level3" data-number="6.2.4">
 <h3 data-number="6.2.4" class="anchored" data-anchor-id="character-vector-type-set"><span class="header-section-number">6.2.4</span> Character vector (<code>type = "set"</code>)</h3>
-<p>When <code>type = "set"</code>, <code>input</code> is a character vector of set elements. Set inputs define a new named set in the loaded data and are not aggregated; the elements provided become the final set. This is useful when a model references a set that is not derived from the GTAP database (e.g., a tax instrument classification).</p>
+<p>When <code>type = "set"</code>, <code>input</code> can take the form a character vector of set elements. Set inputs define a new named set in the loaded data and are not aggregated; the elements provided become the final set. This is useful when a model references a set that is not derived from the GTAP database (e.g., a tax instrument classification).</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>tax_types <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"prodtax"</span>, <span class="st">"pfacttax"</span>, <span class="st">"inctax"</span>, <span class="st">"inputtax"</span>,</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>               <span class="st">"contax"</span>, <span class="st">"invtax"</span>, <span class="st">"govtax"</span>, <span class="st">"xtax"</span>, <span class="st">"mtax"</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -636,109 +623,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">aux_input =</span> <span class="fu">list</span>(aux_pop, aux_tax, aux_gdp),</span>
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">REG =</span> <span class="st">"big3"</span>, <span class="at">COMM =</span> <span class="st">"macro_sector"</span>, <span class="at">ACTS =</span> <span class="st">"macro_sector"</span>, <span class="at">ENDW =</span> <span class="st">"labor_agg"</span></span>
 <span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>When <a href="./data_load.html"><code>ems_data()</code></a> processes auxiliary input, it merges each item into the loaded database before aggregation. The merge behaviour differs depending on whether the header already exists in the database.</p>
-</section>
-<section id="replacement-headers" class="level2" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="replacement-headers"><span class="header-section-number">6.4</span> Replacement headers</h2>
-<p>A <strong>replacement header</strong> is an auxiliary input whose <code>header</code> name matches an existing header in the loaded database. The supplied data overwrites the original; <a href="./data_load.html"><code>ems_data()</code></a> then aggregates the replacement using the active set mappings.</p>
-<section id="dimension-validation" class="level3" data-number="6.4.1">
-<h3 data-number="6.4.1" class="anchored" data-anchor-id="dimension-validation"><span class="header-section-number">6.4.1</span> Dimension validation</h3>
-<p>The replacement data must have the same number of dimensions as the original. Providing data with a different shape raises an error:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># POP has 160 elements at full resolution; providing 2 × 2 fails</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>wrong_dim <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">REG =</span> <span class="fu">c</span>(<span class="st">"usa"</span>, <span class="st">"chn"</span>), <span class="at">extra =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>), <span class="at">Value =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">ems_aux</span>(<span class="at">input =</span> wrong_dim, <span class="at">type =</span> <span class="st">"dat"</span>, <span class="at">header =</span> <span class="st">"POP"</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_data</span>(..., <span class="at">aux_input =</span> aux, <span class="at">REG =</span> <span class="st">"big3"</span>, ...)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error: The dimensions of replacement data for POP, 2 and 2, are not</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        identical to the data being replaced: 160.</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; i For loading aggregated data, use the `...` argument of [`teems::ems_model()`](model_load.qmd).</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="element-validation" class="level3" data-number="6.4.2">
-<h3 data-number="6.4.2" class="anchored" data-anchor-id="element-validation"><span class="header-section-number">6.4.2</span> Element validation</h3>
-<p>Every element present in the original data must also appear in the replacement data. Missing elements raise an error:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>bad_pop <span class="ot">&lt;-</span> .data_full<span class="sc">$</span>POP</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>bad_pop<span class="sc">$</span>REG[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">"nonexistent_region"</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">ems_aux</span>(<span class="at">input =</span> bad_pop, <span class="at">type =</span> <span class="st">"dat"</span>, <span class="at">header =</span> <span class="st">"POP"</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_data</span>(..., <span class="at">aux_input =</span> aux, <span class="at">REG =</span> <span class="st">"big3"</span>, ...)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error: The POP element names provided for 'REG' do not contain all</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        elements within the data being replaced.</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; i Missing elements include "afg".</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="type-mismatch" class="level3" data-number="6.4.3">
-<h3 data-number="6.4.3" class="anchored" data-anchor-id="type-mismatch"><span class="header-section-number">6.4.3</span> Type mismatch</h3>
-<p>The <code>type</code> argument supplied to <code>ems_aux()</code> is recorded alongside the data. If it differs from the type of the header being replaced, <a href="./data_load.html"><code>ems_data()</code></a> issues a warning and proceeds using the declared type:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># POP is a "dat" header; providing type = "par" triggers a warning</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">ems_aux</span>(<span class="at">input =</span> .data_full<span class="sc">$</span>POP, <span class="at">type =</span> <span class="st">"par"</span>, <span class="at">header =</span> <span class="st">"POP"</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_data</span>(..., <span class="at">aux_input =</span> aux, ...)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: The `type` provided to POP differs from that of the data it</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          replaces: "dat".</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="column-name-mismatch" class="level3" data-number="6.4.4">
-<h3 data-number="6.4.4" class="anchored" data-anchor-id="column-name-mismatch"><span class="header-section-number">6.4.4</span> Column name mismatch</h3>
-<p>If a set dimension column in the replacement data does not match the expected name but its elements are identical to the expected set, <a href="./data_load.html"><code>ems_data()</code></a> issues a warning and renames the dimension before merging:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>header <span class="ot">&lt;-</span> .data_full<span class="sc">$</span>POP</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(header)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">"RREG"</span>   <span class="co"># REG elements, wrong name</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">ems_aux</span>(<span class="at">input =</span> header, <span class="at">type =</span> <span class="st">"dat"</span>, <span class="at">header =</span> <span class="st">"POP"</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_data</span>(..., <span class="at">aux_input =</span> aux, ...)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: An inconsistent set name (RREG) was identified when compared to</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          the header to be replaced.</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; i All associated set elements are present so this is likely due to a set</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   used in multiple positions and will be presumed to be equivalent to REG.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-</section>
-<section id="novel-headers" class="level2" data-number="6.5">
-<h2 data-number="6.5" class="anchored" data-anchor-id="novel-headers"><span class="header-section-number">6.5</span> Novel headers</h2>
-<p>A <strong>novel header</strong> is an auxiliary input whose <code>header</code> name does not match any existing header in the loaded database. Novel headers extend the data available for model deployment. Because there is no existing header to validate against, <a href="./data_load.html"><code>ems_data()</code></a> instead matches each set dimension column against the sets loaded from the set input file.</p>
-<section id="set-matching-by-elements" class="level3" data-number="6.5.1">
-<h3 data-number="6.5.1" class="anchored" data-anchor-id="set-matching-by-elements"><span class="header-section-number">6.5.1</span> Set matching by elements</h3>
-<p>If a set column name does not exactly match any loaded set but its elements are a subset of a known set, <a href="./data_load.html"><code>ems_data()</code></a> infers the correspondence, renames the column, and issues a warning:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>new_data <span class="ot">&lt;-</span> .data_full<span class="sc">$</span>POP</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(new_data)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">"population"</span>  <span class="co"># unknown name, but REG elements</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">ems_aux</span>(<span class="at">input =</span> new_data, <span class="at">type =</span> <span class="st">"dat"</span>, <span class="at">header =</span> <span class="st">"new_header"</span>)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_data</span>(..., <span class="at">aux_input =</span> aux, ...)</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: The set population within new_header has been renamed to REG</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          due to identical elements.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Similarly, a column named <code>RREG</code> whose elements match <code>REG</code> will be silently resolved with the same warning. This inference is particularly useful when a coefficient has multiple indices over the same set (e.g., <code>REGr</code> and <code>REGs</code>), where one of the column names may differ from the canonical set name.</p>
-</section>
-<section id="missing-elements-in-novel-headers" class="level3" data-number="6.5.2">
-<h3 data-number="6.5.2" class="anchored" data-anchor-id="missing-elements-in-novel-headers"><span class="header-section-number">6.5.2</span> Missing elements in novel headers</h3>
-<p>If a set column is matched to a known set but its elements do not cover the full set membership, an error is raised:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>bad_data <span class="ot">&lt;-</span> .data_full<span class="sc">$</span>POP</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>bad_data<span class="sc">$</span>REG[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">"nonexistent_region"</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">ems_aux</span>(<span class="at">input =</span> bad_data, <span class="at">type =</span> <span class="st">"dat"</span>, <span class="at">header =</span> <span class="st">"new_header"</span>)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_data</span>(..., <span class="at">aux_input =</span> aux, ...)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error: The {.field new_header} element names provided for 'new_header'</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        do not contain all elements associated with the set REG.</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; i Missing elements include "afg".</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="unrecognizable-sets" class="level3" data-number="6.5.3">
-<h3 data-number="6.5.3" class="anchored" data-anchor-id="unrecognizable-sets"><span class="header-section-number">6.5.3</span> Unrecognizable sets</h3>
-<p>If a set column cannot be matched to any loaded set — neither by name nor by element membership — an error is raised. This applies both when the column name is unknown and its elements overlap only partially with a known set, and when the name and elements are entirely foreign:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Column named "population" with a nonexistent element — partial overlap, unresolvable</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>wrong_set <span class="ot">&lt;-</span> .data_full<span class="sc">$</span>POP</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(wrong_set)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">"population"</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>wrong_set<span class="sc">$</span>population[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">"nonexistent_region"</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">ems_aux</span>(<span class="at">input =</span> wrong_set, <span class="at">type =</span> <span class="st">"dat"</span>, <span class="at">header =</span> <span class="st">"new_header"</span>)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_data</span>(..., <span class="at">aux_input =</span> aux, ...)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error: The new_header set population is not found among loaded data,</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        neither in terms of its name or constituitive elements.</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Entirely unknown set name and elements</span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>bad_set <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">FAKE_SET =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>), <span class="at">Value =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">ems_aux</span>(<span class="at">input =</span> bad_set, <span class="at">type =</span> <span class="st">"dat"</span>, <span class="at">header =</span> <span class="st">"rndm"</span>)</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_data</span>(..., <span class="at">aux_input =</span> aux, ...)</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error: The rndm set FAKE_SET is not found among loaded data,</span></span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        neither in terms of its name or constituitive elements.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When <a href="./data_load.html"><code>ems_data()</code></a> processes auxiliary input, it merges each item into the loaded database before aggregation. The merge behavior differs depending on whether the header already exists in the database.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
