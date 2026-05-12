@@ -1,0 +1,55 @@
+project:
+  type: book
+
+book:
+  title: "The {teems} R package user manual"
+  author: "Matthew Cantele"
+  favicon: man/figures/logo.png
+  cover-image: man/figures/logo.png
+  site-url: https://teemsphere.github.io/
+  repo-url: https://github.com/teemsphere/teemsphere.github.io
+  repo-branch: main
+  repo-actions: [edit]
+  #page-footer: 
+  chapters:
+    - index.qmd
+    - part: "Getting started"
+      chapters:
+        - dependencies.qmd
+        - quickstart.qmd
+        - example.qmd
+    - part: "Data and model inputs"
+      chapters:
+        - set_mappings.qmd
+        - data_load.qmd
+        - model_load.qmd
+    - part: "Swaps and shocks"
+      chapters:
+        - swaps.qmd
+        - uniform_shocks.qmd
+        - custom_shocks.qmd
+        - scenario_shocks.qmd
+    - part: "Deploying and solving the model"
+      chapters:
+        - deploy.qmd
+        - solve.qmd
+        - compose.qmd
+    - part: "Configuration"
+      chapters:
+        - options.qmd
+
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    css: styles.scss
+  pdf:
+      documentclass: scrbook
+      classoption: oneside
+      keep-tex: false
+      geometry:                                                                                                   
+          - top=25mm                                        
+          - bottom=25mm
+          - left=25mm                                                                                               
+          - right=25mm

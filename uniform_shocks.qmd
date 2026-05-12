@@ -1,0 +1,115 @@
+# Uniform shocks
+
+## Overview
+`ems_uniform_shock()` applies a homogeneous percentage change over an entire variable or a subset of its elements.
+The set arguments accepted in `...` depend on the variable specified and the set mappings loaded in [`ems_data()`](data_load.qmd).
+
+```r
+ems_uniform_shock(var, value, ...)
+```
+
+| Argument | Type | Description |
+|----------|------|-------------|
+| `var` | Character | Variable name as it appears in the model file |
+| `value` | Numeric | Percentage change applied to all targeted elements |
+| `...` | Named arguments | Set-index pairs restricting the shock. Each value is a single element (`"element"`), multiple elements (`c("a", "b")`), or a named subset (`"SUBSET"`) |
+
+## Full variable uniform shocks
+The simplest uniform shock is applied to a full variable, meaning that all combinations of sets associated with that variable are allocated the same exogenous value. In the example below, all regions (as determined by selected region mappings) will be increased by 1%.
+```r
+pop_shk <- ems_uniform_shock(var = "pop",
+                             value = 1
+)
+```
+
+## Partial variable uniform shocks
+As with the syntax regarding [swaps](swaps.qmd), the scope of a uniform shock may be determined by specifying elements within the sets associated with the shocked variable. For example, if we have a region "chn" and wish to allocate a shock specifically to this region:
+```r
+partial <- ems_uniform_shock(var = "aoall",
+                             value = -1,
+                             REGr = "chn"
+)
+```
+
+If a full swap is followed by a partial variable shock, the exogenous unshocked elements will remain at 0.
+
+In the case of intertemporal models, the shock year may be specified using a chronological or timestep format (see "Time step summary" output from [`ems_data()`](data_load.qmd)).
+```r
+partial <- ems_uniform_shock(
+  var = "aoall",
+  value = -1,
+  REGr = "chn",
+  ACTSa = "crops",
+  Year = 2017
+)
+```
+
+*Note that sets specified in this manner are identified by the model-specific concatenation of the standard set name plus the variable-specific index.*
+Also note that exogenous components of a variable not allocated a shock (all other regions except "chn") will not vary.
+
+## Subset shocks
+
+A named model subset may be passed in place of individual elements, identical to the subset form in [`ems_swap()`](swaps.qmd).
+`teems` expands the subset to all its elements at the aggregation level specified in [`ems_data()`](data_load.qmd).
+
+In the GTAP-RE model, `MARG` is a subset of `COMM` containing margin commodities, and `FWDTIME` is a subset of `ALLTIME` containing forward time steps.
+Using these subset names directly restricts the shock to only those elements:
+
+```r
+partial <- ems_uniform_shock(
+  var = "qxs",
+  value = -1,
+  COMMc = "MARG",
+  REGs = c("chn", "usa"),
+  ALLTIMEt = "FWDTIME"
+)
+```
+
+As in the swaps example, `REGs = c("chn", "usa")` is a multi-element specification while `COMMc = "MARG"` and `ALLTIMEt = "FWDTIME"` are subset specifications — both forms can be combined freely in a single call.
+This shock would then be deployed alongside the corresponding subset swaps:
+
+```r
+cmf_path <- ems_deploy(
+  .data = dat,
+  model = model,
+  shock = partial,
+  swap_in = qxs_in,
+  swap_out = txs_out
+)
+```
+
+## Multiple shocks and mixed swaps
+Multiple uniform shocks of different scope can be combined in a list and passed to [`ems_deploy()`](deploy.qmd). Swaps can also be mixed, combining partial [`ems_swap()`](swaps.qmd) objects with full variable strings:
+```r
+partial <- ems_uniform_shock(
+  var = "qfd",
+  value = -1,
+  REGs = "usa",
+  PROD_COMMj = "crops"
+)
+
+full <- ems_uniform_shock(
+  var = "yp",
+  value = 0.1
+)
+
+qfd <- ems_swap(
+  var = "qfd",
+  REGs = "usa",
+  PROD_COMMj = "crops"
+)
+
+tfd <- ems_swap(
+  var = "tfd",
+  REGr = "usa",
+  PROD_COMMj = "crops"
+)
+
+cmf_path <- ems_deploy(
+  .data = dat,
+  model = model,
+  shock = list(partial, full),
+  swap_in = list(qfd, "yp"),
+  swap_out = list(tfd, "dppriv")
+)
+```

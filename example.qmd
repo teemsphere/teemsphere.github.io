@@ -1,0 +1,145 @@
+# Example files
+
+## Overview
+
+`ems_example()` writes bundled example model and script files to disk. It is a good starting point for new users, providing ready-to-run material for each of the four vetted models without requiring any additional setup beyond GTAP data access.
+
+Two output modes are available, controlled by the `type` argument:
+
+- `"model_files"` (default): writes the model (`.tab`) and closure (`.cls`) files for the chosen model.
+- `"scripts"`: writes a complete set of example R scripts covering the a range of shock, swap, and solver configurations supported by that model. Each script is a self-contained, runnable workflow from data loading through to result parsing.
+
+## Arguments
+
+| Argument | Default | Description |
+|----------|---------|-------------|
+| `model` | | Model name. One of `"GTAPv6"`, `"GTAPv7"`, `"GTAP-INT"`, `"GTAP-RE"` |
+| `type` | `"model_files"` | Output type: `"model_files"` or `"scripts"` |
+| `dat_input` | `NULL` | Path to the basedata HAR file. Required when `type = "scripts"` |
+| `par_input` | `NULL` | Path to the parameters HAR file. Required when `type = "scripts"` |
+| `set_input` | `NULL` | Path to the sets HAR file. Required when `type = "scripts"` |
+| `write_dir` | `tools::R_user_dir("teems", "cache")` | Directory where files are written |
+
+## Writing model files
+
+The simplest use of `ems_example()` extracts a model's Tablo and closure files so they can be inspected or used directly with [`ems_model()`](model_load.qmd) or [`solve_in_situ()`](solve.qmd).
+
+```r
+library(teems)
+
+# Write GTAPv7 model files to the default cache directory
+paths <- ems_example("GTAPv7")
+
+# Or to a specific directory
+paths <- ems_example("GTAP-RE", write_dir = "~/my_project/model")
+```
+
+The returned list contains two named paths:
+
+```r
+paths["model_file"]   # path to the .tab file
+paths["closure_file"] # path to the .cls file
+```
+
+These can be passed directly to [`ems_model()`](model_load.qmd):
+
+```r
+model <- ems_model(
+  model_file   = paths["model_file"],
+  closure_file = paths["closure_file"]
+)
+```
+
+## Writing example scripts
+
+When `type = "scripts"`, `ems_example()` writes a directory of R scripts covering the full range of configurations available for the chosen model — uniform shocks, custom shocks, partial shocks, closure swaps, scenario shocks (for intertemporal models), and null runs. Each script is injected with the supplied data paths and is immediately runnable.
+
+```r
+paths <- ems_example(
+  model     = "GTAPv7",
+  type      = "scripts",
+  dat_input = "~/dat/GTAP/v10/flexAgg/gsddat.har",
+  par_input = "~/dat/GTAP/v10/flexAgg/gsdpar.har",
+  set_input = "~/dat/GTAP/v10/flexAgg/gsdset.har",
+  write_dir = "~/my_project"
+)
+```
+
+Note that it is currently not possible to convert data formats within `ems_example()`.
+The provided data must be compatible with the selected model in this use case.
+
+## Using the generated scripts
+
+`ems_example()` returns a character vector of paths — one per written script. Each script is ready to run; the data paths supplied to `ems_example()` are injected at the top of the file as plain assignments.
+
+### Script naming convention
+
+Script file names encode the shock and swap configuration:
+
+| File name | What it demonstrates |
+|-----------|----------------------|
+| `null.R` | Zero-shock run — useful for verifying the model solves before applying shocks |
+| `numeraire.R` | Uniform 1% population shock — minimal working example |
+| `full_uniform.R` | Uniform shock across all elements of a variable |
+| `part_uniform.R` | Uniform shock on a subset of elements |
+| `part_uniform_full_swap.R` | Partial shock plus a full-variable closure swap |
+| `part_uniform_part_swap.R` | Partial shock plus a partial closure swap |
+| `part_uniform_part_swap_mixed.R` | Partial shock plus mixed (full + partial) swaps |
+| `part_uniform_subset_swap.R` | Partial shock and swaps with mixed multiple elements and subsets |
+| `custom_full.R` | Heterogeneous shock values supplied as a data frame |
+| `custom_partial.R` | Heterogeneous shock values supplied as a data frame on a subset of elements |
+| `custom_full_csv.R` | Heterogeneous shock values read from a CSV file |
+
+### Structure of a generated script
+
+Each script begins with the injected assignments followed by the template body. Opening `part_uniform.R` in an editor shows:
+
+```r
+dat_input = "~/dat/GTAP/v10/flexAgg/gsddat.har"
+par_input = "~/dat/GTAP/v10/flexAgg/gsdpar.har"
+set_input = "~/dat/GTAP/v10/flexAgg/gsdset.har"
+write_dir = "~/my_project"
+model_file = "~/my_project/GTAP-INT.tab"
+closure_file = "~/my_project/GTAP-INT.cls"
+
+dat <- ems_data(
+  dat_input  = dat_input,
+  par_input  = par_input,
+  set_input  = set_input,
+  time_steps = c(0, 1, 2),
+  REG      = "big3",
+  PROD_COMM = "macro_sector",
+  ENDW_COMM = "labor_agg"
+)
+
+model <- ems_model(
+  model_file   = model_file,
+  closure_file = closure_file
+)
+
+partial <- ems_uniform_shock(
+  var   = "aoall",
+  value = -1,
+  REGr       = "chn",
+  PROD_COMMj = "crops"
+)
+
+cmf_path <- ems_deploy(
+  .data     = dat,
+  model     = model,
+  shock     = partial,
+  write_dir = write_dir
+)
+
+outputs <- ems_solve(
+  cmf_path = cmf_path,
+  matrix_method = "LU",
+  solution_method = "Johansen"
+)
+```
+
+## Output
+
+`ems_example()` returns a character vector of file paths to the written files. For `type = "model_files"` this is the `.tab` and `.cls` paths. For `type = "scripts"` this is one path per written script.
+
+By default, files are written to `tools::R_user_dir("teems", "cache")` and do not persist across sessions. Specify `write_dir` to control the output location as well as generate persistent files.

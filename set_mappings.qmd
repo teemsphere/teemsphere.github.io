@@ -1,0 +1,97 @@
+# Loading and specifying sets
+
+## Overview
+
+Set mappings aggregate the granular regions, sectors, and endowments in the GTAP database to the resolution desired for a given model run.
+In `ems_data()`, these are passed as named arguments via `...`, where each argument name corresponds to a set name in the model Tablo file.
+
+Any set provided with a mapping is treated as a **parent mapping** and aggregated accordingly.
+Sets not explicitly mapped are handled automatically: if a set's elements are a subset of a mapped set's elements, the parent mapping is inherited; if a set's elements span multiple mapped sets, the relevant portion of each parent mapping is applied.
+If a set has no element-level relationship to any mapped set, it remains unaggregated.
+
+For the standard GTAP models the minimum required mappings are:
+
+| Format | Minimum mappings |
+|--------|-----------------|
+| GTAPv6.2 | `REG`, `PROD_COMM`, `ENDW_COMM` |
+| GTAPv7.0 | `REG`, `ACTS`, `ENDW` |
+
+All other read-in sets (e.g. `MARG_COMM` in GTAPv6.2, `MARG` in GTAPv7.0) are derived automatically from the parent mapping.
+Additional mappings can always be supplied explicitly to override the inferred result.
+
+## Internal mappings
+
+Internal mappings ship with [`teems`](https://github.com/teemsphere/teems-mappings) and are specified by a string name without a `.csv` extension.
+All internal mappings, organized by database version, data format, and set name, are available at [teems-mappings](https://github.com/teemsphere/teems-mappings).
+
+### Region (`REG`)
+
+Region mappings apply to the `REG` set in both GTAPv6.2 and GTAPv7.0 formats.
+The `AR5`, `WB7`, and `WB23` mappings are derived from the [countrycode](https://vincentarelbundock.github.io/countrycode/#/man/codelist) R package (ar5, region, and region23 respectively).
+
+| Name | Description |
+|------|-------------|
+| `big3` | China (`chn`), United States (`usa`), Rest of World (`row`) |
+| `AR5` | IPCC Fifth Assessment Report regions: asia, eit, lam, maf, oecd |
+| `WB7` | World Bank 7-region classification |
+| `WB23` | World Bank 23-region classification |
+| `R32` | IIASA-based [SSP 32-region](https://tntcat.iiasa.ac.at/SspDb/dsd?Action=htmlpage&page=10) mapping |
+| `medium` | Custom medium-resolution aggregation |
+| `large` | Custom large-resolution aggregation |
+| `huge` | Near country-level with minor groupings |
+| `full` | Full (unaggregated) |
+
+### Sector (`PROD_COMM`, `ACTS`)
+
+Sector mappings apply to `PROD_COMM` in GTAPv6.2 and `ACTS` in GTAPv7.0.
+
+| Name | Description |
+|------|-------------|
+| `macro_sector` | Broad evenly weighted aggregation: crops, food, livestock, mnfcs, svces |
+| `food` | Food-focused: disaggregated food and agriculture; aggregated manufacturing and services |
+| `energy` | Energy-focused: disaggregated energy sectors |
+| `manufacturing` | Manufacturing-focused: disaggregated manufacturing sectors |
+| `services` | Services-focused: disaggregated services sectors |
+| `medium` | Custom medium-resolution aggregation |
+| `full` | Full (unaggregated) |
+
+### Endowment (`ENDW_COMM`, `ENDW`)
+
+Endowment mappings apply to `ENDW_COMM` in GTAPv6.2 and `ENDW` in GTAPv7.0.
+
+| Name | Description |
+|------|-------------|
+| `labor_agg` | Aggregated labor: capital, labor, land, natlres |
+| `labor_diff` | Differentiated labor: capital, land, natlres, sklab, unsklab |
+| `full` | Full (unaggregated) |
+
+## External mappings
+
+Custom mappings can be provided as a file path to a two-column CSV or a data frame (e.g., `data.table` or `tibble`), where the first column contains origin elements and the second column contains destination (aggregated) elements.
+See [teems-mappings](https://github.com/teemsphere/teems-mappings) for example files.
+Note that all set elements are transformed to lowercase within the solver outputs.
+
+```r
+v7_data <- ems_data(dat_input = "v7_data/gsdfdat.har",
+                    par_input = "v7_data/gsdfpar.har",
+                    set_input = "v7_data/gsdfset.har",
+                    REG = "path/to/custom_REG_mapping.csv",  # external mapping
+                    ACTS = "macro_sector",
+                    ENDW = "labor_agg"
+)
+```
+
+## Set naming convention
+
+Set names in ***any loaded data*** (e.g., `ems_model()`) must be provided as the model-specific concatenation of the standard set name plus the variable-specific index. For example:
+
+| Set | Index | Column name |
+|-----|-------|-------------|
+| REG | r | `REGr` |
+| REG | s | `REGs` |
+| COMM | c | `COMMc` |
+| ACTS | a | `ACTSa` |
+| ENDW | e | `ENDWe` |
+| ALLTIME | t | `ALLTIMEt` |
+
+This naming convention disambiguates data entries for variables that have multiple instances of the same set. Set position (i.e., column order) is inconsequential for any inputs.

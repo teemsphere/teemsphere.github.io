@@ -1,0 +1,191 @@
+# Custom shocks
+
+## Overview
+`ems_custom_shock()` allows for heterogeneous shocks specified on a tuple-by-tuple basis, supplied as a data frame or CSV file through `input`.
+Values are denominated in percentage change.
+Only the tuples present in `input` are shocked.
+
+```r
+ems_custom_shock(var, input)
+```
+
+| Argument | Type | Description |
+|----------|------|-------------|
+| `var` | Character | Variable name as it appears in the model file |
+| `input` | Data frame or Character | Data frame or path to a CSV file containing set columns and a `Value` column (percentage changes) |
+
+## Full variable custom shocks
+Custom shocks can be carried out over the full variable, with every tuple receiving a specified shock value.
+Here is a demonstration of 4 custom shocks carried out on all variable tuples for a range of variable dimensions with the [GTAP-INT](https://github.com/teemsphere/teems-models/tree/main/GTAP-INTv1) model.
+
+Elements for data frame construction
+```r
+time_steps <- c(0, 1, 2, 3)
+REG <- c("chn", "usa", "row")
+ENDW_COMM <- c("labor", "capital", "natlres", "land")
+TRAD_COMM <- c("svces", "food", "crops", "mnfcs", "livestock")
+PROD_COMM <- c("svces", "food", "crops", "mnfcs", "livestock", "zcgds")
+MARG_COMM <- "svces"
+ALLTIME <- seq(0, length(time_steps) - 1)
+```
+
+2D data frame and shock
+```r
+pop <- expand.grid(
+  REGr = REG,
+  ALLTIMEt = ALLTIME,
+  stringsAsFactors = FALSE
+)
+
+pop <- pop[do.call(order, pop), ]
+pop$Value <- runif(nrow(pop))
+
+pop_shk <- ems_custom_shock(
+  var = "pop",
+  input = pop
+)
+```
+3D data frame and shock
+```r
+aoall <- expand.grid(
+  PROD_COMMj = PROD_COMM,
+  REGr = REG,
+  ALLTIMEt = ALLTIME,
+  stringsAsFactors = FALSE
+)
+
+aoall <- aoall[do.call(order, aoall), ]
+aoall$Value <- runif(nrow(aoall))
+
+aoall_shk <- ems_custom_shock(
+  var = "aoall",
+  input = aoall
+)
+```
+4D data frame and shock
+```r
+afeall <- expand.grid(
+  ENDW_COMMi = ENDW_COMM,
+  PROD_COMMj = PROD_COMM,
+  REGr = REG,
+  ALLTIMEt = ALLTIME,
+  stringsAsFactors = FALSE
+)
+
+afeall <- afeall[do.call(order, afeall), ]
+afeall$Value <- runif(nrow(afeall))
+
+afeall_shk <- ems_custom_shock(
+  var = "afeall",
+  input = afeall
+)
+```
+5D data frame and shock
+```r
+atall <- expand.grid(
+  MARG_COMMm = MARG_COMM,
+  TRAD_COMMi = TRAD_COMM,
+  REGr = REG,
+  REGs = REG,
+  ALLTIMEt = ALLTIME,
+  stringsAsFactors = FALSE
+)
+
+atall <- atall[do.call(order, atall), ]
+atall$Value <- runif(nrow(atall))
+
+atall_shk <- ems_custom_shock(
+  var = "atall",
+  input = atall
+)
+```
+
+Multiple custom shocks are combined in a list for [`ems_deploy()`](deploy.qmd):
+```r
+cmf_path <- ems_deploy(
+  .data = dat,
+  model = model,
+  shock = list(pop_shk, aoall_shk, afeall_shk, atall_shk)
+)
+```
+
+## CSV input
+
+A path to a CSV file can be passed to `input` instead of a data frame.
+The CSV must follow the same structure: one column per set index using the model-specific naming convention and a `Value` column.
+Column order is inconsequential.
+
+```r
+pop_csv <- tempfile(fileext = ".csv")
+write.csv(pop, pop_csv, row.names = FALSE)
+
+pop_shk <- ems_custom_shock(
+  var = "pop",
+  input = pop_csv
+)
+```
+
+This applies equally to partial variable shocks — only the tuples present in the file are shocked.
+
+## Partial variable custom shocks
+Custom shocks are only carried out on tuples included within the input data frame or CSV.
+Here we carry out a custom shock (heterogenous values) across part of the `aoall` variable.
+The non-shocked values will remain at `0` due to their exogenous status.
+
+```r
+aoall_full <- expand.grid(
+  ACTSa = ACTS,
+  REGr = REG,
+  ALLTIMEt = ALLTIME,
+  stringsAsFactors = FALSE
+)
+aoall_full$Value <- 0
+aoall_full <- aoall_full[do.call(order, aoall_full), ]
+aoall <- aoall_full[
+  !(aoall_full$ACTSa == "crops" & aoall_full$REGr == "usa") &
+  aoall_full$ALLTIMEt != 3,
+]
+aoall$Value <- runif(nrow(aoall))
+aoall_shk  <- ems_custom_shock(var = "aoall",  input = aoall)
+```
+
+## Chronological year input
+
+For intertemporal models, the time dimension can be specified using chronological years instead of integer time steps by using a `Year` column in place of `ALLTIMEt`.
+The year values must correspond to the reference year and steps defined in [`ems_data()`](data_load.qmd).
+
+```r
+time_steps <- c(2017, 2018, 2019, 2020)
+
+dat <- ems_data(
+  dat_input  = dat_input,
+  par_input  = par_input,
+  set_input  = set_input,
+  time_steps = time_steps,
+  REG  = "big3",
+  ACTS = "macro_sector",
+  ENDW = "labor_agg"
+)
+```
+
+Construct the input data frame with a `Year` column rather than `ALLTIMEt`:
+
+```r
+REG <- c("chn", "usa", "row")
+
+pop <- expand.grid(
+  REGr = REG,
+  Year = time_steps,
+  stringsAsFactors = FALSE
+)
+
+pop <- pop[do.call(order, pop), ]
+pop$Value <- runif(nrow(pop))
+
+pop_shk <- ems_custom_shock(
+  var = "pop",
+  input = pop
+)
+```
+
+`ems_custom_shock()` is called identically — the `Year` column is recognised automatically and mapped to the corresponding integer time step internally.

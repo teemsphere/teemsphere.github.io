@@ -1,0 +1,125 @@
+# Scenario shocks
+
+## Overview
+`ems_scenario_shock()` is an intertemporal shock type that specifies heterogeneous shocks at the tuple level as absolute values.
+Inputs must cover all pre-aggregation tuples and span the full extent of the variable — no partial variable scenario shocks are permitted.
+Values must be in the same units as the underlying database coefficient and are aggregated according to the set mappings in [`ems_data()`](data_load.qmd) and then converted to percentage changes internally, making scenario shocks portable across different model aggregations.
+
+```r
+ems_scenario_shock(var, input)
+```
+
+| Argument | Type | Description |
+|----------|------|-------------|
+| `var` | Character | Variable name as it appears in the model file |
+| `input` | Data frame or Character | Data frame or path to a CSV file containing all pre-aggregation tuples, a `Year` column (chronological years), and a `Value` column (absolute values) |
+
+## Using scenario shocks
+Scenario shocks differ from custom shocks in a number of respects:
+
+1. Only available for intertemporal models
+
+2. Inputs must contain all *preaggregation* tuples associated with a variable (no partial variable scenario shock)
+
+3. Inputs are denominated in absolute values in the units of the underlying database coefficient (e.g., million $USD, population)
+
+4. The input dataframe or CSV must contain one column "Year", corresponding to the chronological year for a shock in a specific tuple
+
+There are several applications where it is advantageous to use scenario shock rather than a custom shock.
+The primary advantage is that scenario shocks allow for seamless changes to model aggregations since the shocks themselves are subject to mappings and aggregation.
+If we have trajectories available for all tuples within a given variable, a scenario shock will adjust to set mapping inputs in `ems_data()`.
+The actual values provided do not necessarily need to correspond to realworld values.
+We could for example use the integer 1 as a base and vary our components according to this base value in the year corresponding to t0.
+
+## Population trajectory example
+Here is an example that takes base year population data from the GTAP database (typically not read into the model) and constructs hypothetical pathways for every region in the model.
+These pathways are valid for any regional aggregation chosen.
+
+Set up the model run with chronological time steps:
+```r
+year       <- 2017
+time_steps <- year + c(0, 1, 2, 3)
+
+dat <- ems_data(
+  dat_input  = "v7_data/gsdfdat.har",
+  par_input  = "v7_data/gsdfpar.har",
+  set_input  = "v7_data/gsdfset.har",
+  time_steps = time_steps,
+  REG  = "big3",
+  ACTS = "macro_sector",
+  ENDW = "labor_agg"
+)
+
+GTAP_RE <- ems_example("GTAP-RE")
+model <- ems_model(
+  model_file    = GTAP_RE[["model_file"]],
+  closure_file  = GTAP_RE[["closure_file"]]
+)
+```
+
+Load POP at full regional resolution (unaggregated) as the scenario baseline.
+The `REG = "full"` call does not require `time_steps` since it is only used to extract the base-year coefficient:
+```r
+pop <- ems_data(
+  dat_input = "v7_data/gsdfdat.har",
+  par_input = "v7_data/gsdfpar.har",
+  set_input = "v7_data/gsdfset.har",
+  REG = "full",
+  ACTS = "macro_sector",
+  ENDW = "labor_agg"
+)$POP
+```
+
+Construct trajectories with compound growth through each future time step.
+`tail(time_steps, -1)` yields the forward time steps, keeping the trajectory in sync with whatever `time_steps` was passed to `ems_data()`:
+```r
+pop$Year  <- year
+regions   <- unique(pop$REG)
+
+pop_traj        <- expand.grid(REG = regions, Year = tail(time_steps, -1),
+                               stringsAsFactors = FALSE)
+pop_traj$Value  <- 0
+pop             <- rbind(pop, pop_traj)
+
+set.seed(42)
+growth_rates <- data.frame(
+  REG         = regions,
+  growth_rate = runif(length(regions), min = -0.01, max = 0.05)
+)
+
+pop         <- merge(pop, growth_rates, by = "REG")
+base_values <- pop[pop$Year == year, c("REG", "Value")]
+names(base_values)[2] <- "base_value"
+pop         <- merge(pop, base_values, by = "REG")
+
+pop$Value[pop$Year > year] <-
+  pop$base_value[pop$Year > year] *
+    (1 + pop$growth_rate[pop$Year > year])^(pop$Year[pop$Year > year] - year)
+
+pop$growth_rate <- NULL
+pop$base_value  <- NULL
+pop <- pop[order(pop$REG, pop$Year), c("REG", "Year", "Value")]
+```
+
+`ems_data()` returns coefficients with plain set names (e.g., `REG`).
+Rename to the model's set-index convention before passing to `ems_scenario_shock()`:
+```r
+colnames(pop)[colnames(pop) == "REG"] <- "REGr"
+```
+
+Pass `pop` as the scenario shock and deploy:
+```r
+pop_trajectory <- ems_scenario_shock(
+  var   = "pop",
+  input = pop
+)
+
+cmf_path <- ems_deploy(
+  .data     = dat,
+  model     = model,
+  shock     = pop_trajectory,
+  write_dir = write_dir
+)
+```
+
+`pop` may also be saved as a CSV and loaded directly by passing the file path to `input`.
