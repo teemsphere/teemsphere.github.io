@@ -1,0 +1,56 @@
+{
+  "index.qmd": {
+    "index.html": "c6f380ce"
+  },
+  "dependencies.qmd": {
+    "dependencies.html": "ee1525a6"
+  },
+  "data_load.qmd": {
+    "data_load.html": "e7a673bd"
+  },
+  "model_load.qmd": {
+    "model_load.html": "4bcf2c8b"
+  },
+  "closure_load.qmd": {
+    "closure_load.html": "362b9b1c"
+  },
+  "swaps.qmd": {
+    "swaps.html": "96a6b8fb"
+  },
+  "uniform_shocks.qmd": {
+    "uniform_shocks.html": "2f2462f8"
+  },
+  "custom_shocks.qmd": {
+    "custom_shocks.html": "1b0224fe"
+  },
+  "scenario_shocks.qmd": {
+    "scenario_shocks.html": "61dcd8f0"
+  },
+  "deploy.qmd": {
+    "deploy.html": "586bc82c"
+  },
+  "solve.qmd": {
+    "solve.html": "1f1941fc"
+  },
+  "solve_in_situ.qmd": {
+    "solve_in_situ.html": "3da19bc6"
+  },
+  "compose.qmd": {
+    "compose.html": "25aebe39"
+  },
+  "options.qmd": {
+    "options.html": "ec92331a"
+  },
+  "aux_load.qmd": {
+    "aux_load.html": "bfdea714"
+  },
+  "example.qmd": {
+    "example.html": "64934977"
+  },
+  "quickstart.qmd": {
+    "quickstart.html": "ffa3635f"
+  },
+  "set_mappings.qmd": {
+    "set_mappings.html": "e38cc4c9"
+  }
+}
