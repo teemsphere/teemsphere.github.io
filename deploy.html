@@ -544,7 +544,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td><code>write_dir</code></td>
-<td><code>tools::R_user_dir("teems", "cache")</code></td>
+<td><code>tools::R_user_dir("teems")</code></td>
 <td>Base directory where the “teems” subdirectory will be created for input files and model solution</td>
 </tr>
 <tr class="odd">
@@ -623,7 +623,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="persistent-files" class="level2" data-number="12.7">
 <h2 data-number="12.7" class="anchored" data-anchor-id="persistent-files"><span class="header-section-number">12.7</span> Persistent files</h2>
-<p>Good practice in R dictates that a user’s machine state is not modified. In order to comply with this guidance, <a href="https://github.com/teemsphere/teems-R"><code>teems</code></a> will only write to temporary folders associated with the <a href="https://github.com/teemsphere/teems-R"><code>teems</code></a> package (output of <code>tools::R_user_dir("teems", "cache")</code>) and these files will be removed upon loading an new R session. If persistent data is desired, users must provide a path to a local directory via <code>write_dir</code>:</p>
+<p>Good practice in R dictates that a user’s machine state is not modified. In order to comply with this guidance, <a href="https://github.com/teemsphere/teems-R"><code>teems</code></a> will only write to temporary folders associated with the <a href="https://github.com/teemsphere/teems-R"><code>teems</code></a> package (output of <code>tools::R_user_dir("teems")</code>) and these files will be removed upon loading an new R session. If persistent data is desired, users must provide a path to a local directory via <code>write_dir</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>cmf_path <span class="ot">&lt;-</span> <span class="fu">ems_deploy</span>(</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">.data =</span> dat,</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> model,</span>

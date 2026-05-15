@@ -557,7 +557,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td><code>write_dir</code></td>
-<td><code>tools::R_user_dir("teems", "cache")</code></td>
+<td><code>tools::R_user_dir("teems")</code></td>
 <td>Directory where files are written</td>
 </tr>
 </tbody>
@@ -709,7 +709,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="output" class="level2" data-number="4.6">
 <h2 data-number="4.6" class="anchored" data-anchor-id="output"><span class="header-section-number">4.6</span> Output</h2>
 <p><code>ems_example()</code> returns a character vector of file paths to the written files. For <code>type = "model_files"</code> this is the <code>.tab</code> and <code>.cls</code> paths. For <code>type = "scripts"</code> this is one path per written script.</p>
-<p>By default, files are written to <code>tools::R_user_dir("teems", "cache")</code> and do not persist across sessions. Specify <code>write_dir</code> to control the output location as well as generate persistent files.</p>
+<p>By default, files are written to <code>tools::R_user_dir("teems")</code> and do not persist across sessions. Specify <code>write_dir</code> to control the output location as well as generate persistent files.</p>
 
 
 </section>
