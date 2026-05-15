@@ -15,7 +15,7 @@ The output file path serves as a required input to [`ems_solve()`](solve.qmd).
 | `shock` | `NULL` | A shock object or list of shock objects produced by [`ems_uniform_shock()`](uniform_shocks.qmd), [`ems_custom_shock()`](custom_shocks.qmd), or [`ems_scenario_shock()`](scenario_shocks.qmd). When `NULL`, a null shock is carried out which effectively returns base data |
 | `swap_in` | `NULL` | Character vector, [`ems_swap()`](swaps.qmd) object, or a list of any combination. Variables to be made exogenous |
 | `swap_out` | `NULL` | Character vector, [`ems_swap()`](swaps.qmd) object, or a list of any combination. Variables to be made endogenous |
-| `write_dir` | `tools::R_user_dir("teems", "cache")` | Base directory where the "teems" subdirectory will be created for input files and model solution |
+| `write_dir` | `tools::R_user_dir("teems")` | Base directory where the "teems" subdirectory will be created for input files and model solution |
 | `shock_file` | `NULL` | Path to a `.shf` shock file. No checks or modifications will be conducted on this file |
 
 ## Basic usage
@@ -101,7 +101,7 @@ User-supplied closure files will however be processed if swaps are supplied.
 
 ## Persistent files
 Good practice in R dictates that a user's machine state is not modified.
-In order to comply with this guidance, [`teems`](https://github.com/teemsphere/teems-R) will only write to temporary folders associated with the [`teems`](https://github.com/teemsphere/teems-R) package (output of `tools::R_user_dir("teems", "cache")`) and these files will be removed upon loading an new R session.
+In order to comply with this guidance, [`teems`](https://github.com/teemsphere/teems-R) will only write to temporary folders associated with the [`teems`](https://github.com/teemsphere/teems-R) package (output of `tools::R_user_dir("teems")`) and these files will be removed upon loading an new R session.
 If persistent data is desired, users must provide a path to a local directory via `write_dir`:
 ```r
 cmf_path <- ems_deploy(

@@ -18,7 +18,7 @@ Two output modes are available, controlled by the `type` argument:
 | `dat_input` | `NULL` | Path to the basedata HAR file. Required when `type = "scripts"` |
 | `par_input` | `NULL` | Path to the parameters HAR file. Required when `type = "scripts"` |
 | `set_input` | `NULL` | Path to the sets HAR file. Required when `type = "scripts"` |
-| `write_dir` | `tools::R_user_dir("teems", "cache")` | Directory where files are written |
+| `write_dir` | `tools::R_user_dir("teems")` | Directory where files are written |
 
 ## Writing model files
 
@@ -142,4 +142,4 @@ outputs <- ems_solve(
 
 `ems_example()` returns a character vector of file paths to the written files. For `type = "model_files"` this is the `.tab` and `.cls` paths. For `type = "scripts"` this is one path per written script.
 
-By default, files are written to `tools::R_user_dir("teems", "cache")` and do not persist across sessions. Specify `write_dir` to control the output location as well as generate persistent files.
+By default, files are written to `tools::R_user_dir("teems")` and do not persist across sessions. Specify `write_dir` to control the output location as well as generate persistent files.
