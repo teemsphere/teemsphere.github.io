@@ -158,11 +158,11 @@ The year values must correspond to the reference year and steps defined in [`ems
 time_steps <- c(2017, 2018, 2019, 2020)
 
 dat <- ems_data(
-  dat_input  = dat_input,
-  par_input  = par_input,
-  set_input  = set_input,
+  dat_input = dat_input,
+  par_input = par_input,
+  set_input = set_input,
   time_steps = time_steps,
-  REG  = "big3",
+  REG = "big3",
   ACTS = "macro_sector",
   ENDW = "labor_agg"
 )

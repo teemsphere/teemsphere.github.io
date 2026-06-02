@@ -150,17 +150,17 @@ These names are then used as the named arguments to `solve_in_situ()`.
 ```r
 solve_in_situ(
   GTAPDATA = file.path(write_dir, "teems", "GTAPDATA.txt"),
-  GTAPINT  = file.path(write_dir, "teems", "GTAPINT.txt"),
+  GTAPINT = file.path(write_dir, "teems", "GTAPINT.txt"),
   GTAPPARM = file.path(write_dir, "teems", "GTAPPARM.txt"),
   GTAPSETS = file.path(write_dir, "teems", "GTAPSETS.txt"),
-  model_dir    = "~/in_situ_run/",
-  model_file   = "GTAP-RE.tab",
+  model_dir = "~/in_situ_run/",
+  model_file = "GTAP-RE.tab",
   closure_file = "GTAP-RE.cls",
-  shock_file      = "a_shock_file.shf",
+  shock_file = "a_shock_file.shf",
   solution_method = "mod_midpoint",
-  matrix_method   = "SBBD",
-  n_subintervals  = 1L,
-  n_tasks         = 1L
+  matrix_method = "SBBD",
+  n_subintervals = 1L,
+  n_tasks = 1L
 )
 ```
 

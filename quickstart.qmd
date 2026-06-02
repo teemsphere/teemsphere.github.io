@@ -18,9 +18,9 @@ Point it at your HAR files and a project directory:
 library(teems)
 
 paths <- ems_example(
-  model     = "GTAPv6",
-  path      = "~/my_project",
-  type      = "scripts",
+  model = "GTAPv6",
+  path = "~/my_project",
+  type = "scripts",
   dat_input = "v6_data/gsddat.har",
   par_input = "v6_data/gsdpar.har",
   set_input = "v6_data/gsdset.har"

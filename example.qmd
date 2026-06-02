@@ -45,7 +45,7 @@ These can be passed directly to [`ems_model()`](model_load.qmd):
 
 ```r
 model <- ems_model(
-  model_file   = paths["model_file"],
+  model_file = paths["model_file"],
   closure_file = paths["closure_file"]
 )
 ```
@@ -56,9 +56,9 @@ When `type = "scripts"`, `ems_example()` writes a directory of R scripts coverin
 
 ```r
 paths <- ems_example(
-  model     = "GTAPv7",
-  path      = "~/my_project",
-  type      = "scripts",
+  model = "GTAPv7",
+  path = "~/my_project",
+  type = "scripts",
   dat_input = "~/dat/GTAP/v10/flexAgg/gsddat.har",
   par_input = "~/dat/GTAP/v10/flexAgg/gsdpar.har",
   set_input = "~/dat/GTAP/v10/flexAgg/gsdset.har"
@@ -73,13 +73,13 @@ converted <- GTAP_convert(
   dat_har = "~/dat/GTAP/v12/gsdfdat.har",
   par_har = "~/dat/GTAP/v12/gsdfpar.har",
   set_har = "~/dat/GTAP/v12/gsdfset.har",
-  target  = "GTAPv6"
+  target = "GTAPv6"
 )
 
 paths <- ems_example(
-  model     = "GTAPv6",
-  path      = "~/my_project",
-  type      = "scripts",
+  model = "GTAPv6",
+  path = "~/my_project",
+  type = "scripts",
   dat_input = converted$dat,
   par_input = converted$par,
   set_input = converted$set
@@ -122,31 +122,31 @@ model_file = "~/my_project/GTAP-INT.tab"
 closure_file = "~/my_project/GTAP-INT.cls"
 
 dat <- ems_data(
-  dat_input  = dat_input,
-  par_input  = par_input,
-  set_input  = set_input,
+  dat_input = dat_input,
+  par_input = par_input,
+  set_input = set_input,
   time_steps = c(0, 1, 2),
-  REG      = "big3",
+  REG = "big3",
   PROD_COMM = "macro_sector",
   ENDW_COMM = "labor_agg"
 )
 
 model <- ems_model(
-  model_file   = model_file,
+  model_file = model_file,
   closure_file = closure_file
 )
 
 partial <- ems_uniform_shock(
-  var   = "aoall",
+  var = "aoall",
   value = -1,
-  REGr       = "chn",
+  REGr = "chn",
   PROD_COMMj = "crops"
 )
 
 cmf_path <- ems_deploy(
-  .data     = dat,
-  model     = model,
-  shock     = partial
+  .data = dat,
+  model = model,
+  shock = partial
 )
 
 outputs <- ems_solve(

@@ -59,10 +59,10 @@ A single full variable swap swaps one variable in and one out using plain string
 shock <- ems_uniform_shock(var = "qfd", value = 1)
 
 cmf_path <- ems_deploy(
-  .data    = dat,
-  model    = model,
-  shock    = shock,
-  swap_in  = "qfd",
+  .data = dat,
+  model = model,
+  shock = shock,
+  swap_in = "qfd",
   swap_out = "tfd"
 )
 ```
@@ -72,22 +72,22 @@ Partial swaps use [`ems_swap()`](swaps.qmd) objects and can be mixed with string
 ```r
 # Multiple full variable swaps
 cmf_path <- ems_deploy(
-  .data    = dat,
-  model    = model,
-  shock    = shock,
-  swap_in  = c("qfd", "yp"),
+  .data = dat,
+  model = model,
+  shock = shock,
+  swap_in = c("qfd", "yp"),
   swap_out = c("tfd", "dppriv")
 )
 
 # Mixed partial and full swaps
-yp_row     <- ems_swap("yp",     REGr = "row")
+yp_row <- ems_swap("yp", REGr = "row")
 dppriv_row <- ems_swap("dppriv", REGr = "row")
 
 cmf_path <- ems_deploy(
   .data = dat,
   model = model,
   shock = shock,
-  swap_in  = list(yp_row, "qfd"),
+  swap_in = list(yp_row, "qfd"),
   swap_out = list(dppriv_row, "tfd")
 )
 ```
