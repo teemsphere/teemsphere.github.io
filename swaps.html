@@ -607,7 +607,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="subset-swaps" class="level3" data-number="8.3.2">
 <h3 data-number="8.3.2" class="anchored" data-anchor-id="subset-swaps"><span class="header-section-number">8.3.2</span> Subset swaps</h3>
-<p>A named model subset may be passed in place of individual elements. <code>teems</code> expands the subset to all its elements at the aggregation level specified in <a href="./data_load.html"><code>ems_data()</code></a>. This is useful when a model defines meaningful groupings that map directly to closure logic — such as margin commodities or forward time steps in intertemporal models.</p>
+<p>A named model subset may be passed in place of individual elements. <code>teems</code> expands the subset to all its elements at the aggregation level specified in <a href="./data_load.html"><code>ems_data()</code></a>. This is useful when a model defines meaningful groupings that map directly to closure logic such as margin commodities or forward time steps in intertemporal models.</p>
 <p>In the GTAP-RE model, <code>MARG</code> is a subset of <code>COMM</code> containing margin commodities, and <code>FWDTIME</code> is a subset of <code>ALLTIME</code> containing forward time steps. Passing these subset names directly restricts the swap to only those elements:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>qxs_in <span class="ot">&lt;-</span> <span class="fu">ems_swap</span>(</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">var =</span> <span class="st">"qxs"</span>,</span>
@@ -630,7 +630,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_in =</span> qxs_in,</span>
 <span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_out =</span> txs_out</span>
 <span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Note that <code>REGs = c("chn", "usa")</code> is a multi-element specification, while <code>COMMc = "MARG"</code> and <code>ALLTIMEt = "FWDTIME"</code> are subset specifications — both forms can be combined freely in a single <code>ems_swap()</code> call.</p>
+<p>Note that <code>REGs = c("chn", "usa")</code> is a multi-element specification, while <code>COMMc = "MARG"</code> and <code>ALLTIMEt = "FWDTIME"</code> are subset specifications. Both the above forms can be combined freely in a single <code>ems_swap()</code> call.</p>
 <!-- ## Future expansions
 * List of vetted swaps by model -->
 

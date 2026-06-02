@@ -524,7 +524,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td><code>which</code></td>
 <td><code>"all"</code></td>
-<td><code>"all"</code> returns all model variables and all coefficients (if coefficient output files are present). Any other value is treated as a character vector of variable and/or coefficient names to retrieve — an error is raised for any name not found</td>
+<td><code>"all"</code> returns all model variables and all coefficients (if coefficient output files are present). Any other value is treated as a character vector of variable and/or coefficient names to retrieve</td>
 </tr>
 </tbody>
 </table>
@@ -554,7 +554,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Single coefficient by name</span></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>SAVE <span class="ot">&lt;-</span> <span class="fu">ems_compose</span>(<span class="at">cmf_path =</span> cmf_path, <span class="at">which =</span> <span class="st">"SAVE"</span>)</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiple names — variables and coefficients can be mixed</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiple names with mixed variables and coefficients</span></span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">ems_compose</span>(<span class="at">cmf_path =</span> cmf_path, <span class="at">which =</span> <span class="fu">c</span>(<span class="st">"qfd"</span>, <span class="st">"qfm"</span>, <span class="st">"SAVE"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Note that some coefficient names differ from their associated HAR headers. For example, the coefficient exposed as <code>"VTMFSD"</code> corresponds to the <code>VTWR</code> header. Use the name as it appears in the model file, not the header.</p>
 </section>

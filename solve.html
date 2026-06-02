@@ -608,48 +608,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td><code>"Johansen"</code></td>
-<td>Fast one-step approximation. Should only be used as a rough approximation due to handling of nonlinear equations. See <a href="https://www.copsmodels.com/gpmanual.htm#gpd1.2.13">COPS manual</a></td>
+<td>Fast one-step approximation. Should only be used as a rough approximation due to handling of nonlinear equations. See <a href="https://www.copsmodels.com/gpmanual.htm#gpd1.2.13">GEMPACK manual</a></td>
 </tr>
 <tr class="even">
 <td><code>"mod_midpoint"</code></td>
-<td>Modified midpoint method that performs multiple passes for improved accuracy. The <code>steps</code> parameter controls the number of passes. See <a href="https://www.copsmodels.com/gpmanual.htm#gpd3.12.2">COPS manual</a></td>
+<td>Modified midpoint method that performs multiple passes for improved accuracy. The <code>steps</code> parameter controls the number of passes. See <a href="https://www.copsmodels.com/gpmanual.htm#gpd3.12.2">GEMPACK manual</a></td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="matrix-methods" class="level2" data-number="13.5">
 <h2 data-number="13.5" class="anchored" data-anchor-id="matrix-methods"><span class="header-section-number">13.5</span> Matrix methods</h2>
-<p>Increase <code>n_tasks</code> to take advantage of parallel matrix solution methods.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 38%">
-<col style="width: 61%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Method</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>"LU"</code></td>
-<td>Standard LU decomposition. The most robust and potentially slowest for large models. <code>n_tasks</code> must be <code>1L</code>. Works with both static and dynamic models</td>
-</tr>
-<tr class="even">
-<td><code>"DBBD"</code></td>
-<td>Doubly bordered block diagonal. Parallel matrix solution method for static models only. Potentially faster than <code>"LU"</code> although less robust</td>
-</tr>
-<tr class="odd">
-<td><code>"SBBD"</code></td>
-<td>Singly bordered block diagonal. Parallel matrix solution method for intertemporal models only. Potentially faster than <code>"LU"</code> although less robust</td>
-</tr>
-<tr class="even">
-<td><code>"NDBBD"</code></td>
-<td>Nested doubly bordered block diagonal. Parallel matrix solution method for large intertemporal models with many timesteps only</td>
-</tr>
-</tbody>
-</table>
+<p>Increase <code>n_tasks</code> to take advantage of parallel matrix solution methods. <!-- Add links to matrix method papers --> | Method | Description | |——–|————-| | <code>"LU"</code> | Standard LU decomposition. The most robust and potentially slowest for large models. <code>n_tasks</code> must be <code>1L</code>. Works with both static and dynamic models | | <code>"DBBD"</code> | Doubly bordered block diagonal. Parallel matrix solution method for static models only. Potentially faster than <code>"LU"</code> although less robust | | <code>"SBBD"</code> | Singly bordered block diagonal. Parallel matrix solution method for intertemporal models only. Potentially faster than <code>"LU"</code> although less robust | | <code>"NDBBD"</code> | Nested doubly bordered block diagonal. Parallel matrix solution method for large intertemporal models with many timesteps only |</p>
 </section>
 <section id="multi-step-solution" class="level2" data-number="13.6">
 <h2 data-number="13.6" class="anchored" data-anchor-id="multi-step-solution"><span class="header-section-number">13.6</span> Multi-step solution</h2>
@@ -699,7 +669,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="solving-in-situ" class="level2" data-number="13.10">
 <h2 data-number="13.10" class="anchored" data-anchor-id="solving-in-situ"><span class="header-section-number">13.10</span> Solving in-situ</h2>
-<p><code>solve_in_situ()</code> calls the <a href="https://github.com/teemsphere/teems-solver">teems-solver</a> directly with user-supplied input files, bypassing the <a href="./data_load.html"><code>ems_data()</code></a> / <a href="./model_load.html"><code>ems_model()</code></a> / <a href="./deploy.html"><code>ems_deploy()</code></a> pipeline. The model file will be parsed but all input files must be provided in their final form — no checks or modifications are applied.</p>
+<p><code>solve_in_situ()</code> calls the <a href="https://github.com/teemsphere/teems-solver">teems-solver</a> directly with user-supplied input files, bypassing the <a href="./data_load.html"><code>ems_data()</code></a> / <a href="./model_load.html"><code>ems_model()</code></a> / <a href="./deploy.html"><code>ems_deploy()</code></a> pipeline. The model file will be parsed but all input files must be provided in their final form. No checks or modifications are applied to input files.</p>
 <p>This function is intended for users who wish to use the teems solver with pre-prepared input files, or in combination with the standard pipeline by reusing the files written to disk by <a href="./deploy.html"><code>ems_deploy()</code></a>. If all input files already reside in <code>model_dir</code>, no copying is performed; otherwise files are copied into <code>model_dir</code> before solving.</p>
 <section id="arguments-1" class="level3" data-number="13.10.1">
 <h3 data-number="13.10.1" class="anchored" data-anchor-id="arguments-1"><span class="header-section-number">13.10.1</span> Arguments</h3>

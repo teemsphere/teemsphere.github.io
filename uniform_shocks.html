@@ -538,7 +538,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="full-variable-uniform-shocks" class="level2" data-number="9.2">
 <h2 data-number="9.2" class="anchored" data-anchor-id="full-variable-uniform-shocks"><span class="header-section-number">9.2</span> Full variable uniform shocks</h2>
-<p>The simplest uniform shock is applied to a full variable, meaning that all combinations of sets associated with that variable are allocated the same exogenous value. In the example below, all regions (as determined by selected region mappings) will be increased by 1%.</p>
+<p>The simplest uniform shock is applied to a full variable, meaning that all combinations of sets associated with that variable are allocated the same exogenous value.In the example below, all regions (as determined by selected region mappings) will be increased by 1%.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pop_shk <span class="ot">&lt;-</span> <span class="fu">ems_uniform_shock</span>(<span class="at">var =</span> <span class="st">"pop"</span>,</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">value =</span> <span class="dv">1</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -572,7 +572,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">REGs =</span> <span class="fu">c</span>(<span class="st">"chn"</span>, <span class="st">"usa"</span>),</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">ALLTIMEt =</span> <span class="st">"FWDTIME"</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>As in the swaps example, <code>REGs = c("chn", "usa")</code> is a multi-element specification while <code>COMMc = "MARG"</code> and <code>ALLTIMEt = "FWDTIME"</code> are subset specifications — both forms can be combined freely in a single call. This shock would then be deployed alongside the corresponding subset swaps:</p>
+<p>As in the swaps example, <code>REGs = c("chn", "usa")</code> is a multi-element specification while <code>COMMc = "MARG"</code> and <code>ALLTIMEt = "FWDTIME"</code> are subset specifications. This shock would then be deployed alongside the corresponding subset swaps:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>cmf_path <span class="ot">&lt;-</span> <span class="fu">ems_deploy</span>(</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">.data =</span> dat,</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> model,</span>
