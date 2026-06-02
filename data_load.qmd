@@ -84,19 +84,41 @@ data <- ems_data(dat_input = "v7_data/gsdfdat.har",
 )
 ```
 ## Converting formats
-GTAP databases are available in the classic v6.2 and standard v7.0 formats, corresponding to the classic and standard [GTAP models](https://www.gtap.agecon.purdue.edu/models/current.asp).
-To use a classic-based model with a newer v7.0 database, or a standard model with an older v6.2 database, use `GTAP_convert()` to convert the data first.
-The returned list can be passed directly to `ems_data()`.
+`GTAP_convert()` reads GTAP HAR files into R and optionally converts between the classic v6.2 and standard v7.0 formats.
+The returned list can be passed directly to `ems_data()` or [`ems_example()`](example.qmd).
 Note that set mappings must be specified according to the model to be used, *not* the original format of the input data.
+
+### Loading HAR files as arrays
+
+When `target` is omitted, `GTAP_convert()` simply parses the HAR files into lists of arrays without any format conversion:
+
+```r
+dat <- GTAP_convert(
+  dat_har = "v7_data/gsdfdat.har",
+  par_har = "v7_data/gsdfpar.har",
+  set_har = "v7_data/gsdfset.har"
+)
+
+v7_data <- ems_data(dat_input = dat$dat,
+                    par_input = dat$par,
+                    set_input = dat$set,
+                    REG = "big3",
+                    ACTS = "macro_sector",
+                    ENDW = "labor_diff"
+)
+```
+
+### Converting between formats
+
+To use a classic-based model with a newer v7.0 database, or a standard model with an older v6.2 database, specify `target`:
 
 GTAP 12 v7.0 database converted to v6.2 format for use with a classic GTAP model:
 ```r
 converted <- GTAP_convert(
-  dat_input = "v7_data/gsdfdat.har",
-  par_input = "v7_data/gsdfpar.har",
-  set_input = "v7_data/gsdfset.har",
-  origin    = "GTAPv7",
-  target    = "GTAPv6"
+  dat_har = "v7_data/gsdfdat.har",
+  par_har = "v7_data/gsdfpar.har",
+  set_har = "v7_data/gsdfset.har",
+  target  = "GTAPv6"
 )
 
 v6_data <- ems_data(dat_input = converted$dat,
@@ -111,11 +133,10 @@ v6_data <- ems_data(dat_input = converted$dat,
 GTAP 10 v6.2 database converted to v7.0 format for use with the standard GTAP model:
 ```r
 converted <- GTAP_convert(
-  dat_input = "v6_data/gsddat.har",
-  par_input = "v6_data/gsdpar.har",
-  set_input = "v6_data/gsdset.har",
-  origin    = "GTAPv6",
-  target    = "GTAPv7"
+  dat_har = "v6_data/gsddat.har",
+  par_har = "v6_data/gsdpar.har",
+  set_har = "v6_data/gsdset.har",
+  target  = "GTAPv7"
 )
 
 v7_data <- ems_data(dat_input = converted$dat,

@@ -14,11 +14,11 @@ Two output modes are available, controlled by the `type` argument:
 | Argument | Default | Description |
 |----------|---------|-------------|
 | `model` | | Model name. One of `"GTAPv6"`, `"GTAPv7"`, `"GTAP-INT"`, `"GTAP-RE"` |
+| `path` | | Directory where files will be written |
 | `type` | `"model_files"` | Output type: `"model_files"` or `"scripts"` |
-| `dat_input` | `NULL` | Path to the basedata HAR file. Required when `type = "scripts"` |
-| `par_input` | `NULL` | Path to the parameters HAR file. Required when `type = "scripts"` |
-| `set_input` | `NULL` | Path to the sets HAR file. Required when `type = "scripts"` |
-| `write_dir` | `tools::R_user_dir("teems")` | Directory where files are written |
+| `dat_input` | `NULL` | Path to the basedata HAR file, or the `dat` list from [`GTAP_convert()`](data_load.qmd). Required when `type = "scripts"` |
+| `par_input` | `NULL` | Path to the parameters HAR file, or the `par` list from [`GTAP_convert()`](data_load.qmd). Required when `type = "scripts"` |
+| `set_input` | `NULL` | Path to the sets HAR file, or the `set` list from [`GTAP_convert()`](data_load.qmd). Required when `type = "scripts"` |
 
 ## Writing model files
 
@@ -27,11 +27,11 @@ The simplest use of `ems_example()` extracts a model's Tablo and closure files s
 ```r
 library(teems)
 
-# Write GTAPv7 model files to the default cache directory
-paths <- ems_example("GTAPv7")
+# Write GTAPv7 model files to a temporary directory
+paths <- ems_example("GTAPv7", tempdir())
 
 # Or to a specific directory
-paths <- ems_example("GTAP-RE", write_dir = "~/my_project/model")
+paths <- ems_example("GTAP-RE", "~/my_project/model")
 ```
 
 The returned list contains two named paths:
@@ -57,16 +57,36 @@ When `type = "scripts"`, `ems_example()` writes a directory of R scripts coverin
 ```r
 paths <- ems_example(
   model     = "GTAPv7",
+  path      = "~/my_project",
   type      = "scripts",
   dat_input = "~/dat/GTAP/v10/flexAgg/gsddat.har",
   par_input = "~/dat/GTAP/v10/flexAgg/gsdpar.har",
-  set_input = "~/dat/GTAP/v10/flexAgg/gsdset.har",
-  write_dir = "~/my_project"
+  set_input = "~/dat/GTAP/v10/flexAgg/gsdset.har"
 )
 ```
 
-Note that it is currently not possible to convert data formats within `ems_example()`.
-The provided data must be compatible with the selected model in this use case.
+The data inputs can also be the in-memory list objects returned by [`GTAP_convert()`](data_load.qmd), which is useful when the raw data needs format conversion before running:
+
+```r
+# Convert v7.0 data to v6.2 format, then generate scripts for the classic model
+converted <- GTAP_convert(
+  dat_har = "~/dat/GTAP/v12/gsdfdat.har",
+  par_har = "~/dat/GTAP/v12/gsdfpar.har",
+  set_har = "~/dat/GTAP/v12/gsdfset.har",
+  target  = "GTAPv6"
+)
+
+paths <- ems_example(
+  model     = "GTAPv6",
+  path      = "~/my_project",
+  type      = "scripts",
+  dat_input = converted$dat,
+  par_input = converted$par,
+  set_input = converted$set
+)
+```
+
+When list objects are supplied, `ems_example()` serialises them to RDS files alongside the scripts and injects `readRDS()` calls at the top of each script in place of plain path assignments.
 
 ## Using the generated scripts
 
@@ -98,7 +118,6 @@ Each script begins with the injected assignments followed by the template body. 
 dat_input = "~/dat/GTAP/v10/flexAgg/gsddat.har"
 par_input = "~/dat/GTAP/v10/flexAgg/gsdpar.har"
 set_input = "~/dat/GTAP/v10/flexAgg/gsdset.har"
-write_dir = "~/my_project"
 model_file = "~/my_project/GTAP-INT.tab"
 closure_file = "~/my_project/GTAP-INT.cls"
 
@@ -127,19 +146,16 @@ partial <- ems_uniform_shock(
 cmf_path <- ems_deploy(
   .data     = dat,
   model     = model,
-  shock     = partial,
-  write_dir = write_dir
+  shock     = partial
 )
 
 outputs <- ems_solve(
   cmf_path = cmf_path,
-  matrix_method = "LU",
-  solution_method = "Johansen"
+  solution_method = "Johansen",
+  matrix_method = "LU"
 )
 ```
 
 ## Output
 
 `ems_example()` returns a character vector of file paths to the written files. For `type = "model_files"` this is the `.tab` and `.cls` paths. For `type = "scripts"` this is one path per written script.
-
-By default, files are written to `tools::R_user_dir("teems")` and do not persist across sessions. Specify `write_dir` to control the output location as well as generate persistent files.

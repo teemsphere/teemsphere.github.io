@@ -45,11 +45,11 @@ ems_option_reset()
 | Option | Default | Description |
 |--------|---------|-------------|
 | `verbose` | `TRUE` | If `FALSE`, function-specific diagnostics are silenced |
-| `write_sub_dir` | `"teems"` | Name of the subdirectory within the base `write_dir` set by [`ems_deploy()`](deploy.qmd) |
+| `tempdir` | `tempdir()` | Directory used for temporary file storage during a model run |
 | `ndigits` | `6` | Exact number of digits to the right of the decimal point written to file for numeric type double. Passed to `format()` nsmall and `round()` digits |
-| `docker_tag` | `"latest"` | Docker tag specifying which Docker image to use |
 | `accuracy_threshold` | `0.8` | Threshold (converted to a percentage) against which 4-digit precision is compared. A warning is generated if the threshold is not met |
 | `check_shock_status` | `TRUE` | If `FALSE`, no check on shock element endogenous/exogenous status is conducted |
 | `timestep_header` | `"YEAR"` | Coefficient containing a numeric vector of timestep intervals. For novel intertemporal models — modify with caution |
 | `n_timestep_header` | `"NTSP"` | Coefficient containing a numeric vector length one with sum of timestep intervals. For novel intertemporal models — modify with caution |
 | `full_exclude` | `c("DREL", "DVER", "XXCR", "XXCD", "XXCP", "SLUG", "EFLG")` | Headers to fully exclude from all aspects of the model run. Failure to designate these headers properly will result in errors. Modify with caution |
+| `docker_tag` | `"latest"` | Docker tag specifying which Docker image to use |

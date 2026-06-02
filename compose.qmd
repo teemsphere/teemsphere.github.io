@@ -18,8 +18,8 @@ After a standard model run with suppressed outputs:
 ```r
 ems_solve(
   cmf_path = cmf_path,
-  matrix_method = "LU",
   solution_method = "Johansen",
+  matrix_method = "LU",
   suppress_outputs = TRUE
 )
 
