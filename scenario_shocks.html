@@ -544,23 +544,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="11.3" class="anchored" data-anchor-id="population-trajectory-example"><span class="header-section-number">11.3</span> Population trajectory example</h2>
 <p>Here is an example that takes base year population data from the GTAP database (typically not read into the model) and constructs hypothetical pathways for every region in the model. These pathways are valid for any regional aggregation chosen.</p>
 <p>Set up the model run with chronological time steps:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>year       <span class="ot">&lt;-</span> <span class="dv">2017</span></span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>year <span class="ot">&lt;-</span> <span class="dv">2017</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>time_steps <span class="ot">&lt;-</span> year <span class="sc">+</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_input  =</span> <span class="st">"v7_data/gsdfdat.har"</span>,</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_input  =</span> <span class="st">"v7_data/gsdfpar.har"</span>,</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_input  =</span> <span class="st">"v7_data/gsdfset.har"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_input =</span> <span class="st">"v7_data/gsdfdat.har"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_input =</span> <span class="st">"v7_data/gsdfpar.har"</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_input =</span> <span class="st">"v7_data/gsdfset.har"</span>,</span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">time_steps =</span> time_steps,</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">REG  =</span> <span class="st">"big3"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">REG =</span> <span class="st">"big3"</span>,</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">ACTS =</span> <span class="st">"macro_sector"</span>,</span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">ENDW =</span> <span class="st">"labor_agg"</span></span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>GTAP_RE <span class="ot">&lt;-</span> <span class="fu">ems_example</span>(<span class="st">"GTAP-RE"</span>)</span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">ems_model</span>(</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_file    =</span> GTAP_RE[[<span class="st">"model_file"</span>]],</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">closure_file  =</span> GTAP_RE[[<span class="st">"closure_file"</span>]]</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_file =</span> GTAP_RE[[<span class="st">"model_file"</span>]],</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">closure_file =</span> GTAP_RE[[<span class="st">"closure_file"</span>]]</span>
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Load POP at full regional resolution (unaggregated) as the scenario baseline. The <code>REG = "full"</code> call does not require <code>time_steps</code> since it is only used to extract the base-year coefficient:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(</span>
@@ -572,44 +572,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ENDW =</span> <span class="st">"labor_agg"</span></span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>)<span class="sc">$</span>POP</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Construct trajectories with compound growth through each future time step. <code>tail(time_steps, -1)</code> yields the forward time steps, keeping the trajectory in sync with whatever <code>time_steps</code> was passed to <code>ems_data()</code>:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pop<span class="sc">$</span>Year  <span class="ot">&lt;-</span> year</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>regions   <span class="ot">&lt;-</span> <span class="fu">unique</span>(pop<span class="sc">$</span>REG)</span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pop<span class="sc">$</span>Year <span class="ot">&lt;-</span> year</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>regions <span class="ot">&lt;-</span> <span class="fu">unique</span>(pop<span class="sc">$</span>REG)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>pop_traj        <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">REG =</span> regions, <span class="at">Year =</span> <span class="fu">tail</span>(time_steps, <span class="sc">-</span><span class="dv">1</span>),</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                               <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>pop_traj<span class="sc">$</span>Value  <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>pop             <span class="ot">&lt;-</span> <span class="fu">rbind</span>(pop, pop_traj)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>pop_traj <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">REG =</span> regions, <span class="at">Year =</span> <span class="fu">tail</span>(time_steps, <span class="sc">-</span><span class="dv">1</span>),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>pop_traj<span class="sc">$</span>Value <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">rbind</span>(pop, pop_traj)</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>growth_rates <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">REG         =</span> regions,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">REG =</span> regions,</span>
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">growth_rate =</span> <span class="fu">runif</span>(<span class="fu">length</span>(regions), <span class="at">min =</span> <span class="sc">-</span><span class="fl">0.01</span>, <span class="at">max =</span> <span class="fl">0.05</span>)</span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>pop         <span class="ot">&lt;-</span> <span class="fu">merge</span>(pop, growth_rates, <span class="at">by =</span> <span class="st">"REG"</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">merge</span>(pop, growth_rates, <span class="at">by =</span> <span class="st">"REG"</span>)</span>
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>base_values <span class="ot">&lt;-</span> pop[pop<span class="sc">$</span>Year <span class="sc">==</span> year, <span class="fu">c</span>(<span class="st">"REG"</span>, <span class="st">"Value"</span>)]</span>
 <span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(base_values)[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="st">"base_value"</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>pop         <span class="ot">&lt;-</span> <span class="fu">merge</span>(pop, base_values, <span class="at">by =</span> <span class="st">"REG"</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">merge</span>(pop, base_values, <span class="at">by =</span> <span class="st">"REG"</span>)</span>
 <span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>pop<span class="sc">$</span>Value[pop<span class="sc">$</span>Year <span class="sc">&gt;</span> year] <span class="ot">&lt;-</span></span>
 <span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  pop<span class="sc">$</span>base_value[pop<span class="sc">$</span>Year <span class="sc">&gt;</span> year] <span class="sc">*</span></span>
 <span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">+</span> pop<span class="sc">$</span>growth_rate[pop<span class="sc">$</span>Year <span class="sc">&gt;</span> year])<span class="sc">^</span>(pop<span class="sc">$</span>Year[pop<span class="sc">$</span>Year <span class="sc">&gt;</span> year] <span class="sc">-</span> year)</span>
 <span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>pop<span class="sc">$</span>growth_rate <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>pop<span class="sc">$</span>base_value  <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>pop<span class="sc">$</span>base_value <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
 <span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> pop[<span class="fu">order</span>(pop<span class="sc">$</span>REG, pop<span class="sc">$</span>Year), <span class="fu">c</span>(<span class="st">"REG"</span>, <span class="st">"Year"</span>, <span class="st">"Value"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>ems_data()</code> returns coefficients with plain set names (e.g., <code>REG</code>). Rename to the model’s set-index convention before passing to <code>ems_scenario_shock()</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(pop)[<span class="fu">colnames</span>(pop) <span class="sc">==</span> <span class="st">"REG"</span>] <span class="ot">&lt;-</span> <span class="st">"REGr"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Pass <code>pop</code> as the scenario shock and deploy:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pop_trajectory <span class="ot">&lt;-</span> <span class="fu">ems_scenario_shock</span>(</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">var   =</span> <span class="st">"pop"</span>,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">var =</span> <span class="st">"pop"</span>,</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">input =</span> pop</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>cmf_path <span class="ot">&lt;-</span> <span class="fu">ems_deploy</span>(</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">.data     =</span> dat,</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">model     =</span> model,</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">shock     =</span> pop_trajectory,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">.data =</span> dat,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> model,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">shock =</span> pop_trajectory,</span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">write_dir =</span> write_dir</span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>pop</code> may also be saved as a CSV and loaded directly by passing the file path to <code>input</code>.</p>

@@ -810,17 +810,17 @@ File GTAPSETS # set file;</code></pre>
 <p>These names are then used as the named arguments to <code>solve_in_situ()</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">solve_in_situ</span>(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">GTAPDATA =</span> <span class="fu">file.path</span>(write_dir, <span class="st">"teems"</span>, <span class="st">"GTAPDATA.txt"</span>),</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">GTAPINT  =</span> <span class="fu">file.path</span>(write_dir, <span class="st">"teems"</span>, <span class="st">"GTAPINT.txt"</span>),</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">GTAPINT =</span> <span class="fu">file.path</span>(write_dir, <span class="st">"teems"</span>, <span class="st">"GTAPINT.txt"</span>),</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">GTAPPARM =</span> <span class="fu">file.path</span>(write_dir, <span class="st">"teems"</span>, <span class="st">"GTAPPARM.txt"</span>),</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">GTAPSETS =</span> <span class="fu">file.path</span>(write_dir, <span class="st">"teems"</span>, <span class="st">"GTAPSETS.txt"</span>),</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_dir    =</span> <span class="st">"~/in_situ_run/"</span>,</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_file   =</span> <span class="st">"GTAP-RE.tab"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_dir =</span> <span class="st">"~/in_situ_run/"</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_file =</span> <span class="st">"GTAP-RE.tab"</span>,</span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">closure_file =</span> <span class="st">"GTAP-RE.cls"</span>,</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">shock_file      =</span> <span class="st">"a_shock_file.shf"</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">shock_file =</span> <span class="st">"a_shock_file.shf"</span>,</span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="st">"mod_midpoint"</span>,</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix_method   =</span> <span class="st">"SBBD"</span>,</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_subintervals  =</span> <span class="dv">1</span>L,</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_tasks         =</span> <span class="dv">1</span>L</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix_method =</span> <span class="st">"SBBD"</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_subintervals =</span> <span class="dv">1</span>L,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_tasks =</span> <span class="dv">1</span>L</span>
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="output-modes" class="level3" data-number="13.10.3">
