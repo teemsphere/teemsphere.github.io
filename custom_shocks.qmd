@@ -125,8 +125,6 @@ pop_shk <- ems_custom_shock(
 )
 ```
 
-This applies equally to partial variable shocks — only the tuples present in the file are shocked.
-
 ## Partial variable custom shocks
 Custom shocks are only carried out on tuples included within the input data frame or CSV.
 Here we carry out a custom shock (heterogenous values) across part of the `aoall` variable.
@@ -188,4 +186,4 @@ pop_shk <- ems_custom_shock(
 )
 ```
 
-`ems_custom_shock()` is called identically — the `Year` column is recognised automatically and mapped to the corresponding integer time step internally.
+With `ems_custom_shock()`, a `Year` column is recognized automatically and mapped to the corresponding integer time step internally.

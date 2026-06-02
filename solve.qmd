@@ -37,12 +37,12 @@ outputs <- ems_solve(
 
 | Method | Description |
 |--------|-------------|
-| `"Johansen"` | Fast one-step approximation. Should only be used as a rough approximation due to handling of nonlinear equations. See [COPS manual](https://www.copsmodels.com/gpmanual.htm#gpd1.2.13) |
-| `"mod_midpoint"` | Modified midpoint method that performs multiple passes for improved accuracy. The `steps` parameter controls the number of passes. See [COPS manual](https://www.copsmodels.com/gpmanual.htm#gpd3.12.2) |
+| `"Johansen"` | Fast one-step approximation. Should only be used as a rough approximation due to handling of nonlinear equations. See [GEMPACK manual](https://www.copsmodels.com/gpmanual.htm#gpd1.2.13) |
+| `"mod_midpoint"` | Modified midpoint method that performs multiple passes for improved accuracy. The `steps` parameter controls the number of passes. See [GEMPACK manual](https://www.copsmodels.com/gpmanual.htm#gpd3.12.2) |
 
 ## Matrix methods
 Increase `n_tasks` to take advantage of parallel matrix solution methods.
-
+<!-- Add links to matrix method papers -->
 | Method | Description |
 |--------|-------------|
 | `"LU"` | Standard LU decomposition. The most robust and potentially slowest for large models. `n_tasks` must be `1L`. Works with both static and dynamic models |
@@ -107,7 +107,8 @@ ems_solve(
 ## Solving in-situ
 
 `solve_in_situ()` calls the [teems-solver](https://github.com/teemsphere/teems-solver) directly with user-supplied input files, bypassing the [`ems_data()`](data_load.qmd) / [`ems_model()`](model_load.qmd) / [`ems_deploy()`](deploy.qmd) pipeline.
-The model file will be parsed but all input files must be provided in their final form — no checks or modifications are applied.
+The model file will be parsed but all input files must be provided in their final form.
+No checks or modifications are applied to input files.
 
 This function is intended for users who wish to use the teems solver with pre-prepared input files, or in combination with the standard pipeline by reusing the files written to disk by [`ems_deploy()`](deploy.qmd).
 If all input files already reside in `model_dir`, no copying is performed; otherwise files are copied into `model_dir` before solving.

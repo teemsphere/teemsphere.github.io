@@ -2,7 +2,8 @@
 
 ## Overview
 
-`ems_example()` writes bundled example model and script files to disk. It is a good starting point for new users, providing ready-to-run material for each of the four vetted models without requiring any additional setup beyond GTAP data access.
+`ems_example()` writes bundled example model and script files to disk.
+It is a good starting point for new users, providing ready-to-run material for each of the four vetted models without requiring any additional setup beyond GTAP data access.
 
 Two output modes are available, controlled by the `type` argument:
 
@@ -37,22 +38,23 @@ paths <- ems_example("GTAP-RE", "~/my_project/model")
 The returned list contains two named paths:
 
 ```r
-paths["model_file"]   # path to the .tab file
-paths["closure_file"] # path to the .cls file
+paths[["model_file"]]   # path to the .tab file
+paths[["closure_file"]] # path to the .cls file
 ```
 
 These can be passed directly to [`ems_model()`](model_load.qmd):
 
 ```r
 model <- ems_model(
-  model_file = paths["model_file"],
-  closure_file = paths["closure_file"]
+  model_file = paths[["model_file"]],
+  closure_file = paths[["closure_file"]]
 )
 ```
 
 ## Writing example scripts
 
-When `type = "scripts"`, `ems_example()` writes a directory of R scripts covering the full range of configurations available for the chosen model — uniform shocks, custom shocks, partial shocks, closure swaps, scenario shocks (for intertemporal models), and null runs. Each script is injected with the supplied data paths and is immediately runnable.
+When `type = "scripts"`, `ems_example()` writes a directory of R scripts covering a range of configurations available for the chosen model.
+Each script is injected with the supplied data paths and is immediately runnable.
 
 ```r
 paths <- ems_example(
@@ -86,11 +88,12 @@ paths <- ems_example(
 )
 ```
 
-When list objects are supplied, `ems_example()` serialises them to RDS files alongside the scripts and injects `readRDS()` calls at the top of each script in place of plain path assignments.
+When list objects are supplied, `ems_example()` writes them to RDS files alongside the scripts and injects `readRDS()` calls at the top of each script in place of plain path assignments.
 
 ## Using the generated scripts
 
-`ems_example()` returns a character vector of paths — one per written script. Each script is ready to run; the data paths supplied to `ems_example()` are injected at the top of the file as plain assignments.
+`ems_example()` returns a character vector of paths, one per written script.
+Each script is ready to run; the data paths supplied to `ems_example()` are injected at the top of the file as plain assignments.
 
 ### Script naming convention
 
@@ -112,7 +115,8 @@ Script file names encode the shock and swap configuration:
 
 ### Structure of a generated script
 
-Each script begins with the injected assignments followed by the template body. Opening `part_uniform.R` in an editor shows:
+Each script begins with the injected assignments followed by the template body.
+Opening `part_uniform.R` in an editor shows:
 
 ```r
 dat_input = "~/dat/GTAP/v10/flexAgg/gsddat.har"
@@ -158,4 +162,6 @@ outputs <- ems_solve(
 
 ## Output
 
-`ems_example()` returns a character vector of file paths to the written files. For `type = "model_files"` this is the `.tab` and `.cls` paths. For `type = "scripts"` this is one path per written script.
+`ems_example()` returns a character vector of file paths to the written files.
+For `type = "model_files"` this is the `.tab` and `.cls` paths.
+For `type = "scripts"` this is one path per written script.

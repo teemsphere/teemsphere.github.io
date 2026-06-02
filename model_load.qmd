@@ -148,7 +148,8 @@ The `...` argument in `ems_model()` allows users to assign aggregation-specific 
 This is used to inject modified values into existing coefficients as well as provide data to new coefficients.
 All data inputted here must be model-aggregation specific and will not be subject to aggregation.
 The left-hand side (name) must correspond to a coefficient (not header) declared within the model input.
-Data frame and CSV inputs are validated against the set aggregations from [`ems_data()`](data_load.qmd) — dimensions must match the aggregated resolution, not the original database resolution.
+Data frame and CSV inputs are validated against the set aggregations from [`ems_data()`](data_load.qmd).
+Dimensions must match the aggregated resolution, not the original database resolution.
 Three input types are supported, with model "Read" and "Formula" declarations modified accordingly:
 
 ### Uniform numeric value

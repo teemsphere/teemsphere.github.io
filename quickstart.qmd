@@ -28,7 +28,7 @@ paths <- ems_example(
 ```
 
 `paths` is a character vector of the written script file paths.
-Each script is self-contained and immediately runnable — no further editing is required to get a first run off the ground.
+Each script is self-contained and immediately runnable.
 
 ## Step 1: verify the solver with a null run
 

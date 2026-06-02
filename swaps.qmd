@@ -122,7 +122,7 @@ qfd_in_2 <- ems_swap(
 
 A named model subset may be passed in place of individual elements.
 `teems` expands the subset to all its elements at the aggregation level specified in [`ems_data()`](data_load.qmd).
-This is useful when a model defines meaningful groupings that map directly to closure logic — such as margin commodities or forward time steps in intertemporal models.
+This is useful when a model defines meaningful groupings that map directly to closure logic such as margin commodities or forward time steps in intertemporal models.
 
 In the GTAP-RE model, `MARG` is a subset of `COMM` containing margin commodities, and `FWDTIME` is a subset of `ALLTIME` containing forward time steps.
 Passing these subset names directly restricts the swap to only those elements:
@@ -151,7 +151,8 @@ cmf_path <- ems_deploy(
 )
 ```
 
-Note that `REGs = c("chn", "usa")` is a multi-element specification, while `COMMc = "MARG"` and `ALLTIMEt = "FWDTIME"` are subset specifications — both forms can be combined freely in a single `ems_swap()` call.
+Note that `REGs = c("chn", "usa")` is a multi-element specification, while `COMMc = "MARG"` and `ALLTIMEt = "FWDTIME"` are subset specifications.
+Both the above forms can be combined freely in a single `ems_swap()` call.
 
 <!-- ## Future expansions
 * List of vetted swaps by model -->

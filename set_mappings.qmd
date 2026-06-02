@@ -83,7 +83,8 @@ v7_data <- ems_data(dat_input = "v7_data/gsdfdat.har",
 
 ## Set naming convention
 
-Set names in ***any loaded data*** (e.g., `ems_model()`) must be provided as the model-specific concatenation of the standard set name plus the variable-specific index. For example:
+Set names in ***any loaded data*** (e.g., `ems_model()`) must be provided as the model-specific concatenation of the standard set name plus the variable-specific index.
+For example:
 
 | Set | Index | Column name |
 |-----|-------|-------------|
@@ -94,4 +95,5 @@ Set names in ***any loaded data*** (e.g., `ems_model()`) must be provided as the
 | ENDW | e | `ENDWe` |
 | ALLTIME | t | `ALLTIMEt` |
 
-This naming convention disambiguates data entries for variables that have multiple instances of the same set. Set position (i.e., column order) is inconsequential for any inputs.
+This naming convention disambiguates data entries for variables that have multiple instances of the same set.
+Set position (i.e., column order) is inconsequential for any inputs.

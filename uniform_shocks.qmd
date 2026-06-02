@@ -15,7 +15,7 @@ ems_uniform_shock(var, value, ...)
 | `...` | Named arguments | Set-index pairs restricting the shock. Each value is a single element (`"element"`), multiple elements (`c("a", "b")`), or a named subset (`"SUBSET"`) |
 
 ## Full variable uniform shocks
-The simplest uniform shock is applied to a full variable, meaning that all combinations of sets associated with that variable are allocated the same exogenous value. In the example below, all regions (as determined by selected region mappings) will be increased by 1%.
+The simplest uniform shock is applied to a full variable, meaning that all combinations of sets associated with that variable are allocated the same exogenous value.In the example below, all regions (as determined by selected region mappings) will be increased by 1%.
 ```r
 pop_shk <- ems_uniform_shock(var = "pop",
                              value = 1
@@ -23,7 +23,8 @@ pop_shk <- ems_uniform_shock(var = "pop",
 ```
 
 ## Partial variable uniform shocks
-As with the syntax regarding [swaps](swaps.qmd), the scope of a uniform shock may be determined by specifying elements within the sets associated with the shocked variable. For example, if we have a region "chn" and wish to allocate a shock specifically to this region:
+As with the syntax regarding [swaps](swaps.qmd), the scope of a uniform shock may be determined by specifying elements within the sets associated with the shocked variable.
+For example, if we have a region "chn" and wish to allocate a shock specifically to this region:
 ```r
 partial <- ems_uniform_shock(var = "aoall",
                              value = -1,
@@ -65,7 +66,7 @@ partial <- ems_uniform_shock(
 )
 ```
 
-As in the swaps example, `REGs = c("chn", "usa")` is a multi-element specification while `COMMc = "MARG"` and `ALLTIMEt = "FWDTIME"` are subset specifications — both forms can be combined freely in a single call.
+As in the swaps example, `REGs = c("chn", "usa")` is a multi-element specification while `COMMc = "MARG"` and `ALLTIMEt = "FWDTIME"` are subset specifications.
 This shock would then be deployed alongside the corresponding subset swaps:
 
 ```r
@@ -79,7 +80,8 @@ cmf_path <- ems_deploy(
 ```
 
 ## Multiple shocks and mixed swaps
-Multiple uniform shocks of different scope can be combined in a list and passed to [`ems_deploy()`](deploy.qmd). Swaps can also be mixed, combining partial [`ems_swap()`](swaps.qmd) objects with full variable strings:
+Multiple uniform shocks of different scope can be combined in a list and passed to [`ems_deploy()`](deploy.qmd).
+Swaps can also be mixed, combining partial [`ems_swap()`](swaps.qmd) objects with full variable strings:
 ```r
 partial <- ems_uniform_shock(
   var = "qfd",
