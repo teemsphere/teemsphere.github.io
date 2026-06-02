@@ -502,7 +502,11 @@ window.Quarto = {
   <li><a href="#input-files" id="toc-input-files" class="nav-link" data-scroll-target="#input-files"><span class="header-section-number">6.2</span> Input files</a></li>
   <li><a href="#set-mappings" id="toc-set-mappings" class="nav-link" data-scroll-target="#set-mappings"><span class="header-section-number">6.3</span> Set mappings</a></li>
   <li><a href="#time-steps" id="toc-time-steps" class="nav-link" data-scroll-target="#time-steps"><span class="header-section-number">6.4</span> Time steps</a></li>
-  <li><a href="#converting-formats" id="toc-converting-formats" class="nav-link" data-scroll-target="#converting-formats"><span class="header-section-number">6.5</span> Converting formats</a></li>
+  <li><a href="#converting-formats" id="toc-converting-formats" class="nav-link" data-scroll-target="#converting-formats"><span class="header-section-number">6.5</span> Converting formats</a>
+  <ul class="collapse">
+  <li><a href="#loading-har-files-as-arrays" id="toc-loading-har-files-as-arrays" class="nav-link" data-scroll-target="#loading-har-files-as-arrays"><span class="header-section-number">6.5.1</span> Loading HAR files as arrays</a></li>
+  <li><a href="#converting-between-formats" id="toc-converting-between-formats" class="nav-link" data-scroll-target="#converting-between-formats"><span class="header-section-number">6.5.2</span> Converting between formats</a></li>
+  </ul></li>
   <li><a href="#data-aggregation" id="toc-data-aggregation" class="nav-link" data-scroll-target="#data-aggregation"><span class="header-section-number">6.6</span> Data aggregation</a>
   <ul class="collapse">
   <li><a href="#gtap-v6.2-format-parameter-weight-methodology" id="toc-gtap-v6.2-format-parameter-weight-methodology" class="nav-link" data-scroll-target="#gtap-v6.2-format-parameter-weight-methodology"><span class="header-section-number">6.6.1</span> GTAP v6.2 format parameter weight methodology</a></li>
@@ -652,39 +656,58 @@ window.Quarto = {
 </section>
 <section id="converting-formats" class="level2" data-number="6.5">
 <h2 data-number="6.5" class="anchored" data-anchor-id="converting-formats"><span class="header-section-number">6.5</span> Converting formats</h2>
-<p>GTAP databases are available in the classic v6.2 and standard v7.0 formats, corresponding to the classic and standard <a href="https://www.gtap.agecon.purdue.edu/models/current.asp">GTAP models</a>. To use a classic-based model with a newer v7.0 database, or a standard model with an older v6.2 database, use <code>GTAP_convert()</code> to convert the data first. The returned list can be passed directly to <code>ems_data()</code>. Note that set mappings must be specified according to the model to be used, <em>not</em> the original format of the input data.</p>
+<p><code>GTAP_convert()</code> reads GTAP HAR files into R and optionally converts between the classic v6.2 and standard v7.0 formats. The returned list can be passed directly to <code>ems_data()</code> or <a href="./example.html"><code>ems_example()</code></a>. Note that set mappings must be specified according to the model to be used, <em>not</em> the original format of the input data.</p>
+<section id="loading-har-files-as-arrays" class="level3" data-number="6.5.1">
+<h3 data-number="6.5.1" class="anchored" data-anchor-id="loading-har-files-as-arrays"><span class="header-section-number">6.5.1</span> Loading HAR files as arrays</h3>
+<p>When <code>target</code> is omitted, <code>GTAP_convert()</code> simply parses the HAR files into lists of arrays without any format conversion:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">GTAP_convert</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_har =</span> <span class="st">"v7_data/gsdfdat.har"</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_har =</span> <span class="st">"v7_data/gsdfpar.har"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_har =</span> <span class="st">"v7_data/gsdfset.har"</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>v7_data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> dat<span class="sc">$</span>dat,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">par_input =</span> dat<span class="sc">$</span>par,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">set_input =</span> dat<span class="sc">$</span>set,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">REG =</span> <span class="st">"big3"</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ACTS =</span> <span class="st">"macro_sector"</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENDW =</span> <span class="st">"labor_diff"</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="converting-between-formats" class="level3" data-number="6.5.2">
+<h3 data-number="6.5.2" class="anchored" data-anchor-id="converting-between-formats"><span class="header-section-number">6.5.2</span> Converting between formats</h3>
+<p>To use a classic-based model with a newer v7.0 database, or a standard model with an older v6.2 database, specify <code>target</code>:</p>
 <p>GTAP 12 v7.0 database converted to v6.2 format for use with a classic GTAP model:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>converted <span class="ot">&lt;-</span> <span class="fu">GTAP_convert</span>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_input =</span> <span class="st">"v7_data/gsdfdat.har"</span>,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_input =</span> <span class="st">"v7_data/gsdfpar.har"</span>,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_input =</span> <span class="st">"v7_data/gsdfset.har"</span>,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">origin    =</span> <span class="st">"GTAPv7"</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">target    =</span> <span class="st">"GTAPv6"</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>v6_data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> converted<span class="sc">$</span>dat,</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">par_input =</span> converted<span class="sc">$</span>par,</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">set_input =</span> converted<span class="sc">$</span>set,</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>                    <span class="at">REG =</span> <span class="st">"big3"</span>,</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">PROD_COMM =</span> <span class="st">"macro_sector"</span>,</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENDW_COMM =</span> <span class="st">"labor_agg"</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>GTAP 10 v6.2 database converted to v7.0 format for use with the standard GTAP model:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>converted <span class="ot">&lt;-</span> <span class="fu">GTAP_convert</span>(</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_input =</span> <span class="st">"v6_data/gsddat.har"</span>,</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_input =</span> <span class="st">"v6_data/gsdpar.har"</span>,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_input =</span> <span class="st">"v6_data/gsdset.har"</span>,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">origin    =</span> <span class="st">"GTAPv6"</span>,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">target    =</span> <span class="st">"GTAPv7"</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>v7_data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> converted<span class="sc">$</span>dat,</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">par_input =</span> converted<span class="sc">$</span>par,</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">set_input =</span> converted<span class="sc">$</span>set,</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>                    <span class="at">REG =</span> <span class="st">"AR5"</span>,</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ACTS =</span> <span class="st">"macro_sector"</span>,</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENDW =</span> <span class="st">"labor_agg"</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_har =</span> <span class="st">"v7_data/gsdfdat.har"</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_har =</span> <span class="st">"v7_data/gsdfpar.har"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_har =</span> <span class="st">"v7_data/gsdfset.har"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">target  =</span> <span class="st">"GTAPv6"</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>v6_data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> converted<span class="sc">$</span>dat,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">par_input =</span> converted<span class="sc">$</span>par,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">set_input =</span> converted<span class="sc">$</span>set,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">REG =</span> <span class="st">"big3"</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>                    <span class="at">PROD_COMM =</span> <span class="st">"macro_sector"</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENDW_COMM =</span> <span class="st">"labor_agg"</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>GTAP 10 v6.2 database converted to v7.0 format for use with the standard GTAP model:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>converted <span class="ot">&lt;-</span> <span class="fu">GTAP_convert</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_har =</span> <span class="st">"v6_data/gsddat.har"</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_har =</span> <span class="st">"v6_data/gsdpar.har"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_har =</span> <span class="st">"v6_data/gsdset.har"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">target  =</span> <span class="st">"GTAPv7"</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>v7_data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> converted<span class="sc">$</span>dat,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">par_input =</span> converted<span class="sc">$</span>par,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">set_input =</span> converted<span class="sc">$</span>set,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">REG =</span> <span class="st">"AR5"</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ACTS =</span> <span class="st">"macro_sector"</span>,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ENDW =</span> <span class="st">"labor_agg"</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
 </section>
 <section id="data-aggregation" class="level2" data-number="6.6">
 <h2 data-number="6.6" class="anchored" data-anchor-id="data-aggregation"><span class="header-section-number">6.6</span> Data aggregation</h2>

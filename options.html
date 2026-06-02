@@ -531,6 +531,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="available-options" class="level2" data-number="15.5">
 <h2 data-number="15.5" class="anchored" data-anchor-id="available-options"><span class="header-section-number">15.5</span> Available options</h2>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 30%">
+<col style="width: 43%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Option</th>
@@ -545,9 +550,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>If <code>FALSE</code>, function-specific diagnostics are silenced</td>
 </tr>
 <tr class="even">
-<td><code>write_sub_dir</code></td>
-<td><code>"teems"</code></td>
-<td>Name of the subdirectory within the base <code>write_dir</code> set by <a href="./deploy.html"><code>ems_deploy()</code></a></td>
+<td><code>tempdir</code></td>
+<td><code>tempdir()</code></td>
+<td>Directory used for temporary file storage during a model run</td>
 </tr>
 <tr class="odd">
 <td><code>ndigits</code></td>
@@ -555,34 +560,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Exact number of digits to the right of the decimal point written to file for numeric type double. Passed to <code>format()</code> nsmall and <code>round()</code> digits</td>
 </tr>
 <tr class="even">
-<td><code>docker_tag</code></td>
-<td><code>"latest"</code></td>
-<td>Docker tag specifying which Docker image to use</td>
-</tr>
-<tr class="odd">
 <td><code>accuracy_threshold</code></td>
 <td><code>0.8</code></td>
 <td>Threshold (converted to a percentage) against which 4-digit precision is compared. A warning is generated if the threshold is not met</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>check_shock_status</code></td>
 <td><code>TRUE</code></td>
 <td>If <code>FALSE</code>, no check on shock element endogenous/exogenous status is conducted</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>timestep_header</code></td>
 <td><code>"YEAR"</code></td>
 <td>Coefficient containing a numeric vector of timestep intervals. For novel intertemporal models — modify with caution</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>n_timestep_header</code></td>
 <td><code>"NTSP"</code></td>
 <td>Coefficient containing a numeric vector length one with sum of timestep intervals. For novel intertemporal models — modify with caution</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>full_exclude</code></td>
 <td><code>c("DREL", "DVER", "XXCR", "XXCD", "XXCP", "SLUG", "EFLG")</code></td>
 <td>Headers to fully exclude from all aspects of the model run. Failure to designate these headers properly will result in errors. Modify with caution</td>
+</tr>
+<tr class="odd">
+<td><code>docker_tag</code></td>
+<td><code>"latest"</code></td>
+<td>Docker tag specifying which Docker image to use</td>
 </tr>
 </tbody>
 </table>

@@ -66,7 +66,7 @@
     "href": "dependencies.html#teems-r-package",
     "title": "2  Dependencies",
     "section": "2.3 teems-R package",
-    "text": "2.3 teems-R package\nThe R package is currently in beta (v0.0.5) and open for testing. It is installed via remotes:\nremotes::install_github(\"teemsphere/teems-R@v0.0.5\")",
+    "text": "2.3 teems-R package\nThe R package is currently in beta (v0.1.0) and open for testing. It is installed via remotes:\nremotes::install_github(\"teemsphere/teems-R@v0.1.0\")",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Dependencies</span>"
@@ -99,7 +99,7 @@
     "href": "quickstart.html#generate-example-scripts",
     "title": "3  Quickstart",
     "section": "",
-    "text": "library(teems)\n\npaths &lt;- ems_example(\n  model     = \"GTAPv6\",\n  type      = \"scripts\",\n  dat_input = \"v6_data/gsddat.har\",\n  par_input = \"v6_data/gsdpar.har\",\n  set_input = \"v6_data/gsdset.har\",\n  write_dir = \"~/my_project\"\n)",
+    "text": "library(teems)\n\npaths &lt;- ems_example(\n  model     = \"GTAPv6\",\n  path      = \"~/my_project\",\n  type      = \"scripts\",\n  dat_input = \"v6_data/gsddat.har\",\n  par_input = \"v6_data/gsdpar.har\",\n  set_input = \"v6_data/gsdset.har\"\n)",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Quickstart</span>"
@@ -165,7 +165,7 @@
     "href": "example.html#arguments",
     "title": "4  Example files",
     "section": "4.2 Arguments",
-    "text": "4.2 Arguments\n\n\n\n\n\n\n\n\nArgument\nDefault\nDescription\n\n\n\n\nmodel\n\nModel name. One of \"GTAPv6\", \"GTAPv7\", \"GTAP-INT\", \"GTAP-RE\"\n\n\ntype\n\"model_files\"\nOutput type: \"model_files\" or \"scripts\"\n\n\ndat_input\nNULL\nPath to the basedata HAR file. Required when type = \"scripts\"\n\n\npar_input\nNULL\nPath to the parameters HAR file. Required when type = \"scripts\"\n\n\nset_input\nNULL\nPath to the sets HAR file. Required when type = \"scripts\"\n\n\nwrite_dir\ntools::R_user_dir(\"teems\")\nDirectory where files are written",
+    "text": "4.2 Arguments\n\n\n\nArgument\nDefault\nDescription\n\n\n\n\nmodel\n\nModel name. One of \"GTAPv6\", \"GTAPv7\", \"GTAP-INT\", \"GTAP-RE\"\n\n\npath\n\nDirectory where files will be written\n\n\ntype\n\"model_files\"\nOutput type: \"model_files\" or \"scripts\"\n\n\ndat_input\nNULL\nPath to the basedata HAR file, or the dat list from GTAP_convert(). Required when type = \"scripts\"\n\n\npar_input\nNULL\nPath to the parameters HAR file, or the par list from GTAP_convert(). Required when type = \"scripts\"\n\n\nset_input\nNULL\nPath to the sets HAR file, or the set list from GTAP_convert(). Required when type = \"scripts\"",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Example files</span>"
@@ -176,7 +176,7 @@
     "href": "example.html#writing-model-files",
     "title": "4  Example files",
     "section": "4.3 Writing model files",
-    "text": "4.3 Writing model files\nThe simplest use of ems_example() extracts a model’s Tablo and closure files so they can be inspected or used directly with ems_model() or solve_in_situ().\nlibrary(teems)\n\n# Write GTAPv7 model files to the default cache directory\npaths &lt;- ems_example(\"GTAPv7\")\n\n# Or to a specific directory\npaths &lt;- ems_example(\"GTAP-RE\", write_dir = \"~/my_project/model\")\nThe returned list contains two named paths:\npaths[\"model_file\"]   # path to the .tab file\npaths[\"closure_file\"] # path to the .cls file\nThese can be passed directly to ems_model():\nmodel &lt;- ems_model(\n  model_file   = paths[\"model_file\"],\n  closure_file = paths[\"closure_file\"]\n)",
+    "text": "4.3 Writing model files\nThe simplest use of ems_example() extracts a model’s Tablo and closure files so they can be inspected or used directly with ems_model() or solve_in_situ().\nlibrary(teems)\n\n# Write GTAPv7 model files to a temporary directory\npaths &lt;- ems_example(\"GTAPv7\", tempdir())\n\n# Or to a specific directory\npaths &lt;- ems_example(\"GTAP-RE\", \"~/my_project/model\")\nThe returned list contains two named paths:\npaths[\"model_file\"]   # path to the .tab file\npaths[\"closure_file\"] # path to the .cls file\nThese can be passed directly to ems_model():\nmodel &lt;- ems_model(\n  model_file   = paths[\"model_file\"],\n  closure_file = paths[\"closure_file\"]\n)",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Example files</span>"
@@ -187,7 +187,7 @@
     "href": "example.html#writing-example-scripts",
     "title": "4  Example files",
     "section": "4.4 Writing example scripts",
-    "text": "4.4 Writing example scripts\nWhen type = \"scripts\", ems_example() writes a directory of R scripts covering the full range of configurations available for the chosen model — uniform shocks, custom shocks, partial shocks, closure swaps, scenario shocks (for intertemporal models), and null runs. Each script is injected with the supplied data paths and is immediately runnable.\npaths &lt;- ems_example(\n  model     = \"GTAPv7\",\n  type      = \"scripts\",\n  dat_input = \"~/dat/GTAP/v10/flexAgg/gsddat.har\",\n  par_input = \"~/dat/GTAP/v10/flexAgg/gsdpar.har\",\n  set_input = \"~/dat/GTAP/v10/flexAgg/gsdset.har\",\n  write_dir = \"~/my_project\"\n)\nNote that it is currently not possible to convert data formats within ems_example(). The provided data must be compatible with the selected model in this use case.",
+    "text": "4.4 Writing example scripts\nWhen type = \"scripts\", ems_example() writes a directory of R scripts covering the full range of configurations available for the chosen model — uniform shocks, custom shocks, partial shocks, closure swaps, scenario shocks (for intertemporal models), and null runs. Each script is injected with the supplied data paths and is immediately runnable.\npaths &lt;- ems_example(\n  model     = \"GTAPv7\",\n  path      = \"~/my_project\",\n  type      = \"scripts\",\n  dat_input = \"~/dat/GTAP/v10/flexAgg/gsddat.har\",\n  par_input = \"~/dat/GTAP/v10/flexAgg/gsdpar.har\",\n  set_input = \"~/dat/GTAP/v10/flexAgg/gsdset.har\"\n)\nThe data inputs can also be the in-memory list objects returned by GTAP_convert(), which is useful when the raw data needs format conversion before running:\n# Convert v7.0 data to v6.2 format, then generate scripts for the classic model\nconverted &lt;- GTAP_convert(\n  dat_har = \"~/dat/GTAP/v12/gsdfdat.har\",\n  par_har = \"~/dat/GTAP/v12/gsdfpar.har\",\n  set_har = \"~/dat/GTAP/v12/gsdfset.har\",\n  target  = \"GTAPv6\"\n)\n\npaths &lt;- ems_example(\n  model     = \"GTAPv6\",\n  path      = \"~/my_project\",\n  type      = \"scripts\",\n  dat_input = converted$dat,\n  par_input = converted$par,\n  set_input = converted$set\n)\nWhen list objects are supplied, ems_example() serialises them to RDS files alongside the scripts and injects readRDS() calls at the top of each script in place of plain path assignments.",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Example files</span>"
@@ -198,7 +198,7 @@
     "href": "example.html#using-the-generated-scripts",
     "title": "4  Example files",
     "section": "4.5 Using the generated scripts",
-    "text": "4.5 Using the generated scripts\nems_example() returns a character vector of paths — one per written script. Each script is ready to run; the data paths supplied to ems_example() are injected at the top of the file as plain assignments.\n\n4.5.1 Script naming convention\nScript file names encode the shock and swap configuration:\n\n\n\n\n\n\n\nFile name\nWhat it demonstrates\n\n\n\n\nnull.R\nZero-shock run — useful for verifying the model solves before applying shocks\n\n\nnumeraire.R\nUniform 1% population shock — minimal working example\n\n\nfull_uniform.R\nUniform shock across all elements of a variable\n\n\npart_uniform.R\nUniform shock on a subset of elements\n\n\npart_uniform_full_swap.R\nPartial shock plus a full-variable closure swap\n\n\npart_uniform_part_swap.R\nPartial shock plus a partial closure swap\n\n\npart_uniform_part_swap_mixed.R\nPartial shock plus mixed (full + partial) swaps\n\n\npart_uniform_subset_swap.R\nPartial shock and swaps with mixed multiple elements and subsets\n\n\ncustom_full.R\nHeterogeneous shock values supplied as a data frame\n\n\ncustom_partial.R\nHeterogeneous shock values supplied as a data frame on a subset of elements\n\n\ncustom_full_csv.R\nHeterogeneous shock values read from a CSV file\n\n\n\n\n\n4.5.2 Structure of a generated script\nEach script begins with the injected assignments followed by the template body. Opening part_uniform.R in an editor shows:\ndat_input = \"~/dat/GTAP/v10/flexAgg/gsddat.har\"\npar_input = \"~/dat/GTAP/v10/flexAgg/gsdpar.har\"\nset_input = \"~/dat/GTAP/v10/flexAgg/gsdset.har\"\nwrite_dir = \"~/my_project\"\nmodel_file = \"~/my_project/GTAP-INT.tab\"\nclosure_file = \"~/my_project/GTAP-INT.cls\"\n\ndat &lt;- ems_data(\n  dat_input  = dat_input,\n  par_input  = par_input,\n  set_input  = set_input,\n  time_steps = c(0, 1, 2),\n  REG      = \"big3\",\n  PROD_COMM = \"macro_sector\",\n  ENDW_COMM = \"labor_agg\"\n)\n\nmodel &lt;- ems_model(\n  model_file   = model_file,\n  closure_file = closure_file\n)\n\npartial &lt;- ems_uniform_shock(\n  var   = \"aoall\",\n  value = -1,\n  REGr       = \"chn\",\n  PROD_COMMj = \"crops\"\n)\n\ncmf_path &lt;- ems_deploy(\n  .data     = dat,\n  model     = model,\n  shock     = partial,\n  write_dir = write_dir\n)\n\noutputs &lt;- ems_solve(\n  cmf_path = cmf_path,\n  matrix_method = \"LU\",\n  solution_method = \"Johansen\"\n)",
+    "text": "4.5 Using the generated scripts\nems_example() returns a character vector of paths — one per written script. Each script is ready to run; the data paths supplied to ems_example() are injected at the top of the file as plain assignments.\n\n4.5.1 Script naming convention\nScript file names encode the shock and swap configuration:\n\n\n\n\n\n\n\nFile name\nWhat it demonstrates\n\n\n\n\nnull.R\nZero-shock run — useful for verifying the model solves before applying shocks\n\n\nnumeraire.R\nUniform 1% population shock — minimal working example\n\n\nfull_uniform.R\nUniform shock across all elements of a variable\n\n\npart_uniform.R\nUniform shock on a subset of elements\n\n\npart_uniform_full_swap.R\nPartial shock plus a full-variable closure swap\n\n\npart_uniform_part_swap.R\nPartial shock plus a partial closure swap\n\n\npart_uniform_part_swap_mixed.R\nPartial shock plus mixed (full + partial) swaps\n\n\npart_uniform_subset_swap.R\nPartial shock and swaps with mixed multiple elements and subsets\n\n\ncustom_full.R\nHeterogeneous shock values supplied as a data frame\n\n\ncustom_partial.R\nHeterogeneous shock values supplied as a data frame on a subset of elements\n\n\ncustom_full_csv.R\nHeterogeneous shock values read from a CSV file\n\n\n\n\n\n4.5.2 Structure of a generated script\nEach script begins with the injected assignments followed by the template body. Opening part_uniform.R in an editor shows:\ndat_input = \"~/dat/GTAP/v10/flexAgg/gsddat.har\"\npar_input = \"~/dat/GTAP/v10/flexAgg/gsdpar.har\"\nset_input = \"~/dat/GTAP/v10/flexAgg/gsdset.har\"\nmodel_file = \"~/my_project/GTAP-INT.tab\"\nclosure_file = \"~/my_project/GTAP-INT.cls\"\n\ndat &lt;- ems_data(\n  dat_input  = dat_input,\n  par_input  = par_input,\n  set_input  = set_input,\n  time_steps = c(0, 1, 2),\n  REG      = \"big3\",\n  PROD_COMM = \"macro_sector\",\n  ENDW_COMM = \"labor_agg\"\n)\n\nmodel &lt;- ems_model(\n  model_file   = model_file,\n  closure_file = closure_file\n)\n\npartial &lt;- ems_uniform_shock(\n  var   = \"aoall\",\n  value = -1,\n  REGr       = \"chn\",\n  PROD_COMMj = \"crops\"\n)\n\ncmf_path &lt;- ems_deploy(\n  .data     = dat,\n  model     = model,\n  shock     = partial\n)\n\noutputs &lt;- ems_solve(\n  cmf_path = cmf_path,\n  solution_method = \"Johansen\",\n  matrix_method = \"LU\"\n)",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Example files</span>"
@@ -209,7 +209,7 @@
     "href": "example.html#output",
     "title": "4  Example files",
     "section": "4.6 Output",
-    "text": "4.6 Output\nems_example() returns a character vector of file paths to the written files. For type = \"model_files\" this is the .tab and .cls paths. For type = \"scripts\" this is one path per written script.\nBy default, files are written to tools::R_user_dir(\"teems\") and do not persist across sessions. Specify write_dir to control the output location as well as generate persistent files.",
+    "text": "4.6 Output\nems_example() returns a character vector of file paths to the written files. For type = \"model_files\" this is the .tab and .cls paths. For type = \"scripts\" this is one path per written script.",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Example files</span>"
@@ -330,7 +330,7 @@
     "href": "data_load.html#converting-formats",
     "title": "6  Loading data",
     "section": "6.5 Converting formats",
-    "text": "6.5 Converting formats\nGTAP databases are available in the classic v6.2 and standard v7.0 formats, corresponding to the classic and standard GTAP models. To use a classic-based model with a newer v7.0 database, or a standard model with an older v6.2 database, use GTAP_convert() to convert the data first. The returned list can be passed directly to ems_data(). Note that set mappings must be specified according to the model to be used, not the original format of the input data.\nGTAP 12 v7.0 database converted to v6.2 format for use with a classic GTAP model:\nconverted &lt;- GTAP_convert(\n  dat_input = \"v7_data/gsdfdat.har\",\n  par_input = \"v7_data/gsdfpar.har\",\n  set_input = \"v7_data/gsdfset.har\",\n  origin    = \"GTAPv7\",\n  target    = \"GTAPv6\"\n)\n\nv6_data &lt;- ems_data(dat_input = converted$dat,\n                    par_input = converted$par,\n                    set_input = converted$set,\n                    REG = \"big3\",\n                    PROD_COMM = \"macro_sector\",\n                    ENDW_COMM = \"labor_agg\"\n)\nGTAP 10 v6.2 database converted to v7.0 format for use with the standard GTAP model:\nconverted &lt;- GTAP_convert(\n  dat_input = \"v6_data/gsddat.har\",\n  par_input = \"v6_data/gsdpar.har\",\n  set_input = \"v6_data/gsdset.har\",\n  origin    = \"GTAPv6\",\n  target    = \"GTAPv7\"\n)\n\nv7_data &lt;- ems_data(dat_input = converted$dat,\n                    par_input = converted$par,\n                    set_input = converted$set,\n                    REG = \"AR5\",\n                    ACTS = \"macro_sector\",\n                    ENDW = \"labor_agg\"\n)",
+    "text": "6.5 Converting formats\nGTAP_convert() reads GTAP HAR files into R and optionally converts between the classic v6.2 and standard v7.0 formats. The returned list can be passed directly to ems_data() or ems_example(). Note that set mappings must be specified according to the model to be used, not the original format of the input data.\n\n6.5.1 Loading HAR files as arrays\nWhen target is omitted, GTAP_convert() simply parses the HAR files into lists of arrays without any format conversion:\ndat &lt;- GTAP_convert(\n  dat_har = \"v7_data/gsdfdat.har\",\n  par_har = \"v7_data/gsdfpar.har\",\n  set_har = \"v7_data/gsdfset.har\"\n)\n\nv7_data &lt;- ems_data(dat_input = dat$dat,\n                    par_input = dat$par,\n                    set_input = dat$set,\n                    REG = \"big3\",\n                    ACTS = \"macro_sector\",\n                    ENDW = \"labor_diff\"\n)\n\n\n6.5.2 Converting between formats\nTo use a classic-based model with a newer v7.0 database, or a standard model with an older v6.2 database, specify target:\nGTAP 12 v7.0 database converted to v6.2 format for use with a classic GTAP model:\nconverted &lt;- GTAP_convert(\n  dat_har = \"v7_data/gsdfdat.har\",\n  par_har = \"v7_data/gsdfpar.har\",\n  set_har = \"v7_data/gsdfset.har\",\n  target  = \"GTAPv6\"\n)\n\nv6_data &lt;- ems_data(dat_input = converted$dat,\n                    par_input = converted$par,\n                    set_input = converted$set,\n                    REG = \"big3\",\n                    PROD_COMM = \"macro_sector\",\n                    ENDW_COMM = \"labor_agg\"\n)\nGTAP 10 v6.2 database converted to v7.0 format for use with the standard GTAP model:\nconverted &lt;- GTAP_convert(\n  dat_har = \"v6_data/gsddat.har\",\n  par_har = \"v6_data/gsdpar.har\",\n  set_har = \"v6_data/gsdset.har\",\n  target  = \"GTAPv7\"\n)\n\nv7_data &lt;- ems_data(dat_input = converted$dat,\n                    par_input = converted$par,\n                    set_input = converted$set,\n                    REG = \"AR5\",\n                    ACTS = \"macro_sector\",\n                    ENDW = \"labor_agg\"\n)",
     "crumbs": [
       "Data and model inputs",
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Loading data</span>"
@@ -649,7 +649,7 @@
     "href": "deploy.html",
     "title": "12  Deploying the model",
     "section": "",
-    "text": "12.1 Overview\nems_deploy() consolidates all user inputs and carries out all operations necessary to run a CGE model. It accumulates and validates data and model inputs, processes shocks and closure swaps, and writes all required input files to disk. The output file path serves as a required input to ems_solve().",
+    "text": "12.1 Overview\nems_deploy() validates all data and model inputs, processes shocks and closure swaps, and writes all required input files to disk. The output file path serves as a required input to ems_solve().",
     "crumbs": [
       "Deploying and solving the model",
       "<span class='chapter-number'>12</span>  <span class='chapter-title'>Deploying the model</span>"
@@ -660,7 +660,7 @@
     "href": "deploy.html#arguments",
     "title": "12  Deploying the model",
     "section": "12.2 Arguments",
-    "text": "12.2 Arguments\n\n\n\nArgument\nDefault\nDescription\n\n\n\n\n.data\n\nA list of data.tables generated by ems_data()\n\n\nmodel\n\nA tibble generated by ems_model()\n\n\nshock\nNULL\nA shock object or list of shock objects produced by ems_uniform_shock(), ems_custom_shock(), or ems_scenario_shock(). When NULL, a null shock is carried out which effectively returns base data\n\n\nswap_in\nNULL\nCharacter vector, ems_swap() object, or a list of any combination. Variables to be made exogenous\n\n\nswap_out\nNULL\nCharacter vector, ems_swap() object, or a list of any combination. Variables to be made endogenous\n\n\nwrite_dir\ntools::R_user_dir(\"teems\")\nBase directory where the “teems” subdirectory will be created for input files and model solution\n\n\nshock_file\nNULL\nPath to a .shf shock file. No checks or modifications will be conducted on this file",
+    "text": "12.2 Arguments\n\n\n\nArgument\nDefault\nDescription\n\n\n\n\n.data\n\nA list of data.tables generated by ems_data()\n\n\nmodel\n\nA tibble generated by ems_model()\n\n\nshock\nNULL\nA shock object or list of shock objects produced by ems_uniform_shock(), ems_custom_shock(), or ems_scenario_shock(). When NULL, no shock is applied and input data is returned without change\n\n\nswap_in\nNULL\nA character vector, list generated by ems_swap(), or combination provided as a list. Variables to be made exogenous\n\n\nswap_out\nNULL\nA character vector, list generated by ems_swap(), or combination provided as a list. Variables to be made endogenous\n\n\nshock_file\nNULL\nPath to a file with .shf extension representing a fully prepared shock file. No checks or modifications are carried out on this file",
     "crumbs": [
       "Deploying and solving the model",
       "<span class='chapter-number'>12</span>  <span class='chapter-title'>Deploying the model</span>"
@@ -671,7 +671,7 @@
     "href": "deploy.html#basic-usage",
     "title": "12  Deploying the model",
     "section": "12.3 Basic usage",
-    "text": "12.3 Basic usage\nThe simplest deployment requires only data and model inputs. With no shock supplied, a null shock is carried out:\ncmf_path &lt;- ems_deploy(\n  .data = dat,\n  model = model\n)",
+    "text": "12.3 Basic usage\nThe simplest deployment requires only data and model inputs. With no shock supplied, input data is returned without change:\ncmf_path &lt;- ems_deploy(\n  .data = dat,\n  model = model\n)",
     "crumbs": [
       "Deploying and solving the model",
       "<span class='chapter-number'>12</span>  <span class='chapter-title'>Deploying the model</span>"
@@ -711,17 +711,6 @@
     ]
   },
   {
-    "objectID": "deploy.html#persistent-files",
-    "href": "deploy.html#persistent-files",
-    "title": "12  Deploying the model",
-    "section": "12.7 Persistent files",
-    "text": "12.7 Persistent files\nGood practice in R dictates that a user’s machine state is not modified. In order to comply with this guidance, teems will only write to temporary folders associated with the teems package (output of tools::R_user_dir(\"teems\")) and these files will be removed upon loading an new R session. If persistent data is desired, users must provide a path to a local directory via write_dir:\ncmf_path &lt;- ems_deploy(\n  .data = dat,\n  model = model,\n  shock = shock,\n  write_dir = \"~/my_project/output\"\n)",
-    "crumbs": [
-      "Deploying and solving the model",
-      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Deploying the model</span>"
-    ]
-  },
-  {
     "objectID": "solve.html",
     "href": "solve.html",
     "title": "13  Solving the model",
@@ -737,7 +726,7 @@
     "href": "solve.html#arguments",
     "title": "13  Solving the model",
     "section": "13.2 Arguments",
-    "text": "13.2 Arguments\n\n\n\nArgument\nDefault\nDescription\n\n\n\n\ncmf_path\n\nPath to the CMF file generated by ems_deploy()\n\n\nn_tasks\n1L\nNumber of tasks to run in parallel. Must be 1L if matrix_method is \"LU\"\n\n\nn_subintervals\n1L\nNumber of subintervals for the applied shock. More subintervals may alleviate accuracy issues stemming from large shock magnitudes\n\n\nmatrix_method\n\"LU\"\nMatrix solution method (see below)\n\n\nsolution_method\n\"Johansen\"\nSolution method (see below)\n\n\nsteps\nc(2L, 4L, 8L)\nVector of steps for the modified midpoint method. Must be all odd or all even, length 3\n\n\nlaA\n300L\nMemory parameter (%) for \"LU\" and \"SBBD\" methods\n\n\nlaD\n200L\nMemory parameter (%) for \"DBBD\" and \"NDBBD\" methods\n\n\nlaDi\n500L\nMemory parameter (%) for \"NDBBD\" method\n\n\nsuppress_outputs\nFALSE\nWhen TRUE, solver outputs are not automatically parsed with ems_compose()\n\n\nterminal_run\nFALSE\nWhen TRUE, exits without running the solver, allowing the user to close R and run from the terminal\n\n\nappend_args\nNULL\nCharacter vector of additional arguments appended to the Docker run command (e.g., c(\"-smllthreads 2\", \"-maxthreads 2\"))",
+    "text": "13.2 Arguments\n\n\n\nArgument\nDefault\nDescription\n\n\n\n\ncmf_path\n\nPath to the CMF file generated by ems_deploy()\n\n\nsolution_method\n\"Johansen\"\nSolution method (see below)\n\n\nmatrix_method\n\"LU\"\nMatrix solution method (see below)\n\n\nn_subintervals\n1L\nNumber of subintervals for the applied shock. More subintervals may alleviate accuracy issues stemming from large shock magnitudes\n\n\nsteps\nc(2L, 4L, 8L)\nVector of steps for the modified midpoint method. Must be all odd or all even, length 3\n\n\nn_tasks\n1L\nNumber of tasks to run in parallel. Must be 1L if matrix_method is \"LU\"\n\n\nlaA\n300L\nMemory parameter (%) for \"LU\" and \"SBBD\" methods\n\n\nlaD\n200L\nMemory parameter (%) for \"DBBD\" and \"NDBBD\" methods\n\n\nlaDi\n500L\nMemory parameter (%) for \"NDBBD\" method\n\n\nsuppress_outputs\nFALSE\nWhen TRUE, solver outputs are not automatically parsed with ems_compose()\n\n\nterminal_run\nFALSE\nWhen TRUE, exits without running the solver, allowing the user to close R and run from the terminal\n\n\nappend_args\nNULL\nCharacter vector of additional arguments appended to the Docker run command (e.g., c(\"-smllthreads 2\", \"-maxthreads 2\"))",
     "crumbs": [
       "Deploying and solving the model",
       "<span class='chapter-number'>13</span>  <span class='chapter-title'>Solving the model</span>"
@@ -748,18 +737,7 @@
     "href": "solve.html#basic-usage",
     "title": "13  Solving the model",
     "section": "13.3 Basic usage",
-    "text": "13.3 Basic usage\noutputs &lt;- ems_solve(\n  cmf_path = cmf_path,\n  matrix_method = \"LU\",\n  solution_method = \"Johansen\"\n)",
-    "crumbs": [
-      "Deploying and solving the model",
-      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Solving the model</span>"
-    ]
-  },
-  {
-    "objectID": "solve.html#matrix-methods",
-    "href": "solve.html#matrix-methods",
-    "title": "13  Solving the model",
-    "section": "13.4 Matrix methods",
-    "text": "13.4 Matrix methods\n\n\n\n\n\n\n\nMethod\nDescription\n\n\n\n\n\"LU\"\nStandard LU decomposition. The most robust and potentially slowest for large models. n_tasks must be 1L. Works with both static and dynamic models\n\n\n\"DBBD\"\nDoubly bordered block diagonal. Parallel solution method for static models only. Potentially faster than \"LU\" although less robust\n\n\n\"SBBD\"\nSingly bordered block diagonal. Parallel solution method for intertemporal models only. Potentially faster than \"LU\" although less robust\n\n\n\"NDBBD\"\nNested doubly bordered block diagonal. Parallel solution method for large intertemporal models with many timesteps only",
+    "text": "13.3 Basic usage\noutputs &lt;- ems_solve(\n  cmf_path = cmf_path,\n  solution_method = \"Johansen\",\n  matrix_method = \"LU\"\n)",
     "crumbs": [
       "Deploying and solving the model",
       "<span class='chapter-number'>13</span>  <span class='chapter-title'>Solving the model</span>"
@@ -769,30 +747,19 @@
     "objectID": "solve.html#solution-methods",
     "href": "solve.html#solution-methods",
     "title": "13  Solving the model",
-    "section": "13.5 Solution methods",
-    "text": "13.5 Solution methods\n\n\n\nMethod\nDescription\n\n\n\n\n\"Johansen\"\nFast one-step approximation. Should only be used as a rough approximation due to handling of nonlinear equations. See COPS manual\n\n\n\"mod_midpoint\"\nModified midpoint method that performs multiple passes for improved accuracy. The steps parameter controls the number of passes. See COPS manual",
+    "section": "13.4 Solution methods",
+    "text": "13.4 Solution methods\n\n\n\nMethod\nDescription\n\n\n\n\n\"Johansen\"\nFast one-step approximation. Should only be used as a rough approximation due to handling of nonlinear equations. See COPS manual\n\n\n\"mod_midpoint\"\nModified midpoint method that performs multiple passes for improved accuracy. The steps parameter controls the number of passes. See COPS manual",
     "crumbs": [
       "Deploying and solving the model",
       "<span class='chapter-number'>13</span>  <span class='chapter-title'>Solving the model</span>"
     ]
   },
   {
-    "objectID": "solve.html#memory-parameters",
-    "href": "solve.html#memory-parameters",
+    "objectID": "solve.html#matrix-methods",
+    "href": "solve.html#matrix-methods",
     "title": "13  Solving the model",
-    "section": "13.6 Memory parameters",
-    "text": "13.6 Memory parameters\nIf the solver returns “Error return from MA48B/BD because LA is …”, increase the relevant memory parameter gradually:\n\nlaA applies to \"LU\" and \"SBBD\" methods\nlaD applies to \"DBBD\" and \"NDBBD\" methods\nlaDi applies to the \"NDBBD\" method only\n\noutputs &lt;- ems_solve(\n  cmf_path = cmf_path,\n  matrix_method = \"LU\",\n  solution_method = \"Johansen\",\n  laA = 500L\n)",
-    "crumbs": [
-      "Deploying and solving the model",
-      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Solving the model</span>"
-    ]
-  },
-  {
-    "objectID": "solve.html#parallel-solving",
-    "href": "solve.html#parallel-solving",
-    "title": "13  Solving the model",
-    "section": "13.7 Parallel solving",
-    "text": "13.7 Parallel solving\nFor models that support parallel matrix methods, increase n_tasks:\noutputs &lt;- ems_solve(\n  cmf_path = cmf_path,\n  n_tasks = 4,\n  matrix_method = \"SBBD\",\n  solution_method = \"Johansen\"\n)",
+    "section": "13.5 Matrix methods",
+    "text": "13.5 Matrix methods\nIncrease n_tasks to take advantage of parallel matrix solution methods.\n\n\n\n\n\n\n\nMethod\nDescription\n\n\n\n\n\"LU\"\nStandard LU decomposition. The most robust and potentially slowest for large models. n_tasks must be 1L. Works with both static and dynamic models\n\n\n\"DBBD\"\nDoubly bordered block diagonal. Parallel matrix solution method for static models only. Potentially faster than \"LU\" although less robust\n\n\n\"SBBD\"\nSingly bordered block diagonal. Parallel matrix solution method for intertemporal models only. Potentially faster than \"LU\" although less robust\n\n\n\"NDBBD\"\nNested doubly bordered block diagonal. Parallel matrix solution method for large intertemporal models with many timesteps only",
     "crumbs": [
       "Deploying and solving the model",
       "<span class='chapter-number'>13</span>  <span class='chapter-title'>Solving the model</span>"
@@ -802,8 +769,30 @@
     "objectID": "solve.html#multi-step-solution",
     "href": "solve.html#multi-step-solution",
     "title": "13  Solving the model",
-    "section": "13.8 Multi-step solution",
-    "text": "13.8 Multi-step solution\nFor greater accuracy, use the modified midpoint method with subintervals:\noutputs &lt;- ems_solve(\n  cmf_path = cmf_path,\n  n_subintervals = 2,\n  matrix_method = \"LU\",\n  solution_method = \"mod_midpoint\",\n  steps = c(2, 4, 8)\n)",
+    "section": "13.6 Multi-step solution",
+    "text": "13.6 Multi-step solution\nFor greater accuracy, use the modified midpoint method with subintervals:\noutputs &lt;- ems_solve(\n  cmf_path = cmf_path,\n  solution_method = \"mod_midpoint\",\n  matrix_method = \"LU\",\n  n_subintervals = 2,\n  steps = c(2, 4, 8)\n)",
+    "crumbs": [
+      "Deploying and solving the model",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Solving the model</span>"
+    ]
+  },
+  {
+    "objectID": "solve.html#memory-parameters",
+    "href": "solve.html#memory-parameters",
+    "title": "13  Solving the model",
+    "section": "13.7 Memory parameters",
+    "text": "13.7 Memory parameters\nIf the solver returns “Error return from MA48B/BD because LA is …”, increase the relevant memory parameter gradually:\n\nlaA applies to \"LU\" and \"SBBD\" methods\nlaD applies to \"DBBD\" and \"NDBBD\" methods\nlaDi applies to the \"NDBBD\" method only\n\noutputs &lt;- ems_solve(\n  cmf_path = cmf_path,\n  solution_method = \"Johansen\",\n  matrix_method = \"LU\",\n  laA = 500L\n)",
+    "crumbs": [
+      "Deploying and solving the model",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Solving the model</span>"
+    ]
+  },
+  {
+    "objectID": "solve.html#parallel-solving",
+    "href": "solve.html#parallel-solving",
+    "title": "13  Solving the model",
+    "section": "13.8 Parallel solving",
+    "text": "13.8 Parallel solving\nFor models that support parallel matrix methods, increase n_tasks:\noutputs &lt;- ems_solve(\n  cmf_path = cmf_path,\n  solution_method = \"Johansen\",\n  matrix_method = \"SBBD\",\n  n_tasks = 4\n)",
     "crumbs": [
       "Deploying and solving the model",
       "<span class='chapter-number'>13</span>  <span class='chapter-title'>Solving the model</span>"
@@ -814,7 +803,7 @@
     "href": "solve.html#terminal-mode",
     "title": "13  Solving the model",
     "section": "13.9 Terminal mode",
-    "text": "13.9 Terminal mode\nFor long-running models, terminal_run allows the user to close any R IDE prior to running from the terminal:\nems_solve(\n  cmf_path = cmf_path,\n  matrix_method = \"LU\",\n  solution_method = \"Johansen\",\n  terminal_run = TRUE\n)",
+    "text": "13.9 Terminal mode\nFor long-running models, terminal_run allows the user to close any R IDE prior to running from the terminal:\nems_solve(\n  cmf_path = cmf_path,\n  solution_method = \"Johansen\",\n  matrix_method = \"LU\",\n  terminal_run = TRUE\n)",
     "crumbs": [
       "Deploying and solving the model",
       "<span class='chapter-number'>13</span>  <span class='chapter-title'>Solving the model</span>"
@@ -825,7 +814,7 @@
     "href": "solve.html#solving-in-situ",
     "title": "13  Solving the model",
     "section": "13.10 Solving in-situ",
-    "text": "13.10 Solving in-situ\nsolve_in_situ() calls the teems-solver directly with user-supplied input files, bypassing the ems_data() / ems_model() / ems_deploy() pipeline. The model file will be parsed but all input files must be provided in their final form — no checks or modifications are applied.\nThis function is intended for users who wish to use the teems solver with pre-prepared input files, or in combination with the standard pipeline by reusing the files written to disk by ems_deploy(). All input files are copied into model_dir before solving.\n\n13.10.1 Arguments\n\n\n\n\n\n\n\n\nArgument\nDefault\nDescription\n\n\n\n\n...\n\nNamed arguments corresponding to input files necessary for an in-situ model run. Names must correspond to “File” statements within the model Tablo file. Values correspond to file paths where these files are found\n\n\nmodel_file\n\nPath to the model Tablo (.tab) file\n\n\nmodel_dir\n\nBase directory where input files will be copied and the model will be run\n\n\nclosure_file\n\nPath to the closure (.cls) file\n\n\nshock_file\n\nPath to the shock (.shf) file\n\n\nn_tasks\n1L\nNumber of tasks to run in parallel. Must be 1L if matrix_method is \"LU\"\n\n\nn_subintervals\n1L\nNumber of subintervals for the applied shock\n\n\nmatrix_method\n\"LU\"\nMatrix solution method: \"LU\", \"DBBD\", \"SBBD\", or \"NDBBD\"\n\n\nsolution_method\n\"Johansen\"\nSolution method: \"Johansen\" or \"mod_midpoint\"\n\n\nsteps\nc(2L, 4L, 8L)\nVector of steps for the modified midpoint method\n\n\nlaA\n300L\nMemory parameter (%) for \"LU\" and \"SBBD\" methods\n\n\nlaD\n200L\nMemory parameter (%) for \"DBBD\" and \"NDBBD\" methods\n\n\nlaDi\n500L\nMemory parameter (%) for \"NDBBD\" method\n\n\nsuppress_outputs\nFALSE\nWhen TRUE, returns the CMF file path instead of parsed outputs\n\n\nterminal_run\nFALSE\nWhen TRUE, exits without running the solver\n\n\nappend_args\nNULL\nCharacter vector of additional arguments appended to the Docker run command (e.g., c(\"-smllthreads 2\", \"-maxthreads 2\"))\n\n\n\n\n\n13.10.2 Input files\nAll model-declared input files as well as model_file, closure_file, and shock_file are required. Input files are passed as named arguments via ..., where each name must correspond to a “File” statement in the model Tablo file. For GTAP-RE, the Tablo file declares:\nFile GTAPDATA # base data file;\nFile GTAPINT  # intertemporal data file;\nFile GTAPPARM # parameter file;\nFile GTAPSETS # set file;\nThese names are then used as the named arguments to solve_in_situ().\nsolve_in_situ(\n  GTAPDATA = file.path(write_dir, \"teems\", \"GTAPDATA.txt\"),\n  GTAPINT  = file.path(write_dir, \"teems\", \"GTAPINT.txt\"),\n  GTAPPARM = file.path(write_dir, \"teems\", \"GTAPPARM.txt\"),\n  GTAPSETS = file.path(write_dir, \"teems\", \"GTAPSETS.txt\"),\n  model_file   = \"GTAP-RE.tab\",\n  model_dir    = \"~/in_situ_run/\",\n  closure_file = \"GTAP-RE.cls\",\n  shock_file   = \"a_shock_file.shf\",\n  n_tasks         = 1L,\n  n_subintervals  = 1L,\n  matrix_method   = \"SBBD\",\n  solution_method = \"mod_midpoint\"\n)\n\n\n13.10.3 Output modes\nBy default, solve_in_situ() returns a tibble containing model output variables and coefficients. If suppress_outputs = TRUE, the function returns the CMF file path instead, which can be passed to ems_compose() for manual parsing.",
+    "text": "13.10 Solving in-situ\nsolve_in_situ() calls the teems-solver directly with user-supplied input files, bypassing the ems_data() / ems_model() / ems_deploy() pipeline. The model file will be parsed but all input files must be provided in their final form — no checks or modifications are applied.\nThis function is intended for users who wish to use the teems solver with pre-prepared input files, or in combination with the standard pipeline by reusing the files written to disk by ems_deploy(). If all input files already reside in model_dir, no copying is performed; otherwise files are copied into model_dir before solving.\n\n13.10.1 Arguments\n\n\n\n\n\n\n\n\nArgument\nDefault\nDescription\n\n\n\n\n...\n\nNamed arguments corresponding to input files necessary for an in-situ model run. Names must correspond to “File” statements within the model Tablo file. Values correspond to file paths where these files are found\n\n\nmodel_dir\n\nBase directory where input files will be copied if not already present, and model outputs will be written\n\n\nmodel_file\n\nPath to the model Tablo (.tab) file\n\n\nclosure_file\n\nPath to the closure (.cls) file\n\n\nshock_file\n\nPath to the shock (.shf) file\n\n\nsolution_method\n\"Johansen\"\nSolution method: \"Johansen\" or \"mod_midpoint\"\n\n\nmatrix_method\n\"LU\"\nMatrix solution method: \"LU\", \"DBBD\", \"SBBD\", or \"NDBBD\"\n\n\nn_subintervals\n1L\nNumber of subintervals for the applied shock\n\n\nsteps\nc(2L, 4L, 8L)\nVector of steps for the modified midpoint method\n\n\nn_tasks\n1L\nNumber of tasks to run in parallel. Must be 1L if matrix_method is \"LU\"\n\n\nlaA\n300L\nMemory parameter (%) for \"LU\" and \"SBBD\" methods\n\n\nlaD\n200L\nMemory parameter (%) for \"DBBD\" and \"NDBBD\" methods\n\n\nlaDi\n500L\nMemory parameter (%) for \"NDBBD\" method\n\n\nsuppress_outputs\nFALSE\nWhen TRUE, returns the CMF file path instead of parsed outputs\n\n\nterminal_run\nFALSE\nWhen TRUE, exits without running the solver\n\n\nappend_args\nNULL\nCharacter vector of additional arguments appended to the Docker run command (e.g., c(\"-smllthreads 2\", \"-maxthreads 2\"))\n\n\n\n\n\n13.10.2 Input files\nAll model-declared input files as well as model_file, closure_file, and shock_file are required. Input files are passed as named arguments via ..., where each name must correspond to a “File” statement in the model Tablo file. For GTAP-RE, the Tablo file declares:\nFile GTAPDATA # base data file;\nFile GTAPINT  # intertemporal data file;\nFile GTAPPARM # parameter file;\nFile GTAPSETS # set file;\nThese names are then used as the named arguments to solve_in_situ().\nsolve_in_situ(\n  GTAPDATA = file.path(write_dir, \"teems\", \"GTAPDATA.txt\"),\n  GTAPINT  = file.path(write_dir, \"teems\", \"GTAPINT.txt\"),\n  GTAPPARM = file.path(write_dir, \"teems\", \"GTAPPARM.txt\"),\n  GTAPSETS = file.path(write_dir, \"teems\", \"GTAPSETS.txt\"),\n  model_dir    = \"~/in_situ_run/\",\n  model_file   = \"GTAP-RE.tab\",\n  closure_file = \"GTAP-RE.cls\",\n  shock_file      = \"a_shock_file.shf\",\n  solution_method = \"mod_midpoint\",\n  matrix_method   = \"SBBD\",\n  n_subintervals  = 1L,\n  n_tasks         = 1L\n)\n\n\n13.10.3 Output modes\nBy default, solve_in_situ() returns a tibble containing model output variables and coefficients. If suppress_outputs = TRUE, the function returns the CMF file path instead, which can be passed to ems_compose() for manual parsing.",
     "crumbs": [
       "Deploying and solving the model",
       "<span class='chapter-number'>13</span>  <span class='chapter-title'>Solving the model</span>"
@@ -858,7 +847,7 @@
     "href": "compose.html#basic-usage",
     "title": "14  Composing results",
     "section": "14.3 Basic usage",
-    "text": "14.3 Basic usage\nAfter a standard model run with suppressed outputs:\nems_solve(\n  cmf_path = cmf_path,\n  matrix_method = \"LU\",\n  solution_method = \"Johansen\",\n  suppress_outputs = TRUE\n)\n\n# Parse all results\noutputs &lt;- ems_compose(cmf_path = cmf_path)",
+    "text": "14.3 Basic usage\nAfter a standard model run with suppressed outputs:\nems_solve(\n  cmf_path = cmf_path,\n  solution_method = \"Johansen\",\n  matrix_method = \"LU\",\n  suppress_outputs = TRUE\n)\n\n# Parse all results\noutputs &lt;- ems_compose(cmf_path = cmf_path)",
     "crumbs": [
       "Deploying and solving the model",
       "<span class='chapter-number'>14</span>  <span class='chapter-title'>Composing results</span>"
@@ -946,7 +935,7 @@
     "href": "options.html#available-options",
     "title": "15  Package options",
     "section": "15.5 Available options",
-    "text": "15.5 Available options\n\n\n\nOption\nDefault\nDescription\n\n\n\n\nverbose\nTRUE\nIf FALSE, function-specific diagnostics are silenced\n\n\nwrite_sub_dir\n\"teems\"\nName of the subdirectory within the base write_dir set by ems_deploy()\n\n\nndigits\n6\nExact number of digits to the right of the decimal point written to file for numeric type double. Passed to format() nsmall and round() digits\n\n\ndocker_tag\n\"latest\"\nDocker tag specifying which Docker image to use\n\n\naccuracy_threshold\n0.8\nThreshold (converted to a percentage) against which 4-digit precision is compared. A warning is generated if the threshold is not met\n\n\ncheck_shock_status\nTRUE\nIf FALSE, no check on shock element endogenous/exogenous status is conducted\n\n\ntimestep_header\n\"YEAR\"\nCoefficient containing a numeric vector of timestep intervals. For novel intertemporal models — modify with caution\n\n\nn_timestep_header\n\"NTSP\"\nCoefficient containing a numeric vector length one with sum of timestep intervals. For novel intertemporal models — modify with caution\n\n\nfull_exclude\nc(\"DREL\", \"DVER\", \"XXCR\", \"XXCD\", \"XXCP\", \"SLUG\", \"EFLG\")\nHeaders to fully exclude from all aspects of the model run. Failure to designate these headers properly will result in errors. Modify with caution",
+    "text": "15.5 Available options\n\n\n\n\n\n\n\n\nOption\nDefault\nDescription\n\n\n\n\nverbose\nTRUE\nIf FALSE, function-specific diagnostics are silenced\n\n\ntempdir\ntempdir()\nDirectory used for temporary file storage during a model run\n\n\nndigits\n6\nExact number of digits to the right of the decimal point written to file for numeric type double. Passed to format() nsmall and round() digits\n\n\naccuracy_threshold\n0.8\nThreshold (converted to a percentage) against which 4-digit precision is compared. A warning is generated if the threshold is not met\n\n\ncheck_shock_status\nTRUE\nIf FALSE, no check on shock element endogenous/exogenous status is conducted\n\n\ntimestep_header\n\"YEAR\"\nCoefficient containing a numeric vector of timestep intervals. For novel intertemporal models — modify with caution\n\n\nn_timestep_header\n\"NTSP\"\nCoefficient containing a numeric vector length one with sum of timestep intervals. For novel intertemporal models — modify with caution\n\n\nfull_exclude\nc(\"DREL\", \"DVER\", \"XXCR\", \"XXCD\", \"XXCP\", \"SLUG\", \"EFLG\")\nHeaders to fully exclude from all aspects of the model run. Failure to designate these headers properly will result in errors. Modify with caution\n\n\ndocker_tag\n\"latest\"\nDocker tag specifying which Docker image to use",
     "crumbs": [
       "Configuration",
       "<span class='chapter-number'>15</span>  <span class='chapter-title'>Package options</span>"
