@@ -90,17 +90,12 @@ As in GEMPACK, `+` requires disjoint operands and `-` may only remove elements t
 Subset relations are implied where the manual defines them (all-`UNION`/`+` expressions, all-`INTERSECT` expressions, and trailing top-level `UNION`/`INTERSECT` terms); declare a `Subset` statement explicitly in other cases.
 Set names must not contain the substrings `union` or `intersect`.
 
-**Identical set assignment** without a `Read` statement is not supported.
-Instead of
+**Set equality** follows the GEMPACK specification (manual 10.1.2.1): a new set may be declared equal to a previously defined set, which also implies the two `Subset` statements in both directions.
 ```
 Set A # example set A # maximum size 5 read elements from file GTAPSETS header "H2";
-Set B # example set # = Set A;
+Set B # example set B # = A;
 ```
-Use
-```
-Set A # example set A # maximum size 5 read elements from file GTAPSETS header "H2";
-Set B # example set B # maximum size 5 read elements from file GTAPSETS header "H2";
-```
+The intertemporal conversion forms `Set (Intertemporal) B = A;` and `Set (Non_Intertemporal) B = A;` (manual 13.3.1) are not supported: neither set in an equality statement may be intertemporal.
 
 **Binary set switches** using a colon within a Set definition are not supported.
 The SLUG coefficient is not used to identify sluggish endowments.
