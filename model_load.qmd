@@ -80,16 +80,15 @@ Statements not in this list are either unsupported (e.g., `Omit`, raising an err
 
 ### Set and subset declarations
 
-**Multiple `+` or `-` operators** within a single declaration are not supported.
-Instead of
+**Set expressions** follow the GEMPACK specification (manual 10.1.1.1): the operators `UNION`, `INTERSECT`, `+`, `-` and `\` may be combined over declared sets and quoted single elements, with parentheses for grouping, evaluated left to right.
 ```
 Set A123 = A1 + A2 + A3;
+Set B = (C - D) INTERSECT E;
+Set COSTS = "IntDom" + "IntImp" + ENDW + "PTAX";
 ```
-Use
-```
-Set A12 = A1 + A1;
-Set A123 = A12 + A3;
-```
+As in GEMPACK, `+` requires disjoint operands and `-` may only remove elements that are present; both are validated at deployment.
+Subset relations are implied where the manual defines them (all-`UNION`/`+` expressions, all-`INTERSECT` expressions, and trailing top-level `UNION`/`INTERSECT` terms); declare a `Subset` statement explicitly in other cases.
+Set names must not contain the substrings `union` or `intersect`.
 
 **Identical set assignment** without a `Read` statement is not supported.
 Instead of
