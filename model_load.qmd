@@ -114,19 +114,16 @@ Set ENDWM # mobile endowment # (capital, unsklab, sklab);
 
 ### Formulas and Equations
 
-No IF statements in Formula or Equation RHS (use sets).
-Instead of
+**IF conditionals** (GEMPACK manual 11.4.5--11.4.7) are supported in Formula and Equation statements when each `IF[condition, expression]` enters additively at the top level of an expression, as in
 ```
 Formula (all,c,COMM)(all,r,REG)
     VCB(c,r) = VDB(c,r) + sum{d,REG, VXSB(c,r,d)} + IF[c in MARG, VST(c,r)];
+Equation E_qca # supply of commodities by act. a # (all,c,COMM)(all,a,ACTS)(all,r,REG)
+    qca(c,a,r) = IF[MAKES(c,a,r) gt 0, qo(a,r) - ETRAQ(a,r) * [ps(c,a,r) - po(a,r)]];
 ```
-Use
-```
-Formula (all,c,MARG)(all,r,REG)
-    VCB(c,r) = VDB(c,r) + sum{d,REG, VXSB(c,r,d)} + VST(c,r);
-Formula (all,c,NMRG)(all,r,REG)
-    VCB(c,r) = VDB(c,r) + sum{d,REG, VXSB(c,r,d)};
-```
+Three condition forms are supported: set membership (`c in MARG`), index--element equality (`d = "domestic"`), and a comparison of a coefficient reference against a constant (`MAKES(c,a,r) gt 0`, with `eq`/`ne`/`gt`/`lt`/`ge`/`le` or the equivalent symbols).
+At model load these statements are rewritten into equivalent unconditional statements (narrowed-domain formulas, split equations, or synthesized 0/1 indicator coefficients named `IFC*`, with helper sets named `IFS*`); the indicator coefficients appear in solve outputs like any other coefficient.
+Not supported: compound conditions (`AND`/`OR`/`NOT`), `IF` nested inside sums or products, comparisons between two coefficient references, and more than one membership or element condition per Equation.
 
 ## Variable omissions {#var_omit}
 
