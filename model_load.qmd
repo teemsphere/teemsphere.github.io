@@ -268,6 +268,25 @@ Default values for these settings (and others) may be obtained using:
 ems_option_get()
 ```
 
+### Inter-period links and the netcut {#netcut}
+
+The parallel matrix methods (`"SBBD"`, `"DBBD"`, `"NDBBD"`; see [Solving the model](solve.qmd)) order the linearized system into independent diagonal blocks plus a dense border containing the variables that couple time periods.
+Every element of a variable referenced with a lead or lag (e.g. `kb(r,t+1)`) is placed in this border, so a lead or lag on a variable declared over large non-time sets inflates the border (the *netcut*) by the product of those set sizes and can eliminate the advantage of the parallel methods.
+
+`ems_model()` warns when a variable declared over two or more non-time sets is referenced with a lead or lag.
+The remedy is to link periods through a minimal intertemporal proxy declared over only the elements that genuinely cross periods:
+
+``` default
+Variable (all,r,REG)(all,t,ALLTIME)
+    kb(r,t) # beginning-of-period capital stock #;
+Equation E_kb
+(all,r,REG)(all,t,ALLTIME)
+    kb(r,t) = qo("capital",r,t);
+```
+
+with the lead placed on the proxy (`kb(r,t+1)`) rather than on `qo(COMM,REG,ALLTIME)`.
+The shipped intertemporal models already follow this discipline.
+
 <!-- ## Future expansions
 
 - Write bidirectional Tablo $\leftrightarrow$ \LaTeX conversion script to allow for \LaTeX model files
