@@ -273,7 +273,10 @@ ems_option_get()
 The parallel matrix methods (`"SBBD"`, `"DBBD"`, `"NDBBD"`; see [Solving the model](solve.qmd)) order the linearized system into independent diagonal blocks plus a dense border containing the variables that couple time periods.
 Every element of a variable referenced with a lead or lag (e.g. `kb(r,t+1)`) is placed in this border, so a lead or lag on a variable declared over large non-time sets inflates the border (the *netcut*) by the product of those set sizes and can eliminate the advantage of the parallel methods.
 
-`ems_model()` warns when a variable declared over two or more non-time sets is referenced with a lead or lag.
+When a lead or lag reference fixes one or more dimensions to quoted elements (e.g. `qo("capital",r,t+1)`), `ems_model()` repairs the model automatically: it synthesizes a minimal proxy variable (`NCV1`, `NCV2`, ...) over the remaining dimensions, ties it to the element slice with a linking equation (`E_NCV1`, ...), and moves the lead or lag onto the proxy.
+A message lists each synthesized proxy; the proxies and their linking equations appear in solve outputs like any other variable.
+
+For references that run over full sets, no mechanical reduction is possible, so `ems_model()` instead warns when a variable declared over two or more non-time sets is referenced with a lead or lag.
 The remedy is to link periods through a minimal intertemporal proxy declared over only the elements that genuinely cross periods:
 
 ``` default
