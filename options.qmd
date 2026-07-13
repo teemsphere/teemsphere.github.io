@@ -52,4 +52,4 @@ ems_option_reset()
 | `timestep_header` | `"YEAR"` | Coefficient containing a numeric vector of timestep intervals. For novel intertemporal models — modify with caution |
 | `n_timestep_header` | `"NTSP"` | Coefficient containing a numeric vector length one with sum of timestep intervals. For novel intertemporal models — modify with caution |
 | `full_exclude` | `c("DREL", "DVER", "XXCR", "XXCD", "XXCP", "SLUG", "EFLG")` | Headers to fully exclude from all aspects of the model run. Failure to designate these headers properly will result in errors. Modify with caution |
-| `docker_tag` | `"latest"` | Docker tag specifying which Docker image to use |
+| `docker_tag` | auto | Docker tag specifying which `teems` image to use. When unset, `ems_solve()` picks the highest CPU capability level your machine supports (e.g. `x86-64-v3`) that has a matching local image (`teems:x86-64-v3` or `teems:v3`), falling back to `teems:latest`. Set explicitly to pin a tag |
