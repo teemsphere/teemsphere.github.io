@@ -14,7 +14,7 @@ By default, solver outputs are automatically parsed into structured R objects vi
 | `solution_method` | `"Johansen"` | Solution method (see below) |
 | `matrix_method` | `"LU"` | Matrix solution method (see below) |
 | `n_subintervals` | `1L` | Number of subintervals for the applied shock. More subintervals may alleviate accuracy issues stemming from large shock magnitudes |
-| `steps` | `c(2L, 4L, 8L)` | Vector of steps for the Gragg method. Must be all odd or all even, length 3 (even step counts are preferable) |
+| `steps` | `c(2L, 4L, 8L)` | Vector of steps for the Gragg method. Must be all even, length 3 (required by the method's extrapolation theory; Pearson 1991) |
 | `n_tasks` | `1L` | Number of tasks to run in parallel. Must be `1L` if `matrix_method` is `"LU"` |
 | `laA` | `300L` | Memory parameter (%) for `"LU"` and `"SBBD"` methods |
 | `laD` | `200L` | Memory parameter (%) for `"DBBD"` and `"NDBBD"` methods |
