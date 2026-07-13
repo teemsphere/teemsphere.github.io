@@ -14,7 +14,7 @@ By default, solver outputs are automatically parsed into structured R objects vi
 | `solution_method` | `"Johansen"` | Solution method (see below) |
 | `matrix_method` | `"LU"` | Matrix solution method (see below) |
 | `n_subintervals` | `1L` | Number of subintervals for the applied shock. More subintervals may alleviate accuracy issues stemming from large shock magnitudes |
-| `steps` | `c(2L, 4L, 8L)` | Vector of steps for the modified midpoint method. Must be all odd or all even, length 3 |
+| `steps` | `c(2L, 4L, 8L)` | Vector of steps for the Gragg method. Must be all odd or all even, length 3 (even step counts are preferable) |
 | `n_tasks` | `1L` | Number of tasks to run in parallel. Must be `1L` if `matrix_method` is `"LU"` |
 | `laA` | `300L` | Memory parameter (%) for `"LU"` and `"SBBD"` methods |
 | `laD` | `200L` | Memory parameter (%) for `"DBBD"` and `"NDBBD"` methods |
@@ -38,7 +38,7 @@ outputs <- ems_solve(
 | Method | Description |
 |--------|-------------|
 | `"Johansen"` | Fast one-step approximation. Should only be used as a rough approximation due to handling of nonlinear equations. See [GEMPACK manual](https://www.copsmodels.com/gpmanual.htm#gpd1.2.13) |
-| `"mod_midpoint"` | Modified midpoint method that performs multiple passes for improved accuracy. The `steps` parameter controls the number of passes. See [GEMPACK manual](https://www.copsmodels.com/gpmanual.htm#gpd3.12.2) |
+| `"Gragg"` | Gragg's method (the smoothed modified midpoint method; Pearson 1991): the shock is applied over multiple linearized passes whose solutions are combined by Richardson extrapolation for improved accuracy. The `steps` parameter controls the per-pass step counts. See [GEMPACK manual](https://www.copsmodels.com/gpmanual.htm#gpd3.12.2) |
 
 ## Matrix methods
 Increase `n_tasks` to take advantage of parallel matrix solution methods.
@@ -52,11 +52,11 @@ Increase `n_tasks` to take advantage of parallel matrix solution methods.
 
 ## Multi-step solution
 
-For greater accuracy, use the modified midpoint method with subintervals:
+For greater accuracy, use the Gragg method with subintervals:
 ```r
 outputs <- ems_solve(
   cmf_path = cmf_path,
-  solution_method = "mod_midpoint",
+  solution_method = "Gragg",
   matrix_method = "LU",
   n_subintervals = 2,
   steps = c(2, 4, 8)
@@ -122,10 +122,10 @@ If all input files already reside in `model_dir`, no copying is performed; other
 | `model_file` | | Path to the model Tablo (.tab) file |
 | `closure_file` | | Path to the closure (.cls) file |
 | `shock_file` | | Path to the shock (.shf) file |
-| `solution_method` | `"Johansen"` | Solution method: `"Johansen"` or `"mod_midpoint"` |
+| `solution_method` | `"Johansen"` | Solution method: `"Johansen"` or `"Gragg"` |
 | `matrix_method` | `"LU"` | Matrix solution method: `"LU"`, `"DBBD"`, `"SBBD"`, or `"NDBBD"` |
 | `n_subintervals` | `1L` | Number of subintervals for the applied shock |
-| `steps` | `c(2L, 4L, 8L)` | Vector of steps for the modified midpoint method |
+| `steps` | `c(2L, 4L, 8L)` | Vector of steps for the Gragg method |
 | `n_tasks` | `1L` | Number of tasks to run in parallel. Must be `1L` if `matrix_method` is `"LU"` |
 | `laA` | `300L` | Memory parameter (%) for `"LU"` and `"SBBD"` methods |
 | `laD` | `200L` | Memory parameter (%) for `"DBBD"` and `"NDBBD"` methods |
@@ -158,7 +158,7 @@ solve_in_situ(
   model_file = "GTAP-RE.tab",
   closure_file = "GTAP-RE.cls",
   shock_file = "a_shock_file.shf",
-  solution_method = "mod_midpoint",
+  solution_method = "Gragg",
   matrix_method = "SBBD",
   n_subintervals = 1L,
   n_tasks = 1L
