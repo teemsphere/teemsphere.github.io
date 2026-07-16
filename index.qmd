@@ -15,7 +15,7 @@ A "simple" model run, for example, *broadly* involves:
 1. Data and set selection
 2. Set mappings
 3. Model selection
-4. Variable omission
+4. Condensation (variable omission and backsolving)
 5. Closure selection including any swaps
 6. Shock designation
 7. Set-specific basedata loading, modification, and aggregation

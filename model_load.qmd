@@ -6,14 +6,17 @@ The `ems_model()` function loads the model and its closure, conducts pre-deploym
 The output of this function is a tibble with attributes containing the parsed model input and is a required input to the `"model"` argument of the [`ems_deploy()`](deploy.qmd) function.
 
 ```r
-ems_model(model_file, closure_file, var_omit = NULL, ...)
+ems_model(model_file, closure_file, omit = NULL, backsolve = NULL,
+          ignore_condense = FALSE, ...)
 ```
 
 | Argument | Type | Description |
 |----------|------|-------------|
 | `model_file` | Character | File name in working directory or path to a `.tab` file |
 | `closure_file` | Character | File name in working directory or path to a `.cls` closure file |
-| `var_omit` | Character vector or `NULL` | Variables to substitute with `0` and remove from closure |
+| `omit` | Character vector or `NULL` | Exogenous, unshocked variables to omit from the condensed system |
+| `backsolve` | Character vector or `NULL` | Endogenous variables to substitute out by backsolving |
+| `ignore_condense` | Logical | Ignore `Omit`/`Substitute`/`Backsolve` statements found in the model file |
 | `...` | Named arguments | Coefficient value injections (numeric, data frame, or CSV path) |
 
 Both `model_file` and `closure_file` are required arguments.
@@ -125,13 +128,55 @@ Three condition forms are supported: set membership (`c in MARG`), index--elemen
 At model load these statements are rewritten into equivalent unconditional statements (narrowed-domain formulas, split equations, or synthesized 0/1 indicator coefficients named `IFC*`, with helper sets named `IFS*`); the indicator coefficients appear in solve outputs like any other coefficient.
 Not supported: compound conditions (`AND`/`OR`/`NOT`), `IF` nested inside sums or products, comparisons between two coefficient references, and more than one membership or element condition per Equation.
 
-## Variable omissions {#var_omit}
+## Condensation {#condensation}
 
-Variables specified with `var_omit` are set to zero in the model file and removed from the closure.
-If a variable designated for omission is not found in the model, an error is raised.
+Condensation reduces the size of the system passed to the solver by removing variables, following GEMPACK semantics (GEMPACK manual, sections 10.16 and 14.1).
+Two actions are available; both leave the model's economics unchanged.
+
+### Variable omission {#var_omit}
+
+Variables specified with `omit` are set to zero in the model file and removed from the closure.
+Omitted variables must be exogenous in the closure and must not be shocked; an error is raised otherwise, or if a variable designated for omission is not found in the model.
 
 Standard v7.0 data format variable omissions: `c("atall", "avaall", "tfe", "tfm", "tgd", "tgm", "tid", "tim")`.
 Standard v6.2 data format variable omissions: `c("atall", "tfd", "avaall", "tf", "tfm", "tgd", "tgm", "tpd", "tpm")`.
+
+### Backsolving {#backsolve}
+
+Variables specified with `backsolve` are substituted out of the system using a nominated defining equation: the equation is rearranged into the form `x = ...` and the resulting expression replaces every occurrence of `x` in all other equations.
+The defining equation is retained in the deployed model together with a `Backsolve` statement, so the solver can recover the variable's values after each solution step --- backsolved variables remain available in solve outputs, unlike plain GEMPACK substitution (which `teems` deliberately does not implement).
+
+Unnamed entries resolve their defining equation by the `E_<variable>` naming convention; named entries specify it explicitly:
+
+```r
+model <- ems_model(
+  model_file = GTAPv7[["model_file"]],
+  closure_file = GTAPv7[["closure_file"]],
+  backsolve = c("pfd", "pfm", "qfe", ps = "E_ps")
+)
+```
+
+Backsolved variables must be endogenous.
+Each nomination is validated against the GEMPACK substitution requirements (GEMPACK manual, section 14.1.10): every occurrence of the variable in the nominated equation must have plain, distinct indices (no elements, no lead/lag offsets, no `SUM` indices) matching the equation's quantifiers exactly, ranging over the variable's full declared sets, and all occurrences must share one index pattern.
+Violations abort with the failed requirement.
+Because substitutions are applied in order, an earlier substitution can make a later nomination invalid (or valid); nominations are validated against the current, rewritten form of each equation.
+
+When a rearrangement divides by a coefficient expression (e.g., `GDP(r,t) * qgdp(r,t) = ...`), the reciprocal is synthesized as a coefficient and a warning is issued: the expression must never be zero.
+To control expression growth, `teems` synthesizes intermediate coefficients (named `CSUB*`) with defining formulas, mirroring GEMPACK's system-initiated coefficients; these appear in solve outputs like any other coefficient.
+
+### In-TAB condensation statements
+
+`Omit`, `Substitute`, and `Backsolve` statements inside the model file (GEMPACK manual, section 10.16) are honored:
+
+```
+Omit a1 a1oct a1mar ;
+Substitute p1 using E_p1 ;
+Backsolve p1lab using E_p1lab ;
+```
+
+All omissions execute first, then substitutes/backsolves in the order they appear, followed by any actions supplied through the `omit` and `backsolve` arguments.
+`Substitute` statements are executed as backsolves (with a message), so the affected values stay available in outputs.
+Set `ignore_condense = TRUE` to ignore in-TAB condensation statements entirely (the equivalent of GEMPACK's `ICT` option).
 
 ## Coefficient value injection {#coeff_inject}
 
@@ -231,7 +276,7 @@ Multiple coefficient injections can be combined in a single call along with vari
 model <- ems_model(
   model_file = GTAP_RE[["model_file"]],
   closure_file = GTAP_RE[["closure_file"]],
-  var_omit = c("atall", "avaall", "tfe", "tfm", "tgd", "tgm", "tid", "tim"),
+  omit = c("atall", "avaall", "tfe", "tfm", "tgd", "tgm", "tid", "tim"),
   KAPPA = 0.03,
   SUBPAR = SUBPAR,
   CPHI = CPHI
