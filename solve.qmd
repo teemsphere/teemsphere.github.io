@@ -14,7 +14,7 @@ By default, solver outputs are automatically parsed into structured R objects vi
 | `solution_method` | `"Johansen"` | Solution method (see below) |
 | `matrix_method` | `"LU"` | Matrix solution method (see below) |
 | `n_subintervals` | `1L` | Number of subintervals for the applied shock. More subintervals may alleviate accuracy issues stemming from large shock magnitudes |
-| `steps` | `c(2L, 4L, 8L)` | Vector of steps for the Gragg method. Must be all even, length 3 (required by the method's extrapolation theory; Pearson 1991) |
+| `steps` | `c(2L, 4L, 8L)` | Strictly increasing vector of three step counts for the `"Gragg"` and `"Euler"` methods. For `"Gragg"` all three must additionally be even (required by the method's extrapolation theory; Pearson 1991); `"Euler"` has no parity requirement |
 | `n_tasks` | `1L` | Number of tasks to run in parallel. Must be `1L` if `matrix_method` is `"LU"` |
 | `laA` | `300L` | Memory parameter (%) for `"LU"` and `"SBBD"` methods |
 | `laD` | `200L` | Memory parameter (%) for `"DBBD"` and `"NDBBD"` methods |
@@ -39,6 +39,7 @@ outputs <- ems_solve(
 |--------|-------------|
 | `"Johansen"` | Fast one-step approximation. Should only be used as a rough approximation due to handling of nonlinear equations. See [GEMPACK manual](https://www.copsmodels.com/gpmanual.htm#gpd1.2.13) |
 | `"Gragg"` | Gragg's method (the smoothed modified midpoint method; Pearson 1991): the shock is applied over multiple linearized passes whose solutions are combined by Richardson extrapolation for improved accuracy. The `steps` parameter controls the per-pass step counts. See [GEMPACK manual](https://www.copsmodels.com/gpmanual.htm#gpd3.12.2) |
+| `"Euler"` | The forward Euler method with the same three-solution Richardson extrapolation. Converges more slowly than `"Gragg"` (one order gained per extrapolation solution instead of two) but is the most robust multistep choice: each step uses only the current state, so it tolerates variables approaching asymptotes and severe shocks — including exact `-100%` shocks — where the midpoint family can become unstable. See [GEMPACK manual](https://www.copsmodels.com/gpmanual.htm#gpd3.12.2) |
 
 ## Matrix methods
 Increase `n_tasks` to take advantage of parallel matrix solution methods.
@@ -122,7 +123,7 @@ If all input files already reside in `model_dir`, no copying is performed; other
 | `model_file` | | Path to the model Tablo (.tab) file |
 | `closure_file` | | Path to the closure (.cls) file |
 | `shock_file` | | Path to the shock (.shf) file |
-| `solution_method` | `"Johansen"` | Solution method: `"Johansen"` or `"Gragg"` |
+| `solution_method` | `"Johansen"` | Solution method: `"Johansen"`, `"Gragg"`, or `"Euler"` |
 | `matrix_method` | `"LU"` | Matrix solution method: `"LU"`, `"DBBD"`, `"SBBD"`, or `"NDBBD"` |
 | `n_subintervals` | `1L` | Number of subintervals for the applied shock |
 | `steps` | `c(2L, 4L, 8L)` | Vector of steps for the Gragg method |
