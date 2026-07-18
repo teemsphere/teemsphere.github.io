@@ -14,7 +14,9 @@ By default, solver outputs are automatically parsed into structured R objects vi
 | `solution_method` | `"Johansen"` | Solution method (see below) |
 | `matrix_method` | `"LU"` | Matrix solution method (see below) |
 | `n_subintervals` | `1L` | Number of subintervals for the applied shock. More subintervals may alleviate accuracy issues stemming from large shock magnitudes |
-| `steps` | `c(2L, 4L, 8L)` | Strictly increasing vector of three step counts for the `"Gragg"` and `"Euler"` methods. For `"Gragg"` all three must additionally be even (required by the method's extrapolation theory; Pearson 1991); `"Euler"` has no parity requirement |
+| `steps` | `c(2L, 4L, 8L)` | Strictly increasing vector of three step counts for the `"Gragg"` and `"Euler"` methods. For `"Gragg"` all three must additionally be even (required by the method's extrapolation theory; Pearson 1991); `"Euler"` has no parity requirement. The Runge-Kutta methods take a single step count instead (e.g. `steps = 8L`) |
+| `adaptive` | `"no"` | Adaptive step-size control for the embedded Runge-Kutta methods (`"BoSha32"`, `"DoPri54"`): `"yes"` redoes steps whose worst accuracy metric exceeds `eps_tolerance` (or on which a percentage-change variable crosses `-100%`) with a smaller step size and adjusts the next step size after every accepted step; `"accuracy-only"` acts on the accuracy metric alone |
+| `eps_tolerance` | `0.1` | Per-step accuracy-metric bound targeted by `adaptive` control; `0.1` suffices for most simulations, `0.01` for high accuracy. Values below `0.005` are hard to achieve numerically |
 | `n_tasks` | `1L` | Number of tasks to run in parallel. Must be `1L` if `matrix_method` is `"LU"` |
 | `laA` | `300L` | Memory parameter (%) for `"LU"` and `"SBBD"` methods |
 | `laD` | `200L` | Memory parameter (%) for `"DBBD"` and `"NDBBD"` methods |
@@ -40,6 +42,8 @@ outputs <- ems_solve(
 | `"Johansen"` | Fast one-step approximation. Should only be used as a rough approximation due to handling of nonlinear equations. See [GEMPACK manual](https://www.copsmodels.com/gpmanual.htm#gpd1.2.13) |
 | `"Gragg"` | Gragg's method (the smoothed modified midpoint method; Pearson 1991): the shock is applied over multiple linearized passes whose solutions are combined by Richardson extrapolation for improved accuracy. The `steps` parameter controls the per-pass step counts. See [GEMPACK manual](https://www.copsmodels.com/gpmanual.htm#gpd3.12.2) |
 | `"Euler"` | The forward Euler method with the same three-solution Richardson extrapolation. Converges more slowly than `"Gragg"` (one order gained per extrapolation solution instead of two) but is the most robust multistep choice: each step uses only the current state, so it tolerates variables approaching asymptotes and severe shocks — including exact `-100%` shocks — where the midpoint family can become unstable. See [GEMPACK manual](https://www.copsmodels.com/gpmanual.htm#gpd3.12.2) |
+| `"RK2"`, `"RK4"` | Explicit Runge-Kutta methods (the midpoint method and the classic fourth-order method; Schiffmann 2022). A single solution is computed with one step count — no Richardson extrapolation — each step built from 2 or 4 staged linear solves. `"RK4"` reaches a given accuracy in far fewer steps than the extrapolating methods |
+| `"BoSha32"`, `"DoPri54"` | Embedded Runge-Kutta pairs (Bogacki-Shampine 3(2), 4 stages; Dormand-Prince 5(4), 7 stages). Alongside the solution they estimate the cumulative error of every variable element — returned as the `error_metric` column by [`ems_compose()`](compose.qmd) and summarized as a face value (10 = best) in the solver log — and support adaptive step-size control via `adaptive` and `eps_tolerance`. `"DoPri54"` with `adaptive = "yes"` is the recommended high-accuracy choice |
 
 ## Matrix methods
 Increase `n_tasks` to take advantage of parallel matrix solution methods.
@@ -62,6 +66,20 @@ outputs <- ems_solve(
   n_subintervals = 2,
   steps = c(2, 4, 8)
 )
+```
+
+Or an adaptive embedded Runge-Kutta run, which controls its own step
+sizes against `eps_tolerance` and reports a per-element accuracy
+estimate (subintervals do not apply — the controller replaces them):
+```r
+outputs <- ems_solve(
+  cmf_path = cmf_path,
+  solution_method = "DoPri54",
+  matrix_method = "LU",
+  steps = 4,
+  adaptive = "yes"
+)
+outputs$dat$qgdp$error_metric
 ```
 
 ## Memory parameters
@@ -123,7 +141,7 @@ If all input files already reside in `model_dir`, no copying is performed; other
 | `model_file` | | Path to the model Tablo (.tab) file |
 | `closure_file` | | Path to the closure (.cls) file |
 | `shock_file` | | Path to the shock (.shf) file |
-| `solution_method` | `"Johansen"` | Solution method: `"Johansen"`, `"Gragg"`, or `"Euler"` |
+| `solution_method` | `"Johansen"` | Solution method: `"Johansen"`, `"Gragg"`, `"Euler"`, `"RK2"`, `"RK4"`, `"BoSha32"`, or `"DoPri54"` |
 | `matrix_method` | `"LU"` | Matrix solution method: `"LU"`, `"DBBD"`, `"SBBD"`, or `"NDBBD"` |
 | `n_subintervals` | `1L` | Number of subintervals for the applied shock |
 | `steps` | `c(2L, 4L, 8L)` | Vector of steps for the Gragg method |

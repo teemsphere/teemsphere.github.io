@@ -62,3 +62,11 @@ Use the name as it appears in the model file, not the header.
 | `label` | Description string from the model file |
 | `type` | `"variable"` or `"coefficient"` |
 | `dat` | List-column of data.tables, one per row, containing the result values |
+
+For runs solved with an embedded Runge-Kutta method (`"BoSha32"` or
+`"DoPri54"`; see [solving](solve.qmd)), each variable's data.table
+carries an additional `error_metric` column: the solver's
+component-by-component estimate of the cumulative solution error,
+`|Δ| / max(1, |Value|)` — a relative error for values above 1, an
+absolute error below. Small values indicate a well-converged element;
+sort descending to find the worst-converged variables.
