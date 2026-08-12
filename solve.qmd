@@ -18,12 +18,9 @@ By default, solver outputs are automatically parsed into structured R objects vi
 | `adaptive` | `"no"` | Adaptive step-size control for the embedded Runge-Kutta methods (`"BoSha32"`, `"DoPri54"`): `"yes"` redoes steps whose worst accuracy metric exceeds `eps_tolerance` (or on which a percentage-change variable crosses `-100%`) with a smaller step size and adjusts the next step size after every accepted step; `"accuracy-only"` acts on the accuracy metric alone |
 | `eps_tolerance` | `0.1` | Per-step accuracy-metric bound targeted by `adaptive` control; `0.1` suffices for most simulations, `0.01` for high accuracy. Values below `0.005` are hard to achieve numerically |
 | `n_tasks` | `1L` | Number of tasks to run in parallel. Must be `1L` if `matrix_method` is `"LU"` |
-| `laA` | `300L` | Memory parameter (%) for `"LU"` and `"SBBD"` methods |
-| `laD` | `200L` | Memory parameter (%) for `"DBBD"` and `"NDBBD"` methods |
-| `laDi` | `500L` | Memory parameter (%) for `"NDBBD"` method |
 | `suppress_outputs` | `FALSE` | When `TRUE`, solver outputs are not automatically parsed with [`ems_compose()`](compose.qmd) |
 | `terminal_run` | `FALSE` | When `TRUE`, exits without running the solver, allowing the user to close R and run from the terminal |
-| `append_args` | `NULL` | Character vector of additional arguments appended to the Docker run command (e.g., `c("-smllthreads 2", "-maxthreads 2")`) |
+| `...` | | Additional named solver arguments: the Runge-Kutta step controls (`max_retries`, `retry_adjust`), the MA48 workspace initial guesses (`laA`, `laD`, `laDi` — normally left unset: the solver sizes its workspace automatically, growing it as needed and warm-starting repeat runs from the recorded `la_used` in `sol.stats.json`) and the expert solver flags (`fastrefac`, `gpzerodivide`, `cntl_3`, `cntl_6`, `nsbbdblocks`, `withmc66`, `smllthreads`, `tempdir`, `nowrites`, e.g. `smllthreads = 2L`). Unknown names are an error, never a silently ignored flag |
 
 ## Basic usage
 
@@ -146,12 +143,9 @@ If all input files already reside in `model_dir`, no copying is performed; other
 | `n_subintervals` | `1L` | Number of subintervals for the applied shock |
 | `steps` | `c(2L, 4L, 8L)` | Vector of steps for the Gragg method |
 | `n_tasks` | `1L` | Number of tasks to run in parallel. Must be `1L` if `matrix_method` is `"LU"` |
-| `laA` | `300L` | Memory parameter (%) for `"LU"` and `"SBBD"` methods |
-| `laD` | `200L` | Memory parameter (%) for `"DBBD"` and `"NDBBD"` methods |
-| `laDi` | `500L` | Memory parameter (%) for `"NDBBD"` method |
 | `suppress_outputs` | `FALSE` | When `TRUE`, returns the CMF file path instead of parsed outputs |
 | `terminal_run` | `FALSE` | When `TRUE`, exits without running the solver |
-| `append_args` | `NULL` | Character vector of additional arguments appended to the Docker run command (e.g., `c("-smllthreads 2", "-maxthreads 2")`) |
+| `solver_args` | `NULL` | Named list of the additional solver arguments `ems_solve()` accepts through `...` (the MA48 workspace initial guesses and the expert solver flags, e.g. `list(smllthreads = 2L)`); a list because the in-situ `...` carries the input files |
 
 ### Input files
 
