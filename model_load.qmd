@@ -7,7 +7,7 @@ The output of this function is a tibble with attributes containing the parsed mo
 
 ```r
 ems_model(model_file, closure_file, omit = NULL, backsolve = NULL,
-          ignore_condense = FALSE, ...)
+          auto_omit = FALSE, ignore_condense = FALSE, ...)
 ```
 
 | Argument | Type | Description |
@@ -16,6 +16,7 @@ ems_model(model_file, closure_file, omit = NULL, backsolve = NULL,
 | `closure_file` | Character | File name in working directory or path to a `.cls` closure file |
 | `omit` | Character vector or `NULL` | Exogenous, unshocked variables to omit from the condensed system |
 | `backsolve` | Character vector or `NULL` | Endogenous variables to substitute out by backsolving |
+| `auto_omit` | Logical | Omit every unshocked, wholly exogenous variable at deploy time |
 | `ignore_condense` | Logical | Ignore `Omit`/`Substitute`/`Backsolve` statements found in the model file |
 | `...` | Named arguments | Coefficient value injections (numeric, data frame, or CSV path) |
 
@@ -141,6 +142,11 @@ Omitted variables must be exogenous in the closure and must not be shocked; an e
 Standard v7.0 data format variable omissions: `c("atall", "avaall", "tfe", "tfm", "tgd", "tgm", "tid", "tim")`.
 Standard v6.2 data format variable omissions: `c("atall", "tfd", "avaall", "tf", "tfm", "tgd", "tgm", "tpd", "tpm")`.
 
+Nominating omissions by hand is optional: `auto_omit = TRUE` omits every variable that is exogenous in each of its elements and carries no shock.
+Such a variable has a change of zero, so dropping it removes columns from the shock vector without altering the solved system --- the deployed system size is unchanged.
+The set can only be established once swaps and shocks are known, so the work happens in [`ems_deploy()`](deploy.qmd), which reports what it omitted.
+Omitted variables are absent from solve outputs, and a variable referenced outside `Equation` and `Update` statements is left alone.
+
 ### Backsolving {#backsolve}
 
 Variables specified with `backsolve` are substituted out of the system using a nominated defining equation: the equation is rearranged into the form `x = ...` and the resulting expression replaces every occurrence of `x` in all other equations.
@@ -163,6 +169,14 @@ Because substitutions are applied in order, an earlier substitution can make a l
 
 When a rearrangement divides by a coefficient expression (e.g., `GDP(r,t) * qgdp(r,t) = ...`), the reciprocal is synthesized as a coefficient and a warning is issued: the expression must never be zero.
 To control expression growth, `teems` synthesizes intermediate coefficients (named `CSUB*`) with defining formulas, mirroring GEMPACK's system-initiated coefficients; these appear in solve outputs like any other coefficient.
+
+### When backsolving pays {#backsolve_when}
+
+Substitution shrinks the system but densifies it: each eliminated variable's defining expression is spliced into every equation that referenced it.
+That trade is worth taking under `matrix_method = "LU"` on static models, where the cost is dominated by the size of the single factorization.
+It is counterproductive under the bordered methods (`"SBBD"`, `"DBBD"`, `"NDBBD"`), which exploit the block sparsity substitution destroys, and on intertemporal models generally.
+[`ems_solve()`](solve.qmd) reports this when a condensed deployment meets a bordered method, and [`ems_probe()`](probe.qmd) settles it from the measured block structure --- a system with a usable partition belongs to a bordered method, one without is `"LU"`-bound.
+Omission is unaffected: it removes exogenous columns and densifies nothing.
 
 ### In-TAB condensation statements
 
