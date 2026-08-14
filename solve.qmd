@@ -20,7 +20,7 @@ By default, solver outputs are automatically parsed into structured R objects vi
 | `n_tasks` | `1L` | Number of tasks to run in parallel. Must be `1L` if `matrix_method` is `"LU"` |
 | `suppress_outputs` | `FALSE` | When `TRUE`, solver outputs are not automatically parsed with [`ems_compose()`](compose.qmd) |
 | `terminal_run` | `FALSE` | When `TRUE`, exits without running the solver, allowing the user to close R and run from the terminal |
-| `...` | | Additional named solver arguments: the Runge-Kutta step controls (`max_retries`, `retry_adjust`), the MA48 workspace initial guesses (`laA`, `laD`, `laDi` — normally left unset: the solver sizes its workspace automatically, growing it as needed and warm-starting repeat runs from the recorded `la_used` in `sol.stats.json`) and the expert solver flags (`fastrefac`, `gpzerodivide`, `cntl_3`, `cntl_6`, `nsbbdblocks`, `withmc66`, `smllthreads`, `tempdir`, `nowrites`, e.g. `smllthreads = 2L`). Unknown names are an error, never a silently ignored flag |
+| `...` | | Additional named solver arguments: the Runge-Kutta step controls (`max_retries`, `retry_adjust`), the MA48 workspace initial guesses (`laA`, `laD`, `laDi` — normally left unset: the solver sizes its workspace automatically, growing it as needed and warm-starting repeat runs from the recorded `la_used` in `sol.stats.json`) and the expert solver flags (`fastrefac`, `gpzerodivide`, `cntl_3`, `cntl_6`, `nsbbdblocks`, `withmc66`, `smllthreads`, `tempdir`, `nowrites`, `condest`, e.g. `smllthreads = 2L`). Unknown names are an error, never a silently ignored flag |
 
 ## Basic usage
 
@@ -95,6 +95,25 @@ outputs <- ems_solve(
   laA = 500L
 )
 ```
+
+## Checking solve quality
+
+If a model solves but the results look implausible — percent changes orders of magnitude too large, or accuracy figures that will not settle — the cause may be numerical rather than structural. `ems_probe()` catches wrong closures (variables nothing determines, equations that determine the same variable twice), but a model can be structurally perfect and still be numerically degenerate, typically when the closure depends on base-data flows that are very close to zero.
+
+`condest = TRUE` measures every linear solve and reports it:
+
+```r
+outputs <- ems_solve(
+  cmf_path = cmf_path,
+  solution_method = "Gragg",
+  matrix_method = "LU",
+  condest = TRUE
+)
+```
+
+Each solve logs a backward error (how faithfully the system was solved) and the scaled condition numbers `kappa_w1`/`kappa_w2` (how sensitive the answer is to the data). Run maxima are recorded in `sol.stats.json` and appear in the model diagnostics. Read `kappa_w2`: values around `1e8`–`1e9` are ordinary for CGE Jacobians, while values approaching `1e15` trigger a warning that the system is numerically near-singular and its solutions are unreliable — the signal to look for near-zero flows your closure depends on, or to rerun with `precision = "f64"`.
+
+The diagnostic never changes results — solutions are identical with it on or off — and it costs a few percent of solve time. It applies to the `"LU"` matrix method (the bordered methods warn and ignore it), and reports nothing for a zero shock, where there is nothing to measure.
 
 ## Parallel solving
 
