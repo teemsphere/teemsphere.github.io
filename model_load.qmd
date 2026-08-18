@@ -101,18 +101,23 @@ Set B # example set B # = A;
 ```
 The intertemporal conversion forms `Set (Intertemporal) B = A;` and `Set (Non_Intertemporal) B = A;` (manual 13.3.1) are not supported: neither set in an equality statement may be intertemporal.
 
-**Binary set switches** using a colon within a Set definition are not supported.
-The SLUG coefficient is not used to identify sluggish endowments.
-Declare these sets explicitly or via set operations.
-
-Instead of
+**Conditional set builders** (GEMPACK manual 10.1.2) select the elements of a set from data at run time:
 ```
-Set ENDWM # mobile endowments # = (all,e,ENDW:ENDOWFLAG(e,"mobile") ne 0);
+Set ENDWM # mobile endowments # = (all,e,ENDW: ENDOWFLAG(e,"mobile") ne 0);
+Set ENDWS_COMM # sluggish endowments # = (all,i,ENDW_COMM: SLUG(i) > 0);
+Set BIGB = (all,b,BLOC: sum{r,REG: REGTOBLOC(r) = b, RGW(r)} > 7.5);
 ```
-Declare sets explicitly within the Tablo file:
+The condition is a single comparison (`= <> < > <= >=` or `eq ne lt gt le ge`) of a coefficient reference against a constant; the reference carries the loop index once, plus quoted elements for its other dimensions.
+The condition coefficient must be `Read` from an input file: the selection is evaluated ahead of formulas, so formula-computed operands cannot drive it (a named error).
+teems evaluates the same condition from the deployed (aggregated) data at `ems_deploy()` so closure/shock validation and system sizing see the elements, and keeps the statement verbatim for the solver, which re-evaluates it; an empty selection is an error, as in GEMPACK.
+The mapping-conditional sum form (third example, GTAP-E's `UNITD*` flags) is accepted by the solver but not yet evaluated by teems at deployment; declare such sets explicitly for now.
+The flag-header approach of the upstream GTAP models (`ENDOWFLAG` read from `EFLG`, `SLUG`) is not supported through the R package: those headers are dropped from the data (`full_exclude` option) and a set built from them raises a named error. Declare such sets explicitly instead
 ```
 Set ENDWM # mobile endowment # (capital, unsklab, sklab);
 ```
+(the solver on its own accepts the flag form).
+
+**Set products** (`Set UACT = UNITA x ACTS;`) and the `$POS` intrinsic, used together in the upstream GTAPv7 PostSim welfare-report block, are not supported: teems' R-side aggregation supplies the set-position identities. Drop that block or list the elements explicitly.
 
 **Capital goods.** The `CGDS` sector in v6.2 format models is renamed to `cgds` by default due to R `data.table` C-locale sorting and preference for all set elements to be lowercase.
 
@@ -125,9 +130,16 @@ Formula (all,c,COMM)(all,r,REG)
 Equation E_qca # supply of commodities by act. a # (all,c,COMM)(all,a,ACTS)(all,r,REG)
     qca(c,a,r) = IF[MAKES(c,a,r) gt 0, qo(a,r) - ETRAQ(a,r) * [ps(c,a,r) - po(a,r)]];
 ```
-Three condition forms are supported: set membership (`c in MARG`), index--element equality (`d = "domestic"`), and a comparison of a coefficient reference against a constant (`MAKES(c,a,r) gt 0`, with `eq`/`ne`/`gt`/`lt`/`ge`/`le` or the equivalent symbols).
-At model load these statements are rewritten into equivalent unconditional statements (narrowed-domain formulas, split equations, or synthesized 0/1 indicator coefficients named `IFC*`, with helper sets named `IFS*`); the indicator coefficients appear in solve outputs like any other coefficient.
-Not supported: compound conditions (`AND`/`OR`/`NOT`), `IF` nested inside sums or products, comparisons between two coefficient references, and more than one membership or element condition per Equation.
+Three condition forms are supported: set membership (`c in MARG`), index--element equality (`d = "domestic"`), and a comparison of two coefficient expressions (`MAKES(c,a,r) gt 0`, `THETAi(j,r)*YDONOFF(j,r) <= 0`, `VTRPROV(r) > VT`, with `eq`/`ne`/`gt`/`lt`/`ge`/`le` or the equivalent symbols); conditions cannot reference variables.
+At model load these statements are rewritten into equivalent unconditional statements (narrowed-domain formulas, split equations, or synthesized 0/1 indicator coefficients named `IFC*`, with helper sets named `IFS*` and, for expression conditions, helper coefficients named `IFX*` that inherit the host formula's `(initial)`/`(always)` qualifier); the helper coefficients appear in solve outputs like any other coefficient.
+Several membership or element conditions may appear in one Equation when they condition the same index (they partition the equation's domain, e.g. GTAPv7's `IF[d="domestic", ...] + IF[d="imported", ...]`); the parts must not overlap.
+Not supported: compound conditions (`AND`/`OR`/`NOT`), `IF` nested inside sums or products, and membership conditions on different indices within one Equation.
+
+### Source-file conventions
+
+The following spellings, all accepted by GEMPACK, are normalised silently: keywords glued to their first bracket (`Coefficient(all,r,REG)`, `Formula(Initial)`), block comments `![[! ... !]]!`, empty statements (`;;`), empty labels (`# #`), Latin-1 or CRLF files and a UTF-8 byte-order mark, and several statements on one line.
+`Read (IfHeaderExists)` is supported: an absent header is skipped by the solver and the coefficient keeps its formula or default value, and `ems_deploy()` does not require such headers in the loaded data.
+Label text outside any statement (a `# label #` placed after the terminating `;`) is a named error, since GEMPACK would read it as the start of the next statement.
 
 ## Condensation {#condensation}
 
