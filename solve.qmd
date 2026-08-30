@@ -83,11 +83,13 @@ outputs$dat$qgdp$error_metric
 
 ## Memory parameters
 
-If the solver returns "Error return from MA48B/BD because LA is ...", increase the relevant memory parameter gradually:
+`laA`, `laD` and `laDi` size the MA48 factorization workspaces, as a percentage of the matrix's non-zero count. They are only initial guesses: when a factorization runs out of workspace the solver grows it and retries automatically, notes the new size in the log ("MA48 workspace grown from ... to ..."), and records what it settled on as `la_used` in `sol.stats.json`. Normally you never set them.
 
 - `laA` applies to `"LU"` and `"SBBD"` methods
 - `laD` applies to `"DBBD"` and `"NDBBD"` methods
 - `laDi` applies to the `"NDBBD"` method only
+
+Setting one is worth doing only to skip that discovery: each growth costs a failed factorization, so a run whose log shows growth will start faster next time if seeded at the recorded `la_used`. Oversizing is close to free — the extra workspace is mostly untouched pages — so seed generously rather than tightly.
 
 ```r
 outputs <- ems_solve(
@@ -97,6 +99,17 @@ outputs <- ems_solve(
   laA = 500L
 )
 ```
+
+### The workspace ceiling
+
+The HSL kernels are built with 32-bit integers, so a single MA48 workspace cannot exceed 2,147,483,647 elements no matter what you pass. A system whose factorization needs more than that aborts with
+
+```
+Error: factorizing <system> needs a larger MA48 workspace than the
+2147483647-element limit of the 32-bit HSL build ...
+```
+
+This is a limit on one *sequential* factorization, not on the model. The remedies are to split the factorization across blocks with a bordered method (`matrix_method = "SBBD"` or `"DBBD"`), to condense the model so the solved system is smaller, or to reduce its dimensions. Raising `laA` further cannot help, and the solver will say so rather than retrying.
 
 ## Checking solve quality
 
