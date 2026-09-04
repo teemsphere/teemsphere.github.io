@@ -140,6 +140,16 @@ Each solve logs a backward error (how faithfully the system was solved) and the 
 
 The diagnostic never changes results — solutions are identical with it on or off — and it costs a few percent of solve time. It applies to the `"LU"` matrix method (the bordered methods warn and ignore it), and reports nothing for a zero shock, where there is nothing to measure.
 
+## Memory use
+
+Every run records how much memory it held. After each phase (variable calculation, variable broadcast, matrix preparation, calculation and assembly), after each step and after the solve, the solver logs a `memory:` line with the resident set of the largest rank and the total over all ranks, plus the high-water mark so far:
+
+```
+memory: after matrix assembly, resident 5.12 GB max per rank, 18.40 GB over 4 rank(s); high-water 5.20 GB max, 18.60 GB sum
+```
+
+The same numbers are recorded per phase as `rss_gb` in `sol.stats.json` and summarised in the model diagnostics. Read the two columns differently: the *max* is what one rank needs, so it decides whether a run fits a host at a given rank count; the *sum* is what the job holds in total, and since the value tables are replicated on every rank the sum grows with the rank count. When a large run is close to the machine's memory, the phase with the peak says where the memory goes, and fewer ranks usually help before a different matrix method does.
+
 ## Parallel solving
 
 For models that support parallel matrix methods, increase `n_tasks`:
