@@ -40,8 +40,8 @@ outputs <- ems_solve(
 | `"Johansen"` | Fast one-step approximation. Should only be used as a rough approximation due to handling of nonlinear equations. See [GEMPACK manual](https://www.copsmodels.com/gpmanual.htm#gpd1.2.13) |
 | `"Gragg"` | Gragg's method (the smoothed modified midpoint method; Pearson 1991): the shock is applied over multiple linearized passes whose solutions are combined by Richardson extrapolation for improved accuracy. The `steps` parameter controls the per-pass step counts. See [GEMPACK manual](https://www.copsmodels.com/gpmanual.htm#gpd3.12.2) |
 | `"Euler"` | The forward Euler method with the same three-solution Richardson extrapolation. Converges more slowly than `"Gragg"` (one order gained per extrapolation solution instead of two) but is the most robust multistep choice: each step uses only the current state, so it tolerates variables approaching asymptotes and severe shocks — including exact `-100%` shocks — where the midpoint family can become unstable. See [GEMPACK manual](https://www.copsmodels.com/gpmanual.htm#gpd3.12.2) |
-| `"RK2"`, `"RK4"` | Explicit Runge-Kutta methods (the midpoint method and the classic fourth-order method; Schiffmann 2022). A single solution is computed with one step count — no Richardson extrapolation — each step built from 2 or 4 staged linear solves. `"RK4"` reaches a given accuracy in far fewer steps than the extrapolating methods |
-| `"BoSha32"`, `"DoPri54"` | Embedded Runge-Kutta pairs (Bogacki-Shampine 3(2), 4 stages; Dormand-Prince 5(4), 7 stages). Alongside the solution they estimate the cumulative error of every variable element — returned as the `error_metric` column by [`ems_compose()`](compose.qmd) and summarized as a face value (10 = best) in the solver log — and support adaptive step-size control via `adaptive` and `eps_tolerance`. `"DoPri54"` with `adaptive = "yes"` is the recommended high-accuracy choice |
+| `"RK2"`, `"Heun"`, `"RK4"` | Explicit Runge-Kutta methods (the midpoint rule, Heun's explicit trapezoid rule, and the classic fourth-order method; Schiffmann 2022). A single solution is computed with one step count, no Richardson extrapolation, each step built from 2, 2 or 4 staged linear solves. `"Heun"` and `"RK2"` cost the same; Heun is strong-stability-preserving, the midpoint rule is not. `"RK4"` with a handful of steps is the cheapest method that reaches four correct digits on large shocks in TEEMS's own measurements. Stages are combined in log-levels by default (see `chart` in [`ems_RK()`]), so a percentage-change variable cannot reach `-100%` at any stage |
+| `"BoSha32"`, `"DoPri54"` | Embedded Runge-Kutta pairs (Bogacki-Shampine 3(2), 4 stages; Dormand-Prince 5(4), 7 stages; both first-same-as-last, so an accepted step costs 3 or 6 new solves). Alongside the solution they accumulate a per-element error estimate, returned as the `error_estimate` column by [`ems_compose()`] and written beside the solution as `sol.est`. Treat it as an indicator of the least-settled elements: in TEEMS's measurements at scale it under-reads the true error on a third to a half of the elements, so it is not an upper bound. With `adaptive = "yes"` the step size is controlled against `eps_tolerance` and a step is redone when the estimate, a coefficient range test, an assertion or (percent chart only) a `-100%` crossing fails; use the accuracy ladders (repeat the run with tighter `eps_tolerance` or more `steps`) when a bound is needed |
 
 ## Matrix methods
 Increase `n_tasks` to take advantage of parallel matrix solution methods.
@@ -68,17 +68,27 @@ outputs <- ems_solve(
 ```
 
 Or an adaptive embedded Runge-Kutta run, which controls its own step
-sizes against `eps_tolerance` and reports a per-element accuracy
-estimate (subintervals do not apply — the controller replaces them):
+sizes against `eps_tolerance` and reports a per-element error
+estimate (subintervals do not apply — the controller replaces them).
+On large shocks measured against 32-step references (2026-09), adaptive
+`"DoPri54"` at `eps_tolerance = 0.01` reaches the accuracy of `"Gragg"`
+with four subintervals for about half the factorizations, and the
+accuracy of the previous driver for about a third; single-subinterval
+`"Gragg"` is not a solution on such shocks, and `"RK4"` with four steps
+is the cheapest route to three to four correct digits. `eps_tolerance =
+0.1` is loose now that only percentage-change variables steer the step
+(see `scope` in [`ems_RK()`]); the comparison is in the developer notes
+(`rk_comparison.md`):
 ```r
 outputs <- ems_solve(
   cmf_path = cmf_path,
   solution_method = "DoPri54",
   matrix_method = "LU",
   steps = 4,
-  adaptive = "yes"
+  adaptive = "yes",
+  eps_tolerance = 0.01
 )
-outputs$dat$qgdp$error_metric
+outputs$dat$qgdp$error_estimate
 ```
 
 ## Memory parameters

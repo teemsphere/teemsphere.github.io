@@ -65,8 +65,12 @@ Use the name as it appears in the model file, not the header.
 
 For runs solved with an embedded Runge-Kutta method (`"BoSha32"` or
 `"DoPri54"`; see [solving](solve.qmd)), each variable's data.table
-carries an additional `error_metric` column: the solver's
+carries an additional `error_estimate` column: the solver's
 component-by-component estimate of the cumulative solution error,
 `|Δ| / max(1, |Value|)` — a relative error for values above 1, an
-absolute error below. Small values indicate a well-converged element;
-sort descending to find the worst-converged variables.
+absolute error below. It is the embedded pair's accumulated per-step
+estimate: an indicator of which elements are least settled (sort
+descending to find them), not an upper bound on the true error, which
+in TEEMS's measurements it under-reads on a third to a half of the
+elements. Confirm accuracy with an accuracy ladder (repeat with a
+tighter `eps_tolerance` or more steps) when a bound is needed.

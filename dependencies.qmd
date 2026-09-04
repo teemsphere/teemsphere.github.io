@@ -45,7 +45,7 @@ Two prerequisites:
 
 - **Docker** --- install from [docker.com](https://www.docker.com/get-started/).
 Linux users must also configure Docker to run [without `sudo`](https://docs.docker.com/engine/install/linux-postinstall/).
-- **HSL libraries** --- four sparse linear algebra libraries (MA48, MA51, HSL_MC66, HSL_MP48) must be obtained directly from [HSL](https://www.hsl.rl.ac.uk/) prior to building.
+- **HSL libraries** --- the sparse linear algebra packages the solver uses are obtained as a single **libHSL** source snapshot (`libHSL.v<version>.tar.gz`) from the [STFC licensing portal](https://licences.stfc.ac.uk) prior to building; download the source code tarball, not the prebuilt binaries.
 These are available at no cost for academic use.
 
 Two Docker build approaches are available.
