@@ -152,7 +152,7 @@ Two actions are available; both leave the model's economics unchanged.
 Variables specified with `omit` are set to zero in the model file and removed from the closure.
 Omitted variables must be exogenous in the closure and must not be shocked; an error is raised otherwise, or if a variable designated for omission is not found in the model.
 
-Standard v7.0 data format variable omissions: `c("atall", "avaall", "tfe", "tfm", "tgd", "tgm", "tid", "tim")`.
+Standard v7.0 data format variable omissions (gtapv7.sti): `c("atall", "avaall", "tfe", "tfd", "tfm", "tgd", "tgm", "tpdall", "tpmall", "tid", "tim")`.
 Standard v6.2 data format variable omissions: `c("atall", "tfd", "avaall", "tf", "tfm", "tgd", "tgm", "tpd", "tpm")`.
 
 Nominating omissions by hand is optional: `auto_omit = TRUE` omits every variable that is exogenous in each of its elements and carries no shock.
@@ -205,8 +205,9 @@ All omissions execute first, then substitutes/backsolves in the order they appea
 `Substitute` statements are executed as backsolves (with a message), so the affected values stay available in outputs.
 Set `ignore_condense = TRUE` to ignore in-TAB condensation statements entirely (the equivalent of GEMPACK's `ICT` option).
 
-The vetted `GTAPv6.tab` carries the standard GTAP condensation (`gtap.sti`) as in-TAB statements: the nine omissions listed above and 60 backsolves.
-It therefore condenses automatically when loaded; to shock one of the omitted variables (e.g. `atall`, `tfd`), or to solve the full system, load it with `ignore_condense = TRUE`.
+The vetted `GTAPv6.tab` and `GTAPv7.tab` carry the standard GTAP condensations (`gtap.sti`, `gtapv7.sti`) as in-TAB statements: the omissions listed above and 60 (v6.2) or 72 (v7.1) backsolves.
+They therefore condense automatically when loaded; to shock one of the omitted variables (e.g. `atall`, `tfd`), or to solve the full system, load them with `ignore_condense = TRUE`.
+A backsolve nominating an equation that the IF rewrite has split into per-element partitions (the v7.1 `CNTqfr`, `CNTqgr`, `CNTalleffr`, `CNTtechr` summaries) is skipped with a message and the variable stays in the solved system.
 
 ## Coefficient value injection {#coeff_inject}
 
