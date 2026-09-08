@@ -14,7 +14,7 @@ Two output modes are available, controlled by the `type` argument:
 
 | Argument | Default | Description |
 |----------|---------|-------------|
-| `model` | | Model name. One of `"GTAPv6"`, `"GTAPv7"`, `"GTAP-RE"` |
+| `model` | | Model name. One of `"GTAPv6"`, `"GTAPv7"`, `"GTAP-RE"`, `"GTAP-AEZ"` |
 | `path` | | Directory where files will be written |
 | `type` | `"model_files"` | Output type: `"model_files"` or `"scripts"` |
 | `dat_input` | `NULL` | Path to the basedata HAR file, or the `dat` list from [`GTAP_convert()`](data_load.qmd). Required when `type = "scripts"` |

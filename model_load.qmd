@@ -107,9 +107,9 @@ Set ENDWS_COMM # sluggish endowments # = (all,i,ENDW_COMM: SLUG(i) > 0);
 Set BIGB = (all,b,BLOC: sum{r,REG: REGTOBLOC(r) = b, RGW(r)} > 7.5);
 ```
 The condition is a single comparison (`= <> < > <= >=` or `eq ne lt gt le ge`) of a coefficient reference against a constant; the reference carries the loop index once, plus quoted elements for its other dimensions.
-The condition coefficient must be `Read` from an input file: the selection is evaluated ahead of formulas, so formula-computed operands cannot drive it (a named error).
+The condition coefficient is either `Read` from an input file or an *indicator* assigned constants only, such as GTAP-AEZ's `UNITDCROP(a) = 0.0 + IF[a in DCROPACTS, 1.0]`: the selection is evaluated ahead of formulas, so any other formula-computed operand cannot drive it (a named error).
 teems evaluates the same condition from the deployed (aggregated) data at `ems_deploy()` so closure/shock validation and system sizing see the elements, and keeps the statement verbatim for the solver, which re-evaluates it; an empty selection is an error, as in GEMPACK.
-The mapping-conditional sum form (third example, GTAP-E's `UNITD*` flags) is accepted by the solver but not yet evaluated by teems at deployment; declare such sets explicitly for now.
+The mapping-conditional sum form (third example; GTAP-E's and GTAP-AEZ's `UNITD*` flags) needs the sum to range over the mapping's domain set and the builder over its codomain set, with the mapping read `(by_elements)`; the mapping values are composed under the active aggregation exactly as the deployed mapping header is (see the GTAP-AEZ `DACTS`/`MACTS` sets, [data loading](data_load.qmd)).
 The flag-header approach of the upstream GTAP models (`ENDOWFLAG` read from `EFLG`, `SLUG`) is not supported through the R package: those headers are dropped from the data (`full_exclude` option) and a set built from them raises a named error. Declare such sets explicitly instead
 ```
 Set ENDWM # mobile endowment # (capital, unsklab, sklab);
@@ -132,8 +132,11 @@ Equation E_qca # supply of commodities by act. a # (all,c,COMM)(all,a,ACTS)(all,
 ```
 Three condition forms are supported: set membership (`c in MARG`), index--element equality (`d = "domestic"`), and a comparison of two coefficient expressions (`MAKES(c,a,r) gt 0`, `THETAi(j,r)*YDONOFF(j,r) <= 0`, `VTRPROV(r) > VT`, with `eq`/`ne`/`gt`/`lt`/`ge`/`le` or the equivalent symbols); conditions cannot reference variables.
 At model load these statements are rewritten into equivalent unconditional statements (narrowed-domain formulas, split equations, or synthesized 0/1 indicator coefficients named `IFC*`, with helper sets named `IFS*` and, for expression conditions, helper coefficients named `IFX*` that inherit the host formula's `(initial)`/`(always)` qualifier); the helper coefficients appear in solve outputs like any other coefficient.
+A membership condition whose set is the quantifier's set or a declared subset of it narrows to that set directly (no `IFS*` set is synthesized).
+An `IF` whose expression itself carries `IF` terms is rewritten recursively, so GTAP-AEZ's land equations (a membership branch on the endowment holding a membership branch on the activity holding a data comparison, `E_qfe`; four activity-class branches inside an endowment branch, `E_qes2`) and its calibration formulas load as written.
+A Formula whose right-hand side references its own target (`ESUBVA(a,r) = IF[a in NLANDACTS, ESUBVA(a,r)] + IF[a in LANDACTS, ...]`) reads the pre-assignment values through a synthesized copy coefficient named `IFT*`.
 Several membership or element conditions may appear in one Equation when they condition the same index (they partition the equation's domain, e.g. GTAPv7's `IF[d="domestic", ...] + IF[d="imported", ...]`); the parts must not overlap.
-Not supported: compound conditions (`AND`/`OR`/`NOT`), `IF` nested inside sums or products, and membership conditions on different indices within one Equation.
+Not supported: compound conditions (`AND`/`OR`/`NOT`), `IF` nested inside sums or products, and membership conditions on different indices at one level of an Equation.
 
 ### Source-file conventions
 

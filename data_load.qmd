@@ -147,6 +147,24 @@ v7_data <- ems_data(dat_input = converted$dat,
                     ENDW = "labor_agg"
 )
 ```
+### Preparing a GTAP-AEZ database
+
+The GTAP-AEZ model reads the disaggregated activity sets `DACTS`, `DCROPACTS`, `DFORSACTS`, `DGRAZACTS`, `DLANDACTS` and the mapping `MACTS` (headers `DACT`, `DCRP`, `DFRS`, `DGRZ`, `DLUA`, `MACT`), which flexagg synthesizes at aggregation and the GTAP-AEZ database does not carry, and it declares the `AREA`/`TONS` and `LCOV` data over its own `CROPACTS` and `LCOV` sets.
+`target = "GTAP-AEZ"` prepares a GTAPv7-format GTAP-AEZ database (the GTAP 11 and 12 AEZ releases) for the model: the disaggregated sets and the identity mapping at source resolution (they never aggregate; the mapping composes onto the aggregated `ACTS` at deployment), the renamed dimensions, and the AEZ parameters `EAEZ`, `ETAE`, `YDON`, `YDRS`, `YDET` set to the flexagg constants when the database does not ship them.
+`ems_data()` applies the same preparation on its own when it detects the AEZ layer (`AEZS`, `CROP`, `LUSA` sets with `AREA`/`TONS`/`LCOV` data), so the HAR files can be passed directly:
+
+```r
+aez_data <- ems_data(dat_input = "aez_data/gsdfdat.har",
+                     par_input = "aez_data/gsdfpar.har",
+                     set_input = "aez_data/gsdfset.har",
+                     REG = "big3",
+                     ACTS = "macro_sector"
+)
+```
+
+The endowment set (18 AEZ land endowments, labour types, capital and natural resources) and the `AEZS` set need no mapping; a custom mapping can aggregate the AEZs (for example into climate bands) since `AEZS = <csv>` is accepted like any other set.
+The v6-format AEZ layer of GTAP 10a carries different headers and is not prepared.
+
 ## Data aggregation
 Data is aggregated according to type, with non-parameter coefficients summed by target set mappings and weighted averages calculated for the parameters below.
 A simple mean is applied to parameters not listed below.
