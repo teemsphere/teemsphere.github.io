@@ -67,6 +67,19 @@ paths <- ems_example(
 )
 ```
 
+The GTAP-AEZ scripts need a GTAP-AEZ database (the GTAP 11/12 AEZ releases); its AEZ layer is prepared by `ems_data()` on load, see [data loading](data_load.qmd):
+
+```r
+paths <- ems_example(
+  model = "GTAP-AEZ",
+  path = "~/my_project",
+  type = "scripts",
+  dat_input = "~/dat/GTAP-AEZ/v12a/gsdfdat.har",
+  par_input = "~/dat/GTAP-AEZ/v12a/gsdfpar.har",
+  set_input = "~/dat/GTAP-AEZ/v12a/gsdfset.har"
+)
+```
+
 The data inputs can also be the in-memory list objects returned by [`GTAP_convert()`](data_load.qmd), which is useful when the raw data needs format conversion before running:
 
 ```r
