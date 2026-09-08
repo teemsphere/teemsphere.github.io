@@ -233,6 +233,9 @@ solve_in_situ(
 )
 ```
 
+The model file is processed exactly as `ems_model()` processes it, so in-TAB `Omit`, `Substitute`, and `Backsolve` statements apply.
+Pass `ignore_condense = TRUE` when the closure and shock files were produced from a model loaded with `ems_model(..., ignore_condense = TRUE)`, otherwise the closure will name variables the condensed model no longer carries.
+
 ### Output modes
 
 By default, `solve_in_situ()` returns a tibble containing model output variables and coefficients.

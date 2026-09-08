@@ -31,8 +31,7 @@ Vetted models and their closures are available at [teems-models](https://github.
 |-------|-------|-------------|
 | GTAPv6 | `GTAPv6.tab`, `GTAPv6.cls` | GTAP version 6.2 format |
 | GTAPv7 | `GTAPv7.tab`, `GTAPv7.cls` | GTAP version 7.0 format |
-| GTAP-INT | `GTAP_INT.tab`, `GTAP_INT.cls` | GTAP intertemporal |
-| GTAP-RE | `GTAP_RE.tab`, `GTAP_RE.cls` | GTAP rational expectations |
+| GTAP-RE | `GTAP-RE.tab`, `GTAP-RE.cls` | GTAP rational expectations (version 2, on the v7.1 core) |
 
 
 Users may load their own models by providing a path to a Tablo file and closure:

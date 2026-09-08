@@ -56,7 +56,7 @@ Set mappings aggregate the fine-grained regions, sectors, and endowments in the 
 The set names used in `...` depend on the data format — see the [Loading and specifying sets](set_mappings.qmd) chapter for the full list of internal mappings and instructions for supplying custom CSV mappings.
 
 ## Time steps
-For temporally dynamic models (e.g., [GTAP-INT](https://github.com/teemsphere/teems-models/tree/main/GTAP-INTv1), [GTAP-RE](https://github.com/teemsphere/teems-models/tree/main/GTAP-REv1)), time steps must be provided representing t0 plus actual year steps from t0.
+For temporally dynamic models (e.g., [GTAP-RE](https://github.com/teemsphere/teems-models/tree/main/GTAP-RE)), time steps must be provided representing t0 plus actual year steps from t0.
 Time steps can be inputted in either actual year increments or represented as chronological years.
 Note that if chronological years are used, t0 must correspond with the reference year of the database being used.
 
@@ -155,7 +155,6 @@ In the below notation, hat (ˆ) indicates the new parameter value and asterisk i
 
 ### GTAP v6.2 format parameter weight methodology
 Headers, descriptions, and index ranges for parameters and associated data within the GTAP v6.2 model.
-GTAP-INT weights are identical to GTAP v6.2 with the addition of an invariant time set.
 
 ::: {.table-scroll .table-wide}
 |                        | Header | Description                                          | Set Index                                                                 |

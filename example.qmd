@@ -14,7 +14,7 @@ Two output modes are available, controlled by the `type` argument:
 
 | Argument | Default | Description |
 |----------|---------|-------------|
-| `model` | | Model name. One of `"GTAPv6"`, `"GTAPv7"`, `"GTAP-INT"`, `"GTAP-RE"` |
+| `model` | | Model name. One of `"GTAPv6"`, `"GTAPv7"`, `"GTAP-RE"` |
 | `path` | | Directory where files will be written |
 | `type` | `"model_files"` | Output type: `"model_files"` or `"scripts"` |
 | `dat_input` | `NULL` | Path to the basedata HAR file, or the `dat` list from [`GTAP_convert()`](data_load.qmd). Required when `type = "scripts"` |
@@ -122,8 +122,8 @@ Opening `part_uniform.R` in an editor shows:
 dat_input = "~/dat/GTAP/v10/flexAgg/gsddat.har"
 par_input = "~/dat/GTAP/v10/flexAgg/gsdpar.har"
 set_input = "~/dat/GTAP/v10/flexAgg/gsdset.har"
-model_file = "~/my_project/GTAP-INT.tab"
-closure_file = "~/my_project/GTAP-INT.cls"
+model_file = "~/my_project/GTAP-RE.tab"
+closure_file = "~/my_project/GTAP-RE.cls"
 
 dat <- ems_data(
   dat_input = dat_input,
@@ -131,8 +131,8 @@ dat <- ems_data(
   set_input = set_input,
   time_steps = c(0, 1, 2),
   REG = "big3",
-  PROD_COMM = "macro_sector",
-  ENDW_COMM = "labor_agg"
+  ACTS = "macro_sector",
+  ENDW = "labor_agg"
 )
 
 model <- ems_model(
@@ -144,7 +144,7 @@ partial <- ems_uniform_shock(
   var = "aoall",
   value = -1,
   REGr = "chn",
-  PROD_COMMj = "crops"
+  ACTSa = "crops"
 )
 
 cmf_path <- ems_deploy(

@@ -16,16 +16,17 @@ ems_custom_shock(var, input)
 
 ## Full variable custom shocks
 Custom shocks can be carried out over the full variable, with every tuple receiving a specified shock value.
-Here is a demonstration of 4 custom shocks carried out on all variable tuples for a range of variable dimensions with the [GTAP-INT](https://github.com/teemsphere/teems-models/tree/main/GTAP-INTv1) model.
+Here is a demonstration of 4 custom shocks carried out on all variable tuples for a range of variable dimensions with the [GTAP-RE](https://github.com/teemsphere/teems-models/tree/main/GTAP-RE) model.
+The `atall` shifter is omitted by the model file's condensation statements, so the model is loaded with `ems_model(..., ignore_condense = TRUE)` for this demonstration.
 
 Elements for data frame construction
 ```r
 time_steps <- c(0, 1, 2, 3)
 REG <- c("chn", "usa", "row")
-ENDW_COMM <- c("labor", "capital", "natlres", "land")
-TRAD_COMM <- c("svces", "food", "crops", "mnfcs", "livestock")
-PROD_COMM <- c("svces", "food", "crops", "mnfcs", "livestock", "zcgds")
-MARG_COMM <- "svces"
+ENDW <- c("labor", "capital", "natlres", "land")
+COMM <- c("svces", "food", "crops", "mnfcs", "livestock")
+ACTS <- COMM
+MARG <- "svces"
 ALLTIME <- seq(0, length(time_steps) - 1)
 ```
 
@@ -48,7 +49,7 @@ pop_shk <- ems_custom_shock(
 3D data frame and shock
 ```r
 aoall <- expand.grid(
-  PROD_COMMj = PROD_COMM,
+  ACTSa = ACTS,
   REGr = REG,
   ALLTIMEt = ALLTIME,
   stringsAsFactors = FALSE
@@ -65,8 +66,8 @@ aoall_shk <- ems_custom_shock(
 4D data frame and shock
 ```r
 afeall <- expand.grid(
-  ENDW_COMMi = ENDW_COMM,
-  PROD_COMMj = PROD_COMM,
+  ENDWe = ENDW,
+  ACTSa = ACTS,
   REGr = REG,
   ALLTIMEt = ALLTIME,
   stringsAsFactors = FALSE
@@ -83,10 +84,10 @@ afeall_shk <- ems_custom_shock(
 5D data frame and shock
 ```r
 atall <- expand.grid(
-  MARG_COMMm = MARG_COMM,
-  TRAD_COMMi = TRAD_COMM,
-  REGr = REG,
+  MARGm = MARG,
+  COMMc = COMM,
   REGs = REG,
+  REGd = REG,
   ALLTIMEt = ALLTIME,
   stringsAsFactors = FALSE
 )
