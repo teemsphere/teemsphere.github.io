@@ -118,7 +118,7 @@ Set ENDWM # mobile endowment # (capital, unsklab, sklab);
 
 **Set products** (`Set UACT = UNITA x ACTS;`, GEMPACK manual 10.1.6) are supported: elements are named `a_b` with the first factor varying fastest, and when a pair of names would exceed GEMPACK's 12-character element limit the compromise names of manual 11.7.11 are produced (`c2food_row`).
 The `$POS` intrinsic (manual 11.5.6), `Mapping (project)` from a set product (10.13.2) and mappings assigned by `Formula` statements (10.13.1) are supported as well, so the upstream GTAPv7 PostSim welfare-report block loads as written.
-Mapped index expressions (`del_nctaxb(REGTOBLOC(r))`, manual 11.9.4) may appear in formulas, equations, assertions and on the right-hand side of `Update` statements, as GTAP-E's carbon-tax level update has it; a mapping in a left-hand-side argument list is refused (manual 11.9.9).
+Mapped index expressions (`del_nctaxb(REGTOBLOC(r))`, manual 11.9.4) may appear in formulas, equations, assertions and on the right-hand side of `Update` statements, as GTAP-E's carbon-tax level update has it; a mapping in a left-hand-side argument list is refused (manual 11.9.9). A backsolved variable's defining equation may carry such mapped references to other variables (GTAP-E's demand equations under the bloc carbon tax); the backsolved variable itself must appear with plain indices.
 
 **Capital goods.** The `CGDS` sector in v6.2 format models is renamed to `cgds` by default due to R `data.table` C-locale sorting and preference for all set elements to be lowercase.
 
