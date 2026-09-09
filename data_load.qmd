@@ -165,6 +165,26 @@ aez_data <- ems_data(dat_input = "aez_data/gsdfdat.har",
 The endowment set (18 AEZ land endowments, labour types, capital and natural resources) and the `AEZS` set need no mapping; a custom mapping can aggregate the AEZs (for example into climate bands) since `AEZS = <csv>` is accepted like any other set.
 The v6-format AEZ layer of GTAP 10a carries different headers and is not prepared.
 
+### Preparing a GTAP-E database
+
+The GTAP-E model reads the disaggregated commodity set `DCOMM`, the mapping `MCOM` and the disaggregated electricity set `DELY` (headers `DCOM`, `MCOM`, `DELY`), together with the aggregated energy sets `EGY`, `ENYP`, `ENYG`, `ENYI`, which flexagg synthesizes at aggregation and the GTAP-E database does not carry.
+It also reads the CDE parameters `INCPAR` and `SUBPAR` over `TOPP` (the energy composite plus the non-energy commodities) rather than over `COMM`; the database ships those values under the headers `SUBE` and `INCE`.
+`target = "GTAP-E"` prepares a GTAPv7-format GTAP-E database (the GTAP 11 and 12 E releases) for the model: the disaggregated commodity set and mapping at source resolution (they never aggregate; the mapping composes onto the aggregated `COMM` at deployment), the energy sets, which follow `COMM`, and `SUBE`/`INCE` bound to the `SUBP`/`INCP` headers the model reads.
+`ems_data()` applies the same preparation on its own when it detects the energy layer (`COME` with the `SUBE`/`INCE` parameters, and none of the GTAP-Power electricity technologies), so the HAR files can be passed directly:
+
+```r
+e_data <- ems_data(dat_input = "e_data/gsdfdat.har",
+                   par_input = "e_data/gsdfpar.har",
+                   set_input = "e_data/gsdfset.har",
+                   REG = "big3",
+                   ACTS = "energy"
+)
+```
+
+The aggregation must keep the energy commodities distinct, as the `energy` mapping does.
+One that merges them, such as `macro_sector`, collapses the energy nest onto a single element: the model still solves, but there is nothing left for it to substitute between.
+The v6-format energy layer of GTAP 10a carries different headers and is not prepared.
+
 ## Data aggregation
 Data is aggregated according to type, with non-parameter coefficients summed by target set mappings and weighted averages calculated for the parameters below.
 A simple mean is applied to parameters not listed below.
