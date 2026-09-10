@@ -185,6 +185,30 @@ The aggregation must keep the energy commodities distinct, as the `energy` mappi
 One that merges them, such as `macro_sector`, collapses the energy nest onto a single element: the model still solves, but there is nothing left for it to substitute between.
 The v6-format energy layer of GTAP 10a carries different headers and is not prepared.
 
+### Preparing a GTAP-Power database
+
+The GTAP-EP model reads twenty-seven set headers the GTAP-Power database does not carry, which flexagg synthesizes at aggregation: the disaggregated commodity set and mapping (`DCOM`, `MCOM`, `DELY`), the aggregated energy sets `EGY` and `ENYP`/`ENYG`/`ENYI`, and the electricity nest sets `ELE*`, `ELY*`, `EGN*`, `EBL*` and `EPL*`, one copy of each per demand agent.
+As in GTAP-E it reads `INCPAR` and `SUBPAR` over `TOPP`, which the database ships under `SUBE` and `INCE`.
+`target = "GTAP-EP"` prepares a GTAPv7-format GTAP-Power database (the GTAP 11 and 12 Power releases) for the model, and `ems_data()` applies the same preparation on its own when it detects the layer (the energy headers together with the electricity technologies `ELEA`, `ELEC` and `POWR`):
+
+```r
+ep_data <- ems_data(dat_input = "power_data/gsdfdat.har",
+                    par_input = "power_data/gsdfpar.har",
+                    set_input = "power_data/gsdfset.har",
+                    REG = "big3",
+                    ACTS = "power"
+)
+```
+
+Two differences from the GTAP-E layer are worth noting.
+`EGY` is built as `FUEL` together with the whole electricity list rather than from `COME`, because flexagg redefines `COME` across the aggregation step: at source it excludes transmission and distribution, while on the aggregated file it includes them.
+`ENYP`/`ENYG`/`ENYI` carry the synthetic `ely` nest node rather than the electricity commodities, so unlike in GTAP-E they are not equal to `EGY`.
+
+The base-load and peak-load technologies are separated by their `BL` and `P` name suffixes; a technology list that does not partition cleanly is reported by name rather than guessed at.
+The aggregation must respect that split: one that merges a base-load technology with a peak-load one makes `EBL*` and `EPL*` overlap and the generation nest ill-defined.
+For this reason the standard activity mappings do not apply to a GTAP-Power database, every one of them sending the electricity activities to a single bucket; use the `power` or `power_tech` mappings shipped for this layer.
+The v6-format power layer of GTAP 10a carries different headers and is not prepared.
+
 ## Data aggregation
 Data is aggregated according to type, with non-parameter coefficients summed by target set mappings and weighted averages calculated for the parameters below.
 A simple mean is applied to parameters not listed below.

@@ -14,7 +14,7 @@ Two output modes are available, controlled by the `type` argument:
 
 | Argument | Default | Description |
 |----------|---------|-------------|
-| `model` | | Model name. One of `"GTAPv6"`, `"GTAPv7"`, `"GTAP-RE"`, `"GTAP-AEZ"`, `"GTAP-E"` |
+| `model` | | Model name. One of `"GTAPv6"`, `"GTAPv7"`, `"GTAP-RE"`, `"GTAP-AEZ"`, `"GTAP-E"`, `"GTAP-EP"` |
 | `path` | | Directory where files will be written |
 | `type` | `"model_files"` | Output type: `"model_files"` or `"scripts"` |
 | `dat_input` | `NULL` | Path to the basedata HAR file, or the `dat` list from [`GTAP_convert()`](data_load.qmd). Required when `type = "scripts"` |
@@ -90,6 +90,19 @@ paths <- ems_example(
   dat_input = "~/dat/GTAP-E/12a/gsdfdat.har",
   par_input = "~/dat/GTAP-E/12a/gsdfpar.har",
   set_input = "~/dat/GTAP-E/12a/gsdfset.har"
+)
+```
+
+The GTAP-EP scripts need a GTAP-Power database (the GTAP 11/12 Power releases); its energy and power layer is prepared by `ems_data()` on load, see [data loading](data_load.qmd). They aggregate with the `power` mapping, which keeps transmission, base load and peak load apart as the generation nest requires:
+
+```r
+paths <- ems_example(
+  model = "GTAP-EP",
+  path = "~/my_project",
+  type = "scripts",
+  dat_input = "~/dat/GTAP-P/12a/gsdfdat.har",
+  par_input = "~/dat/GTAP-P/12a/gsdfpar.har",
+  set_input = "~/dat/GTAP-P/12a/gsdfset.har"
 )
 ```
 
