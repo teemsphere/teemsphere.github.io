@@ -80,7 +80,7 @@ paths <- ems_example(
 )
 ```
 
-The GTAP-E scripts need a GTAP-E database (the GTAP 11/12 E releases); its energy layer is prepared by `ems_data()` on load, see [data loading](data_load.qmd). They aggregate with the `energy` mapping, which keeps the energy commodities distinct as the model's nest requires:
+The GTAP-E scripts need a GTAP-E database (the GTAP 12a E release); its energy layer is prepared by `ems_data()` on load, see [data loading](data_load.qmd). They aggregate with the `energy` mapping, which keeps the energy commodities distinct as the model's nest requires:
 
 ```r
 paths <- ems_example(
@@ -93,7 +93,7 @@ paths <- ems_example(
 )
 ```
 
-The GTAP-EP scripts need a GTAP-Power database (the GTAP 11/12 Power releases); its energy and power layer is prepared by `ems_data()` on load, see [data loading](data_load.qmd). They aggregate with the `power` mapping, which keeps transmission, base load and peak load apart as the generation nest requires:
+The GTAP-EP scripts need a GTAP-Power database (the GTAP 12a Power release); its energy and power layer is prepared by `ems_data()` on load, see [data loading](data_load.qmd). They aggregate with the `power` mapping, which keeps transmission, base load and peak load apart as the generation nest requires:
 
 ```r
 paths <- ems_example(

@@ -169,7 +169,7 @@ The v6-format AEZ layer of GTAP 10a carries different headers and is not prepare
 
 The GTAP-E model reads the disaggregated commodity set `DCOMM`, the mapping `MCOM` and the disaggregated electricity set `DELY` (headers `DCOM`, `MCOM`, `DELY`), together with the aggregated energy sets `EGY`, `ENYP`, `ENYG`, `ENYI`, which flexagg synthesizes at aggregation and the GTAP-E database does not carry.
 It also reads the CDE parameters `INCPAR` and `SUBPAR` over `TOPP` (the energy composite plus the non-energy commodities) rather than over `COMM`; the database ships those values under the headers `SUBE` and `INCE`.
-`target = "GTAP-E"` prepares a GTAPv7-format GTAP-E database (the GTAP 11 and 12 E releases) for the model: the disaggregated commodity set and mapping at source resolution (they never aggregate; the mapping composes onto the aggregated `COMM` at deployment), the energy sets, which follow `COMM`, and `SUBE`/`INCE` bound to the `SUBP`/`INCP` headers the model reads.
+`target = "GTAP-E"` prepares a GTAPv7-format GTAP-E database (the GTAP 12a E release) for the model: the disaggregated commodity set and mapping at source resolution (they never aggregate; the mapping composes onto the aggregated `COMM` at deployment), the energy sets, which follow `COMM`, and `SUBE`/`INCE` bound to the `SUBP`/`INCP` headers the model reads.
 `ems_data()` applies the same preparation on its own when it detects the energy layer (`COME` with the `SUBE`/`INCE` parameters, and none of the GTAP-Power electricity technologies), so the HAR files can be passed directly:
 
 ```r
@@ -184,12 +184,13 @@ e_data <- ems_data(dat_input = "e_data/gsdfdat.har",
 The aggregation must keep the energy commodities distinct, as the `energy` mapping does.
 One that merges them, such as `macro_sector`, collapses the energy nest onto a single element: the model still solves, but there is nothing left for it to substitute between.
 The v6-format energy layer of GTAP 10a carries different headers and is not prepared.
+The 11c release is recognised but refused by name: its `eny` row of `SUBE` is an un-normalised sum over the energy commodities (reaching five), and `SUBPAR` enters the CDE expenditure function as `1 - SUBPAR`; the 12a release carries the row correctly.
 
 ### Preparing a GTAP-Power database
 
 The GTAP-EP model reads twenty-seven set headers the GTAP-Power database does not carry, which flexagg synthesizes at aggregation: the disaggregated commodity set and mapping (`DCOM`, `MCOM`, `DELY`), the aggregated energy sets `EGY` and `ENYP`/`ENYG`/`ENYI`, and the electricity nest sets `ELE*`, `ELY*`, `EGN*`, `EBL*` and `EPL*`, one copy of each per demand agent.
 As in GTAP-E it reads `INCPAR` and `SUBPAR` over `TOPP`, which the database ships under `SUBE` and `INCE`.
-`target = "GTAP-EP"` prepares a GTAPv7-format GTAP-Power database (the GTAP 11 and 12 Power releases) for the model, and `ems_data()` applies the same preparation on its own when it detects the layer (the energy headers together with the electricity technologies `ELEA`, `ELEC` and `POWR`):
+`target = "GTAP-EP"` prepares a GTAPv7-format GTAP-Power database (the GTAP 12a Power release) for the model, and `ems_data()` applies the same preparation on its own when it detects the layer (the energy headers together with the electricity technologies `ELEA`, `ELEC` and `POWR`):
 
 ```r
 ep_data <- ems_data(dat_input = "power_data/gsdfdat.har",
@@ -207,7 +208,7 @@ Two differences from the GTAP-E layer are worth noting.
 The base-load and peak-load technologies are separated by their `BL` and `P` name suffixes; a technology list that does not partition cleanly is reported by name rather than guessed at.
 The aggregation must respect that split: one that merges a base-load technology with a peak-load one makes `EBL*` and `EPL*` overlap and the generation nest ill-defined.
 For this reason the standard activity mappings do not apply to a GTAP-Power database, every one of them sending the electricity activities to a single bucket; use the `power` or `power_tech` mappings shipped for this layer.
-The v6-format power layer of GTAP 10a carries different headers and is not prepared.
+The v6-format power layer of GTAP 10a carries different headers and is not prepared, and the 11c Power release is refused for the same un-normalised `SUBE` row as the 11c E release (reaching fourteen there).
 
 ## Data aggregation
 Data is aggregated according to type, with non-parameter coefficients summed by target set mappings and weighted averages calculated for the parameters below.
