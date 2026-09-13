@@ -162,6 +162,26 @@ outputs <- ems_solve(
 )
 ```
 
+### Concurrent runs
+
+Several model runs can solve at the same time, one deploy directory each.
+The directory is set by the `tempdir` option, so give every run its own before deploying it:
+
+```r
+for (case in c("johansen", "gragg")) {
+  ems_option_set(tempdir = file.path("~/runs", case))
+  dat <- ems_data(dat_input, par_input, set_input, REG = "big3", ACTS = "macro_sector")
+  cmf <- ems_deploy(dat, model, shock)
+  # solve each cmf in its own process
+}
+```
+
+Runs separated this way do not touch each other: each has its own solver scratch files, its own solution binaries and its own log.
+
+Two solves in one deploy directory are not supported and the second is refused by name.
+They would share the solver's scratch files, which are named from the MPI rank alone, and the solution binaries and CSV outputs the CMF names, so both runs would be corrupted rather than one.
+A run that is interrupted can leave its claim behind, in which case the message names the `.solve_lock` directory to remove.
+
 ## Terminal mode
 
 For long-running models, `terminal_run` allows the user to close any R IDE prior to running from the terminal:
