@@ -69,7 +69,7 @@ Endowment mappings apply to `ENDW_COMM` in GTAPv6.2 and `ENDW` in GTAPv7.0.
 
 Custom mappings can be provided as a file path to a two-column CSV or a data frame (e.g., `data.table` or `tibble`), where the first column contains origin elements and the second column contains destination (aggregated) elements.
 See [teems-mappings](https://github.com/teemsphere/teems-mappings) for example files.
-Note that all set elements are transformed to lowercase within the solver outputs.
+Set element names are case-insensitive on input and lowercase everywhere else: the elements a database ships (`Land`, `NatlRes`, `CGDS`), the origin and destination columns of a mapping, and the elements named in shocks, swaps and closures are all folded to lowercase, and every TEEMS object and solver output carries them in lowercase.
 
 ```r
 v7_data <- ems_data(dat_input = "v7_data/gsdfdat.har",
