@@ -150,6 +150,8 @@ memory: after matrix assembly, resident 5.12 GB max per rank, 18.40 GB over 4 ra
 
 The same numbers are recorded per phase as `rss_gb` in `sol.stats.json` and summarised in the model diagnostics. Read the two columns differently: the *max* is what one rank needs, so it decides whether a run fits a host at a given rank count; the *sum* is what the job holds in total, and since the value tables are replicated on every rank the sum grows with the rank count. When a large run is close to the machine's memory, the phase with the peak says where the memory goes, and fewer ranks usually help before a different matrix method does.
 
+Under `"NDBBD"` memory also grows with the thread count: four regions of the solve hold per-thread working sets sized by the interface between periods (the dense interface product, the interface staged at `laDi` percent, and a chain block's factors read back from scratch), so a 234-million-equation run measured 62 GB plus 2.9 GB per thread on one rank. The solver sizes each region's per-thread footprint from the deployed structure before its threads start and lowers the thread count so that the ranks on the host fit within 0.8 of the memory still available (the container's memory limit is honoured). The choice is logged as an `ndbbd threads:` line with the per-thread breakdown and recorded as `ndbbd_threads` in `sol.stats.json`; it changes only the wall time, never the solution.
+
 ## Parallel solving
 
 For models that support parallel matrix methods, increase `n_tasks`:
