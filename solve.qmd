@@ -152,6 +152,8 @@ The same numbers are recorded per phase as `rss_gb` in `sol.stats.json` and summ
 
 Under `"NDBBD"` memory also grows with the thread count: four regions of the solve hold per-thread working sets sized by the interface between periods (the dense interface product, the interface staged at `laDi` percent, and a chain block's factors read back from scratch), so a 234-million-equation run measured 62 GB plus 2.9 GB per thread on one rank. The solver sizes each region's per-thread footprint from the deployed structure before its threads start and lowers the thread count so that the ranks on the host fit within 0.8 of the memory still available (the container's memory limit is honoured). The choice is logged as an `ndbbd threads:` line with the per-thread breakdown and recorded as `ndbbd_threads` in `sol.stats.json`; it changes only the wall time, never the solution.
 
+Two solves of the same deployment give byte-identical solutions with `"LU"`, `"SBBD"` and `"NDBBD"` at any thread count. With `"DBBD"` the border contributions of the diagonal blocks are accumulated in whatever order the threads finish, so at `n_threads` above 1 repeated runs differ at the floating-point rounding level (of the order of 1e-10 relative on well-determined elements, sign flips on numerical zeros; a multi-step extrapolation on a poorly conditioned aggregation can amplify this to a few digits on the least-determined elements). Use `n_threads = 1L` with `"DBBD"` when byte-for-byte reproducibility matters.
+
 ## Parallel solving
 
 For models that support parallel matrix methods, increase `n_tasks`:
