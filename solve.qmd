@@ -18,6 +18,8 @@ By default, solver outputs are automatically parsed into structured R objects vi
 | `adaptive` | `"no"` | Adaptive step-size control for the embedded Runge-Kutta methods (`"BoSha32"`, `"DoPri54"`): `"yes"` redoes steps whose worst accuracy metric exceeds `eps_tolerance` (or on which a percentage-change variable crosses `-100%`) with a smaller step size and adjusts the next step size after every accepted step; `"accuracy-only"` acts on the accuracy metric alone |
 | `eps_tolerance` | `0.01` | Per-step accuracy-metric bound targeted by `adaptive` control. The default is the measured optimum (four correct digits on 92-96% of elements at a third of the factorizations, see below); `0.1` is a cheaper exploratory setting. Values below `0.005` are hard to achieve numerically |
 | `n_tasks` | `1L` | Number of tasks to run in parallel. Must be `1L` if `matrix_method` is `"LU"` |
+| `n_threads` | `1L` | OpenMP threads per task |
+| `resources` | `"manual"` | `"auto"` reads the container's cores and memory and resolves `n_tasks`, `n_threads` and `inmemory` for the matrix method (see [Parallel solving](#parallel-solving)); arguments given explicitly keep their values |
 | `pre_probe` | `FALSE` | When `TRUE`, run the solver's structural probe first and abort with the defective variable and equation elements named if the deployed system is structurally singular (see [`ems_probe()`](#checking-solve-quality)). With `matrix_method = "auto"` the same probe run also supplies the structural evidence for the method choice |
 | `suppress_outputs` | `FALSE` | When `TRUE`, solver outputs are not automatically parsed with [`ems_compose()`](compose.qmd) |
 | `terminal_run` | `FALSE` | When `TRUE`, exits without running the solver, allowing the user to close R and run from the terminal |
@@ -48,7 +50,7 @@ Increase `n_tasks` to take advantage of parallel matrix solution methods.
 <!-- Add links to matrix method papers -->
 | Method | Description |
 |--------|-------------|
-| `"auto"` | The default. `"SBBD"` for intertemporal models; `"LU"` for static models, switching to `"DBBD"` when `n_tasks >= 2`, the deployed system is large (roughly 2 million or more equations, or 1.5 million with 100+ diagonal blocks) and the solver's structural probe of the deployment finds a block partition with at least `n_tasks` blocks and a border below a tenth of the system. The probe is skipped when the deploy metadata already settles the choice (static single-task runs, static systems below 1.5 million equations); when it runs, its evidence and the thresholds used are reported and written to `model_diagnostics.txt`. Thresholds are calibrated on 1-4 task benchmarks; the `"SBBD"` to `"NDBBD"` escalation is disabled until measured. Set the method explicitly to override |
+| `"auto"` | The default. `"SBBD"` for intertemporal models (fastest at every measured size, 2.4 to 230 million equations), falling back to `"NDBBD"` only when the memory model says SBBD's host copy does not fit the container. `"LU"` for static models at a single task. At `n_tasks >= 2` an uncondensed static system takes `"DBBD"` at any size where a block partition with enough blocks exists (measured faster than LU at every rung from 346 thousand to 7.7 million equations); a condensed one (in-TAB `Backsolve`, the vetted GTAP models' default) takes `"DBBD"` from about 120 thousand condensed equations for multi-step methods and 70 thousand for Johansen, where threaded LU stops winning, provided DBBD's memory estimate fits the container. The solver's structural probe supplies the partition evidence where it is cheap: always on condensed systems (seconds), on uncondensed static systems below one million equations, never on intertemporal ones; above that the deploy metadata's region count stands in. The evidence, the constants and the memory estimates are reported with the selection and written to `model_diagnostics.txt`. Calibrated on the 2026-09 laptop ladder (12 GB, 4 and 8 cores) and the top-end cells; see the [developer notes](https://github.com/teemsphere/teems-solver) `hpc_auto_plan.md` |
 | `"LU"` | Standard LU decomposition. The most robust and potentially slowest for large models. `n_tasks` must be `1L`. Works with both static and dynamic models |
 | `"DBBD"` | Doubly bordered block diagonal. Parallel matrix solution method for static models only. Potentially faster than `"LU"` although less robust |
 | `"SBBD"` | Singly bordered block diagonal. Parallel matrix solution method for intertemporal models only. Potentially faster than `"LU"` although less robust |
@@ -152,6 +154,19 @@ The same numbers are recorded per phase as `rss_gb` in `sol.stats.json` and summ
 
 Under `"NDBBD"` memory also grows with the thread count: four regions of the solve hold per-thread working sets sized by the interface between periods (the dense interface product, the interface staged at `laDi` percent, and a chain block's factors read back from scratch), so a 234-million-equation run measured 62 GB plus 2.9 GB per thread on one rank. The solver sizes each region's per-thread footprint from the deployed structure before its threads start and lowers the thread count so that the ranks on the host fit within 0.8 of the memory still available (the container's memory limit is honoured). The choice is logged as an `ndbbd threads:` line with the per-thread breakdown and recorded as `ndbbd_threads` in `sol.stats.json`; it changes only the wall time, never the solution.
 
+### The memory model and the pre-solve check
+
+Before a run starts, teems-R estimates its peak memory and compares it with the container's memory (Docker Desktop's Resources setting on a laptop, the cgroup limit or the machine's memory elsewhere; read once per session from inside the image). The estimate is per *plain-equivalent* equation, the solved system plus the backsolved elements, because condensation cuts the equation count about twentyfold but not the peak memory (the value tables follow the data):
+
+| Method | Peak memory, kB per plain-equivalent equation | Measured on |
+|---|---|---|
+| `"LU"` | 0.90 (1.2 × that when condensed) | 0.58-0.70 to 3.8 million equations, 0.84-0.90 at 7.7 million |
+| `"DBBD"` | 0.85 + 0.27 per task (1.55 × that when condensed) | 346 thousand to 7.7 million; matches the binding 12 GB cell within 3 %, over-predicts smaller systems by up to a quarter |
+| `"SBBD"` | 0.36 + 0.02 per task | 1.3 to 8.9 million; extrapolates to 21.9 million within 15 % |
+| `"NDBBD"` | 0.15 per task + 0.05 | replicated tables at 234 million equations (34.7 GB on one rank) plus the local matrix share; thread working sets are budgeted by the solver |
+
+A run whose estimate exceeds the container's memory by more than the model's error band (20 %) is refused by name before it starts, with the estimate, the limit and the remedies (a coarser aggregation, condensation, a higher Docker Desktop memory limit, fewer tasks under `"DBBD"`, `"NDBBD"` at one task for an intertemporal model, or a larger host); a run inside the band is warned about. Under `matrix_method = "auto"` the same estimates keep `"DBBD"` from being chosen where it would not fit and switch an intertemporal run to `"NDBBD"` when `"SBBD"` would not. The estimate and the verdict are written to `model_diagnostics.txt`.
+
 Two solves of the same deployment give byte-identical solutions with `"LU"`, `"SBBD"` and `"NDBBD"` at any thread count. With `"DBBD"` the border contributions of the diagonal blocks are accumulated in whatever order the threads finish, so at `n_threads` above 1 repeated runs differ at the floating-point rounding level (of the order of 1e-10 relative on well-determined elements, sign flips on numerical zeros; a multi-step extrapolation on a poorly conditioned aggregation can amplify this to a few digits on the least-determined elements). Use `n_threads = 1L` with `"DBBD"` when byte-for-byte reproducibility matters.
 
 ## Parallel solving
@@ -165,6 +180,31 @@ outputs <- ems_solve(
   n_tasks = 4
 )
 ```
+
+### Letting teems-R choose the resources
+
+`resources = "auto"` resolves `n_tasks`, `n_threads` and `inmemory` from the container's cores and memory and the matrix method, using the rules measured on a 12 GB laptop profile with 4 and 8 cores and on a 32-core box:
+
+| Method | Tasks | Threads | Why |
+|---|---|---|---|
+| `"SBBD"` | `min(8, cores, time steps)` | the remaining cores per task, at most 8 | ranks beat threads at every fixed core count (one task with eight threads is 55-93 % slower than eight tasks); each doubling of tasks past four buys at most 11 % |
+| `"DBBD"` | 2 on a laptop (8 cores or fewer); `cores / 4`, at most 8, on a bigger host; fewer where the memory model says so | the remaining cores per task, at most 8 | wall is flat from two tasks at laptop sizes while each task costs 0.27 kB per equation; condensed systems get slower with more tasks |
+| `"LU"` | 1 | up to 8 | condensed LU speeds up 29-81 % with threads; uncondensed LU does not, and is better served by `"DBBD"` |
+| `"NDBBD"` | 1 | every core | the replicated tables are held once; the solver budgets the threads of each region from their memory footprint |
+
+Any of the three arguments passed explicitly keeps its value and the others resolve around it. Scratch-backed runs (`"NDBBD"`, `inmemory = FALSE`) get their scratch directory inside the container filesystem (`tempdir = "/tmp"` unless given), because docker's `/dev/shm` is 64 MB by default. The resolved values, the container inspected and the memory estimate are reported and written to `model_diagnostics.txt`.
+
+```r
+outputs <- ems_solve(
+  cmf_path = cmf_path,
+  solution_method = "Gragg",
+  resources = "auto"
+)
+```
+
+### Running on a laptop
+
+Docker Desktop hands the solver a Linux VM with the memory and CPUs set under Settings > Resources; on a 16 GB laptop set the memory to 12 GB (8 GB leaves room for little beyond the vetted models at a medium aggregation). What fits in 12 GB, measured on that profile with Gragg 2-4-8: every intertemporal deployment to about 20 million equations under `"SBBD"` (8.9 million equations peak at 4.5 GB); uncondensed static systems to 7.7 million equations under `"DBBD"` at two tasks (10.8-11.2 GB) or `"LU"` (6.5 GB Johansen); condensed static systems to about 140 thousand condensed equations under `"DBBD"` at two tasks (6.4 GB) and to 230 thousand under threaded `"LU"` (6 GB). The vetted GTAP models at a medium aggregation condense to 25-200 thousand equations and solve in seconds to minutes; the "fits" verdict for a given deployment is in its `model_diagnostics.txt` after `resources = "auto"` or any solve. `-fastrefac` and `inmemory = FALSE` are not laptop levers: the first is slower on 1.4-3.8 million-equation systems and the second saves no memory.
 
 ### Concurrent runs
 
