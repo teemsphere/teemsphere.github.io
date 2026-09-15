@@ -19,7 +19,6 @@ By default, solver outputs are automatically parsed into structured R objects vi
 | `eps_tolerance` | `0.01` | Per-step accuracy-metric bound targeted by `adaptive` control. The default is the measured optimum (four correct digits on 92-96% of elements at a third of the factorizations, see below); `0.1` is a cheaper exploratory setting. Values below `0.005` are hard to achieve numerically |
 | `n_tasks` | `1L` | Number of tasks to run in parallel. Must be `1L` if `matrix_method` is `"LU"` |
 | `n_threads` | `1L` | OpenMP threads per task |
-| `pre_probe` | `FALSE` | When `TRUE`, run the solver's structural probe first and abort with the defective variable and equation elements named if the deployed system is structurally singular (see [`ems_probe()`](#checking-solve-quality)). |
 | `suppress_outputs` | `FALSE` | When `TRUE`, solver outputs are not automatically parsed with [`ems_compose()`](compose.qmd) |
 | `verbosity` | `1L` | Solver log detail: `0` errors, warnings and the accuracy summary; `1` adds phase progress and timings; `2` adds per-rank and per-block detail |
 | `assertions` | `"fatal"` | Severity of TAB `Assertion` failures (GEMPACK 25.3): `"fatal"`, `"warn"` or `"off"` |
@@ -27,7 +26,7 @@ By default, solver outputs are automatically parsed into structured R objects vi
 | `range_test_updated` | `"warn"` | As `range_test_initial`, for updated values |
 | `postsim` | `TRUE` | `FALSE` skips the TAB's `PostSim` sections |
 | `terminal_run` | `FALSE` | When `TRUE`, exits without running the solver, allowing the user to close R and run from the terminal |
-| `...` | | Additional named solver arguments: the Runge-Kutta step controls (`max_retries`, `retry_adjust`), the MA48 workspace initial guesses (`laA`, `laD`, `laDi` — normally left unset: the solver sizes its workspace automatically, growing it as needed and warm-starting repeat runs from the recorded `la_used` in `sol.stats.json`) and the expert solver flags (`fastrefac`, `gpzerodivide`, `cntl_3`, `cntl_6`, `nsbbdblocks`, `withmc66`, `smllthreads`, `tempdir`, `nowrites`, `condest`, e.g. `smllthreads = 2L`). Unknown names are an error, never a silently ignored flag |
+| `...` | | Additional named solver arguments: the Runge-Kutta step controls (`max_retries`, `retry_adjust`), the MA48 workspace initial guesses (`laA`, `laD`, `laDi` — normally left unset: the solver sizes its workspace automatically, growing it as needed and warm-starting repeat runs from the recorded `la_used` in `sol.stats.json`) and the expert solver flags (`inmemory` — value arrays and block factors resident in memory, the solver's default for every method except `"NDBBD"` — `fastrefac`, `gpzerodivide`, `cntl_3`, `cntl_6`, `nsbbdblocks`, `withmc66`, `smllthreads`, `tempdir`, `nowrites`, `condest`, e.g. `smllthreads = 2L`). Unknown names are an error, never a silently ignored flag |
 
 ## Basic usage
 
@@ -265,7 +264,6 @@ If all input files already reside in `model_dir`, no copying is performed; other
 | `n_subintervals` | `1L` | Number of subintervals for the applied shock |
 | `steps` | `c(2L, 4L, 8L)` | Vector of steps for the Gragg method |
 | `n_tasks` | `1L` | Number of tasks to run in parallel. Must be `1L` if `matrix_method` is `"LU"` |
-| `pre_probe` | `FALSE` | When `TRUE`, run the solver's structural probe first and abort with the defective variable and equation elements named if the deployed system is structurally singular (see [`ems_probe()`](#checking-solve-quality)). |
 | `suppress_outputs` | `FALSE` | When `TRUE`, returns the CMF file path instead of parsed outputs |
 | `terminal_run` | `FALSE` | When `TRUE`, exits without running the solver |
 | `solver_args` | `NULL` | Named list of the additional solver arguments `ems_solve()` accepts through `...` (the MA48 workspace initial guesses and the expert solver flags, e.g. `list(smllthreads = 2L)`); a list because the in-situ `...` carries the input files |
