@@ -24,9 +24,8 @@ By default, solver outputs are automatically parsed into structured R objects vi
 | `assertions` | `"fatal"` | Severity of TAB `Assertion` failures (GEMPACK 25.3): `"fatal"`, `"warn"` or `"off"` |
 | `range_test_initial` | `"warn"` | Severity of declared-range violations (e.g. `(ge 0)`) on initial values (GEMPACK `range test initial values`; its `yes`/`warn`/`no` are `"fatal"`/`"warn"`/`"off"`) |
 | `range_test_updated` | `"warn"` | As `range_test_initial`, for updated values |
-| `postsim` | `TRUE` | `FALSE` skips the TAB's `PostSim` sections |
 | `terminal_run` | `FALSE` | When `TRUE`, exits without running the solver, allowing the user to close R and run from the terminal |
-| `...` | | Additional named solver arguments: the Runge-Kutta step controls (`max_retries`, `retry_adjust`), the MA48 workspace initial guesses (`laA`, `laD`, `laDi` — normally left unset: the solver sizes its workspace automatically, growing it as needed and warm-starting repeat runs from the recorded `la_used` in `sol.stats.json`) and the expert solver flags (`inmemory` — value arrays and block factors resident in memory, the solver's default for every method except `"NDBBD"` — `fastrefac`, `gpzerodivide`, `cntl_3`, `cntl_6`, `nsbbdblocks`, `withmc66`, `smllthreads`, `tempdir`, `nowrites`, `condest`, e.g. `smllthreads = 2L`). Unknown names are an error, never a silently ignored flag |
+| `...` | | Additional named solver arguments: the Runge-Kutta step controls (`max_retries`, `retry_adjust`), the MA48 workspace initial guesses (`laA`, `laD`, `laDi` — normally left unset: the solver sizes its workspace automatically, growing it as needed and warm-starting repeat runs from the recorded `la_used` in `sol.stats.json`) and the expert solver flags (`postsim` — `FALSE` skips the TAB's `PostSim` sections, a TEEMS-only switch — `inmemory` — value arrays and block factors resident in memory, the solver's default for every method except `"NDBBD"` — `fastrefac`, `gpzerodivide`, `cntl_3`, `cntl_6`, `nsbbdblocks`, `withmc66`, `smllthreads`, `tempdir`, `nowrites`, `condest`, e.g. `smllthreads = 2L`). Unknown names are an error, never a silently ignored flag |
 
 ## Basic usage
 
