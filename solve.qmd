@@ -21,6 +21,11 @@ By default, solver outputs are automatically parsed into structured R objects vi
 | `n_threads` | `1L` | OpenMP threads per task |
 | `pre_probe` | `FALSE` | When `TRUE`, run the solver's structural probe first and abort with the defective variable and equation elements named if the deployed system is structurally singular (see [`ems_probe()`](#checking-solve-quality)). |
 | `suppress_outputs` | `FALSE` | When `TRUE`, solver outputs are not automatically parsed with [`ems_compose()`](compose.qmd) |
+| `verbosity` | `1L` | Solver log detail: `0` errors, warnings and the accuracy summary; `1` adds phase progress and timings; `2` adds per-rank and per-block detail |
+| `assertions` | `"fatal"` | Severity of TAB `Assertion` failures (GEMPACK 25.3): `"fatal"`, `"warn"` or `"off"` |
+| `range_test_initial` | `"warn"` | Severity of declared-range violations (e.g. `(ge 0)`) on initial values (GEMPACK `range test initial values`; its `yes`/`warn`/`no` are `"fatal"`/`"warn"`/`"off"`) |
+| `range_test_updated` | `"warn"` | As `range_test_initial`, for updated values |
+| `postsim` | `TRUE` | `FALSE` skips the TAB's `PostSim` sections |
 | `terminal_run` | `FALSE` | When `TRUE`, exits without running the solver, allowing the user to close R and run from the terminal |
 | `...` | | Additional named solver arguments: the Runge-Kutta step controls (`max_retries`, `retry_adjust`), the MA48 workspace initial guesses (`laA`, `laD`, `laDi` — normally left unset: the solver sizes its workspace automatically, growing it as needed and warm-starting repeat runs from the recorded `la_used` in `sol.stats.json`) and the expert solver flags (`fastrefac`, `gpzerodivide`, `cntl_3`, `cntl_6`, `nsbbdblocks`, `withmc66`, `smllthreads`, `tempdir`, `nowrites`, `condest`, e.g. `smllthreads = 2L`). Unknown names are an error, never a silently ignored flag |
 
