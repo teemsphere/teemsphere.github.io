@@ -37,6 +37,10 @@ outputs <- ems_solve(
 )
 ```
 
+## Solver version
+
+Every solve begins with a handshake: the package asks the image for its solver version (`teems-solver -version`, once per image per session) and holds it to the interface contract. The solver's major version must match the package's, and it must be at least the package's minimum, `1.1.0`, the first solver that answers at all. An image that gives no answer predates the versioned interface. By default a silent, old or mismatched image stops the solve with the pull or rebuild step named; `ems_option_set(version_check = "warn")` reports it and runs anyway, which is how a pinned old image is reproduced bit for bit, and `"off"` skips the question. The version the run used is the first line of the solver log and the `Solver version` line of the solve record in `model_diagnostics.txt`.
+
 ## Solution methods
 
 | Method | Description |
