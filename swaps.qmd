@@ -37,7 +37,10 @@ Note that swaps (and validity checks) are handled in the order they are inputted
 Set arguments in `...` use the model-specific set-index naming convention (set name concatenated with the variable's index letter, e.g. `REGr`, `ACTSa`) to identify which tuples to include in the swap.
 
 ```r
-ems_swap(var, ...)
+ems_swap(
+  var,
+  ...
+)
 ```
 
 | Argument | Type | Description |
@@ -52,7 +55,8 @@ Within the [GTAPv7](https://github.com/teemsphere/teems-models/tree/main/GTAPv7)
 Variable (orig_level=VDFB)(all,c,COMM)(all,a,ACTS)(all,r,REG)
     qfd(c,a,r) # demand for domestic commodity c by activity a in region r #;
 ```
-What if we wish to shock only certain parts of this variable (e.g., a region or commodity) and allow the remainder of the variable to endogenously adjust according to model equations? In this case we would swap on the parts of the variable that we will provide values to and leave the remainder.
+What if we wish to shock only certain parts of this variable (e.g., a region or commodity) and allow the remainder of the variable to endogenously adjust according to model equations?
+In this case we would swap on the parts of the variable that we will provide values to and leave the remainder.
 If, for example, we have a shock value for "asia" within "REG" and "crops" within "ACTS", the following `ems_swap()` call will prepare this swap for input into the `swap_in` argument of `ems_deploy()`:
 ```r
 qfd_in <- ems_swap(
@@ -62,7 +66,8 @@ qfd_in <- ems_swap(
 )
 ```
 
-***Note that sets specified in this manner are identified by the model-specific concatenation of the standard set name plus the variable-specific index.*** This is necessary because many variables contain multiple instances of the same set and none of the `teems` functions relies upon input entry order or order within the model to make distinctions.
+***Note that sets specified in this manner are identified by the model-specific concatenation of the standard set name plus the variable-specific index.
+This is necessary because many variables contain multiple instances of the same set and none of the `teems` functions relies upon input entry order or order within the model to make distinctions.
 In this case the "qfd" set subindices are "c", "a", and "r", yielding "COMMc", "ACTSa", and "REGr".
 In order to retain a valid closure we also use the same approach to the outgoing variable "tfd":
 ```r

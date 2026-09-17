@@ -1,0 +1,109 @@
+# Solver benchmarks {#benchmarks}
+
+This appendix summarises the measurements behind the method recommendations in [Solving the model](solve.qmd#recommended).
+They show how solve time and memory change with model size and matrix method, first on a laptop-sized machine and then for models of up to 284 million equations on a server.
+
+## How the runs were made
+
+- **Models:** GTAPv7 (static) and GTAP-RE (intertemporal) on the GTAP 12 database, at the aggregations listed in each table, with all endowments.
+  Static models were run both as the full system (`ignore_condense = TRUE`) and condensed (the vetted default).
+- **Shock and method:** `aoall` +20 % everywhere, solved with Gragg 2-4-8.
+- **Machine:** a 12 GB memory limit with 4 or 8 cores, emulating a 16 GB laptop running Docker Desktop.
+  The tables show the 8-core runs, with resources written as tasks × threads.
+  The [large models](#large-models) ran on the full server: 32 cores and 125 GB.
+- **Reading the times:** the runs used server processors, so absolute times will differ on your machine; the ratios between methods carry over.
+  Each configuration ran once.
+- **Solver:** 1.1.0 development builds, September 2026.
+
+## Intertemporal models
+
+GTAP-RE, 8 cores; aggregations are REG × ACTS × periods.
+Resources are written tasks × threads, and "Best SBBD" is the fastest split of the 8 cores.
+
+| Aggregation | Equations | LU | SBBD 1 × 8 | Best SBBD | Memory |
+|---|---|---|---|---|---|
+| big3 × full × 6 | 1.30M | 177 s | 52 s | 34 s (8 × 1) | 0.9 GB |
+| big3 × full × 11 | 2.38M | 435 s | 96 s | 60 s (8 × 1) | 1.5 GB |
+| big3 × full × 21 | 4.54M | – | 189 s | 106 s (4 × 2) | 2.1 GB |
+| WB7 × full × 11 | 5.87M | – | 334 s | 173 s (8 × 1) | 3.2 GB |
+| big3 × full × 41 | 8.85M | – | 373 s | 215 s (8 × 1) | 4.5 GB |
+
+- SBBD is 5 to 7 times faster than LU.
+- Tasks beat threads: splitting 8 cores into 4 or 8 tasks is 35 to 50 % faster than 1 task with 8 threads, and 8 tasks gain at most about 10 % over 4.
+- Memory is modest; every intertemporal run fitted comfortably in 12 GB.
+
+## Static models, full system
+
+GTAPv7 with `ignore_condense = TRUE`, 8 cores; aggregations are REG × ACTS.
+LU uses 8 threads, and "Best DBBD" is the fastest split of the 8 cores.
+
+| Aggregation | Equations | LU | Best DBBD | DBBD / LU |
+|---|---|---|---|---|
+| WB23 × energy | 346k | 36 s | 17 s (4 × 2) | 0.46 |
+| WB7 × full | 534k | 60 s | 29 s (4 × 2) | 0.48 |
+| R32 × medium | 1.41M | 470 s | 170 s (8 × 1) | 0.36 |
+| R32 × full | 3.46M | 2,618 s | 564 s (4 × 2) | 0.22 |
+| medium × medium | 3.77M | 3,095 s | 789 s (2 × 4) | 0.26 |
+| large × medium | 7.69M | not finished in 3 h | 2,373 s (2 × 4) | – |
+
+- DBBD is faster than LU at every size, and the advantage grows with size.
+- LU gains almost nothing from threads on the full system.
+
+## Static models, condensed
+
+The same aggregations with the vetted condensation, 8 cores.
+Condensation cuts the system about twentyfold.
+
+| Aggregation | Equations | LU 1 × 8 | DBBD 2 × 4 |
+|---|---|---|---|
+| WB23 × energy | 20k | 14 s | 23 s |
+| WB7 × full | 25k | 31 s | 60 s |
+| R32 × medium | 70k | 125 s | 153 s |
+| R32 × full | 110k | 456 s | 511 s |
+| medium × medium | 140k | 713 s | 623 s |
+| large × medium | 230k | not finished in 3 h | out of memory |
+
+- Threaded LU is the faster choice up to about 100 thousand condensed equations; DBBD takes over above that.
+- Condensed DBBD gets slower with more tasks, and needs more memory than on the full system.
+- The largest model solves faster uncondensed with DBBD (2,373 s above) than condensed with either method.
+
+## Large models {#large-models}
+
+A server with 32 cores (AMD EPYC 7763) and 125 GB of memory, with no container limit.
+All runs used Johansen except the first, which used Gragg 2-4-8.
+GTAP-INT is a research model that is not shipped with teems.
+
+| Model | Aggregation | Equations | Method | Time | Memory |
+|---|---|---|---|---|---|
+| GTAP-RE | WB7 × full × 41 | 21.9M | SBBD 8 × 8 | 422 s | 10 GB |
+| GTAPv7 (full) | full × full | 40.5M | DBBD 8 × 1 | 1,449 s | 87 GB |
+| GTAP-RE | WB7 × full × 430 | 230M | SBBD 8 × 4 | 417 s | 91 GB |
+| GTAP-RE | WB7 × full × 468 | 250M | SBBD 8 × 1 | 690 s | 100 GB |
+| GTAP-INT | – | 234M | NDBBD 1 × 32 | 13,715 s | 130 GB |
+| GTAP-INT | – | 284M | NDBBD 1 × 8 | 21,135 s | 132 GB |
+
+- SBBD solves intertemporal models of 250 million equations in minutes, as long as they fit in memory.
+- For the same 40.5M-equation GTAPv7 system, an earlier build took 27 hours with LU on the full system and 2.9 hours with LU on the condensed model, against 24 minutes with DBBD above.
+- NDBBD is much slower than SBBD, but it solves intertemporal models that SBBD cannot fit: on the 234M-equation GTAP-INT model, SBBD ran out of memory.
+  The largest model solved, at 284M equations, used nearly all of the server's memory.
+- Adding tasks raises memory: DBBD on 16 tasks ran out of memory on the 40.5M-equation system that 8 tasks solved.
+
+## Memory
+
+Peak memory grows with the size of the *full* system, even when the model is condensed, because the data arrays follow the full model.
+
+| Method | Peak memory per million equations of the full system |
+|---|---|
+| LU | 0.6 to 0.9 GB |
+| DBBD | 0.85 GB + 0.27 GB per task |
+| SBBD | 0.36 GB + 0.02 GB per task |
+
+A condensed model needs about the same memory as its full system under LU, and 1.3 to 1.55 times as much under DBBD.
+
+Within 12 GB:
+
+- intertemporal models fitted at every size measured (up to 8.85M equations; the model above suggests about 20M);
+- full static systems fitted to 7.7M equations with LU or DBBD on 2 tasks; DBBD on 4 or more tasks ran out of memory at that size;
+- condensed static systems fitted at every size with LU; DBBD on 8 tasks ran out of memory from 110 thousand condensed equations.
+
+`ems_solve()` uses these estimates to stop a run that will not fit before it starts (see [Memory](solve.qmd#memory)).

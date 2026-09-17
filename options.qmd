@@ -9,6 +9,27 @@ Options are managed through three functions:
 - `ems_option_set()` modifies option values
 - `ems_option_reset()` restores all options to their defaults
 
+```r
+ems_option_get(
+  name = NULL
+)
+
+ems_option_set(
+  verbose = NULL,
+  tempdir = NULL,
+  ndigits = NULL,
+  accuracy_threshold = NULL,
+  check_shock_status = NULL,
+  timestep_header = NULL,
+  n_timestep_header = NULL,
+  full_exclude = NULL,
+  docker_tag = NULL,
+  version_check = NULL
+)
+
+ems_option_reset()
+```
+
 Options persist for the duration of the R session and are reset on package reload.
 
 ## Retrieving options
@@ -52,5 +73,5 @@ ems_option_reset()
 | `timestep_header` | `"YEAR"` | Coefficient containing a numeric vector of timestep intervals. For novel intertemporal models — modify with caution |
 | `n_timestep_header` | `"NTSP"` | Coefficient containing a numeric vector length one with sum of timestep intervals. For novel intertemporal models — modify with caution |
 | `full_exclude` | `c("DREL", "DVER", "XXCR", "XXCD", "XXCP", "SLUG", "EFLG")` | Headers to fully exclude from all aspects of the model run. Failure to designate these headers properly will result in errors. Modify with caution |
-| `docker_tag` | auto | Docker tag specifying which `teems` image to use. When unset, `ems_solve()` picks the highest CPU capability level your machine supports (e.g. `x86-64-v3`, read from `ld.so` inside a local `teems` image, so it works the same on Linux, Windows and macOS) that has a matching local image (`teems:x86-64-v3` or `teems:v3`), falling back to `teems:latest`. Set explicitly to pin a tag |
-| `version_check` | `"abort"` | What the solve pre-flight does with the image's answer to `teems-solver -version`, asked once per image per session. The solver's major version must match the package's (the interface contract) and be at least the package's minimum, `1.1.0`, the first solver that answers at all. `"abort"` stops on an old, silent or mismatched image; `"warn"` reports it and runs anyway, for bit-exact reproduction against a pinned old image; `"off"` never asks |
+| `docker_tag` | `"latest"` | Tag of the `teems` image to solve with. Unless set explicitly, `ems_solve()` uses a local image built for your CPU's instruction-set level (e.g. `teems:x86-64-v3`) when one exists, and `teems:latest` otherwise. Set it to pin a specific image |
+| `version_check` | `"abort"` | What happens when the image's solver version does not match the package: `"abort"` stops the solve, `"warn"` reports it and runs anyway (for reproducing a run on an older image), `"off"` skips the check |

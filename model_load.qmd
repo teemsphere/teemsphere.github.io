@@ -6,33 +6,38 @@ The `ems_model()` function loads the model and its closure, conducts pre-deploym
 The output of this function is a tibble with attributes containing the parsed model input and is a required input to the `"model"` argument of the [`ems_deploy()`](deploy.qmd) function.
 
 ```r
-ems_model(model_file, closure_file, omit = NULL, backsolve = NULL,
-          auto_omit = FALSE, ignore_condense = FALSE, ...)
+ems_model(
+  model_file,
+  closure_file,
+  backsolve = NULL,
+  ignore_condense = FALSE,
+  ...
+)
 ```
 
 | Argument | Type | Description |
 |----------|------|-------------|
 | `model_file` | Character | File name in working directory or path to a `.tab` file |
 | `closure_file` | Character | File name in working directory or path to a `.cls` closure file |
-| `omit` | Character vector or `NULL` | Exogenous, unshocked variables to omit from the condensed system |
 | `backsolve` | Character vector or `NULL` | Endogenous variables to substitute out by backsolving |
-| `auto_omit` | Logical | Omit every unshocked, wholly exogenous variable at deploy time |
-| `ignore_condense` | Logical | Ignore `Omit`/`Substitute`/`Backsolve` statements found in the model file |
+| `ignore_condense` | Logical | Ignore `Substitute`/`Backsolve` statements found in the model file |
 | `...` | Named arguments | Coefficient value injections (numeric, data frame, or CSV path) |
 
 Both `model_file` and `closure_file` are required arguments.
 
 ## The model file {#tab_files}
 
-Model input in `teems` is currently limited to Tablo (`.tab`) files.
-Vetted models and their closures are available at [teems-models](https://github.com/teemsphere/teems-models) and can also be accessed via the [`ems_example()`](example.qmd) function.
+Model input in `teems` is limited to Tablo (`.tab`) files.
+Vetted models and their closures are available at [teems-models](https://github.com/teemsphere/teems-models) and through [`ems_example()`](example.qmd):
 
-| Model | Files | Description |
-|-------|-------|-------------|
-| GTAPv6 | `GTAPv6.tab`, `GTAPv6.cls` | GTAP version 6.2 format |
-| GTAPv7 | `GTAPv7.tab`, `GTAPv7.cls` | GTAP version 7.0 format |
-| GTAP-RE | `GTAP-RE.tab`, `GTAP-RE.cls` | GTAP rational expectations (version 2, on the v7.1 core) |
-
+| Model | Description | Database |
+|-------|-------------|----------|
+| GTAPv6 | Classic GTAP model, version 6.2 | GTAP v6.2 format |
+| GTAPv7 | Standard GTAP model, version 7.1 | GTAP v7 format |
+| GTAP-RE | GTAP with rational expectations (intertemporal) | GTAP v7 format |
+| GTAP-AEZ | GTAP with land use by agro-ecological zone | GTAP-AEZ release |
+| GTAP-E | GTAP with energy substitution and carbon taxes | GTAP-E release |
+| GTAP-EP | GTAP-E with the electricity sector split by generation technology | GTAP-Power release |
 
 Users may load their own models by providing a path to a Tablo file and closure:
 ```r
@@ -42,10 +47,7 @@ model <- ems_model(
 )
 ```
 
-We recommend that users seeking to load custom models first review the formatting of the vetted models at [teems-models](https://github.com/teemsphere/teems-models) in order to make any necessary modifications for use within the `teems` software ecosystem.
-In some cases it may be easiest to use existing compatible models as a starting point for modifications.
-Although the [teems-solver](https://github.com/teemsphere/teems-solver) does not support all current GEMPack declarations, there is usually a workaround.
-Running a `diff` on the original GTAP models and those in [teems-models](https://github.com/teemsphere/teems-models) is a good starting point for understanding potential incompatibilities.
+When preparing a custom model, the vetted models are a good reference, and often the easiest starting point for modifications.
 
 ## Closure selection
 Standard model-specific closures are available within the model repository: [teems-models](https://github.com/teemsphere/teems-models).
@@ -65,152 +67,111 @@ rest endogenous
 
 Each entry is either a full variable name (`pop`), an entry with specific set elements (`aoreg("row")`), an entry with subsets (`qe(ENDWC,REG,INITIME)`) or a mixed entry (`txs(MARG,"chn",REG,FWDTIME)`).
 
-## Incompatible features
+## Tablo compatibility
 
-The [teems-solver](https://github.com/teemsphere/teems-solver) was originally designed to emulate GEMPack, and we have no intention of attempting to reproduce the very thorough [GEMPack documentation](https://www.copsmodels.com/gpmanual.htm) on the Tablo scripting language and underlying solution software.
-*Most* Tablo model files (`.tab`) that work with GEMPack will also work with the [teems-solver](https://github.com/teemsphere/teems-solver) with some minor modifications.
-There are however a range of newer GEMPack features that are not compatible and are not likely to be incorporated.
-Fortunately there are workarounds for the vast majority as described below.
+The [teems-solver](https://github.com/teemsphere/teems-solver) follows GEMPACK's Tablo language, so most model files written for GEMPACK load as they are.
+This manual will not attempt to reproduce the very thorough [GEMPACK documentation](https://www.copsmodels.com/gpmanual.htm), rather lists what is supported and the few forms that are not.
+`ems_model()` checks the model file before anything is solved.
+Problems are reported by name, with the statement it occurs in, rather than surfacing later as a solver failure.
+If a model file does not load and you think it should, a supported statement behavior is not as expected, or an error propagates to the solver without warning, please [get in touch](https://github.com/teemsphere/teems/issues).
 
-Considerable efforts have been made to correctly parse Tablo files, but it is likely that custom Tablo files will need to be modified.
-If you find an incompatibility not listed here and feel that it should be addressed, please feel free to contact us with your model file.
-Some of the more frequent incompatibilities and workarounds are listed below.
+### Supported statements
 
-### Supported Tablo statements
+`File`, `Coefficient`, `Read`, `Update`, `Set`, `Subset`, `Mapping`, `Formula`, `Assertion`, `Variable`, `Equation`, `Write`, `Zerodivide`, `Complementarity`, `PostSim` sections, and the condensation statements `Substitute` and `Backsolve` (see [Condensation](#condensation)) are accepted.
+`Omit` statements are accepted and ignored - model size and memory requirements are unaffected.
+Levels variables and equations, `Formula & Equation`, and `Read (IfHeaderExists)` are supported.
 
-The parser recognizes the following Tablo statements: `File`, `Coefficient`, `Read`, `Update`, `Set`, `Subset`, `Formula`, `Assertion`, `Variable`, `Equation`, `Write`, and `Zerodivide`.
-Statements not in this list are either unsupported (e.g., `Omit`, raising an error) or ignored (`Postsim`, raising a warning).
+`Loop`, `Display`, `Break`, `Cycle` and `Transfer` are not supported and raise an error.
 
-### Set and subset declarations
+### Sets
 
-**Set expressions** follow the GEMPACK specification (manual 10.1.1.1): the operators `UNION`, `INTERSECT`, `+`, `-` and `\` may be combined over declared sets and quoted single elements, with parentheses for grouping, evaluated left to right.
+Sets may be read from file, listed explicitly, or built from other sets:
+
 ```
 Set A123 = A1 + A2 + A3;
 Set B = (C - D) INTERSECT E;
-Set COSTS = "IntDom" + "IntImp" + ENDW + "PTAX";
+Set B2 # equal to A # = A;
+Set UACT = UNITA x ACTS;
+Set COALCOMM # coal # = (all,c,COMM: sum{cc,DCOMM: MCOM(cc)=c, UNITDCOAL(cc)} > 0);
 ```
-As in GEMPACK, `+` requires disjoint operands and `-` may only remove elements that are present; both are validated at deployment.
-Subset relations are implied where the manual defines them (all-`UNION`/`+` expressions, all-`INTERSECT` expressions, and trailing top-level `UNION`/`INTERSECT` terms); declare a `Subset` statement explicitly in other cases.
-Set names must not contain the substrings `union` or `intersect`.
 
-**Set equality** follows the GEMPACK specification (manual 10.1.2.1): a new set may be declared equal to a previously defined set, which also implies the two `Subset` statements in both directions.
-```
-Set A # example set A # maximum size 5 read elements from file GTAPSETS header "H2";
-Set B # example set B # = A;
-```
-The intertemporal conversion forms `Set (Intertemporal) B = A;` and `Set (Non_Intertemporal) B = A;` (manual 13.3.1) are not supported: neither set in an equality statement may be intertemporal.
+Set expressions (`UNION`, `INTERSECT`, `+`, `-`), set equality, set products and conditional set builders all follow GEMPACK.
+A few points to note:
 
-**Conditional set builders** (GEMPACK manual 10.1.2) select the elements of a set from data at run time:
-```
-Set ENDWM # mobile endowments # = (all,e,ENDW: ENDOWFLAG(e,"mobile") ne 0);
-Set ENDWS_COMM # sluggish endowments # = (all,i,ENDW_COMM: SLUG(i) > 0);
-Set BIGB = (all,b,BLOC: sum{r,REG: REGTOBLOC(r) = b, RGW(r)} > 7.5);
-```
-The condition is a single comparison (`= <> < > <= >=` or `eq ne lt gt le ge`) of a coefficient reference against a constant; the reference carries the loop index once, plus quoted elements for its other dimensions.
-The condition coefficient is either `Read` from an input file or an *indicator* assigned constants only, such as GTAP-AEZ's `UNITDCROP(a) = 0.0 + IF[a in DCROPACTS, 1.0]` or GTAP-E's `UNITDCOAL(c) = 0.0 + IF[c = "coa", 1.0]`: the selection is evaluated ahead of formulas, so any other formula-computed operand cannot drive it (a named error).
-teems evaluates the same condition from the deployed (aggregated) data at `ems_deploy()` so closure/shock validation and system sizing see the elements, and keeps the statement verbatim for the solver, which re-evaluates it; an empty selection is an error, as in GEMPACK.
-The mapping-conditional sum form (third example; GTAP-E's and GTAP-AEZ's `UNITD*` flags) needs the sum to range over the mapping's domain set and the builder over its codomain set, with the mapping read `(by_elements)`; the mapping values are composed under the active aggregation exactly as the deployed mapping header is (see the GTAP-AEZ `DACTS`/`MACTS` sets, [data loading](data_load.qmd)).
-The flag-header approach of the upstream GTAP models (`ENDOWFLAG` read from `EFLG`, `SLUG`) is not supported through the R package: those headers are dropped from the data (`full_exclude` option) and a set built from them raises a named error. Declare such sets explicitly instead
-```
-Set ENDWM # mobile endowment # (capital, unsklab, sklab);
-```
-(the solver on its own accepts the flag form).
+- Set names must not contain the substrings `union` or `intersect`.
+- A conditional set builder, like `COALCOMM` above, compares an expression with a constant.
+  Sets are built before formulas are calculated, so the coefficients in the condition must be read from a file or assigned constants only, as GTAP-E's `UNITDCOAL(c) = 0.0 + IF[c="coa", 1.0]` is.
+- The upstream GTAP models build some sets from the `EFLG` and `SLUG` headers, which TEEMS excludes from the data.
+  Declare such sets with explicit elements instead.
+- Intertemporal set equality (`Set (Intertemporal) B = A;`) is not supported.
 
-**Set products** (`Set UACT = UNITA x ACTS;`, GEMPACK manual 10.1.6) are supported: elements are named `a_b` with the first factor varying fastest, and when a pair of names would exceed GEMPACK's 12-character element limit the compromise names of manual 11.7.11 are produced (`c2food_row`).
-The `$POS` intrinsic (manual 11.5.6), `Mapping (project)` from a set product (10.13.2) and mappings assigned by `Formula` statements (10.13.1) are supported as well, so the upstream GTAPv7 PostSim welfare-report block loads as written.
-Mapped index expressions (`del_nctaxb(REGTOBLOC(r))`, manual 11.9.4) may appear in formulas, equations, assertions and on the right-hand side of `Update` statements, as GTAP-E's carbon-tax level update has it; a mapping in a left-hand-side argument list is refused (manual 11.9.9). A backsolved variable's defining equation may carry such mapped references to other variables (GTAP-E's demand equations under the bloc carbon tax); the backsolved variable itself must appear with plain indices.
+Set element names are lowercase throughout TEEMS (see [Set mappings](set_mappings.qmd)); for example, the v6.2 `CGDS` sector becomes `cgds`.
 
-**Capital goods.** The `CGDS` sector in v6.2 format models is renamed to `cgds`: set element names are lowercase throughout TEEMS (see [Set mappings](set_mappings.qmd)), which also keeps R `data.table` C-locale sorting consistent.
+### IF conditions
 
-### Formulas and Equations
+`IF[condition, expression]` terms are supported in formulas and equations when they are added at the top level of an expression:
 
-**IF conditionals** (GEMPACK manual 11.4.5--11.4.7) are supported in Formula and Equation statements when each `IF[condition, expression]` enters additively at the top level of an expression, as in
 ```
 Formula (all,c,COMM)(all,r,REG)
     VCB(c,r) = VDB(c,r) + sum{d,REG, VXSB(c,r,d)} + IF[c in MARG, VST(c,r)];
-Equation E_qca # supply of commodities by act. a # (all,c,COMM)(all,a,ACTS)(all,r,REG)
+Equation E_qca (all,c,COMM)(all,a,ACTS)(all,r,REG)
     qca(c,a,r) = IF[MAKES(c,a,r) gt 0, qo(a,r) - ETRAQ(a,r) * [ps(c,a,r) - po(a,r)]];
 ```
-Three condition forms are supported: set membership (`c in MARG`), index--element equality (`d = "domestic"`), and a comparison of two coefficient expressions (`MAKES(c,a,r) gt 0`, `THETAi(j,r)*YDONOFF(j,r) <= 0`, `VTRPROV(r) > VT`, with `eq`/`ne`/`gt`/`lt`/`ge`/`le` or the equivalent symbols); conditions may reference levels variables but not linear variables (GEMPACK manual 11.4.5/11.4.8). Index comparisons (GEMPACK manual 11.4.11) are also supported: two indices (`r EQ s`, `c NE m` with `m` over a subset of `c`'s set), an index against a quoted element with any comparison operator (`r <> "usa"`), a mapping expression against an index or element (`REGTOBLOC(r) EQ b`), and ordered comparisons (`t <= u`) when the set is intertemporal; they are carried by `$POS` positions in a helper coefficient. The compared sets must be equal or one a declared subset of the other, and an index cannot be compared with a number or a coefficient expression (named error).
-At model load these statements are rewritten into equivalent unconditional statements (narrowed-domain formulas, split equations, or synthesized 0/1 indicator coefficients named `IFC*`, with helper sets named `IFS*` and, for expression conditions, helper coefficients named `IFX*` that inherit the host formula's `(initial)`/`(always)` qualifier); the helper coefficients appear in solve outputs like any other coefficient.
-A membership condition whose set is the quantifier's set or a declared subset of it narrows to that set directly (no `IFS*` set is synthesized).
-An `IF` whose expression itself carries `IF` terms is rewritten recursively, so GTAP-AEZ's land equations (a membership branch on the endowment holding a membership branch on the activity holding a data comparison, `E_qfe`; four activity-class branches inside an endowment branch, `E_qes2`) and its calibration formulas load as written.
-A Formula whose right-hand side references its own target (`ESUBVA(a,r) = IF[a in NLANDACTS, ESUBVA(a,r)] + IF[a in LANDACTS, ...]`) reads the pre-assignment values through a synthesized copy coefficient named `IFT*`.
-Several membership or element conditions may appear in one Equation when they condition the same index (they partition the equation's domain, e.g. GTAPv7's `IF[d="domestic", ...] + IF[d="imported", ...]`); the parts must not overlap.
-Not supported: compound conditions (`AND`/`OR`/`NOT`), `IF` nested inside sums or products, and membership conditions on different indices at one level of an Equation.
 
-### Source-file conventions
+A condition may test set membership (`c in MARG`), compare an index with an element or another index (`d = "domestic"`, `r <> s`), or compare coefficient expressions (`MAKES(c,a,r) gt 0`).
+`IF` terms may be nested inside one another.
+At model load they are rewritten into equivalent unconditional statements; helper coefficients created this way (named `IFC*`, `IFX*`, `IFT*`) appear in outputs like any other coefficient.
 
-The following spellings, all accepted by GEMPACK, are normalised silently: keywords glued to their first bracket (`Coefficient(all,r,REG)`, `Formula(Initial)`), block comments `![[! ... !]]!`, empty statements (`;;`), empty labels (`# #`), Latin-1 or CRLF files and a UTF-8 byte-order mark, and several statements on one line.
-`Read (IfHeaderExists)` is supported: an absent header is skipped by the solver and the coefficient keeps its formula or default value, and `ems_deploy()` does not require such headers in the loaded data.
-Label text outside any statement (a `# label #` placed after the terminating `;`) is a named error, since GEMPACK would read it as the start of the next statement.
+Not supported: compound conditions (`AND`, `OR`, `NOT`), `IF` inside sums or products, and conditions on different indices at the same level of one equation.
 
 ## Condensation {#condensation}
 
-Condensation reduces the size of the system passed to the solver by removing variables, following GEMPACK semantics (GEMPACK manual, sections 10.16 and 14.1).
-Two actions are available; both leave the model's economics unchanged.
+Condensation makes the system passed to the solver smaller without changing the model's economics.
+TEEMS condenses by backsolving variables.
 
-### Variable omission {#var_omit}
+**The five static vetted models come condensed.**
+Their model files carry the standard GTAP backsolves as `Backsolve` statements, which `ems_model()` applies on load.
+GTAP-RE carries none, because backsolving slows the parallel methods intertemporal models use (see [below](#backsolve_when)).
+To solve the full system, load a model with `ignore_condense = TRUE`.
 
-Variables specified with `omit` are set to zero in the model file and removed from the closure.
-Omitted variables must be exogenous in the closure and must not be shocked; an error is raised otherwise, or if a variable designated for omission is not found in the model.
+### Backsolving variables {#backsolve}
 
-Standard v7.0 data format variable omissions (gtapv7.sti): `c("atall", "avaall", "tfe", "tfd", "tfm", "tgd", "tgm", "tpdall", "tpmall", "tid", "tim")`.
-Standard v6.2 data format variable omissions: `c("atall", "tfd", "avaall", "tf", "tfm", "tgd", "tgm", "tpd", "tpm")`.
-
-Nominating omissions by hand is optional: `auto_omit = TRUE` omits every variable that is exogenous in each of its elements and carries no shock.
-Such a variable has a change of zero, so dropping it removes columns from the shock vector without altering the solved system --- the deployed system size is unchanged.
-The set can only be established once swaps and shocks are known, so the work happens in [`ems_deploy()`](deploy.qmd), which reports what it omitted.
-Omitted variables are absent from solve outputs, and a variable referenced outside `Equation` and `Update` statements is left alone.
-
-### Backsolving {#backsolve}
-
-Variables specified with `backsolve` are substituted out of the system using a nominated defining equation: the equation is rearranged into the form `x = ...` and the resulting expression replaces every occurrence of `x` in all other equations.
-The defining equation is retained in the deployed model together with a `Backsolve` statement, so the solver can recover the variable's values after each solution step --- backsolved variables remain available in solve outputs, unlike plain GEMPACK substitution (which `teems` deliberately does not implement).
-
-Unnamed entries resolve their defining equation by the `E_<variable>` naming convention; named entries specify it explicitly:
+A backsolved variable is substituted out of the system using its defining equation and recovered by the solver after each step, so it still appears in the outputs.
+By default the defining equation is `E_<variable>`; name it explicitly when it differs:
 
 ```r
 model <- ems_model(
   model_file = GTAPv7[["model_file"]],
   closure_file = GTAPv7[["closure_file"]],
-  backsolve = c("pfd", "pfm", "qfe", ps = "E_ps")
+  backsolve = c("pfd", "pfm", ps = "E_ps")
 )
 ```
 
-Backsolved variables must be endogenous.
-Each nomination is validated against the GEMPACK substitution requirements (GEMPACK manual, section 14.1.10): every occurrence of the variable in the nominated equation must have plain, distinct indices (no elements, no lead/lag offsets, no `SUM` indices) matching the equation's quantifiers exactly, ranging over the variable's full declared sets, and all occurrences must share one index pattern.
-Violations abort with the failed requirement.
-Because substitutions are applied in order, an earlier substitution can make a later nomination invalid (or valid); nominations are validated against the current, rewritten form of each equation.
-
-When a rearrangement divides by a coefficient expression (e.g., `GDP(r,t) * qgdp(r,t) = ...`), the reciprocal is synthesized as a coefficient and a warning is issued: the expression must never be zero.
-To control expression growth, `teems` synthesizes intermediate coefficients (named `CSUB*`) with defining formulas, mirroring GEMPACK's system-initiated coefficients; these appear in solve outputs like any other coefficient.
+A backsolved variable must be endogenous, and its defining equation must be one GEMPACK could substitute with.
+If it is not, the error names the requirement that failed.
+Coefficients created along the way (named `CSUB*`) appear in outputs like any other coefficient.
 
 ### When backsolving pays {#backsolve_when}
 
-Substitution shrinks the system but densifies it: each eliminated variable's defining expression is spliced into every equation that referenced it.
-That trade is worth taking under `matrix_method = "LU"` on static models, where the cost is dominated by the size of the single factorization.
-It is counterproductive under the bordered methods (`"SBBD"`, `"DBBD"`, `"NDBBD"`), which exploit the block sparsity substitution destroys, and on intertemporal models generally.
-[`ems_solve()`](solve.qmd) reports this when a condensed deployment meets a bordered method, and [`ems_probe()`](probe.qmd) settles it from the measured block structure --- a system with a usable partition belongs to a bordered method, one without is `"LU"`-bound.
-Omission is unaffected: it removes exogenous columns and densifies nothing.
+Backsolving shrinks the system but makes it denser.
+That helps `"LU"` on static models, and hurts the parallel matrix methods (`"SBBD"`, `"DBBD"`, `"NDBBD"`), which rely on the sparsity it removes.
+[`ems_probe()`](solve.qmd#recommended) takes this into account when it recommends a method.
 
-### In-TAB condensation statements
+### Condensation statements in the model file
 
-`Omit`, `Substitute`, and `Backsolve` statements inside the model file (GEMPACK manual, section 10.16) are honored:
+`Substitute` and `Backsolve` statements in a model file are applied on load:
 
 ```
-Omit a1 a1oct a1mar ;
 Substitute p1 using E_p1 ;
 Backsolve p1lab using E_p1lab ;
 ```
 
-All omissions execute first, then substitutes/backsolves in the order they appear, followed by any actions supplied through the `omit` and `backsolve` arguments.
-`Substitute` statements are executed as backsolves (with a message), so the affected values stay available in outputs.
-Set `ignore_condense = TRUE` to ignore in-TAB condensation statements entirely (the equivalent of GEMPACK's `ICT` option).
+`Substitute` is carried out as a backsolve, so the variable stays in the outputs.
+Statements in the file are applied first, then the `backsolve` argument.
+`ignore_condense = TRUE` skips the statements in the file but still applies the argument.
 
-The vetted `GTAPv6.tab` and `GTAPv7.tab` carry the standard GTAP condensations (`gtap.sti`, `gtapv7.sti`) as in-TAB statements: the omissions listed above and 60 (v6.2) or 72 (v7.1) backsolves.
-They therefore condense automatically when loaded; to shock one of the omitted variables (e.g. `atall`, `tfd`), or to solve the full system, load them with `ignore_condense = TRUE`.
-A backsolve nominating an equation that the IF rewrite has split into per-element partitions (the v7.1 `CNTqfr`, `CNTqgr`, `CNTalleffr`, `CNTtechr` summaries) is skipped with a message and the variable stays in the solved system.
+`Omit` statements are read and ignored, with a message.
+Omission does not decrease memory usage or change the solved system in TEEMS, so the listed variables stay in the model and can be shocked or swapped like any other.
 
 ## Coefficient value injection {#coeff_inject}
 
@@ -304,13 +265,12 @@ model <- ems_model(
 
 ### Combining injections
 
-Multiple coefficient injections can be combined in a single call along with variable omissions:
+Multiple coefficient injections can be combined in a single call:
 
 ```r
 model <- ems_model(
   model_file = GTAP_RE[["model_file"]],
   closure_file = GTAP_RE[["closure_file"]],
-  omit = c("atall", "avaall", "tfe", "tfm", "tgd", "tgm", "tid", "tim"),
   KAPPA = 0.03,
   SUBPAR = SUBPAR,
   CPHI = CPHI
@@ -318,11 +278,6 @@ model <- ems_model(
 ```
 
 If the coefficient name is not found in the model, an error is raised indicating that the aggregated data coefficient is not declared within the provided model input.
-
-### Set naming convention
-
-Set names follow a model-specific concatenation of the standard set name and the variable-specific index (e.g., `REGr`, `COMMc`, `ACTSa`).
-See the [Loading and specifying sets](set_mappings.qmd) chapter for the full convention table.
 
 ## Intertemporal models {#intertemporal}
 
@@ -347,16 +302,12 @@ Default values for these settings (and others) may be obtained using:
 ems_option_get()
 ```
 
-### Inter-period links and the netcut {#netcut}
+### Leads, lags and parallel solving {#netcut}
+(check this passage)
+In intertemporal models, the parallel matrix methods (see [Solving the model](solve.qmd)) solve each period as a block, with the variables that link periods held in a shared border.
+A lead or lag on a variable declared over large sets (for example `qo(c,r,t+1)` over all commodities and regions) enlarges that border and can remove the benefit of solving in parallel.
 
-The parallel matrix methods (`"SBBD"`, `"DBBD"`, `"NDBBD"`; see [Solving the model](solve.qmd)) order the linearized system into independent diagonal blocks plus a dense border containing the variables that couple time periods.
-Every element of a variable referenced with a lead or lag (e.g. `kb(r,t+1)`) is placed in this border, so a lead or lag on a variable declared over large non-time sets inflates the border (the *netcut*) by the product of those set sizes and can eliminate the advantage of the parallel methods.
-
-When a lead or lag reference fixes one or more dimensions to quoted elements (e.g. `qo("capital",r,t+1)`), `ems_model()` repairs the model automatically: it synthesizes a minimal proxy variable (`NCV1`, `NCV2`, ...) over the remaining dimensions, ties it to the element slice with a linking equation (`E_NCV1`, ...), and moves the lead or lag onto the proxy.
-A message lists each synthesized proxy; the proxies and their linking equations appear in solve outputs like any other variable.
-
-For references that run over full sets, no mechanical reduction is possible, so `ems_model()` instead warns when a variable declared over two or more non-time sets is referenced with a lead or lag.
-The remedy is to link periods through a minimal intertemporal proxy declared over only the elements that genuinely cross periods:
+Link periods through a small proxy variable instead:
 
 ``` default
 Variable (all,r,REG)(all,t,ALLTIME)
@@ -366,11 +317,6 @@ Equation E_kb
     kb(r,t) = qo("capital",r,t);
 ```
 
-with the lead placed on the proxy (`kb(r,t+1)`) rather than on `qo(COMM,REG,ALLTIME)`.
-The shipped intertemporal models already follow this discipline.
-
-<!-- ## Future expansions
-
-- Write bidirectional Tablo $\leftrightarrow$ \LaTeX conversion script to allow for \LaTeX model files
-- `auto-omit` switch to automatically drop as many variables as possible based on closure and shock specifications
-- Model file checks are still rudimentary and a more thorough suite of checks will gradually be put in place -->
+and place the lead on the proxy (`kb(r,t+1)`).
+`ems_model()` does this automatically when a lead or lag fixes some dimensions to elements (`qo("capital",r,t+1)`), and warns when it cannot.
+The vetted intertemporal models already follow this pattern.

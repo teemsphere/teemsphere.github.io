@@ -5,6 +5,18 @@
 `ems_deploy()` validates all data and model inputs, processes shocks and closure swaps, and writes all required input files to disk.
 The output file path serves as a required input to [`ems_solve()`](solve.qmd).
 
+```r
+ems_deploy(
+  .data,
+  model,
+  shock = NULL,
+  swap_in = NULL,
+  swap_out = NULL,
+  shock_file = NULL,
+  write_coefficients = FALSE
+)
+```
+
 ## Arguments
 
 | Argument | Default | Description |

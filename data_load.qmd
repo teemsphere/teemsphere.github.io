@@ -6,14 +6,20 @@ The `ems_data()` function loads and prepares GTAP database files for use in CGE 
 It handles the three core GTAP data files (dat, par, and set) and is also used to specify any time steps (for temporally dynamic models) and load set mappings for sets that are read into the model (i.e., not constructed from set operations).
 
 ```r
-ems_data(dat_input, par_input, set_input, time_steps = NULL, ...)
+ems_data(
+  dat_input,
+  par_input,
+  set_input,
+  time_steps = NULL,
+  ...
+)
 ```
 
 | Argument | Type | Description |
 |----------|------|-------------|
-| `dat_input` | Character or list | Path to a HAR file containing basedata coefficient data, or a `dat` list from [`GTAP_convert()`] |
-| `par_input` | Character or list | Path to a HAR file containing parameter coefficient data, or a `par` list from [`GTAP_convert()`] |
-| `set_input` | Character or list | Path to a HAR file containing set elements and attributes, or a `set` list from [`GTAP_convert()`] |
+| `dat_input` | Character or list | Path to a HAR file containing basedata coefficient data, or a `dat` list from [`GTAP_convert()`](#converting-formats) |
+| `par_input` | Character or list | Path to a HAR file containing parameter coefficient data, or a `par` list from [`GTAP_convert()`](#converting-formats) |
+| `set_input` | Character or list | Path to a HAR file containing set elements and attributes, or a `set` list from [`GTAP_convert()`](#converting-formats) |
 | `time_steps` | Integer vector or `NULL` | Time steps for intertemporal models (see [Time steps]) |
 | `...` | Named arguments | Set mappings for read-in sets (see [Loading and specifying sets](set_mappings.qmd)) |
 
@@ -26,7 +32,7 @@ Although the most recent database releases are proprietary, GTAP has consistentl
 
 In order to access the freely available database, users will need to [register](https://www.gtap.agecon.purdue.edu/access_member/profile/profile_addnew.aspx) with GTAP and download the "FlexAgg" format.
 For GTAP 10 this is accessible under the "GDyn Data Base" entry in the GTAP 10 "Satellite Data and Utilities" section [here](https://www.gtap.agecon.purdue.edu/securedFile/Filedownload.aspx?fileid=1317).
-For paying GTAP members, the current [`teems`](https://github.com/teemsphere/teems-R) version is capable of handling the "FlexAgg" format for GTAP Databases.
+For paying GTAP members, the current [`teems`](https://github.com/teemsphere/teems-R) version is capable of handling the "FlexAgg" format for GTAP Databases Version 9 and above.
 
 The following command will load data consistent with the [standard GTAP model](https://www.gtap.agecon.purdue.edu/resources/res_display.asp?RecordID=6438), using broad aggregations for regions, commodities, and endowments.
 Users will need to specify the location of data (`"v7_data/gsdfdat.har"` placeholder).
@@ -60,19 +66,19 @@ For temporally dynamic models (e.g., [GTAP-RE](https://github.com/teemsphere/tee
 Time steps can be inputted in either actual year increments or represented as chronological years.
 Note that if chronological years are used, t0 must correspond with the reference year of the database being used.
 
-The following uses explicit time steps (steps from t0), equivalent to chronological years `c(2014, 2015, 2016, 2017, 2018, 2020, 2022, 2024, 2026, 2028, 2030)` given the 2014 reference year of the loaded data.
+The following uses explicit time steps (steps from t0), equivalent to chronological years `c(2017, 2018, 2019, 2020, 2021, 2023, 2025, 2027, 2029, 2031, 2033)` for a database with a 2017 reference year.
 ```r
-data <- ems_data(dat_input = "v6_data/gsddat.har",
-                 par_input = "v6_data/gsdpar.har",
-                 set_input = "v6_data/gsdset.har",
+data <- ems_data(dat_input = "v7_data/gsdfdat.har",
+                 par_input = "v7_data/gsdfpar.har",
+                 set_input = "v7_data/gsdfset.har",
                  time_steps = c(0, 1, 2, 3, 4, 6, 8, 10, 12, 14, 16),
                  REG = "WB23",
-                 PROD_COMM = "services",
-                 ENDW_COMM = "labor_agg"
+                 ACTS = "services",
+                 ENDW = "labor_agg"
 )
 ```
 
-Chronological time steps (note reference year of input data).
+Chronological time steps (with t0 corresponding to the reference year of input data).
 ```r
 data <- ems_data(dat_input = "v7_data/gsdfdat.har",
                  par_input = "v7_data/gsdfpar.har",
@@ -84,13 +90,30 @@ data <- ems_data(dat_input = "v7_data/gsdfdat.har",
 )
 ```
 ## Converting formats
-`GTAP_convert()` reads GTAP HAR files into R and optionally converts between the classic v6.2 and standard v7.0 formats.
+`GTAP_convert()` reads a GTAP database's HAR files into R at full resolution, without any aggregation, which makes it the easy way to inspect or modify a database.
+With `target`, it can also convert a standard GTAP database between the v6.2 and v7 formats, or prepare a GTAP-AEZ, GTAP-E or GTAP-Power database for its model.
 The returned list can be passed directly to `ems_data()` or [`ems_example()`](example.qmd).
-Note that set mappings must be specified according to the model to be used, *not* the original format of the input data.
+After a conversion, set mappings are specified for the target format, *not* the original format of the data.
+
+```r
+GTAP_convert(
+  dat_har,
+  par_har,
+  set_har,
+  target = NULL
+)
+```
+
+| Argument | Type | Description |
+|----------|------|-------------|
+| `dat_har` | Character | Path to the basedata HAR file |
+| `par_har` | Character | Path to the parameter HAR file |
+| `set_har` | Character | Path to the set HAR file |
+| `target` | Character or `NULL` | `NULL` reads the files as they are. `"GTAPv6"` or `"GTAPv7"` converts a standard GTAP database to that format (standard GTAP databases only). `"GTAP-AEZ"`, `"GTAP-E"` or `"GTAP-EP"` prepares that model's database, without converting its format |
 
 ### Loading HAR files as arrays
 
-When `target` is omitted, `GTAP_convert()` simply parses the HAR files into lists of arrays without any format conversion:
+When `target` is omitted, `GTAP_convert()` simply parses the HAR files into lists of arrays:
 
 ```r
 dat <- GTAP_convert(
@@ -108,11 +131,12 @@ v7_data <- ems_data(dat_input = dat$dat,
 )
 ```
 
-### Converting between formats
+### Converting between classic (v6x) and standard (v7x) formats
 
-To use a classic-based model with a newer v7.0 database, or a standard model with an older v6.2 database, specify `target`:
+To use the classic model with a v7-format database, or the standard model with a v6-format database, specify `target`.
+Format conversion applies to the standard GTAP database only.
 
-GTAP 12 v7.0 database converted to v6.2 format for use with a classic GTAP model:
+A GTAP 12 database converted to v6.2 format for the classic GTAP model:
 ```r
 converted <- GTAP_convert(
   dat_har = "v7_data/gsdfdat.har",
@@ -130,7 +154,7 @@ v6_data <- ems_data(dat_input = converted$dat,
 )
 ```
 
-GTAP 10 v6.2 database converted to v7.0 format for use with the standard GTAP model:
+A GTAP 10 database converted to v7 format for the standard GTAP model:
 ```r
 converted <- GTAP_convert(
   dat_har = "v6_data/gsddat.har",
@@ -147,30 +171,13 @@ v7_data <- ems_data(dat_input = converted$dat,
                     ENDW = "labor_agg"
 )
 ```
-### Preparing a GTAP-AEZ database
 
-The GTAP-AEZ model reads the disaggregated activity sets `DACTS`, `DCROPACTS`, `DFORSACTS`, `DGRAZACTS`, `DLANDACTS` and the mapping `MACTS` (headers `DACT`, `DCRP`, `DFRS`, `DGRZ`, `DLUA`, `MACT`), which flexagg synthesizes at aggregation and the GTAP-AEZ database does not carry, and it declares the `AREA`/`TONS` and `LCOV` data over its own `CROPACTS` and `LCOV` sets.
-`target = "GTAP-AEZ"` prepares a GTAPv7-format GTAP-AEZ database (the GTAP 11 and 12 AEZ releases) for the model: the disaggregated sets and the identity mapping at source resolution (they never aggregate; the mapping composes onto the aggregated `ACTS` at deployment), the renamed dimensions, and the AEZ parameters `EAEZ`, `ETAE`, `YDON`, `YDRS`, `YDET` set to the flexagg constants when the database does not ship them.
-`ems_data()` applies the same preparation on its own when it detects the AEZ layer (`AEZS`, `CROP`, `LUSA` sets with `AREA`/`TONS`/`LCOV` data), so the HAR files can be passed directly:
+### GTAP-AEZ, GTAP-E and GTAP-Power databases
 
-```r
-aez_data <- ems_data(dat_input = "aez_data/gsdfdat.har",
-                     par_input = "aez_data/gsdfpar.har",
-                     set_input = "aez_data/gsdfset.har",
-                     REG = "big3",
-                     ACTS = "macro_sector"
-)
-```
-
-The endowment set (18 AEZ land endowments, labour types, capital and natural resources) and the `AEZS` set need no mapping; a custom mapping can aggregate the AEZs (for example into climate bands) since `AEZS = <csv>` is accepted like any other set.
-The v6-format AEZ layer of GTAP 10a carries different headers and is not prepared.
-
-### Preparing a GTAP-E database
-
-The GTAP-E model reads the disaggregated commodity set `DCOMM`, the mapping `MCOM` and the disaggregated electricity set `DELY` (headers `DCOM`, `MCOM`, `DELY`), together with the aggregated energy sets `EGY`, `ENYP`, `ENYG`, `ENYI`, which flexagg synthesizes at aggregation and the GTAP-E database does not carry.
-It also reads the CDE parameters `INCPAR` and `SUBPAR` over `TOPP` (the energy composite plus the non-energy commodities) rather than over `COMM`; the database ships those values under the headers `SUBE` and `INCE`.
-`target = "GTAP-E"` prepares a GTAPv7-format GTAP-E database (the GTAP 12a E release) for the model: the disaggregated commodity set and mapping at source resolution (they never aggregate; the mapping composes onto the aggregated `COMM` at deployment), the energy sets, which follow `COMM`, and `SUBE`/`INCE` bound to the `SUBP`/`INCP` headers the model reads.
-`ems_data()` applies the same preparation on its own when it detects the energy layer (`COME` with the `SUBE`/`INCE` parameters, and none of the GTAP-Power electricity technologies), so the HAR files can be passed directly:
+The GTAP-AEZ, GTAP-E and GTAP-EP models read sets and parameters that their databases do not ship in the form the model expects.
+`ems_data()` recognises these databases and prepares them on load, so the HAR files can be passed directly.
+To work with a prepared database in R before aggregation, use `GTAP_convert()` with `target = "GTAP-AEZ"`, `"GTAP-E"` or `"GTAP-EP"`; this prepares the database (generates new headers) but does not convert its format.
+Conversion between v6 and v7 versions of these databases is not supported.
 
 ```r
 e_data <- ems_data(dat_input = "e_data/gsdfdat.har",
@@ -180,35 +187,6 @@ e_data <- ems_data(dat_input = "e_data/gsdfdat.har",
                    ACTS = "energy"
 )
 ```
-
-The aggregation must keep the energy commodities distinct, as the `energy` mapping does.
-One that merges them, such as `macro_sector`, collapses the energy nest onto a single element: the model still solves, but there is nothing left for it to substitute between.
-The v6-format energy layer of GTAP 10a carries different headers and is not prepared.
-The 11c release is recognised but refused by name: its `eny` row of `SUBE` is an un-normalised sum over the energy commodities (reaching five), and `SUBPAR` enters the CDE expenditure function as `1 - SUBPAR`; the 12a release carries the row correctly.
-
-### Preparing a GTAP-Power database
-
-The GTAP-EP model reads twenty-seven set headers the GTAP-Power database does not carry, which flexagg synthesizes at aggregation: the disaggregated commodity set and mapping (`DCOM`, `MCOM`, `DELY`), the aggregated energy sets `EGY` and `ENYP`/`ENYG`/`ENYI`, and the electricity nest sets `ELE*`, `ELY*`, `EGN*`, `EBL*` and `EPL*`, one copy of each per demand agent.
-As in GTAP-E it reads `INCPAR` and `SUBPAR` over `TOPP`, which the database ships under `SUBE` and `INCE`.
-`target = "GTAP-EP"` prepares a GTAPv7-format GTAP-Power database (the GTAP 12a Power release) for the model, and `ems_data()` applies the same preparation on its own when it detects the layer (the energy headers together with the electricity technologies `ELEA`, `ELEC` and `POWR`):
-
-```r
-ep_data <- ems_data(dat_input = "power_data/gsdfdat.har",
-                    par_input = "power_data/gsdfpar.har",
-                    set_input = "power_data/gsdfset.har",
-                    REG = "big3",
-                    ACTS = "power"
-)
-```
-
-Two differences from the GTAP-E layer are worth noting.
-`EGY` is built as `FUEL` together with the whole electricity list rather than from `COME`, because flexagg redefines `COME` across the aggregation step: at source it excludes transmission and distribution, while on the aggregated file it includes them.
-`ENYP`/`ENYG`/`ENYI` carry the synthetic `ely` nest node rather than the electricity commodities, so unlike in GTAP-E they are not equal to `EGY`.
-
-The base-load and peak-load technologies are separated by their `BL` and `P` name suffixes; a technology list that does not partition cleanly is reported by name rather than guessed at.
-The aggregation must respect that split: one that merges a base-load technology with a peak-load one makes `EBL*` and `EPL*` overlap and the generation nest ill-defined.
-For this reason the standard activity mappings do not apply to a GTAP-Power database, every one of them sending the electricity activities to a single bucket; use the `power` or `power_tech` mappings shipped for this layer.
-The v6-format power layer of GTAP 10a carries different headers and is not prepared, and the 11c Power release is refused for the same un-normalised `SUBE` row as the 11c E release (reaching fourteen there).
 
 ## Data aggregation
 Data is aggregated according to type, with non-parameter coefficients summed by target set mappings and weighted averages calculated for the parameters below.
@@ -317,8 +295,9 @@ $$
 }
 $$ {#eq-beta}
 
-### GTAP v7.0 format parameter weight methodology
-Headers, descriptions, and index ranges for parameters and associated data within the GTAP v7 model. GTAP-RE weights are identical to GTAP v7.0 with the addition of an invariant time set.
+### GTAP v7.1 format parameter weight methodology
+Headers, descriptions, and index ranges for parameters and associated data within the GTAP v7 model.
+The same weights apply to the other v7-format models, with GTAP-RE adding an invariant time set.
 
 ::: {.table-scroll .table-wide}
 |                        | Header | Description                                           | Set Index                                      |

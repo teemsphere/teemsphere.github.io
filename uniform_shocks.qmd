@@ -5,7 +5,11 @@
 The set arguments accepted in `...` depend on the variable specified and the set mappings loaded in [`ems_data()`](data_load.qmd).
 
 ```r
-ems_uniform_shock(var, value, ...)
+ems_uniform_shock(
+  var,
+  value,
+  ...
+)
 ```
 
 | Argument | Type | Description |
@@ -15,7 +19,8 @@ ems_uniform_shock(var, value, ...)
 | `...` | Named arguments | Set-index pairs restricting the shock. Each value is a single element (`"element"`), multiple elements (`c("a", "b")`), or a named subset (`"SUBSET"`) |
 
 ## Full variable uniform shocks
-The simplest uniform shock is applied to a full variable, meaning that all combinations of sets associated with that variable are allocated the same exogenous value.In the example below, all regions (as determined by selected region mappings) will be increased by 1%.
+The simplest uniform shock is applied to a full variable, meaning that all combinations of sets associated with that variable are allocated the same exogenous value.
+In the example below, all regions (as determined by selected region mappings) will be increased by 1%.
 ```r
 pop_shk <- ems_uniform_shock(var = "pop",
                              value = 1

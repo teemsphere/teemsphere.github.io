@@ -37,6 +37,8 @@ book:
     - part: "Configuration"
       chapters:
         - options.qmd
+  appendices:
+    - benchmarks.qmd
 
 format:
   html:

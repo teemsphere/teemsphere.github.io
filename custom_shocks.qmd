@@ -6,7 +6,10 @@ Values are denominated in percentage change.
 Only the tuples present in `input` are shocked.
 
 ```r
-ems_custom_shock(var, input)
+ems_custom_shock(
+  var,
+  input
+)
 ```
 
 | Argument | Type | Description |
@@ -17,7 +20,6 @@ ems_custom_shock(var, input)
 ## Full variable custom shocks
 Custom shocks can be carried out over the full variable, with every tuple receiving a specified shock value.
 Here is a demonstration of 4 custom shocks carried out on all variable tuples for a range of variable dimensions with the [GTAP-RE](https://github.com/teemsphere/teems-models/tree/main/GTAP-RE) model.
-The `atall` shifter is omitted by the model file's condensation statements, so the model is loaded with `ems_model(..., ignore_condense = TRUE)` for this demonstration.
 
 Elements for data frame construction
 ```r

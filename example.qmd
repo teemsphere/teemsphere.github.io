@@ -3,12 +3,24 @@
 ## Overview
 
 `ems_example()` writes bundled example model and script files to disk.
-It is a good starting point for new users, providing ready-to-run material for each of the four vetted models without requiring any additional setup beyond GTAP data access.
+It is a good starting point for new users, providing ready-to-run material for each of the six vetted models without requiring any additional setup beyond GTAP data access.
 
 Two output modes are available, controlled by the `type` argument:
 
 - `"model_files"` (default): writes the model (`.tab`) and closure (`.cls`) files for the chosen model.
-- `"scripts"`: writes a complete set of example R scripts covering the a range of shock, swap, and solver configurations supported by that model. Each script is a self-contained, runnable workflow from data loading through to result parsing.
+- `"scripts"`: writes a complete set of example R scripts covering a range of shock, swap, and solver configurations supported by that model.
+  Each script is a self-contained, runnable workflow from data loading through to result parsing.
+
+```r
+ems_example(
+  model,
+  path,
+  type = c("model_files", "scripts"),
+  dat_input = NULL,
+  par_input = NULL,
+  set_input = NULL
+)
+```
 
 ## Arguments
 
@@ -61,13 +73,14 @@ paths <- ems_example(
   model = "GTAPv7",
   path = "~/my_project",
   type = "scripts",
-  dat_input = "~/dat/GTAP/v10/flexAgg/gsddat.har",
-  par_input = "~/dat/GTAP/v10/flexAgg/gsdpar.har",
-  set_input = "~/dat/GTAP/v10/flexAgg/gsdset.har"
+  dat_input = "~/dat/GTAP/v12/flexAgg/gsdfdat.har",
+  par_input = "~/dat/GTAP/v12/flexAgg/gsdfpar.har",
+  set_input = "~/dat/GTAP/v12/flexAgg/gsdfset.har"
 )
 ```
 
-The GTAP-AEZ scripts need a GTAP-AEZ database (the GTAP 11/12 AEZ releases); its AEZ layer is prepared by `ems_data()` on load, see [data loading](data_load.qmd):
+The GTAP-AEZ scripts need a GTAP-AEZ database (GTAP 11c or newer).
+The scripts pass the HAR files to `ems_data()`, which prepares the AEZ layer on load; `GTAP_convert(target = "GTAP-AEZ")` gives the prepared, unaggregated database in R (see [GTAP-AEZ, GTAP-E and GTAP-Power databases](data_load.qmd#gtap-aez-gtap-e-and-gtap-power-databases)):
 
 ```r
 paths <- ems_example(
@@ -80,7 +93,8 @@ paths <- ems_example(
 )
 ```
 
-The GTAP-E scripts need a GTAP-E database (the GTAP 12a E release); its energy layer is prepared by `ems_data()` on load, see [data loading](data_load.qmd). They aggregate with the `energy` mapping, which keeps the energy commodities distinct as the model's nest requires:
+The GTAP-E scripts need a GTAP-E database (GTAP 12a or newer), prepared by `ems_data()` on load or with `GTAP_convert(target = "GTAP-E")` (see [GTAP-AEZ, GTAP-E and GTAP-Power databases](data_load.qmd#gtap-aez-gtap-e-and-gtap-power-databases)).
+They aggregate with the `energy` mapping, which keeps the energy commodities distinct as the model's nest requires:
 
 ```r
 paths <- ems_example(
@@ -93,7 +107,8 @@ paths <- ems_example(
 )
 ```
 
-The GTAP-EP scripts need a GTAP-Power database (the GTAP 12a Power release); its energy and power layer is prepared by `ems_data()` on load, see [data loading](data_load.qmd). They aggregate with the `power` mapping, which keeps transmission, base load and peak load apart as the generation nest requires:
+The GTAP-EP scripts need a GTAP-Power database (GTAP 12a or newer), prepared by `ems_data()` on load or with `GTAP_convert(target = "GTAP-EP")` (see [GTAP-AEZ, GTAP-E and GTAP-Power databases](data_load.qmd#gtap-aez-gtap-e-and-gtap-power-databases)).
+They aggregate with the `power` mapping, which keeps transmission, base load and peak load apart as the generation nest requires:
 
 ```r
 paths <- ems_example(
@@ -109,7 +124,7 @@ paths <- ems_example(
 The data inputs can also be the in-memory list objects returned by [`GTAP_convert()`](data_load.qmd), which is useful when the raw data needs format conversion before running:
 
 ```r
-# Convert v7.0 data to v6.2 format, then generate scripts for the classic model
+# Convert v7.1 data to v6.2 format, then generate scripts for the classic model
 converted <- GTAP_convert(
   dat_har = "~/dat/GTAP/v12/gsdfdat.har",
   par_har = "~/dat/GTAP/v12/gsdfpar.har",
@@ -127,7 +142,7 @@ paths <- ems_example(
 )
 ```
 
-When list objects are supplied, `ems_example()` writes them to RDS files alongside the scripts and injects `readRDS()` calls at the top of each script in place of plain path assignments.
+When list objects are supplied, `ems_example()` writes data to RDS files alongside the scripts and injects `readRDS()` calls at the top of each script in place of plain path assignments.
 
 ## Using the generated scripts
 
@@ -136,12 +151,12 @@ Each script is ready to run; the data paths supplied to `ems_example()` are inje
 
 ### Script naming convention
 
-Script file names encode the shock and swap configuration:
+Script file names encode the shock and swap configuration (the exact set varies by model):
 
 | File name | What it demonstrates |
 |-----------|----------------------|
 | `null.R` | Zero-shock run — useful for verifying the model solves before applying shocks |
-| `numeraire.R` | Uniform 1% population shock — minimal working example |
+| `numeraire.R` | Uniform shock to the numeraire (`pfactwld`): all prices move by the shock and real variables stay unchanged |
 | `full_uniform.R` | Uniform shock across all elements of a variable |
 | `part_uniform.R` | Uniform shock on a subset of elements |
 | `part_uniform_full_swap.R` | Partial shock plus a full-variable closure swap |
@@ -151,6 +166,8 @@ Script file names encode the shock and swap configuration:
 | `custom_full.R` | Heterogeneous shock values supplied as a data frame |
 | `custom_partial.R` | Heterogeneous shock values supplied as a data frame on a subset of elements |
 | `custom_full_csv.R` | Heterogeneous shock values read from a CSV file |
+| `custom_partial_*.R` | Heterogeneous shocks with one or more dimensions fixed to elements |
+| `*_year.R`, `scenario.R` | Intertemporal models only: shocks by chronological year, and a [scenario shock](scenario_shocks.qmd) |
 
 ### Structure of a generated script
 
@@ -158,9 +175,9 @@ Each script begins with the injected assignments followed by the template body.
 Opening `part_uniform.R` in an editor shows:
 
 ```r
-dat_input = "~/dat/GTAP/v10/flexAgg/gsddat.har"
-par_input = "~/dat/GTAP/v10/flexAgg/gsdpar.har"
-set_input = "~/dat/GTAP/v10/flexAgg/gsdset.har"
+dat_input = "~/dat/GTAP/v12/flexAgg/gsdfdat.har"
+par_input = "~/dat/GTAP/v12/flexAgg/gsdfpar.har"
+set_input = "~/dat/GTAP/v12/flexAgg/gsdfset.har"
 model_file = "~/my_project/GTAP-RE.tab"
 closure_file = "~/my_project/GTAP-RE.cls"
 
@@ -194,8 +211,9 @@ cmf_path <- ems_deploy(
 
 outputs <- ems_solve(
   cmf_path = cmf_path,
-  solution_method = "Johansen",
-  matrix_method = "LU"
+  matrix_method = "SBBD",
+  n_tasks = 2L,
+  solution_method = "Gragg"
 )
 ```
 

@@ -27,8 +27,7 @@ paths <- ems_example(
 )
 ```
 
-`paths` is a character vector of the written script file paths.
-Each script is self-contained and immediately runnable.
+`paths` (the object returned above) is a character vector of file paths to R scripts that are self-contained and immediately runnable.
 
 ## Step 1: verify the solver with a null run
 
@@ -47,8 +46,7 @@ coeff_check  # TRUE  — output contains the expected number of coefficients
 
 ## Step 2: run a uniform shock
 
-`full_uniform.R` applies a 1% population shock (`pop`) uniformly across all regions.
-It is the simplest non-trivial run and a good sanity check before customizing anything.
+`full_uniform.R` applies a 1% population shock (variable: `pop`) uniformly across all regions.
 
 ```r
 source(paths[basename(paths) == "full_uniform.R"])

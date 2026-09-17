@@ -6,7 +6,10 @@ Inputs must cover all pre-aggregation tuples and span the full extent of the var
 Values must be in the same units as the underlying database coefficient and are aggregated according to the set mappings in [`ems_data()`](data_load.qmd) and then converted to percentage changes internally, making scenario shocks portable across different model aggregations.
 
 ```r
-ems_scenario_shock(var, input)
+ems_scenario_shock(
+  var,
+  input
+)
 ```
 
 | Argument | Type | Description |
@@ -117,8 +120,7 @@ pop_trajectory <- ems_scenario_shock(
 cmf_path <- ems_deploy(
   .data = dat,
   model = model,
-  shock = pop_trajectory,
-  write_dir = write_dir
+  shock = pop_trajectory
 )
 ```
 
