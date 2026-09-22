@@ -24,7 +24,10 @@ ems_option_set(
   n_timestep_header = NULL,
   full_exclude = NULL,
   docker_tag = NULL,
-  version_check = NULL
+  version_check = NULL,
+  assertions = NULL,
+  range_test_initial = NULL,
+  range_test_updated = NULL
 )
 
 ems_option_reset()
@@ -75,3 +78,6 @@ ems_option_reset()
 | `full_exclude` | `c("DREL", "DVER", "XXCR", "XXCD", "XXCP", "SLUG", "EFLG")` | Headers to fully exclude from all aspects of the model run. Failure to designate these headers properly will result in errors. Modify with caution |
 | `docker_tag` | `"latest"` | Tag of the `teems` image to solve with. Unless set explicitly, `ems_solve()` uses a local image built for your CPU's instruction-set level (e.g. `teems:x86-64-v3`) when one exists, and `teems:latest` otherwise. Set it to pin a specific image |
 | `version_check` | `"abort"` | What happens when the image's solver version does not match the package: `"abort"` stops the solve, `"warn"` reports it and runs anyway (for reproducing a run on an older image), `"off"` skips the check |
+| `assertions` | `"fatal"` | Severity of TAB `Assertion` failures during [`ems_solve()`](solve.qmd): `"fatal"`, `"warn"` or `"off"` |
+| `range_test_initial` | `"warn"` | Severity of declared-range violations (e.g. `(ge 0)`) on initial values: `"fatal"`, `"warn"` or `"off"` |
+| `range_test_updated` | `"warn"` | As `range_test_initial`, for updated values |

@@ -23,9 +23,6 @@ ems_solve(
   verbosity = 1L,
   suppress_outputs = FALSE,
   terminal_run = FALSE,
-  assertions = c("fatal", "warn", "off"),
-  range_test_initial = c("warn", "fatal", "off"),
-  range_test_updated = c("warn", "fatal", "off"),
   complementarity = NULL,
   ...
 )
@@ -56,11 +53,10 @@ outputs <- ems_solve(
 | `verbosity` | `1L` | Log detail: `0` errors, warnings and the accuracy summary; `1` adds progress and timings; `2` adds per-rank detail |
 | `suppress_outputs` | `FALSE` | When `TRUE`, outputs are not parsed with [`ems_compose()`](compose.qmd) |
 | `terminal_run` | `FALSE` | When `TRUE`, prepares the run without starting it, so it can be launched from a terminal |
-| `assertions` | `"fatal"` | Severity of TAB `Assertion` failures: `"fatal"`, `"warn"` or `"off"` |
-| `range_test_initial` | `"warn"` | Severity of declared-range violations (e.g. `(ge 0)`) on initial values: `"fatal"`, `"warn"` or `"off"` |
-| `range_test_updated` | `"warn"` | As `range_test_initial`, for updated values |
 | `complementarity` | `NULL` | Run controls for models with complementarities, built by [`ems_complementarity()`](#complementarity) |
 | `...` | | Named extras: the Runge-Kutta controls (`adaptive`, `eps_tolerance`, `max_retries`, `retry_adjust`; see [Runge-Kutta controls](#rk)), the MA48 workspace guesses (`laA`, `laD`, `laDi`) and expert solver flags (e.g. `condest`, `tempdir`, `inmemory`, `postsim`). Unknown names are an error |
+
+The severities of TAB `Assertion` failures and declared-range violations are [package options](options.qmd) (`assertions`, `range_test_initial`, `range_test_updated`).
 
 ## Solution methods {#solution-methods}
 
@@ -345,9 +341,6 @@ solve_in_situ(
   verbosity = 1L,
   suppress_outputs = FALSE,
   terminal_run = FALSE,
-  assertions = c("fatal", "warn", "off"),
-  range_test_initial = c("warn", "fatal", "off"),
-  range_test_updated = c("warn", "fatal", "off"),
   complementarity = NULL,
   solver_args = NULL
 )
