@@ -69,6 +69,7 @@ The severities of TAB `Assertion` failures and declared-range violations are [pa
 | `"BoSha32"`, `"DoPri54"` | Runge-Kutta methods that estimate their own error and can control their step size (`adaptive = "yes"`) |
 
 `"Gragg"` suits most work; `"Johansen"` is a quicker way to check that a new setup runs, and adaptive `"DoPri54"` is an alternative for large shocks.
+A shock that is too large for the step schedule shows up as a singularity abort preceded by warnings that updated coefficients crossed their declared bounds; `ems_solve()` then names the remedies below rather than the closure.
 On large shocks, use more than one subinterval with `"Gragg"`:
 
 ```r
