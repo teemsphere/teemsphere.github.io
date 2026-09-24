@@ -26,12 +26,12 @@ ems_example(
 
 | Argument | Default | Description |
 |----------|---------|-------------|
-| `model` | | Model name. One of `"GTAPv6"`, `"GTAPv7"`, `"GTAP-RE"`, `"GTAP-AEZ"`, `"GTAP-E"`, `"GTAP-EP"` |
+| `model` | | Model name. One of `"GTAPv6"`, `"GTAPv7"`, `"GTAP-RE"`, `"GTAP-AEZ"`, `"GTAP-E"`, `"GTAP-EP"`, `"ORANI-G"` |
 | `path` | | Directory where files will be written |
 | `type` | `"model_files"` | Output type: `"model_files"` or `"scripts"` |
 | `dat_input` | `NULL` | Path to the basedata HAR file, or the `dat` list from [`GTAP_convert()`](data_load.qmd). Required when `type = "scripts"` |
-| `par_input` | `NULL` | Path to the parameters HAR file, or the `par` list from [`GTAP_convert()`](data_load.qmd). Required when `type = "scripts"` |
-| `set_input` | `NULL` | Path to the sets HAR file, or the `set` list from [`GTAP_convert()`](data_load.qmd). Required when `type = "scripts"` |
+| `par_input` | `NULL` | Path to the parameters HAR file, or the `par` list from [`GTAP_convert()`](data_load.qmd). Required when `type = "scripts"` for a GTAP model |
+| `set_input` | `NULL` | Path to the sets HAR file, or the `set` list from [`GTAP_convert()`](data_load.qmd). Required when `type = "scripts"` for a GTAP model |
 
 ## Writing model files
 
@@ -118,6 +118,18 @@ paths <- ems_example(
   dat_input = "~/dat/GTAP-P/12a/gsdfdat.har",
   par_input = "~/dat/GTAP-P/12a/gsdfpar.har",
   set_input = "~/dat/GTAP-P/12a/gsdfset.har"
+)
+```
+
+The ORANI-G scripts need only the model's own `basedata.har`, loaded through the single-file route of `ems_data()` (see [Loading data](data_load.qmd#input-files)).
+`ems_example()` returns the short-run closure and writes the long-run closure `ORANI-G-LR.cls` beside it, which the `longrun` script loads:
+
+```r
+paths <- ems_example(
+  model = "ORANI-G",
+  path = "~/my_project",
+  type = "scripts",
+  dat_input = "~/dat/ORANI-G/basedata.har"
 )
 ```
 

@@ -38,6 +38,7 @@ Vetted models and their closures are available at [teems-models](https://github.
 | GTAP-AEZ | GTAP with land use by agro-ecological zone | GTAP-AEZ release |
 | GTAP-E | GTAP with energy substitution and carbon taxes | GTAP-E release |
 | GTAP-EP | GTAP-E with the electricity sector split by generation technology | GTAP-Power release |
+| ORANI-G | Single-country model of the Centre of Policy Studies, 2013 edition | Its own `basedata.har` |
 
 Users may load their own models by providing a path to a Tablo file and closure:
 ```r
