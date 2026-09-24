@@ -49,6 +49,13 @@ v7_data <- ems_data(dat_input = "v7_data/gsdfdat.har", # basedata coefficients
 
 Note that the actual names of HAR data files vary according to the GTAP release.
 
+A database held in a single HAR file, such as the ORANI-G `basedata.har`, is loaded by giving `dat_input` alone.
+Every character header with distinct entries becomes a set named after its header, every real header a coefficient dimensioned by the set labels stored in the file, and the data are passed through at full resolution; set mappings do not apply on this route.
+
+```r
+orani_data <- ems_data(dat_input = "oranig/basedata.har")
+```
+
 | Input Type | GTAP v9 | GTAP v10 | GTAP v11 | GTAP v12 |
 |------------|---------|----------|----------|----------|
 | dat_input  | gddat.har | gsddat.har | gsdfdat.har | gsdfdat.har |

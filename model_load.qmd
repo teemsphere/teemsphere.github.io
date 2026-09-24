@@ -78,7 +78,7 @@ If a model file does not load and you think it should, a supported statement beh
 ### Supported statements
 
 `File`, `Coefficient`, `Read`, `Update`, `Set`, `Subset`, `Mapping`, `Formula`, `Assertion`, `Variable`, `Equation`, `Write`, `Zerodivide`, `Complementarity`, `PostSim` sections, and the condensation statements `Substitute` and `Backsolve` (see [Condensation](#condensation)) are accepted.
-`Omit` statements are accepted and ignored - model size and memory requirements are unaffected.
+`Omit` statements hold the omitted variables exogenous and unshocked, as omission does in GEMPACK; they stay in the model and its outputs.
 Levels variables and equations, `Formula & Equation`, and `Read (IfHeaderExists)` are supported.
 
 `Loop`, `Display`, `Break`, `Cycle` and `Transfer` are not supported and raise an error.
@@ -170,8 +170,10 @@ Backsolve p1lab using E_p1lab ;
 Statements in the file are applied first, then the `backsolve` argument.
 `ignore_condense = TRUE` skips the statements in the file but still applies the argument.
 
-`Omit` statements are read and ignored, with a message.
-Omission does not decrease memory usage or change the solved system in TEEMS, so the listed variables stay in the model and can be shocked or swapped like any other.
+`Omit` statements add the listed variables to the closure as exogenous, unshocked entries, with a message.
+They stay in the model and its outputs, so a closure file need not repeat them.
+
+Closure files may also carry `xSet` and `xSubset` lines as written in a GEMPACK command file; they are read as `Set` and `Subset` statements of the model, so closure entries can refer to them.
 
 ## Coefficient value injection {#coeff_inject}
 
