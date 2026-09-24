@@ -81,6 +81,8 @@ If a model file does not load and you think it should, a supported statement beh
 `File`, `Coefficient`, `Read`, `Update`, `Set`, `Subset`, `Mapping`, `Formula`, `Assertion`, `Variable`, `Equation`, `Write`, `Zerodivide`, `Complementarity`, `PostSim` sections, and the condensation statements `Substitute` and `Backsolve` (see [Condensation](#condensation)) are accepted.
 `Omit` statements hold the omitted variables exogenous and unshocked, as omission does in GEMPACK; they stay in the model and its outputs.
 Levels variables and equations, `Formula & Equation`, and `Read (IfHeaderExists)` are supported.
+`Default` statements (`Variable (Default=Levels);`, `Equation (Default=Levels);`, `Formula (Default=Initial);`, `Coefficient (Default=Parameter);`) apply to the statements that follow them, as in GEMPACK.
+In closures, shocks and swaps a levels variable may also be named by its linear variable, `c_X` for a `(change)` variable and `p_X` otherwise.
 
 `Loop`, `Display`, `Break`, `Cycle` and `Transfer` are not supported and raise an error.
 
@@ -105,6 +107,8 @@ A few points to note:
 - The upstream GTAP models build some sets from the `EFLG` and `SLUG` headers, which TEEMS excludes from the data.
   Declare such sets with explicit elements instead.
 - Intertemporal set equality (`Set (Intertemporal) B = A;`) is not supported.
+- A set may be empty, for example when a conditional set builder selects nothing under the data at hand.
+  Statements over an empty set do nothing and sums over it are zero.
 
 Set element names are lowercase throughout TEEMS (see [Set mappings](set_mappings.qmd)); for example, the v6.2 `CGDS` sector becomes `cgds`.
 
@@ -120,8 +124,8 @@ Equation E_qca (all,c,COMM)(all,a,ACTS)(all,r,REG)
 ```
 
 A condition may test set membership (`c in MARG`), compare an index with an element or another index (`d = "domestic"`, `r <> s`), or compare coefficient expressions (`MAKES(c,a,r) gt 0`).
-`IF` terms may be nested inside one another.
-At model load they are rewritten into equivalent unconditional statements; helper coefficients created this way (named `IFC*`, `IFX*`, `IFT*`) appear in outputs like any other coefficient.
+`IF` terms may be nested inside one another, and may appear in formulas without quantifiers (`Formula D = 0.0 + IF[NM > 1, 1];`).
+At model load they are rewritten into equivalent unconditional statements; helper coefficients and sets created this way (named `IFC*`, `IFX*`, `IFT*`, `IFV*`, `IFO*`) appear in outputs like any other coefficient or set.
 
 Not supported: compound conditions (`AND`, `OR`, `NOT`), `IF` inside sums or products, and conditions on different indices at the same level of one equation.
 
