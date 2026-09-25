@@ -80,11 +80,30 @@ If a model file does not load and you think it should, a supported statement beh
 
 `File`, `Coefficient`, `Read`, `Update`, `Set`, `Subset`, `Mapping`, `Formula`, `Assertion`, `Variable`, `Equation`, `Write`, `Zerodivide`, `Complementarity`, `PostSim` sections, and the condensation statements `Substitute` and `Backsolve` (see [Condensation](#condensation)) are accepted.
 `Omit` statements hold the omitted variables exogenous and unshocked, as omission does in GEMPACK; they stay in the model and its outputs.
-Levels variables and equations, `Formula & Equation`, and `Read (IfHeaderExists)` are supported.
+Levels variables and equations, `Formula & Equation`, and `Read (IfHeaderExists)` are supported; levels equations may contain conditional sums and the functions `SQRT`, `EXP`, `LOGE` and `LOG10`.
 `Default` statements (`Variable (Default=Levels);`, `Equation (Default=Levels);`, `Formula (Default=Initial);`, `Coefficient (Default=Parameter);`) apply to the statements that follow them, as in GEMPACK.
 In closures, shocks and swaps a levels variable may also be named by its linear variable, `c_X` for a `(change)` variable and `p_X` otherwise.
+A coefficient may itself be named `C_X` as long as no variable `X` exists.
 
 `Loop`, `Display`, `Break`, `Cycle` and `Transfer` are not supported and raise an error.
+
+### Names
+
+Names are case-insensitive, as in GEMPACK.
+A set, coefficient, variable, file or equation may be written in any case after its declaration, and TEEMS uses the declared spelling throughout, including in outputs.
+The same holds for header names (`Read ... header "Nat"` finds a header `NAT`), logical file names, the `.tab` and `.har` extensions, and the variable, set and element names in closures, shocks and swaps.
+
+### Formulas, updates and mappings
+
+- `Formula` quantifiers may carry general conditions, such as `(all,c,COM: $POS(c) = $POS(g))`, a coefficient on either side, or a mapping (`MAP(z) = r`).
+  `Update` statements take quantifier conditions too; an element whose condition is false is left unchanged.
+- A qualifier list such as `(initial, by_elements)` is accepted.
+  `write updated value to file` is accepted with a warning but writes no separate file; the value is in the coefficient outputs.
+- An index may be repeated within one reference (`T(d,d)`, `TRADE(c,"dom",r,r)`).
+- A mapping may point into a subset of the set its argument position is declared over, and a mapped index may range over a subset of the mapping's domain.
+  A mapping may also be assigned an identity or a copy (`MAP(c) = c`, `A(z) = B(z)`).
+- `Update` statements read the values at the start of each step, and several updates of one element apply in order, the later overriding, as in GEMPACK.
+  `(change)` and `(explicit)` updated data follow the solution path and are extrapolated like the variables; see [single-pass runs](solve.qmd#single-pass) for models where that is not wanted.
 
 ### Sets
 
@@ -103,6 +122,7 @@ A few points to note:
 
 - Set names must not contain the substrings `union` or `intersect`.
 - A conditional set builder, like `COALCOMM` above, compares an expression with a constant.
+  Its source set may be read, listed or itself built from other sets.
   Sets are built before formulas are calculated, so the coefficients in the condition must be read from a file or assigned constants only, as GTAP-E's `UNITDCOAL(c) = 0.0 + IF[c="coa", 1.0]` is.
 - The upstream GTAP models build some sets from the `EFLG` and `SLUG` headers, which TEEMS excludes from the data.
   Declare such sets with explicit elements instead.
@@ -111,6 +131,9 @@ A few points to note:
   Statements over an empty set do nothing and sums over it are zero.
 
 Set element names are lowercase throughout TEEMS (see [Set mappings](set_mappings.qmd)); for example, the v6.2 `CGDS` sector becomes `cgds`.
+
+Element order follows the data file wherever a set is not aggregated (see [Loading data](data_load.qmd)).
+It matters to anything that works by position, such as `$POS` and a mapping read from a header, whose entries line up with the elements of its domain in order.
 
 ### IF conditions
 

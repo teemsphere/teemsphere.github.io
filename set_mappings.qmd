@@ -108,4 +108,5 @@ For example:
 | ALLTIME | t | `ALLTIMEt` |
 
 This naming convention disambiguates data entries for variables that have multiple instances of the same set.
+These names are case-insensitive: `regr` and `REGR` both resolve to `REGr`.
 Set position (i.e., column order) is inconsequential for any inputs.

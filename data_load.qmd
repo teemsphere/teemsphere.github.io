@@ -56,6 +56,13 @@ Every character header with distinct entries becomes a set named after its heade
 orani_data <- ems_data(dat_input = "oranig/basedata.har")
 ```
 
+Sets read this way keep the element order of their header in the file, as in GEMPACK; so does any set passed through without aggregation on the GTAP route.
+Aggregated sets are ordered by their mapping.
+The order matters to a model that works by position, for example through `$POS` or a mapping read from a header.
+
+A real header stored without set labels is laid out over the sets declared by the coefficient that reads it, in the file's storage order.
+If the header's size or shape does not fit that declaration, [`ems_deploy()`](deploy.qmd) stops with an error naming the header and the coefficient.
+
 | Input Type | GTAP v9 | GTAP v10 | GTAP v11 | GTAP v12 |
 |------------|---------|----------|----------|----------|
 | dat_input  | gddat.har | gsddat.har | gsdfdat.har | gsdfdat.har |

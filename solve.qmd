@@ -4,6 +4,7 @@
 `ems_solve()` runs the teems solver on a deployed model and, by default, parses the results into structured R objects with [`ems_compose()`](compose.qmd).
 A teems Docker [image](https://github.com/teemsphere/teems-solver) must be available.
 After the run, the solve is checked for singularity, accuracy and errors, and the findings are written to `model_diagnostics.txt` in the run directory.
+On Linux the solver container runs as the calling user, so the files it writes to the run directory belong to you.
 
 `ems_solve()` chooses nothing on your behalf: the run is exactly the arguments given, so it can be reproduced from its record.
 A bare `ems_solve(cmf_path)` solves with Gragg 2-4-8 and LU on one task and one thread, which is accurate and correct for every model but slow for large ones.
@@ -46,7 +47,7 @@ outputs <- ems_solve(
 | `solution_method` | `"Gragg"` | How the shock is applied (see [Solution methods](#solution-methods)) |
 | `matrix_method` | `"LU"` | How each linear system is solved (see [Matrix methods](#matrix-methods)) |
 | `n_subintervals` | `1L` | Splits the shock into this many parts, each solved in turn. Helps with large shocks |
-| `steps` | `c(2L, 4L, 8L)` | Step counts. Three strictly increasing counts for `"Gragg"` (all even) and `"Euler"`; a single count for the Runge-Kutta methods |
+| `steps` | `c(2L, 4L, 8L)` | Step counts. For `"Gragg"` and `"Euler"`, three strictly increasing counts are extrapolated, and a single count is one multi-step run without extrapolation (see [Single-pass runs](#single-pass)); a single count for the Runge-Kutta methods |
 | `n_tasks` | `1L` | Parallel tasks. Must be `1L` with `"LU"` |
 | `n_threads` | `1L` | Threads per task |
 | `precision` | `"single"` | `"double"` uses the double-precision solver: about twice the memory, for runs with many steps or a near-singular system |
@@ -98,6 +99,24 @@ outputs$dat$qgdp$error_estimate
 
 To check that a result has converged, repeat the run with a tighter `eps_tolerance` or more steps and compare.
 The finer Runge-Kutta controls are described [below](#rk).
+
+### Step counts and single-pass runs {#single-pass}
+
+`"Gragg"` and `"Euler"` normally solve three times with increasing step counts and extrapolate from the three results, which also gives the accuracy summary.
+The `"Gragg"` counts must be all even or all odd (`c(2, 4, 8)` or `c(3, 5, 7)`); even counts are recommended.
+
+A single count gives one multi-step run without extrapolation, as GEMPACK's single Euler or Gragg calculation does:
+
+```r
+outputs <- ems_solve(
+  cmf_path = cmf_path,
+  solution_method = "Euler",
+  steps = 16
+)
+```
+
+Use it for models whose updated data must follow the steps themselves, such as a step counter or an iterative (RAS-style) balancing update, which extrapolation would distort.
+No accuracy summary is available for a single-pass run.
 
 ### Runge-Kutta controls {#rk}
 
