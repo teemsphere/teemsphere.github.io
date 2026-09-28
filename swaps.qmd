@@ -28,7 +28,7 @@ cmf_path <- ems_deploy(
 )
 ```
 
-Note that swaps (and validity checks) are handled in the order they are inputted, and swaps "in" are handled before swaps "out".
+Swaps "in" and "out" are reconciled together rather than in a fixed order: each variable element ends exogenous or endogenous according to the net of the swaps that name it. A variable can therefore be swapped in whole and a slice of it swapped back out, and a swap followed by its mirror leaves the closure unchanged. Swaps are rejected only when no order of them is valid on the closure, for example when the same element is swapped in twice.
 
 ## Complex (partial variable) swaps
 
