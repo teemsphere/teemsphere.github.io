@@ -74,8 +74,8 @@ ems_option_reset()
 | `ndigits` | `6` | Number of digits to the right of the decimal point kept when data are written to file. Values smaller than 0.1 in magnitude keep `ndigits` significant digits instead, so small nonzero data (e.g. `1e-10`) are not rounded to zero |
 | `accuracy_threshold` | `0.8` | Threshold (converted to a percentage) against which 4-digit precision is compared. A warning is generated if the threshold is not met |
 | `check_shock_status` | `TRUE` | If `FALSE`, no check on shock element endogenous/exogenous status is conducted |
-| `timestep_header` | `"YEAR"` | Coefficient containing a numeric vector of timestep intervals. For novel intertemporal models — modify with caution |
-| `n_timestep_header` | `"NTSP"` | Coefficient containing a numeric vector length one with sum of timestep intervals. For novel intertemporal models — modify with caution |
+| `timestep_header` | `"YEAR"` | Header written with the time of each period, as given in `time_steps` of `ems_data()` (years, or steps from the initial period); the model uses the differences between periods as interval lengths. For novel intertemporal models — modify with caution |
+| `n_timestep_header` | `"NTSP"` | Header written with the number of periods (the length of `time_steps`). For novel intertemporal models — modify with caution |
 | `full_exclude` | `c("DREL", "DVER", "XXCR", "XXCD", "XXCP", "SLUG", "EFLG")` | Headers to fully exclude from all aspects of the model run. Failure to designate these headers properly will result in errors. Modify with caution |
 | `docker_tag` | `"latest"` | Tag of the `teems` image to solve with. Unless set explicitly, `ems_solve()` uses a local image built for your CPU's instruction-set level (e.g. `teems:x86-64-v3`) when one exists, and `teems:latest` otherwise. Set it to pin a specific image |
 | `version_check` | `"abort"` | What happens when the image's solver version does not match the package: `"abort"` stops the solve, `"warn"` reports it and runs anyway (for reproducing a run on an older image), `"off"` skips the check |
