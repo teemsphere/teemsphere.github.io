@@ -302,6 +302,7 @@ Each run records the solver version and numerical kernels it used in `model_diag
 Before every solve, teems-R checks that the image's solver version matches the package.
 A missing, old or mismatched solver stops the solve and names the pull or rebuild step.
 To reproduce a run on an older pinned image, set `ems_option_set(version_check = "warn")` to run anyway.
+If the image still does not accept a solver option or input file that teems sends, the solve stops and names it rather than running without it; use the image released with your version of teems.
 
 ## Concurrent runs
 
