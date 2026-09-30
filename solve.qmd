@@ -262,6 +262,7 @@ A run that clearly will not fit is refused before it starts, and the message nam
 - more memory for Docker, or a larger machine.
 
 A run close to the limit gets a warning instead.
+With `"DBBD"`, each linear solve also gets one refinement step, which holds the system matrix through the solve; the memory estimate includes it (see the `refine` [package option](options.qmd)).
 During the solve, the log reports memory after each phase, and the peaks are recorded in `model_diagnostics.txt`.
 
 The solver sizes its factorization workspace automatically and grows it when needed, so `laA`, `laD` and `laDi` are normally left unset.

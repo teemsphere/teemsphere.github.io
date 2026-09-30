@@ -28,7 +28,8 @@ ems_option_set(
   assertions = NULL,
   range_test_initial = NULL,
   range_test_updated = NULL,
-  random_seed = NULL
+  random_seed = NULL,
+  refine = NULL
 )
 
 ems_option_reset()
@@ -83,3 +84,4 @@ ems_option_reset()
 | `range_test_initial` | `"warn"` | Severity of declared-range violations (e.g. `(ge 0)`) on initial values: `"fatal"`, `"warn"` or `"off"` |
 | `range_test_updated` | `"warn"` | As `range_test_initial`, for updated values |
 | `random_seed` | `1` | Seed of the TAB function `RANDOM(a,b)`. The same seed gives the same draws on every run; each Formula element keeps its draw across solution steps. Change the seed for a new sequence (GEMPACK instead draws a new sequence per run by default) |
+| `refine` | `"on"` | One refinement step after every `"DBBD"` linear solve, which brings its accuracy to that of `"LU"`. It holds the system matrix through each solve, and the memory estimate counts it; `"off"` turns it off. Other matrix methods are not refined |
