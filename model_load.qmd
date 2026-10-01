@@ -153,20 +153,22 @@ It matters to anything that works by position, such as `$POS` and a mapping read
 
 ### IF conditions
 
-`IF[condition, expression]` terms are supported in formulas and equations when they are added at the top level of an expression:
+`IF[condition, expression]` is supported wherever an expression may stand, in formulas, updates, assertions, PostSim statements and linear or levels equations:
 
 ```
 Formula (all,c,COMM)(all,r,REG)
     VCB(c,r) = VDB(c,r) + sum{d,REG, VXSB(c,r,d)} + IF[c in MARG, VST(c,r)];
 Equation E_qca (all,c,COMM)(all,a,ACTS)(all,r,REG)
     qca(c,a,r) = IF[MAKES(c,a,r) gt 0, qo(a,r) - ETRAQ(a,r) * [ps(c,a,r) - po(a,r)]];
+Formula (all,r,REG) SHR(r) = sum{s,REG, IF[s <> r, VDB("food",s)]} / 2;
 ```
 
 A condition may test set membership (`c in MARG`), compare an index with an element or another index (`d = "domestic"`, `r <> s`), or compare coefficient expressions (`MAKES(c,a,r) gt 0`).
-`IF` terms may be nested inside one another, and may appear in formulas without quantifiers (`Formula D = 0.0 + IF[NM > 1, 1];`).
-At model load they are rewritten into equivalent unconditional statements; helper coefficients and sets created this way (named `IFC*`, `IFX*`, `IFT*`, `IFV*`, `IFO*`) appear in outputs like any other coefficient or set.
+Comparisons may be joined with `AND`, `OR` and `NOT` (`[VDB(c,r) > 0] and not [r = "usa"]`), in `IF` terms as in the conditions of sums and quantifiers.
+`IF` terms may be nested, multiplied, divided, raised to powers, placed inside sums and function arguments, and used in formulas without quantifiers (`Formula D = 0.0 + IF[NM > 1, 1];`).
+Top-level terms of formulas and equations are rewritten at model load into equivalent unconditional statements, with helper coefficients and sets (named `IFC*`, `IFX*`, `IFT*`, `IFV*`, `IFO*`) that appear in outputs like any other coefficient or set; other placements are evaluated by the solver as written.
 
-Not supported: compound conditions (`AND`, `OR`, `NOT`), `IF` inside sums or products, and conditions on different indices at the same level of one equation.
+As in GEMPACK, a condition reads coefficients and levels variables but not linear variables, and a set-membership test (`c in MARG`) cannot be combined with `AND`, `OR` or `NOT`; nest the `IF` instead.
 
 ## Condensation {#condensation}
 
