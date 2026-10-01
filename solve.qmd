@@ -290,6 +290,25 @@ The check does not change results, costs a few percent of solve time, and applie
 `jacdump = TRUE` writes the linearized system at the base data, every equation element against every variable element, to `sol.jac` beside the solution, with the equation map in `sol.jac.json`.
 It is taken before the first step, does not change results, and is the input for checking a model's homogeneity outside the solve.
 
+## Checking homogeneity {#homogeneity}
+
+A CGE model should be homogeneous: raising every exogenous price and value by 1 % should raise every price and value by 1 % and leave quantities unchanged (nominal homogeneity), and scaling every quantity by 1 % should do the same for quantities and values with prices unchanged (real homogeneity).
+`ems_homogeneity()` tests a deployment for either, from the variable types the model file declares (see [variable types](model_load.qmd)); the vetted models carry them.
+
+```r
+check <- ems_homogeneity(cmf_path, type = "nominal")
+check$equations
+```
+
+The check evaluates every equation of the linearized system at the change homogeneity implies, without solving, and reports each equation block's largest error, `max_err`, with the element where it occurs.
+Values above about `1e-6` point at an equation that is not homogeneous.
+`simulate = TRUE` also solves the model under the corresponding shocks and compares every typed variable with its expected change.
+Both run on a copy of the deployment.
+
+Equations over zero flows can fail harmlessly: a share computed from a zero total takes its zero-divide default, and the shares then no longer sum to one.
+In the vetted models these are the off-diagonal make elements (`ps`, `pca`, `qca` for an activity that does not produce the commodity) and, in GTAP-E and GTAP-EP, energy composites a sector or agent does not buy.
+GTAP-RE's saving-price equations are genuinely not homogeneous: its investment balance nets depreciation out of capital purchases.
+
 ## Reproducibility
 
 The same deployment solved with the same image gives byte-identical results with `"LU"`, `"SBBD"` and `"NDBBD"`, at any thread count and on any machine the image supports.
