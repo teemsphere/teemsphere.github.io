@@ -305,9 +305,12 @@ Values above about `1e-6` point at an equation that is not homogeneous.
 `simulate = TRUE` also solves the model under the corresponding shocks and compares every typed variable with its expected change.
 Both run on a copy of the deployment.
 
-Equations over zero flows can fail harmlessly: a share computed from a zero total takes its zero-divide default, and the shares then no longer sum to one.
-In the vetted models these are the off-diagonal make elements (`ps`, `pca`, `qca` for an activity that does not produce the commodity) and, in GTAP-E and GTAP-EP, energy composites a sector or agent does not buy.
+Equations over zero flows can fail harmlessly: a share computed from a zero total takes its zero-divide default, or an inactive branch such as `IF[MAKEB(c,a,r) gt 0, ...]` reduces an element to a single variable.
+`ems_homogeneity()` marks these elements `zero_flow` and leaves them out of `max_err`; the `zero_flow` column counts them per block.
+In the vetted models they are the off-diagonal make elements (an activity that does not produce the commodity), energy composites an agent does not buy (GTAP-E, GTAP-EP) and AEZs or activities without land (GTAP-AEZ).
+A block whose `zero_flow` equals its `rows` deserves a look: an equation that lost a term everywhere would look the same.
 GTAP-RE's saving-price equations are genuinely not homogeneous: its investment balance nets depreciation out of capital purchases.
+GTAP-AEZ's land-cover equations are not homogeneous in real terms by design: effective hectares respond less than one for one to harvested area, and crop land cover outside the harvested area is held fixed.
 
 ## Reproducibility
 
