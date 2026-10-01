@@ -287,6 +287,9 @@ Values of `kappa_w2` around `1e8` are normal for CGE models; values approaching 
 Look for near-zero flows the closure depends on, or rerun with `precision = "double"`.
 The check does not change results, costs a few percent of solve time, and applies to `"LU"` only.
 
+`jacdump = TRUE` writes the linearized system at the base data, every equation element against every variable element, to `sol.jac` beside the solution, with the equation map in `sol.jac.json`.
+It is taken before the first step, does not change results, and is the input for checking a model's homogeneity outside the solve.
+
 ## Reproducibility
 
 The same deployment solved with the same image gives byte-identical results with `"LU"`, `"SBBD"` and `"NDBBD"`, at any thread count and on any machine the image supports.
@@ -416,3 +419,19 @@ solve_in_situ(
 The model file is processed exactly as `ems_model()` processes it, so in-TAB `Substitute` and `Backsolve` statements apply.
 
 By default, `solve_in_situ()` returns the model's variables and coefficients; with `suppress_outputs = TRUE` it returns the CMF path, which can be passed to [`ems_compose()`](compose.qmd).
+
+## Calculating without a solve {#calculate}
+
+`ems_calculate()` runs a model file's `Read`, `Formula` and `Assertion` statements on the input files given and returns the coefficients, with no closure, shocks or solve.
+It suits data programs, model files without `Equation` statements that prepare, convert or check data, and it can also calculate a full model's coefficients at the base data without solving it.
+
+```r
+coefficients <- ems_calculate(
+  model_file = "path/to/data_program.tab",
+  GTAPSETS = "path/to/sets.txt",
+  GTAPDATA = "path/to/basedata.txt"
+)
+```
+
+Input files are named after the model file's `File` statements and used as given, as for `solve_in_situ()`.
+`PostSim` sections are not run, since they need a simulation, and a failed `Assertion` stops the calculation.
