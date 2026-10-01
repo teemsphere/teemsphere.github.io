@@ -70,5 +70,17 @@ Use the name as it appears in the model file, not the header.
 | `type` | `"variable"`, `"coefficient"` or `"postsim"` (coefficients computed in a `PostSim` section) |
 | `dat` | List-column of data.tables, one per row, containing the result values |
 
+## Levels results {#levels}
+
+A variable declared with `ORIG_LEVEL=` in the model file has a known pre-simulation level: either a coefficient over exactly the variable's sets (GTAP's `qfd` takes `VDFB`, its value at base prices) or a number (`1.0` for a price index).
+Levels variables know theirs too.
+For these variables the data.table gains:
+
+| Column | Percent-change variable | Change variable |
+|--------|-------------------------|-----------------|
+| `PreLevel` | pre-simulation level | pre-simulation level |
+| `PostLevel` | `PreLevel * (1 + Value / 100)` | `PreLevel + Value` |
+| `Change` / `PercentChange` | `Change`: the ordinary change | `PercentChange`: the percent change |
+
 For runs solved with `"BoSha32"` or `"DoPri54"` (see [solving](solve.qmd)), each variable's data.table also has an `error_estimate` column.
 Sort it in descending order to find the least settled results; it is an indicator, not a bound on the error.

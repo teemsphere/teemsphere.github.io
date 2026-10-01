@@ -93,6 +93,22 @@ Names are case-insensitive, as in GEMPACK.
 A set, coefficient, variable, file or equation may be written in any case after its declaration, and TEEMS uses the declared spelling throughout, including in outputs.
 The same holds for header names (`Read ... header "Nat"` finds a header `NAT`), logical file names, the `.tab` and `.har` extensions, and the variable, set and element names in closures, shocks and swaps.
 
+### Variable types for homogeneity checks
+
+`VPQType` marks a variable as a `Value`, `Price` or `Quantity`, or as `None` (tax rates, shifters, technology, foreign prices), for GEMPACK's homogeneity tests (manual 57.2).
+All three GEMPACK forms are read, in file order:
+
+```
+Variable (begins p default VPQType Price);     ! later variables starting with p !
+Variable (begins pf default VPQType None);     ! the longest matching prefix wins !
+Variable (VPQType=Quantity) (all,i,IND) x1cap(i);
+Variable (Name x6com VPQType Quantity);        ! anywhere in the file !
+```
+
+`Variable (begins <prefix> VPQType default OFF);` ends a default.
+Variables without a type stay `Unspecified`.
+`ORIG_LEVEL=` qualifiers are checked as in GEMPACK: the coefficient must be real and range over exactly the variable's sets.
+
 ### Formulas, updates and mappings
 
 - `Formula` quantifiers may carry general conditions, such as `(all,c,COM: $POS(c) = $POS(g))`, a coefficient on either side, or a mapping (`MAP(z) = r`).
