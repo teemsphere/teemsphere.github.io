@@ -13,7 +13,7 @@ A bare `ems_solve(cmf_path)` solves with Gragg 2-4-8 and LU on one task and one 
 ```r
 ems_solve(
   cmf_path,
-  solution_method = c("Gragg", "Johansen", "Euler", "RK2",
+  solution_method = c("Gragg", "Midpoint", "Johansen", "Euler", "RK2",
                       "Heun", "RK4", "BoSha32", "DoPri54"),
   matrix_method = c("LU", "DBBD", "SBBD", "NDBBD"),
   n_subintervals = 1L,
@@ -47,7 +47,7 @@ outputs <- ems_solve(
 | `solution_method` | `"Gragg"` | How the shock is applied (see [Solution methods](#solution-methods)) |
 | `matrix_method` | `"LU"` | How each linear system is solved (see [Matrix methods](#matrix-methods)) |
 | `n_subintervals` | `1L` | Splits the shock into this many parts, each solved in turn. Helps with large shocks |
-| `steps` | `c(2L, 4L, 8L)` | Step counts. For `"Gragg"` and `"Euler"`, three strictly increasing counts are extrapolated, and a single count is one multi-step run without extrapolation (see [Single-pass runs](#single-pass)); a single count for the Runge-Kutta methods |
+| `steps` | `c(2L, 4L, 8L)` | Step counts. For `"Gragg"`, `"Midpoint"` and `"Euler"`, two or three strictly increasing counts are extrapolated, and a single count is one multi-step run without extrapolation (see [Single-pass runs](#single-pass)); a single count for the Runge-Kutta methods |
 | `n_tasks` | `1L` | Parallel tasks. Must be `1L` with `"LU"` |
 | `n_threads` | `1L` | Threads per task |
 | `precision` | `"single"` | `"double"` uses the double-precision solver: about twice the memory, for runs with many steps or a near-singular system |
@@ -65,6 +65,7 @@ The severities of TAB `Assertion` failures and declared-range violations are [pa
 |--------|-------------|
 | `"Gragg"` | The default and the standard accurate method: several multi-step solutions combined by extrapolation (see the [GEMPACK manual](https://www.copsmodels.com/gpmanual.htm#gpd3.12.2)) |
 | `"Johansen"` | A quick one-step linear approximation. Good for checking that a model and closure run; not accurate for nonlinear results or large shocks |
+| `"Midpoint"` | Gragg's method without its final smoothing pass. It never carries the shocks past their end point, so it takes a shock of exactly `-100%`, which `"Gragg"` refuses |
 | `"Euler"` | Like `"Gragg"` but converges more slowly. The most robust choice for severe shocks, such as a variable driven close to `-100%` |
 | `"RK2"`, `"Heun"`, `"RK4"` | Runge-Kutta methods with a single step count and no extrapolation. `"RK4"` with a few steps is an inexpensive way to get three to four correct digits on large shocks |
 | `"BoSha32"`, `"DoPri54"` | Runge-Kutta methods that estimate their own error and can control their step size (`adaptive = "yes"`) |
@@ -102,8 +103,10 @@ The finer Runge-Kutta controls are described [below](#rk).
 
 ### Step counts and single-pass runs {#single-pass}
 
-`"Gragg"` and `"Euler"` normally solve three times with increasing step counts and extrapolate from the three results, which also gives the accuracy summary.
-The `"Gragg"` counts must be all even or all odd (`c(2, 4, 8)` or `c(3, 5, 7)`); even counts are recommended.
+`"Gragg"`, `"Midpoint"` and `"Euler"` normally solve three times with increasing step counts and extrapolate from the three results, which also gives the accuracy summary.
+The `"Gragg"` and `"Midpoint"` counts must be all even or all odd (`c(2, 4, 8)` or `c(3, 5, 7)`); even counts are recommended.
+Two counts (`c(2, 4)`) extrapolate from two results, with no accuracy summary.
+The [package option](options.qmd) `convergence_rule = "on"` applies GEMPACK's treatment of results that do not converge cleanly: their extrapolation is replaced by the result with the most steps, or by the average when the three results are nearly equal.
 
 A single count gives one multi-step run without extrapolation, as GEMPACK's single Euler or Gragg calculation does:
 
@@ -373,7 +376,7 @@ solve_in_situ(
   closure_file,
   shock_file,
   ignore_condense = FALSE,
-  solution_method = c("Gragg", "Johansen", "Euler", "RK2",
+  solution_method = c("Gragg", "Midpoint", "Johansen", "Euler", "RK2",
                       "Heun", "RK4", "BoSha32", "DoPri54"),
   matrix_method = c("LU", "DBBD", "SBBD", "NDBBD"),
   n_subintervals = 1L,

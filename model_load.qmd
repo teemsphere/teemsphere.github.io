@@ -80,7 +80,8 @@ If a model file does not load and you think it should, a supported statement beh
 
 `File`, `Coefficient`, `Read`, `Update`, `Set`, `Subset`, `Mapping`, `Formula`, `Assertion`, `Variable`, `Equation`, `Write`, `Zerodivide`, `Complementarity`, `PostSim` sections, and the condensation statements `Substitute` and `Backsolve` (see [Condensation](#condensation)) are accepted.
 `Omit` statements hold the omitted variables exogenous and unshocked, as omission does in GEMPACK; they stay in the model and its outputs.
-Levels variables and equations, `Formula & Equation`, and `Read (IfHeaderExists)` are supported; levels equations may contain conditional sums and the functions `SQRT`, `EXP`, `LOGE` and `LOG10`.
+Levels variables and equations, `Formula & Equation`, and `Read (IfHeaderExists)` are supported; levels equations may contain conditional sums, `PROD` and the functions `SQRT`, `EXP`, `LOGE`, `LOG10` and `IF`.
+`PROD`, `MAXS` and `MINS` reduce over a set like `SUM`.
 `Default` statements (`Variable (Default=Levels);`, `Equation (Default=Levels);`, `Formula (Default=Initial);`, `Coefficient (Default=Parameter);`) apply to the statements that follow them, as in GEMPACK.
 A levels variable `X` has a linear variable named `p_X`, or `c_X` for a `(change)` variable; `Linear_Name=` gives it another name and `Linear_Var=` makes an already declared linear variable serve as it.
 In closures, shocks and swaps either name may be used.
@@ -118,7 +119,8 @@ Variables without a type stay `Unspecified`.
   `write updated value to file` is accepted with a warning but writes no separate file; the value is in the coefficient outputs.
 - An index may be repeated within one reference (`T(d,d)`, `TRADE(c,"dom",r,r)`).
 - A mapping may point into a subset of the set its argument position is declared over, and a mapped index may range over a subset of the mapping's domain.
-  A mapping may also be assigned an identity or a copy (`MAP(c) = c`, `A(z) = B(z)`).
+  A mapping may also be assigned an identity or a copy (`MAP(c) = c`, `A(z) = B(z)`), matched by element name when the sets are unrelated.
+- A mapping is read as element names (`Read (by_elements)`) or as element numbers (`Read` alone), over its whole domain or over a subset (`Read (all,c,MARG) MAP(c) ...`), with Formulas assigning the rest.
 - `Update` statements read the values at the start of each step, and several updates of one element apply in order, the later overriding, as in GEMPACK.
   `(change)` and `(explicit)` updated data follow the solution path and are extrapolated like the variables; see [single-pass runs](solve.qmd#single-pass) for models where that is not wanted.
 
@@ -134,7 +136,7 @@ Set UACT = UNITA x ACTS;
 Set COALCOMM # coal # = (all,c,COMM: sum{cc,DCOMM: MCOM(cc)=c, UNITDCOAL(cc)} > 0);
 ```
 
-Set expressions (`UNION`, `INTERSECT`, `+`, `-`), set equality, set products and conditional set builders all follow GEMPACK.
+Set expressions (`UNION`, `INTERSECT`, `+`, `-`, and the relative complement `\`), set equality, set products and conditional set builders all follow GEMPACK.
 A few points to note:
 
 - Set names must not contain the substrings `union` or `intersect`.

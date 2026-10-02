@@ -29,7 +29,8 @@ ems_option_set(
   range_test_initial = NULL,
   range_test_updated = NULL,
   random_seed = NULL,
-  refine = NULL
+  refine = NULL,
+  convergence_rule = NULL
 )
 
 ems_option_reset()
@@ -85,3 +86,4 @@ ems_option_reset()
 | `range_test_updated` | `"warn"` | As `range_test_initial`, for updated values |
 | `random_seed` | `1` | Seed of the TAB function `RANDOM(a,b)`. The same seed gives the same draws on every run; each Formula element keeps its draw across solution steps. Change the seed for a new sequence (GEMPACK instead draws a new sequence per run by default) |
 | `refine` | `"on"` | One refinement step after every `"DBBD"` linear solve, which brings its accuracy to that of `"LU"`. It holds the system matrix through each solve, and the memory estimate counts it; `"off"` turns it off. Other matrix methods are not refined |
+| `convergence_rule` | `"off"` | `"on"` applies GEMPACK's treatment of poorly converging results to runs extrapolated from three solutions: the result with the most steps where the three do not converge cleanly, their average where they are nearly equal. Not available with subtotals |
