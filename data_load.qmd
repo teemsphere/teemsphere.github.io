@@ -220,7 +220,7 @@ This is the weight under which the aggregate elasticity reproduces the members' 
 A member whose input shares cannot move carries little weight: a commodity that is almost never imported cannot shift the aggregate import share, whatever its elasticity, and neither can imports bought almost entirely from one source.
 For a nest with two inputs the weight reduces to $2 V \theta (1 - \theta)$.
 Shares are taken over the inputs of the aggregated model (for import sourcing, the aggregated source regions).
-Where every member of an aggregate has a zero weight, the value weight is used instead.
+Where every member of an aggregate has a zero weight, the value weight is used instead; where that is zero too (an activity or endowment a region does not have), the members are averaged.
 - `"value"`: each member is weighted by the value of its nest, as the GTAP aggregation programs (FlexAgg) do for their region-specific parameters; the formulas are given below.
 
 A single method applies to every weighted parameter; individual parameters can be set apart by name:
@@ -250,7 +250,6 @@ The nests behind the share weights:
 | ESBI | investment demand | aggregated commodities | investment purchases |
 | ETRQ | commodities made by an activity (CET) | aggregated commodities | make matrix (MAKS) |
 | ESBQ | activities making a commodity | aggregated activities | make matrix (MAKB) |
-| ETRE | allocation of an endowment (CET) | aggregated activities | endowment supply (EVOS) |
 | EFVE | value added/energy (GTAP-E, GTAP-Power) | value added, energy | factor payments plus energy purchases |
 | EAEZ | land across agro-ecological zones (GTAP-AEZ) | aggregated zones | land rents |
 :::
