@@ -83,6 +83,7 @@ If a model file does not load and you think it should, a supported statement beh
 Levels variables and equations, `Formula & Equation`, and `Read (IfHeaderExists)` are supported; levels equations may contain conditional sums, `PROD` and the functions `SQRT`, `EXP`, `LOGE`, `LOG10` and `IF`.
 `PROD`, `MAXS` and `MINS` reduce over a set like `SUM`.
 `Default` statements (`Variable (Default=Levels);`, `Equation (Default=Levels);`, `Formula (Default=Initial);`, `Coefficient (Default=Parameter);`) apply to the statements that follow them, as in GEMPACK.
+`Read`, `Formula` and `Assertion` statements take effect in the order they appear, as in GEMPACK, including inside `PostSim` sections: a `Read` after a default `Formula` replaces the default, and a `Formula` after a `Read` replaces what was read.
 A levels variable `X` has a linear variable named `p_X`, or `c_X` for a `(change)` variable; `Linear_Name=` gives it another name and `Linear_Var=` makes an already declared linear variable serve as it.
 In closures, shocks and swaps either name may be used.
 `p_X` and `c_X` refer to nothing else: beside a linear variable `X`, names such as `p_X` or `C_X` are free for other coefficients and variables.
