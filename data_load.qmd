@@ -243,6 +243,7 @@ The nests behind the share weights:
 |--------|------|----------------------|-------------|
 | ESBD | domestic/imported, one per agent | domestic, imported | purchases by firms, households, government and investment (v6: firms, households, government) |
 | ESBM | import sourcing | aggregated source regions | bilateral imports (VMSB; v6 VIMS) |
+| ESDC, ESMC | the v12 CEPII-based Armington set (unread by the shipped models) | as ESBD, ESBM | as ESBD, ESBM |
 | ESBV | primary factors | aggregated endowments | factor payments (EVFP; v6 EVFA) |
 | ESBT | intermediates/value added | intermediates, value added | intermediate purchases plus factor payments |
 | ESBC | intermediate inputs | aggregated commodities | intermediate purchases |
@@ -255,6 +256,7 @@ The nests behind the share weights:
 :::
 
 ELFVAEN for fossil fuel mining is recalibrated rather than averaged under either method (see below).
+The GTAP-E and GTAP-Power CDE parameters over `TOPP` are rebuilt from the commodity-level `SUBP`/`INCP`, the energy node as their private-consumption-weighted mean over the energy commodities, as flexagg's `aggpar_e.tab` does; the databases' own `SUBE`/`INCE` headers are not used.
 
 ### GTAP v6.2 format parameter weight methodology
 Headers, descriptions, and index ranges for parameters and associated data within the GTAP v6.2 model, with the `"value"` weights.
