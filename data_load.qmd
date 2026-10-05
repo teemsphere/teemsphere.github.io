@@ -209,7 +209,7 @@ If custom parameter values are desired, these can be directly loaded in their fi
 In the below notation, hat (ˆ) indicates the new parameter value and asterisk indicates the destination set mapping.
 
 ### Parameter weights
-The elasticities are aggregated region by region, so each aggregated region keeps its own values.
+The elasticities are aggregated region by region under the share method, so each aggregated region keeps its own values; the value method follows FlexAgg, which weights the Armington, intermediate-input and value-added elasticities (ESBD, ESBM, ESDC, ESMC, ESBC, ESBV) with world totals and writes one value to every region.
 Two weighting methods are available through the `par_weights` argument of `ems_data()`:
 
 - `"share"` (default): each member is weighted by the value of its CES or CET nest, $V$, times one minus the sum of its squared input shares $\theta_k$,
@@ -221,7 +221,7 @@ A member whose input shares cannot move carries little weight: a commodity that 
 For a nest with two inputs the weight reduces to $2 V \theta (1 - \theta)$.
 Shares are taken over the inputs of the aggregated model (for import sourcing, the aggregated source regions).
 Where every member of an aggregate has a zero weight, the value weight is used instead; where that is zero too (an activity or endowment a region does not have), the members are averaged.
-- `"value"`: each member is weighted by the value of its nest, as the GTAP aggregation programs (FlexAgg) do for their region-specific parameters; the formulas are given below.
+- `"value"`: each member is weighted by the value of its nest, as the GTAP aggregation programs (FlexAgg) do; the formulas are given below. The region-generic parameters (ESBD, ESBM, ESDC, ESMC, ESBC, ESBV) are weighted with world totals and take one value in every region, as FlexAgg writes them; a parameter file that carries them region-specific is first averaged over regions with the same weights.
 
 A single method applies to every weighted parameter; individual parameters can be set apart by name:
 
