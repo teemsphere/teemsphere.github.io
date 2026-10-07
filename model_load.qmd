@@ -28,7 +28,7 @@ Both `model_file` and `closure_file` are required arguments.
 ## The model file {#tab_files}
 
 Model input in `teems` is limited to Tablo (`.tab`) files.
-Vetted models and their closures are available at [teems-models](https://github.com/teemsphere/teems-models) and through [`ems_example()`](example.qmd):
+Vetted models and their closures are available at [teems-models](https://github.com/teemsphere/teems-models) and through [`ems_example()`](example.qmd); their documentation is listed under [References](references.qmd#models):
 
 | Model | Description | Database |
 |-------|-------------|----------|

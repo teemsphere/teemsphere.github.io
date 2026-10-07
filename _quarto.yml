@@ -39,6 +39,7 @@ book:
         - options.qmd
   appendices:
     - benchmarks.qmd
+    - references.qmd
 
 format:
   html:
