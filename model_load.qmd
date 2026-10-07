@@ -199,13 +199,31 @@ model <- ems_model(
 
 A backsolved variable must be endogenous, and its defining equation must be one GEMPACK could substitute with.
 If it is not, the error names the requirement that failed.
-Coefficients created along the way (named `CSUB*`) appear in outputs like any other coefficient.
+#### Condensation coefficients (`CSUB`) {#csub}
+
+Substituting a variable out multiplies the coefficients of its defining equation into every equation that used it.
+Rather than leave those products in the equation text, the engine stores each one, and each sum over an eliminated index, as a new coefficient with its own `Formula`, named `CSUB<n>` and appended to the deployed model file.
+Substituting `pint` out of GTAPv7 through `E_pint`, for example, produces
+
+```
+Coefficient (all,a,ACTS)(all,r,REG)(all,c,COMM) CSUB392(a,r,c) # backsolve product (E_pint) #;
+Formula (all,a,ACTS)(all,r,REG)(all,c,COMM) CSUB392(a,r,c) = INTSHR(c,a,r)*[1 - FMSHR(c,a,r)];
+```
+
+and later substitutions build on earlier ones (`CSUB204(r,c) = sum{a,ACTS, CSUB53(r,c,a)*CSUB174(c,a,r)}`).
+The comment names the kind: a *backsolve product* is such a product or sum; a *backsolve pivot* is the reciprocal of the coefficient on the backsolved variable when that coefficient is not a plain number.
+GEMPACK's condensation creates the same objects.
+
+They are derived from the model's coefficients, not declared by it, and are re-evaluated with the other formulas at every step.
+The standard GTAPv7 condensation adds 650 of them to the 283 coefficients the model declares, so the solver's write tally (`verbosity = 2`) reports the two groups separately, and they appear in outputs like any other coefficient.
 
 ### When backsolving pays {#backsolve_when}
 
 Backsolving shrinks the system but makes it denser.
-That helps `"LU"` on static models, and hurts the parallel matrix methods (`"SBBD"`, `"DBBD"`, `"NDBBD"`), which rely on the sparsity it removes.
-[`ems_probe()`](solve.qmd#recommended) takes this into account when it recommends a method.
+That helps `"LU"` on static models: the standard GTAP condensation cut a 1.35 million equation Gragg solve by 41 % and a 3.6 million one by more than half.
+It hurts the parallel matrix methods (`"SBBD"`, `"DBBD"`, `"NDBBD"`), which rely on the sparsity it removes: on GTAP-RE the same condensation made `"SBBD"` runs 69 % slower at 200 thousand equations and 393 % slower at 4.4 million, and a condensed static system stops gaining from extra `"DBBD"` tasks where the full system keeps gaining.
+On a laptop, threaded `"LU"` on the condensed system is still the fastest measured below about 120 thousand condensed equations; above that, or on a machine with many cores, deploy without backsolve and use a parallel method.
+[`ems_probe()`](solve.qmd#recommended) measures the block structure of a deployment and says which case it is in.
 
 ### Condensation statements in the model file
 

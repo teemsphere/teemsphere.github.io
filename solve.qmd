@@ -51,7 +51,7 @@ outputs <- ems_solve(
 | `n_tasks` | `1L` | Parallel tasks. Must be `1L` with `"LU"` |
 | `n_threads` | `1L` | Threads per task |
 | `precision` | `"single"` | `"double"` uses the double-precision solver: about twice the memory, for runs with many steps or a near-singular system |
-| `verbosity` | `1L` | Log detail: `0` errors, warnings and the accuracy summary; `1` adds progress and timings; `2` adds per-rank detail |
+| `verbosity` | `1L` | Log detail: `0` errors, warnings and the accuracy summary; `1` adds progress and timings; `2` adds per-rank detail and a one-line tally of what was written (coefficients, sets, variables) |
 | `suppress_outputs` | `FALSE` | When `TRUE`, outputs are not parsed with [`ems_compose()`](compose.qmd) |
 | `terminal_run` | `FALSE` | When `TRUE`, prepares the run without starting it, so it can be launched from a terminal |
 | `complementarity` | `NULL` | Run controls for models with complementarities, built by [`ems_complementarity()`](#complementarity) |
@@ -189,35 +189,165 @@ ems_probe(
 )
 ```
 
-Run `ems_probe()` once per deployment.
-It measures the structure of the deployed system, reads the cores and memory available to the solver's container, and prints the call to use:
+Run `ems_probe()` once per deployment, before the first solve.
+It runs the solver up to the point where the equation system is assembled, without solving, and from that system it checks that the closure is sound, measures the structure the matrix methods exploit, reads the cores and memory available to the solver's container, and prints the call to use.
+A probe takes seconds on a condensed GTAP model; on an uncondensed system its cost grows faster than the size, to minutes at a few million equations.
 
 ```r
 probe <- ems_probe(cmf_path)
-#> recommended for 8 cores, 12.0 GB (this container): "SBBD", 3 tasks x 2 threads
-#>   ems_solve(cmf_path, matrix_method = "SBBD", n_tasks = 3, n_threads = 2)
+#> ℹ Probing 'GTAPv7.cmf'; solver log at 'out/probe/solver_out_probe.txt'
+#> ℹ Probe finished in 20.9 s
+probe
+#> ── Structural probe ─────────────────────────────────── 110,849 equations ──
+#> ✔ Closure valid: every variable is determined and no equation is redundant,
+#>   at base data too
+#> → Recommended for this container (8 cores, 12.0 GB): "LU", 1 task × 8
+#>   threads
+#>   `ems_solve(cmf_path, matrix_method = "LU", n_threads = 8)`
+#> ℹ `summary(x)` for the full report
 ```
 
-The same object reports whether the closure is sound: a structurally singular system (variables nothing determines, or equations that determine the same variable twice) is flagged with the variables and equations responsible, and the probe says whether condensing the model is likely to help.
-`plot(probe, type = "incidence")` draws which variables each equation uses; `type = "dm"` locates a singularity and `type = "cores"` shows the largest blocks that must be solved simultaneously (skip that analysis with `ems_probe(cmf_path, fine = FALSE)`).
-Pass `cores` and `memory` (in GB) to get a recommendation for another machine.
-The rules behind it, measured on a 12 GB laptop profile and on a 32-core server, come down to:
+Pass `cores` and `memory` (in GB) to get the recommendation for another machine, for example a server you will solve on later.
+
+#### Reading the printed summary {#probe-print}
+
+While it runs, the two progress lines name the deployment, the solver log and the time taken; any `Warning:` lines the solver wrote to that log are repeated afterwards.
+Both are silent under `ems_option_set(verbose = FALSE)`.
+The short form printed above has four parts:
+
+- **The header** gives the number of equations in the system the solver will factorize.
+  For a condensed model (the vetted static models) this is the system after backsolving, which is much smaller than the model.
+- **The closure verdict.** `Closure valid` means that every endogenous variable is pinned down by some equation and no equation duplicates another, both in the model's structure and with the base data in place.
+  A model that fails this test cannot be solved, however it is configured; the alternative lines are described under [Singular systems](#probe-singular).
+- **A memory warning**, only when the estimated peak of the recommended run comes close to the container's memory.
+- **The recommendation**: the matrix method, the number of parallel tasks and the threads per task, for the machine named in brackets, followed by the `ems_solve()` call to paste.
+  "This container" means the cores and memory were read from the Docker container the solver runs in (on Docker Desktop, the limits under Settings > Resources); "the machine given" means you passed `cores` and `memory`.
+
+When no sound recommendation can be made, the probe says so instead of guessing: the closure is singular (fix the model first), the container's cores could not be read (pass `cores` and `memory`), or no method fits in the memory available (the message gives the smallest estimate and the remedies: more memory for the container, a coarser aggregation, or condensation).
+
+#### The full report {#probe-summary}
+
+`summary(probe)` prints the evidence behind the verdict and the recommendation:
+
+```r
+summary(probe)
+#> ── Structural probe: full report ────────────────────────────────────────────
+#> • System: 110,849 equations after condensation (68 backsolved variables;
+#>   3,667,721 uncondensed)
+#> ✔ Structural rank: 110,849 of 110,849
+#> ✔ Rank at base data: 110,849 of 110,849
+#> • Structure: no time chain; block partition by "reg" (66 blocks, 497 border
+#>   variables)
+#> • Simultaneous cores: 1,947 of 58,290 strongly connected components have
+#>   more than one element; the largest has 50,548 rows
+#> • Largest core by equation: e_peb ×6,172, e_qes1 ×5,280, e_qo ×2,640,
+#>   e_po ×2,640, e_qc ×2,640, e_qpa ×2,640, and 40 more
+#> • Statements: 178 equation statements, 1,150 statement-variable incidences
+#> ── Heaviest statement-variable incidences ───────────────────────────────────
+#> # A tibble: 10 × 4
+#>    eq        var    weight  rows
+#>    <chr>     <chr>   <int> <int>
+#>  1 e_qms     tfm   8764800  2640
+#>  2 e_qds     tfd   8764800  2640
+#>  ...
+#> ── Condensation ─────────────────────────────────────────────────────────────
+#> • 68 backsolved variables remove 97% of the uncondensed system (3,667,721 to
+#>   110,849 equations)
+#> ✔ "reg" partitions the condensed system into 66 blocks, but below 120,000
+#>   condensed equations threaded "LU" beats "DBBD"
+#> ── Recommendation ───────────────────────────────────────────────────────────
+#> ✔ "LU", 1 task × 8 threads for this container (8 cores, 12.0 GB)
+#> • Evidence: 110,849 equations (condensed), no time chain, partition reg (66
+#>   blocks, border 20.5% of the system), assessed at 2 tasks
+#> • Rationale: one rank; threads for the condensed factorization
+#> • Memory: about 4.0 GB at 1 task, 33% of 12.0 GB (fits)
+#> → `ems_solve(cmf_path, matrix_method = "LU", n_threads = 8)`
+#> ℹ Files: report '/path/to/run/out/probe/sol.probe.json', solver log
+#>   '/path/to/run/out/probe/solver_out_probe.txt'
+```
+
+Section by section:
+
+- **System.** The size of the system the solver factorizes and, for a condensed model, how many variables were backsolved out and how large the model is before condensation.
+- **Structural rank** and **Rank at base data.** Two tests of the closure.
+  The first looks only at which variables each equation mentions; the second also discards entries whose base-data value is zero (for example a trade flow that is zero in the database), which can leave a variable with nothing to determine it even though the model's structure is fine.
+  Both should read "N of N"; a smaller rank is a singular system (see [below](#probe-singular)).
+- **Structure.** What the parallel methods have to work with.
+  A *time chain* is the period-by-period structure of an intertemporal model, which `"SBBD"` splits into blocks; a *block partition* is a set (usually the regions) along which `"DBBD"` splits a static system.
+  The border variables are the ones that link the blocks; the fewer, the better the split.
+- **Simultaneous cores.** How much of the system must be solved at once.
+  Most equations in a CGE model can be solved one after another once a few central ones are known; a *core* is a group that cannot, and the largest core shows how much of the system is genuinely simultaneous.
+  `plot(probe, type = "cores")` draws them.
+- **Statements** and **Heaviest incidences.** The model's equations as statements, and the pairs of equation statement and variable that put the most entries into the system.
+  `plot(probe, type = "incidence")` draws the whole pattern.
+  These lines are for understanding the model; they do not affect the recommendation.
+- **Condensation.** What backsolving does to this deployment (see [when backsolving pays](model_load.qmd#backsolve_when)).
+  A condensed system without a block partition is bound to `"LU"`, where condensation pays.
+  A condensed system with a partition suits threaded `"LU"` on a laptop below about 120 thousand condensed equations; above that, or with a time chain, the partition belongs to a parallel method and substitution works against it, so the report says to redeploy without `backsolve`.
+  An uncondensed `"LU"`-bound system of a million equations or more is a candidate for `backsolve` in `ems_model()`.
+- **Recommendation.** The method, tasks and threads, then the *evidence* (the size, the time chain and the partition it was judged on, at the task count it was judged for), the *rationale* (the measured rule that produced it), and the *memory* estimate of the run against the container's memory.
+  Further lines appear when they matter: `"DBBD"` would have been faster but does not fit; `"NDBBD"` replaces `"SBBD"` for the same reason; `"LU"` is excluded because its workspace would exceed the 32-bit limit; the `"DBBD"` refinement step is off; `"NDBBD"` writes scratch files inside the container.
+  With `solution_method = "Johansen"` the method can differ, and a line says which it would be.
+
+#### Singular systems {#probe-singular}
+
+A structurally singular system prints differently:
+
+```r
+#> ── Structural probe ──────────────────────────────────── 10,530 equations ──
+#> ✖ Structurally singular: rank 10,527 of 10,530 (3 unmatched equations, 3
+#>   unmatched variables)
+#>   Undetermined: dprobeb ×3
+#>   Over-constrained: e_dprobe2 ×3
+#> ℹ Locate it with `plot(x, type = "dm")`
+#> ✖ No solve recommendation: the closure is structurally singular; fix it first
+```
+
+*Undetermined* names the variables (with the number of elements) that no equation pins down: the closure leaves them endogenous but nothing determines them, so one of them should be exogenous, or an equation is missing.
+*Over-constrained* names the equations that compete for the same variables: too many equations for the variables they involve, so one of them should be dropped or one of its variables made endogenous.
+The two lists are two sides of the same defect, and swapping a variable between them is usually the fix.
+`Singular at base data` instead of `Structurally singular` means the structure is sound but zero flows in the data leave elements undetermined; the remedy is in the data or the aggregation, not the closure.
+`summary(probe)` lists every defective element, `probe$defects` holds them as a tibble, and `plot(probe, type = "dm")` draws where in the system they sit.
+
+#### Files the probe leaves {#probe-files}
+
+The probe writes into `out/probe/` under the run directory, and overwrites it on every call: `sol.probe.json` (the report the object is built from), `sol.stats.json` (the measured structure) and `solver_out_probe.txt`, the solver's own log of the run.
+`probe$paths` has the paths.
+A probe never touches a solution already in the run directory.
+
+The log is worth a look when the verdict surprises you.
+After the solver's banner and the setup timings, its `probe:` lines hold the whole diagnosis in order: the time chain found (intertemporal models), the partition candidates, one line per set with its block count, border size and whether it is usable, the set selected and its border, the Jacobian assembly, the structural and base-data ranks with the verdict in words, the simultaneous cores and the largest one, the report path, and the total time.
+Lines starting with `Warning:` are the solver's warnings about the model file and are repeated on the console.
+
+#### The rules behind the recommendation {#probe-rules}
+
+Measured on a 12 GB laptop profile with 4 and 8 cores and on a 32-core server, they come down to:
 
 - **Intertemporal models:** `"SBBD"`, with up to 8 tasks and the remaining cores as threads.
   `"NDBBD"` only when `"SBBD"` would not fit in memory.
-- **Static models:** `"DBBD"` for uncondensed systems.
-  Condensed systems, including the vetted GTAP models, suit `"LU"` with threads up to about a hundred thousand equations, and `"DBBD"` above that.
+- **Static models:** `"DBBD"` at two tasks for an uncondensed system with a usable partition, more where cores and memory allow.
+  Condensed systems, including the vetted GTAP models, suit `"LU"` with threads up to about 120 thousand condensed equations; above that the probe advises redeploying without backsolve for a parallel method.
+  Uncondensed `"LU"` runs on one thread, since threads do not help it.
+- **Small systems:** below 300 thousand equations (counting the backsolved ones), the smallest size measured, every method finishes in seconds and `"LU"` is recommended.
 - **Tasks before threads:** more tasks usually beat more threads on the same cores, with little gain beyond 8 tasks.
 
-For example, a parallel intertemporal solve:
+For example, a 16-period GTAP-RE at 23 regions and 5 sectors on an 8-core laptop:
 
 ```r
+probe <- ems_probe(cmf_path, cores = 8, memory = 12)
+#> ── Structural probe ─────────────────────────────────── 616,509 equations ──
+#> ✔ Closure valid: every variable is determined and no equation is redundant,
+#>   at base data too
+#> → Recommended for the machine given (8 cores, 12.0 GB): "SBBD", 8 tasks × 1
+#>   thread
+#>   `ems_solve(cmf_path, matrix_method = "SBBD", n_tasks = 8)`
+#> ℹ `summary(x)` for the full report
+
 outputs <- ems_solve(
   cmf_path = cmf_path,
   solution_method = "Gragg",
   matrix_method = "SBBD",
-  n_tasks = 4,
-  n_threads = 2
+  n_tasks = 8
 )
 ```
 
