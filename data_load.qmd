@@ -56,7 +56,7 @@ Every character header with distinct entries becomes a set named after its heade
 orani_data <- ems_data(dat_input = "oranig/basedata.har")
 ```
 
-Sets read this way keep the element order of their header in the file, as in GEMPACK; so does any set passed through without aggregation on the GTAP route.
+Sets read this way keep the element order of their header in the file; so does any set passed through without aggregation on the GTAP route.
 Aggregated sets are ordered by their mapping.
 The order matters to a model that works by position, for example through `$POS` or a mapping read from a header.
 

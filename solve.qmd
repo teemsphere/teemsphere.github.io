@@ -108,7 +108,7 @@ The `"Gragg"` and `"Midpoint"` counts must be all even or all odd (`c(2, 4, 8)` 
 Two counts (`c(2, 4)`) extrapolate from two results, with no accuracy summary.
 The [package option](options.qmd) `convergence_rule = "on"` applies GEMPACK's treatment of results that do not converge cleanly: their extrapolation is replaced by the result with the most steps, or by the average when the three results are nearly equal.
 
-A single count gives one multi-step run without extrapolation, as GEMPACK's single Euler or Gragg calculation does:
+A single count gives one multi-step run without extrapolation:
 
 ```r
 outputs <- ems_solve(
@@ -160,7 +160,7 @@ outputs <- ems_RK(cmf_path, solution_method = "RK4", steps = 8L)
 | `adaptive` | `"yes"` for `"DoPri54"`/`"BoSha32"`, otherwise `"no"` | `"yes"` retries steps that miss `eps_tolerance` and adjusts the step size; `"accuracy-only"` ignores the other step checks |
 | `eps_tolerance` | `0.01` | Accuracy target per step. `0.1` is quicker and rougher; `0.001` costs about 1.6 times as much |
 | `max_retries`, `retry_adjust` | `3L`, `0.5` | How often, and by how much, a step is shortened when a variable would cross `-100%` |
-| `chart` | `"log"` | `"log"` keeps every level positive; `"percent"` combines stages in percentage changes, as GEMPACK does |
+| `chart` | `"log"` | `"log"` keeps every level positive; `"percent"` combines stages in percentage changes |
 | `error_norm` | `"max"` | Whether the worst element (`"max"`) or the root mean square (`"rms"`) decides if a step is accepted |
 | `controller` | `"std"` | `"pi"` rejects fewer steps on rough solution paths |
 | `scope` | `"pct"` | Which variables steer the step size: percentage-change variables (`"pct"`) or all variables (`"all"`) |

@@ -82,8 +82,8 @@ If a model file does not load and you think it should, a supported statement beh
 `Omit` statements hold the omitted variables exogenous and unshocked, as omission does in GEMPACK; they stay in the model and its outputs.
 Levels variables and equations, `Formula & Equation`, and `Read (IfHeaderExists)` are supported; levels equations may contain conditional sums, `PROD` and the functions `SQRT`, `EXP`, `LOGE`, `LOG10` and `IF`.
 `PROD`, `MAXS` and `MINS` reduce over a set like `SUM`.
-`Default` statements (`Variable (Default=Levels);`, `Equation (Default=Levels);`, `Formula (Default=Initial);`, `Coefficient (Default=Parameter);`) apply to the statements that follow them, as in GEMPACK.
-`Read`, `Formula` and `Assertion` statements take effect in the order they appear, as in GEMPACK, including inside `PostSim` sections: a `Read` after a default `Formula` replaces the default, and a `Formula` after a `Read` replaces what was read.
+`Default` statements (`Variable (Default=Levels);`, `Equation (Default=Levels);`, `Formula (Default=Initial);`, `Coefficient (Default=Parameter);`) apply to the statements that follow them.
+`Read`, `Formula` and `Assertion` statements take effect in the order they appear, including inside `PostSim` sections: a `Read` after a default `Formula` replaces the default, and a `Formula` after a `Read` replaces what was read.
 A levels variable `X` has a linear variable named `p_X`, or `c_X` for a `(change)` variable; `Linear_Name=` gives it another name and `Linear_Var=` makes an already declared linear variable serve as it.
 In closures, shocks and swaps either name may be used.
 `p_X` and `c_X` refer to nothing else: beside a linear variable `X`, names such as `p_X` or `C_X` are free for other coefficients and variables.
@@ -92,7 +92,7 @@ In closures, shocks and swaps either name may be used.
 
 ### Names
 
-Names are case-insensitive, as in GEMPACK.
+Names are case-insensitive.
 A set, coefficient, variable, file or equation may be written in any case after its declaration, and TEEMS uses the declared spelling throughout, including in outputs.
 The same holds for header names (`Read ... header "Nat"` finds a header `NAT`), logical file names, the `.tab` and `.har` extensions, and the variable, set and element names in closures, shocks and swaps.
 
@@ -110,7 +110,7 @@ Variable (Name x6com VPQType Quantity);        ! anywhere in the file !
 
 `Variable (begins <prefix> VPQType default OFF);` ends a default.
 Variables without a type stay `Unspecified`.
-`ORIG_LEVEL=` qualifiers are checked as in GEMPACK: the coefficient must be real and range over exactly the variable's sets.
+`ORIG_LEVEL=` qualifiers are checked: the coefficient must be real and range over exactly the variable's sets.
 
 ### Formulas, updates and mappings
 
@@ -122,7 +122,7 @@ Variables without a type stay `Unspecified`.
 - A mapping may point into a subset of the set its argument position is declared over, and a mapped index may range over a subset of the mapping's domain.
   A mapping may also be assigned an identity or a copy (`MAP(c) = c`, `A(z) = B(z)`), matched by element name when the sets are unrelated.
 - A mapping is read as element names (`Read (by_elements)`) or as element numbers (`Read` alone), over its whole domain or over a subset (`Read (all,c,MARG) MAP(c) ...`), with Formulas assigning the rest.
-- `Update` statements read the values at the start of each step, and several updates of one element apply in order, the later overriding, as in GEMPACK.
+- `Update` statements read the values at the start of each step, and several updates of one element apply in order, the later overriding.
   `(change)` and `(explicit)` updated data follow the solution path and are extrapolated like the variables; see [single-pass runs](solve.qmd#single-pass) for models where that is not wanted.
 
 ### Sets
@@ -137,7 +137,7 @@ Set UACT = UNITA x ACTS;
 Set COALCOMM # coal # = (all,c,COMM: sum{cc,DCOMM: MCOM(cc)=c, UNITDCOAL(cc)} > 0);
 ```
 
-Set expressions (`UNION`, `INTERSECT`, `+`, `-`, and the relative complement `\`), set equality, set products and conditional set builders all follow GEMPACK.
+Set expressions (`UNION`, `INTERSECT`, `+`, `-`, and the relative complement `\`), set equality, set products and conditional set builders are supported.
 A few points to note:
 
 - Set names must not contain the substrings `union` or `intersect`.
@@ -172,7 +172,7 @@ Comparisons may be joined with `AND`, `OR` and `NOT` (`[VDB(c,r) > 0] and not [r
 `IF` terms may be nested, multiplied, divided, raised to powers, placed inside sums and function arguments, and used in formulas without quantifiers (`Formula D = 0.0 + IF[NM > 1, 1];`).
 Top-level terms of formulas and equations are rewritten at model load into equivalent unconditional statements, with helper coefficients and sets (named `IFC*`, `IFX*`, `IFT*`, `IFV*`, `IFO*`) that appear in outputs like any other coefficient or set; other placements are evaluated by the solver as written.
 
-As in GEMPACK, a condition reads coefficients and levels variables but not linear variables, and a set-membership test (`c in MARG`) cannot be combined with `AND`, `OR` or `NOT`; nest the `IF` instead.
+A condition reads coefficients and levels variables but not linear variables, and a set-membership test (`c in MARG`) cannot be combined with `AND`, `OR` or `NOT`; nest the `IF` instead.
 
 ## Condensation {#condensation}
 
@@ -212,7 +212,6 @@ Formula (all,a,ACTS)(all,r,REG)(all,c,COMM) CSUB392(a,r,c) = INTSHR(c,a,r)*[1 - 
 
 and later substitutions build on earlier ones (`CSUB204(r,c) = sum{a,ACTS, CSUB53(r,c,a)*CSUB174(c,a,r)}`).
 The comment names the kind: a *backsolve product* is such a product or sum; a *backsolve pivot* is the reciprocal of the coefficient on the backsolved variable when that coefficient is not a plain number.
-GEMPACK's condensation creates the same objects.
 
 They are derived from the model's coefficients, not declared by it, and are re-evaluated with the other formulas at every step.
 The standard GTAPv7 condensation adds 650 of them to the 283 coefficients the model declares, so the solver's write tally (`verbosity = 2`) reports the two groups separately, and they appear in outputs like any other coefficient.
