@@ -82,7 +82,7 @@ ems_option_reset()
 | `docker_tag` | `"latest"` | Tag of the `teems` image to solve with. Unless set explicitly, `ems_solve()` uses a local image built for your CPU's instruction-set level (e.g. `teems:x86-64-v3`) when one exists, and `teems:latest` otherwise. Set it to pin a specific image |
 | `version_check` | `"abort"` | What happens when the image's solver version does not match the package: `"abort"` stops the solve, `"warn"` reports it and runs anyway (for reproducing a run on an older image), `"off"` skips the check |
 | `assertions` | `"fatal"` | Severity of TAB `Assertion` failures during [`ems_solve()`](solve.qmd): `"fatal"`, `"warn"` or `"off"` |
-| `range_test_initial` | `"warn"` | Severity of declared-range violations (e.g. `(ge 0)`) on initial values: `"fatal"`, `"warn"` or `"off"` |
+| `range_test_initial` | `"fatal"` | Severity of declared-range violations (e.g. `(ge 0)`) on initial values, read or computed: `"fatal"`, `"warn"` or `"off"` |
 | `range_test_updated` | `"warn"` | As `range_test_initial`, for updated values |
 | `random_seed` | `1` | Seed of the TAB function `RANDOM(a,b)`. The same seed gives the same draws on every run; each Formula element keeps its draw across solution steps. Change the seed for a new sequence (GEMPACK instead draws a new sequence per run by default) |
 | `refine` | `"on"` | One refinement step after every `"DBBD"` linear solve, which brings its accuracy to that of `"LU"`. It holds the system matrix through each solve, and the memory estimate counts it; `"off"` turns it off. Other matrix methods are not refined |
