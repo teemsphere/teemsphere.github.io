@@ -55,7 +55,7 @@ outputs <- ems_solve(
 | `suppress_outputs` | `FALSE` | When `TRUE`, outputs are not parsed with [`ems_compose()`](compose.qmd) |
 | `terminal_run` | `FALSE` | When `TRUE`, prepares the run without starting it, so it can be launched from a terminal |
 | `complementarity` | `NULL` | Run controls for models with complementarities, built by [`ems_complementarity()`](#complementarity) |
-| `...` | | Named extras: the Runge-Kutta controls (`adaptive`, `eps_tolerance`, `max_retries`, `retry_adjust`; see [Runge-Kutta controls](#rk)), the MA48 workspace guesses (`laA`, `laD`, `laDi`) and expert solver flags (e.g. `condest`, `tempdir`, `inmemory`, `postsim`). Unknown names are an error |
+| `...` | | Named extras: the Runge-Kutta controls (`adaptive`, `eps_tolerance`, `max_retries`, `retry_adjust`; see [Runge-Kutta controls](#rk)), the MA48 workspace guesses (`laA`, `laD`, `laDi`) and expert solver flags (e.g. `condest`, `inmemory`, `postsim`). Unknown names are an error |
 
 The severities of TAB `Assertion` failures and declared-range violations are [package options](options.qmd) (`assertions`, `range_test_initial`, `range_test_updated`).
 
@@ -286,7 +286,7 @@ Section by section:
   A condensed system with a partition suits threaded `"LU"` on a laptop below about 120 thousand condensed equations; above that, or with a time chain, the partition belongs to a parallel method and substitution works against it, so the report says to redeploy without `backsolve`.
   An uncondensed `"LU"`-bound system of a million equations or more is a candidate for `backsolve` in `ems_model()`.
 - **Recommendation.** The method, tasks and threads, then the *evidence* (the size, the time chain and the partition it was judged on, at the task count it was judged for), the *rationale* (the measured rule that produced it), and the *memory* estimate of the run against the container's memory.
-  Further lines appear when they matter: `"DBBD"` would have been faster but does not fit; `"NDBBD"` replaces `"SBBD"` for the same reason; `"LU"` is excluded because its workspace would exceed the 32-bit limit; the `"DBBD"` refinement step is off; `"NDBBD"` writes scratch files inside the container.
+  Further lines appear when they matter: `"DBBD"` would have been faster but does not fit; `"NDBBD"` replaces `"SBBD"` for the same reason; `"LU"` is excluded because its workspace would exceed the 32-bit limit; the `"DBBD"` refinement step is off.
   With `solution_method = "Johansen"` the method can differ, and a line says which it would be.
 
 #### Singular systems {#probe-singular}
