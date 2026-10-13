@@ -214,7 +214,8 @@ and later substitutions build on earlier ones (`CSUB204(r,c) = sum{a,ACTS, CSUB5
 The comment names the kind: a *backsolve product* is such a product or sum; a *backsolve pivot* is the reciprocal of the coefficient on the backsolved variable when that coefficient is not a plain number.
 
 They are derived from the model's coefficients, not declared by it, and are re-evaluated with the other formulas at every step.
-The standard GTAPv7 condensation adds 650 of them to the 283 coefficients the model declares, so the solver's write tally (`verbosity = 2`) reports the two groups separately, and they appear in outputs like any other coefficient.
+The standard GTAPv7 condensation adds 650 of them to the 283 coefficients the model declares, so the solver's write tally (`verbosity = 2`) reports the two groups separately.
+[`ems_compose()`](compose.qmd) leaves them out of the default outputs and returns one only when it is named in `which`, and `write_coefficients = TRUE` writes no CSV for them.
 
 ### When backsolving pays {#backsolve_when}
 
@@ -374,9 +375,10 @@ ems_option_get()
 ### Leads, lags and parallel solving {#netcut}
 (check this passage)
 In intertemporal models, the parallel matrix methods (see [Solving the model](solve.qmd)) solve each period as a block, with the variables that link periods held in a shared border.
-A lead or lag on a variable declared over large sets (for example `qo(c,r,t+1)` over all commodities and regions) enlarges that border and can remove the benefit of solving in parallel.
+Only the elements a lead or lag actually references join that border: `qo("capital",r,t+1)` adds the capital slice of `qo` and nothing else, and the solver's log reports the border it found (`Border netcut`).
+A lead or lag on a whole variable declared over large sets (for example `qo(c,r,t+1)` over all commodities and regions) does enlarge the border and can remove the benefit of solving in parallel.
 
-Link periods through a small proxy variable instead:
+Link periods through a small proxy variable in that case:
 
 ``` default
 Variable (all,r,REG)(all,t,ALLTIME)
@@ -387,5 +389,4 @@ Equation E_kb
 ```
 
 and place the lead on the proxy (`kb(r,t+1)`).
-`ems_model()` does this automatically when a lead or lag fixes some dimensions to elements (`qo("capital",r,t+1)`), and warns when it cannot.
 The vetted intertemporal models already follow this pattern.
