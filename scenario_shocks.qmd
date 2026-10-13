@@ -2,13 +2,14 @@
 
 ## Overview
 `ems_scenario_shock()` is an intertemporal shock type that specifies heterogeneous shocks at the tuple level as absolute values.
-Inputs must cover all pre-aggregation tuples and span the full extent of the variable (no partial variable scenario shocks are permitted).
+By default, inputs must cover all pre-aggregation tuples and span the full extent of the variable; with `partial = TRUE` they may cover only some of the aggregated tuples (see [Partial scenario shocks](#partial-scenario-shocks)).
 Values must be in the same units as the underlying database coefficient and are aggregated according to the set mappings in [`ems_data()`](data_load.qmd) and then converted to percentage changes internally, making scenario shocks portable across different model aggregations.
 
 ```r
 ems_scenario_shock(
   var,
-  input
+  input,
+  partial = FALSE
 )
 ```
 
@@ -16,13 +17,14 @@ ems_scenario_shock(
 |----------|------|-------------|
 | `var` | Character | Variable name as it appears in the model file |
 | `input` | Data frame or Character | Data frame or path to a CSV file containing all pre-aggregation tuples, a `Year` column (chronological years), and a `Value` column (absolute values) |
+| `partial` | Logical | If `TRUE`, `input` may cover only some aggregated tuples; only those are shocked (default `FALSE`) |
 
 ## Using scenario shocks
 Scenario shocks differ from custom shocks in a number of respects:
 
 1. Only available for intertemporal models
 
-2. Inputs must contain all *preaggregation* tuples associated with a variable (no partial variable scenario shock)
+2. Inputs must contain all *preaggregation* tuples associated with a variable, unless `partial = TRUE`
 
 3. Inputs are denominated in absolute values in the units of the underlying database coefficient (e.g., million $USD, population)
 
@@ -125,3 +127,24 @@ cmf_path <- ems_deploy(
 ```
 
 `pop` may also be saved as a CSV and loaded directly by passing the file path to `input`.
+
+## Partial scenario shocks {#partial-scenario-shocks}
+Sometimes trajectories exist for only part of a variable, for example the population of a single region.
+With `partial = TRUE`, a scenario shock covers only the aggregated tuples its input fully supplies.
+Every pre-aggregation tuple that maps to a shocked aggregated tuple must be present, in every year.
+An aggregated tuple that is only partly covered stops the deployment by name, because the percentage change of a partial sum is not the change of the whole group.
+
+Continuing the example above, the following shocks population in the United States and China only, which are their own regions in the `"big3"` aggregation:
+```r
+pop_partial <- pop[pop$REGr %in% c("usa", "chn"), ]
+
+cmf_path <- ems_deploy(
+  .data = dat,
+  model = model,
+  shock = ems_scenario_shock(var = "pop", input = pop_partial, partial = TRUE)
+)
+```
+
+The shocked tuples must be exogenous, and exogenous tuples outside the input keep a zero change.
+The same input stops under an aggregation that groups the United States with other countries, unless those countries are supplied as well.
+Since values are summed over the pre-aggregation tuples, scenario shocks, partial or not, suit additive variables such as values and quantities.
