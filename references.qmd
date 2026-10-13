@@ -18,8 +18,6 @@ Harrison, W.J., J.M. Horridge and K.R. Pearson (2000), 'Decomposing Simulation R
 
 Schiffmann, F. (2022), 'Runge Kutta integrators for fast and accurate solutions in GEMPACK'.
 
-Munthe-Kaas, H. (1999), 'High order Runge-Kutta methods on manifolds', Applied Numerical Mathematics, vol. 29, pp. 115-127.
-
 Butcher, J.C. (2015), 'Runge-Kutta Methods for Ordinary Differential Equations', in M. Al-Baali, L. Grandinetti and A. Purnama (eds), *Numerical Analysis and Optimization*, Springer Proceedings in Mathematics & Statistics, vol. 134, pp. 37-58.
 
 Bogacki, P. and L.F. Shampine (1989), 'A 3(2) pair of Runge-Kutta formulas', Applied Mathematics Letters, vol. 2, pp. 321-325.
