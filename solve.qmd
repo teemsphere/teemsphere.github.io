@@ -8,7 +8,7 @@ On Linux the solver container runs as the calling user, so the files it writes t
 
 `ems_solve()` chooses nothing on your behalf: the run is exactly the arguments given, so it can be reproduced from its record.
 A bare `ems_solve(cmf_path)` solves with Gragg 2-4-8 and LU on one task and one thread, which is accurate and correct for every model but slow for large ones.
-[`ems_probe()`](#recommended) tells you what to use instead.
+[`ems_probe()`](#recommended) suggests what to use instead.
 
 ```r
 ems_solve(
@@ -209,6 +209,10 @@ probe
 
 Pass `cores` and `memory` (in GB) to get the recommendation for another machine, for example a server you will solve on later.
 
+`ems_probe()` is experimental.
+Its rules come from a limited set of measured models and machines, so treat the recommendation as a starting point: a different method, task count or thread count may well be faster for your model and machine.
+Try other settings with `ems_solve()`, and if a suggestion is off, please [open an issue](https://github.com/teemsphere/teems/issues).
+
 #### Reading the printed summary {#probe-print}
 
 While it runs, the two progress lines name the deployment, the solver log and the time taken; any `Warning:` lines the solver wrote to that log are repeated afterwards.
@@ -281,10 +285,11 @@ Section by section:
 - **Statements** and **Heaviest incidences.** The model's equations as statements, and the pairs of equation statement and variable that put the most entries into the system.
   `plot(probe, type = "incidence")` draws the whole pattern.
   These lines are for understanding the model; they do not affect the recommendation.
-- **Condensation.** What backsolving does to this deployment (see [when backsolving pays](model_load.qmd#backsolve_when)).
-  A condensed system without a block partition is bound to `"LU"`, where condensation pays.
-  A condensed system with a partition suits threaded `"LU"` on a laptop below about 120 thousand condensed equations; above that, or with a time chain, the partition belongs to a parallel method and substitution works against it, so the report says to redeploy without `backsolve`.
-  An uncondensed `"LU"`-bound system of a million equations or more is a candidate for `backsolve` in `ems_model()`.
+- **Condensation.** What backsolving likely does to this deployment (see [when backsolving pays](model_load.qmd#backsolve_when)); the verdict is kept in `probe$condense$verdict`.
+  `"faster"`: a condensed system without a block partition is likely bound to `"LU"`, where condensation tends to speed the solve.
+  `"lu_fine"`: a condensed system with a partition below about 120 thousand condensed equations, where threaded `"LU"` was the fastest measured on a laptop.
+  `"slower"`: above that size, or with a time chain, the partition belongs to a parallel method and substitution works against it, so the report suggests trying a redeploy without `backsolve`.
+  `"candidate"`: an uncondensed `"LU"`-bound system of a million equations or more, which may gain from `backsolve` in `ems_model()`.
 - **Recommendation.** The method, tasks and threads, then the *evidence* (the size, the time chain and the partition it was judged on, at the task count it was judged for), the *rationale* (the measured rule that produced it), and the *memory* estimate of the run against the container's memory.
   Further lines appear when they matter: `"DBBD"` would have been faster but does not fit; `"NDBBD"` replaces `"SBBD"` for the same reason; `"LU"` is excluded because its workspace would exceed the 32-bit limit; the `"DBBD"` refinement step is off.
   With `solution_method = "Johansen"` the method can differ, and a line says which it would be.
@@ -321,12 +326,12 @@ Lines starting with `Warning:` are the solver's warnings about the model file an
 
 #### The rules behind the recommendation {#probe-rules}
 
-Measured on a 12 GB laptop profile with 4 and 8 cores and on a 32-core server, they come down to:
+Measured on a 12 GB laptop profile with 4 and 8 cores and on a 32-core server, they come down to the following; other models and machines may behave differently:
 
 - **Intertemporal models:** `"SBBD"`, with up to 8 tasks and the remaining cores as threads.
   `"NDBBD"` only when `"SBBD"` would not fit in memory.
 - **Static models:** `"DBBD"` at two tasks for an uncondensed system with a usable partition, more where cores and memory allow.
-  Condensed systems, including the vetted GTAP models, suit `"LU"` with threads up to about 120 thousand condensed equations; above that the probe advises redeploying without backsolve for a parallel method.
+  Condensed systems, including the vetted GTAP models, suit `"LU"` with threads up to about 120 thousand condensed equations; above that the probe suggests trying a redeploy without backsolve for a parallel method.
   Uncondensed `"LU"` runs on one thread, since threads do not help it.
 - **Small systems:** below 300 thousand equations (counting the backsolved ones), the smallest size measured, every method finishes in seconds and `"LU"` is recommended.
 - **Tasks before threads:** more tasks usually beat more threads on the same cores, with little gain beyond 8 tasks.

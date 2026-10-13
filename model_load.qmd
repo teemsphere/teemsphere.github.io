@@ -222,7 +222,7 @@ Backsolving shrinks the system but makes it denser.
 That helps `"LU"` on static models: the standard GTAP condensation cut a 1.35 million equation Gragg solve by 41 % and a 3.6 million one by more than half.
 It hurts the parallel matrix methods (`"SBBD"`, `"DBBD"`, `"NDBBD"`), which rely on the sparsity it removes: on GTAP-RE the same condensation made `"SBBD"` runs 69 % slower at 200 thousand equations and 393 % slower at 4.4 million, and a condensed static system stops gaining from extra `"DBBD"` tasks where the full system keeps gaining.
 On a laptop, threaded `"LU"` on the condensed system is still the fastest measured below about 120 thousand condensed equations; above that, or on a machine with many cores, deploy without backsolve and use a parallel method.
-[`ems_probe()`](solve.qmd#recommended) measures the block structure of a deployment and says which case it is in.
+[`ems_probe()`](solve.qmd#recommended) measures the block structure of a deployment and suggests which case it is likely in.
 
 ### Condensation statements in the model file
 
