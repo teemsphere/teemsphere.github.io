@@ -73,7 +73,7 @@ ems_option_reset()
 | `tempdir` | `tempdir()` | Directory used for temporary file storage during a model run |
 | `verbose` | `TRUE` | If `FALSE`, function-specific diagnostics are silenced |
 | `ndigits` | `6` | Number of digits to the right of the decimal point kept when data are written to file. Values smaller than 0.1 in magnitude keep `ndigits` significant digits instead, so small nonzero data (e.g. `1e-10`) are not rounded to zero |
-| `accuracy_threshold` | `0.8` | Threshold (converted to a percentage) against which 4-digit precision is compared. A warning is generated if the threshold is not met |
+| `accuracy_threshold` | `0.8` | Share of endogenous results whose levels values must be accurate to at least four significant figures. A warning is generated if the share is lower |
 | `full_exclude` | `c("DREL", "DVER", "XXCR", "XXCD", "XXCP", "SLUG", "EFLG")` | Headers to fully exclude from all aspects of the model run. Failure to designate these headers properly will result in errors. Modify with caution |
 | `check_shock_status` | `TRUE` | If `FALSE`, no check on shock element endogenous/exogenous status is conducted |
 | `timestep_header` | `"YEAR"` | Header written with the time of each period, as given in `time_steps` of `ems_data()` (years, or steps from the initial period); the model uses the differences between periods as interval lengths. For novel intertemporal models — modify with caution |
