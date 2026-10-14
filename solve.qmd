@@ -25,6 +25,7 @@ ems_solve(
   suppress_outputs = FALSE,
   terminal_run = FALSE,
   complementarity = NULL,
+  accuracy_vars = NULL,
   ...
 )
 ```
@@ -104,6 +105,7 @@ The finer Runge-Kutta controls are described [below](#rk).
 ### Step counts and single-pass runs {#single-pass}
 
 `"Gragg"`, `"Midpoint"` and `"Euler"` normally solve three times with increasing step counts and extrapolate from the three results, which also gives the accuracy summary.
+The summary covers every endogenous result unless `accuracy_vars` names the variables it should cover, for example `accuracy_vars = c("qgdp", "pm")`.
 The `"Gragg"` and `"Midpoint"` counts must be all even or all odd (`c(2, 4, 8)` or `c(3, 5, 7)`); even counts are recommended.
 Two counts (`c(2, 4)`) extrapolate from two results, with no accuracy summary.
 The [package option](options.qmd) `converge = TRUE` applies GEMPACK's treatment of results that do not converge cleanly: their extrapolation is replaced by the result with the most steps, or by the average when the three results are nearly equal.
