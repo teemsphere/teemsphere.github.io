@@ -130,8 +130,18 @@ ems_RK(
   cmf_path,
   solution_method = c("DoPri54", "BoSha32", "RK4", "Heun", "RK2"),
   steps = 4L,
-  adaptive = NULL,
   eps_tolerance = 0.01,
+  adaptive = NULL,
+  matrix_method = c("LU", "DBBD", "SBBD", "NDBBD"),
+  n_tasks = 1L,
+  n_threads = 1L,
+  precision = c("single", "double"),
+  n_subintervals = 1L,
+  verbosity = 1L,
+  suppress_outputs = FALSE,
+  terminal_run = FALSE,
+  accuracy_vars = NULL,
+  complementarity = NULL,
   max_retries = 3L,
   retry_adjust = 0.5,
   chart = c("log", "percent"),
@@ -144,8 +154,8 @@ ems_RK(
 )
 ```
 
-`ems_RK()` is a shortcut to `ems_solve()` for the Runge-Kutta methods.
-It defaults to adaptive `"DoPri54"` and exposes the step-size controls; every other argument is passed on to `ems_solve()`.
+`ems_RK()` is `ems_solve()` for the Runge-Kutta methods.
+It defaults to adaptive `"DoPri54"` and adds the step-size controls; the remaining arguments are those of `ems_solve()`, with the same defaults.
 When most retries come from step checks (a variable approaching `-100%`, a range test) rather than from `eps_tolerance`, the cheaper steps of `"BoSha32"` can make it faster than `"DoPri54"` (Schiffmann 2022).
 
 ```r
