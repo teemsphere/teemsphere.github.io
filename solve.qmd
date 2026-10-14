@@ -185,7 +185,7 @@ The defaults suit most runs.
 ```r
 ems_probe(
   cmf_path,
-  fine = TRUE,
+  components = TRUE,
   cores = NULL,
   memory = NULL,
   ...
@@ -203,7 +203,7 @@ probe <- ems_probe(cmf_path)
 probe
 #> ── Structural probe ─────────────────────────────────── 110,849 equations ──
 #> ✔ Closure valid: every variable is determined and no equation is redundant,
-#>   at base data too
+#>   structurally and at base data
 #> → Recommended for this container (8 cores, 12.0 GB): "LU", 1 task × 8
 #>   threads
 #>   `ems_solve(cmf_path, matrix_method = "LU", n_threads = 8)`
@@ -245,9 +245,9 @@ summary(probe)
 #> ✔ Rank at base data: 110,849 of 110,849
 #> • Structure: no time chain; block partition by "reg" (66 blocks, 497 border
 #>   variables)
-#> • Simultaneous cores: 1,947 of 58,290 strongly connected components have
-#>   more than one element; the largest has 50,548 rows
-#> • Largest core by equation: e_peb ×6,172, e_qes1 ×5,280, e_qo ×2,640,
+#> • Simultaneous components: 1,947 of 58,290 components have more than
+#>   one element; the largest has 50,548 rows
+#> • Largest component by equation: e_peb ×6,172, e_qes1 ×5,280, e_qo ×2,640,
 #>   e_po ×2,640, e_qc ×2,640, e_qpa ×2,640, and 40 more
 #> • Statements: 178 equation statements, 1,150 statement-variable incidences
 #> ── Heaviest statement-variable incidences ───────────────────────────────────
@@ -282,9 +282,9 @@ Section by section:
 - **Structure.** What the parallel methods have to work with.
   A *time chain* is the period-by-period structure of an intertemporal model, which `"SBBD"` splits into blocks; a *block partition* is a set (usually the regions) along which `"DBBD"` splits a static system.
   The border variables are the ones that link the blocks; the fewer, the better the split.
-- **Simultaneous cores.** How much of the system must be solved at once.
-  Most equations in a CGE model can be solved one after another once a few central ones are known; a *core* is a group that cannot, and the largest core shows how much of the system is genuinely simultaneous.
-  `plot(probe, type = "cores")` draws them.
+- **Simultaneous components.** How much of the system must be solved at once.
+  Most equations in a CGE model can be solved one after another once a few central ones are known; a *component* is a group that cannot, and the largest component shows how much of the system is genuinely simultaneous.
+  `plot(probe, type = "components")` draws them.
 - **Statements** and **Heaviest incidences.** The model's equations as statements, and the pairs of equation statement and variable that put the most entries into the system.
   `plot(probe, type = "incidence")` draws the whole pattern.
   These lines are for understanding the model; they do not affect the recommendation.
@@ -324,7 +324,7 @@ The probe writes into `out/probe/` under the run directory, and overwrites it on
 A probe never touches a solution already in the run directory.
 
 The log is worth a look when the verdict surprises you.
-After the solver's banner and the setup timings, its `probe:` lines hold the whole diagnosis in order: the time chain found (intertemporal models), the partition candidates, one line per set with its block count, border size and whether it is usable, the set selected and its border, the Jacobian assembly, the structural and base-data ranks with the verdict in words, the simultaneous cores and the largest one, the report path, and the total time.
+After the solver's banner and the setup timings, its `probe:` lines hold the whole diagnosis in order: the time chain found (intertemporal models), the partition candidates, one line per set with its block count, border size and whether it is usable, the set selected and its border, the Jacobian assembly, the structural and base-data ranks with the verdict in words, the simultaneous components and the largest one, the report path, and the total time.
 Lines starting with `Warning:` are the solver's warnings about the model file and are repeated on the console.
 
 #### The rules behind the recommendation {#probe-rules}
@@ -345,7 +345,7 @@ For example, a 16-period GTAP-RE at 23 regions and 5 sectors on an 8-core laptop
 probe <- ems_probe(cmf_path, cores = 8, memory = 12)
 #> ── Structural probe ─────────────────────────────────── 616,509 equations ──
 #> ✔ Closure valid: every variable is determined and no equation is redundant,
-#>   at base data too
+#>   structurally and at base data
 #> → Recommended for the machine given (8 cores, 12.0 GB): "SBBD", 8 tasks × 1
 #>   thread
 #>   `ems_solve(cmf_path, matrix_method = "SBBD", n_tasks = 8)`
