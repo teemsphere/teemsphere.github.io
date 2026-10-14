@@ -8,6 +8,8 @@ Horridge J.M., Jerie M., Mustakinov D. & Schiffmann F. (2024), *GEMPACK manual* 
 
 Pearson K.R. (1991), 'Solving Nonlinear Economic Models Accurately via a Linear Representation', Impact Preliminary Working Paper No. IP-55, Melbourne (July; revised June 2002), pp.39. <http://www.copsmodels.com/elecpapr/ip-55.htm>
 
+Dixon P.B., Parmenter B.R., Sutton J. & Vincent D.P. (1982), *ORANI: A Multisectoral Model of the Australian Economy*, North-Holland, Amsterdam.
+
 ## Complementarities and subtotals
 
 Harrison, W.J., Mark Horridge, K.R. Pearson and Glyn Wittwer (2004), 'A Practical Method for Explicitly Modeling Quotas and Other Complementarities', Computational Economics, vol. 23(4), pp. 325-341. [A preliminary version was Centre of Policy Studies and the Impact Project Preliminary Working Paper No. IP-78, Melbourne (April 2002), pp.19.] <http://www.copsmodels.com/elecpapr/ip-78.htm>
