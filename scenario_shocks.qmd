@@ -3,7 +3,7 @@
 ## Overview
 `ems_scenario_shock()` is an intertemporal shock type that specifies heterogeneous shocks at the tuple level as absolute values.
 By default, inputs must cover all pre-aggregation tuples and span the full extent of the variable; with `partial = TRUE` they may cover only some of the aggregated tuples (see [Partial scenario shocks](#partial-scenario-shocks)).
-Values must be in the same units as the underlying database coefficient and are aggregated according to the set mappings in [`ems_data()`](data_load.qmd) and then converted to percentage changes internally (ordinary changes for a variable declared `(change)`), making scenario shocks portable across different model aggregations.
+Values must be in the same units as the underlying database coefficient; at deployment they are summed over the set mappings of [`ems_data()`](data_load.qmd), and each year's aggregated value becomes the percentage change from the base-year value (the ordinary change for a variable declared `(change)`), so the same input serves any aggregation.
 
 ```r
 ems_scenario_shock(
@@ -28,7 +28,7 @@ Scenario shocks differ from custom shocks in a number of respects:
 
 3. Inputs are denominated in absolute values in the units of the underlying database coefficient (e.g., million $USD, population)
 
-4. The input dataframe or CSV must contain one column "Year", corresponding to the chronological year for a shock in a specific tuple
+4. The input data frame or CSV must contain a `Year` column of chronological years, the base year included, since each later year's shock is the change from the base-year value
 
 There are several applications where it is advantageous to use scenario shock rather than a custom shock.
 The primary advantage is that scenario shocks allow for seamless changes to model aggregations since the shocks themselves are subject to mappings and aggregation.
@@ -55,7 +55,7 @@ dat <- ems_data(
   ENDW = "labor_agg"
 )
 
-GTAP_RE <- ems_example("GTAP-RE")
+GTAP_RE <- ems_example("GTAP-RE", tempdir())
 model <- ems_model(
   model_file = GTAP_RE[["model_file"]],
   closure_file = GTAP_RE[["closure_file"]]
