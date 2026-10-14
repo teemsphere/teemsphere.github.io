@@ -19,6 +19,8 @@ ems_option_set(
   verbose = NULL,
   ndigits = NULL,
   accuracy_threshold = NULL,
+  accuracy_figures = NULL,
+  accuracy_criterion = NULL,
   full_exclude = NULL,
   check_shock_status = NULL,
   timestep_header = NULL,
@@ -73,7 +75,9 @@ ems_option_reset()
 | `tempdir` | `tempdir()` | Directory used for temporary file storage during a model run |
 | `verbose` | `TRUE` | If `FALSE`, function-specific diagnostics are silenced |
 | `ndigits` | `6` | Number of digits to the right of the decimal point kept when data are written to file. Values smaller than 0.1 in magnitude keep `ndigits` significant digits instead, so small nonzero data (e.g. `1e-10`) are not rounded to zero |
-| `accuracy_threshold` | `0.8` | Share of endogenous results whose levels values must be accurate to at least four significant figures. A warning is generated if the share is lower |
+| `accuracy_threshold` | `0.8` | Share of results that must be accurate to at least `accuracy_figures` significant figures. A warning is generated if the share is lower |
+| `accuracy_figures` | `4` | Significant figures, from 1 to 6, a result must reach to count as accurate |
+| `accuracy_criterion` | `"solution"` | The accuracy summary judged: `"solution"` the levels values of the endogenous results, `"data"` the values read from data files and updated, `"both"` the two together. A run that updates no data is judged on the solution |
 | `full_exclude` | `c("DREL", "DVER", "XXCR", "XXCD", "XXCP", "SLUG", "EFLG")` | Headers to fully exclude from all aspects of the model run. Failure to designate these headers properly will result in errors. Modify with caution |
 | `check_shock_status` | `TRUE` | If `FALSE`, no check on shock element endogenous/exogenous status is conducted |
 | `timestep_header` | `"YEAR"` | Header written with the time of each period, as given in `time_steps` of `ems_data()` (years, or steps from the initial period); the model uses the differences between periods as interval lengths. For novel intertemporal models — modify with caution |
