@@ -20,7 +20,7 @@ ems_model(
 | `model_file` | Character | File name in working directory or path to a `.tab` file |
 | `closure_file` | Character | File name in working directory or path to a `.cls` closure file |
 | `backsolve` | Character vector or `NULL` | Endogenous variables to substitute out by backsolving |
-| `ignore_condense` | Logical | Ignore `Substitute`/`Backsolve` statements found in the model file |
+| `ignore_condense` | Logical | Ignore the `Substitute`, `Backsolve` and `Omit` statements found in the model file |
 | `...` | Named arguments | Coefficient value injections (numeric, data frame, or CSV path) |
 
 Both `model_file` and `closure_file` are required arguments.
@@ -78,7 +78,7 @@ If a model file does not load and you think it should, a supported statement beh
 
 ### Supported statements
 
-`File`, `Coefficient`, `Read`, `Update`, `Set`, `Subset`, `Mapping`, `Formula`, `Assertion`, `Variable`, `Equation`, `Write`, `Zerodivide`, `Complementarity`, `PostSim` sections, and the condensation statements `Substitute` and `Backsolve` (see [Condensation](#condensation)) are accepted.
+`File`, `Coefficient`, `Read`, `Update`, `Set`, `Subset`, `Mapping`, `Formula`, `Assertion`, `Variable`, `Equation`, `Write`, `Zerodivide`, `Complementarity`, `Loop` with `Break` and `Cycle`, `PostSim` sections, and the condensation statements `Substitute` and `Backsolve` (see [Condensation](#condensation)) are accepted.
 `Omit` statements hold the omitted variables exogenous and unshocked, as omission does in GEMPACK; they stay in the model and its outputs.
 Levels variables and equations, `Formula & Equation`, and `Read (IfHeaderExists)` are supported; levels equations may contain conditional sums, `PROD` and the functions `SQRT`, `EXP`, `LOGE`, `LOG10` and `IF`.
 `PROD`, `MAXS` and `MINS` reduce over a set like `SUM`.
@@ -88,7 +88,7 @@ A levels variable `X` has a linear variable named `p_X`, or `c_X` for a `(change
 In closures, shocks and swaps either name may be used.
 `p_X` and `c_X` refer to nothing else: beside a linear variable `X`, names such as `p_X` or `C_X` are free for other coefficients and variables.
 
-`Loop`, `Display`, `Break`, `Cycle` and `Transfer` are not supported and raise an error.
+`Display` and `Transfer` are not supported and raise an error: every coefficient is in the coefficient dump, and TEEMS writes no Header Array output files.
 
 ### Names
 
@@ -140,10 +140,11 @@ Set COALCOMM # coal # = (all,c,COMM: sum{cc,DCOMM: MCOM(cc)=c, UNITDCOAL(cc)} > 
 Set expressions (`UNION`, `INTERSECT`, `+`, `-`, and the relative complement `\`), set equality, set products and conditional set builders are supported.
 A few points to note:
 
-- Set names must not contain the substrings `union` or `intersect`.
+- A set must not be named `union` or `intersect`.
 - A conditional set builder, like `COALCOMM` above, compares an expression with a constant.
   Its source set may be read, listed or itself built from other sets.
-  Sets are built before formulas are calculated, so the coefficients in the condition must be read from a file or assigned constants only, as GTAP-E's `UNITDCOAL(c) = 0.0 + IF[c="coa", 1.0]` is.
+  Sets are built before the model is solved, so the condition is evaluated at deployment from the loaded data: the coefficients in it must be read from a file or assigned by `Formula` statements that precede the `Set` statement and use only what is known by then (arithmetic, `IF`, sums, the standard functions); `RANDOM` cannot appear.
+  GTAP-E's `UNITDCOAL(c) = 0.0 + IF[c="coa", 1.0]` is such a formula.
 - The upstream GTAP models build some sets from the `EFLG` and `SLUG` headers, which TEEMS excludes from the data.
   Declare such sets with explicit elements instead.
 - Intertemporal set equality (`Set (Intertemporal) B = A;`) is not supported.
@@ -259,7 +260,7 @@ A single numeric value can be assigned to a coefficient.
 All set combinations for that coefficient will receive this uniform value.
 
 ```r
-GTAP_RE <- ems_example("GTAP-RE")
+GTAP_RE <- ems_example("GTAP-RE", tempdir())
 model <- ems_model(
   model_file = GTAP_RE[["model_file"]],
   closure_file = GTAP_RE[["closure_file"]],
@@ -277,7 +278,7 @@ The data frame must contain columns for each set index using the model-specific 
 
 ```r
 # Heterogeneous values for SUBPAR coefficient (Read-type)
-GTAP_RE <- ems_example("GTAP-RE")
+GTAP_RE <- ems_example("GTAP-RE", tempdir())
 COMMc <- c("crops", "food", "livestock", "mnfcs", "svces")
 REGr <- c("usa", "chn", "row")
 ALLTIMEt <- seq(0, 10)
@@ -373,7 +374,6 @@ ems_option_get()
 ```
 
 ### Leads, lags and parallel solving {#netcut}
-(check this passage)
 In intertemporal models, the parallel matrix methods (see [Solving the model](solve.qmd)) solve each period as a block, with the variables that link periods held in a shared border.
 Only the elements a lead or lag actually references join that border: `qo("capital",r,t+1)` adds the capital slice of `qo` and nothing else, and the solver's log reports the border it found (`Border netcut`).
 A lead or lag on a whole variable declared over large sets (for example `qo(c,r,t+1)` over all commodities and regions) does enlarge the border and can remove the benefit of solving in parallel.
