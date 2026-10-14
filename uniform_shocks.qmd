@@ -28,8 +28,8 @@ pop_shk <- ems_uniform_shock(var = "pop",
 ```
 
 ## Partial variable uniform shocks
-As with the syntax regarding [swaps](swaps.qmd), the scope of a uniform shock may be determined by specifying elements within the sets associated with the shocked variable.
-For example, if we have a region "chn" and wish to allocate a shock specifically to this region:
+As with [swaps](swaps.qmd), a uniform shock can be restricted to elements of the sets the variable is declared over, named by the set name concatenated with the variable's index (`REGr`, `ACTSa`).
+To shock the region "chn" alone:
 ```r
 partial <- ems_uniform_shock(var = "aoall",
                              value = -1,
@@ -37,9 +37,9 @@ partial <- ems_uniform_shock(var = "aoall",
 )
 ```
 
-If a full swap is followed by a partial variable shock, the exogenous unshocked elements will remain at 0.
+Exogenous elements the shock does not name (here every region but "chn") keep a zero change.
 
-In the case of intertemporal models, the shock year may be specified using a chronological or timestep format (see "Time step summary" output from [`ems_data()`](data_load.qmd)).
+In an intertemporal model the time element may be given as a chronological year, `Year = 2017`, or as a time step through the time set (see the "Time step summary" that [`ems_data()`](data_load.qmd) prints):
 ```r
 partial <- ems_uniform_shock(
   var = "aoall",
@@ -49,9 +49,6 @@ partial <- ems_uniform_shock(
   Year = 2017
 )
 ```
-
-*Note that sets specified in this manner are identified by the model-specific concatenation of the standard set name plus the variable-specific index.*
-Also note that exogenous components of a variable not allocated a shock (all other regions except "chn") will not vary.
 
 ## Subset shocks
 
