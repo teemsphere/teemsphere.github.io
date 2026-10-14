@@ -4,19 +4,19 @@ The works below describe the methods that the teems solver and package implement
 
 ## Tablo language and solution procedure
 
-Horridge J.M., Jerie M., Mustakinov D. & Schiffmann F. (2018), *GEMPACK manual*, GEMPACK Software, Centre of Policy Studies, Victoria University, Melbourne, ISBN 978-1-921654-34-3. <https://ideas.repec.org/p/cop/wpaper/gpman.html>
+Horridge J.M., Jerie M., Mustakinov D. & Schiffmann F. (2024), *GEMPACK manual* (documents Release 12.2), GEMPACK Software, Centre of Policy Studies, Victoria University, Melbourne, ISBN 978-1-921654-34-3. <https://ideas.repec.org/p/cop/wpaper/gpman.html>
 
-Pearson K.R. (1991), 'Solving Nonlinear Economic Models Accurately via a Linear Representation', Impact Preliminary Working Paper No. IP-55, Melbourne (July), pp.39. <http://www.copsmodels.com/elecpapr/ip-55.htm>
+Pearson K.R. (1991), 'Solving Nonlinear Economic Models Accurately via a Linear Representation', Impact Preliminary Working Paper No. IP-55, Melbourne (July; revised June 2002), pp.39. <http://www.copsmodels.com/elecpapr/ip-55.htm>
 
 ## Complementarities and subtotals
 
-Harrison, W.J., Mark Horridge, K.R. Pearson and Glyn Wittwer (2002), 'A Practical Method for Explicitly Modeling Quotas and Other Complementarities', Computational Economics, June 2004, Vol. 23(4), pp. 325-341. [A preliminary version was Centre of Policy Studies and the Impact Project Preliminary Working Paper No. IP-78, Melbourne (April), pp.19.] <http://www.copsmodels.com/elecpapr/ip-78.htm>
+Harrison, W.J., Mark Horridge, K.R. Pearson and Glyn Wittwer (2004), 'A Practical Method for Explicitly Modeling Quotas and Other Complementarities', Computational Economics, vol. 23(4), pp. 325-341. [A preliminary version was Centre of Policy Studies and the Impact Project Preliminary Working Paper No. IP-78, Melbourne (April 2002), pp.19.] <http://www.copsmodels.com/elecpapr/ip-78.htm>
 
 Harrison, W.J., J.M. Horridge and K.R. Pearson (2000), 'Decomposing Simulation Results with Respect to Exogenous Shocks', Computational Economics, vol.15, pp.227-249. [A preliminary version was Centre of Policy Studies and Impact Project Preliminary Working Paper No. IP-73, May 1999.] <http://www.copsmodels.com/elecpapr/ip-73.htm>
 
 ## Runge-Kutta methods
 
-Schiffmann, F. (2022), 'Runge Kutta integrators for fast and accurate solutions in GEMPACK'.
+Schiffmann, F. (2022), 'Runge Kutta integrators for fast and accurate solutions in GEMPACK', GEMPACK Software, Centre of Policy Studies, Victoria University, Melbourne (14 April).
 
 Butcher, J.C. (2015), 'Runge-Kutta Methods for Ordinary Differential Equations', in M. Al-Baali, L. Grandinetti and A. Purnama (eds), *Numerical Analysis and Optimization*, Springer Proceedings in Mathematics & Statistics, vol. 134, pp. 37-58.
 
@@ -30,7 +30,11 @@ Gustafsson, K. (1991), 'Control theoretic techniques for stepsize selection in e
 
 Van Ha, P. and T. Kompas (2016), 'Solving intertemporal CGE models in parallel using a singly bordered block diagonal ordering technique', Economic Modelling, vol. 52, pp. 3-12. <https://doi.org/10.1016/j.econmod.2015.07.011>
 
+Van Ha, P., T. Kompas, H.T.M. Nguyen and C.H. Long (2017), 'Building a better trade model to determine local effects: A regional and intertemporal GTAP model', Economic Modelling, vol. 67, pp. 102-113. <https://doi.org/10.1016/j.econmod.2016.10.015>
+
 Kompas, T. and P. Van Ha (2019), 'The "curse of dimensionality" resolved: The effects of climate change and trade barriers in large dimensional modelling', Economic Modelling, vol. 80, pp. 103-110. <https://doi.org/10.1016/j.econmod.2018.08.011>
+
+Horridge, J.M. and K.R. Pearson (2006), 'Running Simulations Faster on Multi-Processor or 64-Bit PCs via GEMPACK', Centre of Policy Studies Computing Document No. C15-01, Monash University (April).
 
 ## Sparse linear algebra
 
@@ -48,16 +52,16 @@ Balay, S. et al. (2026), *PETSc Web page*. <https://petsc.org/>
 
 The vetted models are documented by their authors; each entry in [teems-models](https://github.com/teemsphere/teems-models) lists its sources.
 
-**GTAPv6.2.** Hertel, T.W. and M.E. Tsigas (1997), 'Structure of the Standard GTAP Model', chapter 2 in T.W. Hertel (ed), *Global Trade Analysis: Modeling and Applications*, Cambridge University Press. McDougall, R.A., 'A New Regional Household Demand System for GTAP', GTAP Technical Paper No. 20, Center for Global Trade Analysis, Purdue University.
+**GTAPv6.2.** Hertel, T.W. and M.E. Tsigas (1997), 'Structure of the Standard GTAP Model', chapter 2 in T.W. Hertel (ed), *Global Trade Analysis: Modeling and Applications*, Cambridge University Press. McDougall, R.A. (2000), 'A New Regional Household Demand System for GTAP', GTAP Technical Paper No. 20, Center for Global Trade Analysis, Purdue University.
 
 **GTAPv7 and the models built on it (GTAP-AEZ, GTAP-E, GTAP-EP, GTAP-RE).** Corong, E.L., T.W. Hertel, R.A. McDougall, M.E. Tsigas and D. van der Mensbrugghe (2017), 'The Standard GTAP Model, Version 7', Journal of Global Economic Analysis, vol. 2(1), pp. 1-119. <https://doi.org/10.21642/JGEA.020101AF>
 
-**GTAP-AEZ.** Baldos, U.L.C. and E.L. Corong (2020), 'Development of GTAP version 10 Land Use and Land Cover Data Base for years 2004, 2007, 2011 and 2014', GTAP Research Memorandum No. 36, Center for Global Trade Analysis, Purdue University.
+**GTAP-AEZ.** Hertel, T.W., H.-L. Lee, S. Rose and B. Sohngen (2009), 'Modeling Land-use Related Greenhouse Gas Sources and Sinks and their Mitigation Potential', chapter 6 in T.W. Hertel, S. Rose and R.S.J. Tol (eds), *Economic Analysis of Land Use in Global Climate Change Policy*, Routledge. Lee, H.-L., T.W. Hertel, B. Sohngen and N. Ramankutty (2005), 'Towards an Integrated Land Use Data Base for Assessing the Potential for Greenhouse Gas Mitigation', GTAP Technical Paper No. 25, Center for Global Trade Analysis, Purdue University. Baldos, U.L.C. and E.L. Corong (2020), 'Development of GTAP version 10 Land Use and Land Cover Data Base for years 2004, 2007, 2011 and 2014', GTAP Research Memorandum No. 36, Center for Global Trade Analysis, Purdue University.
 
 **GTAP-E.** Corong, E.L. and A. Golub (2024), 'The GTAP-E Version 7 Model: An Energy-Environmental Version of the GTAP Model', Center for Global Trade Analysis, Purdue University. McDougall, R. and A. Golub (2007), 'GTAP-E: A Revised Energy-Environmental Version of the GTAP Model', GTAP Research Memorandum No. 15, Center for Global Trade Analysis, Purdue University. Burniaux, J.-M. and T.P. Truong (2002), 'GTAP-E: An Energy-Environmental Version of the GTAP Model', GTAP Technical Paper No. 16, Center for Global Trade Analysis, Purdue University.
 
-**GTAP-EP.** The GTAP-E sources above, and Peters, J.C. (2016), 'GTAP-E-Power: An Electricity-detailed Economy-wide Model', Journal of Global Economic Analysis, vol. 1(2), pp. 156-187. Peters, J.C. (2016), 'The GTAP-Power Data Base: Disaggregating the Electricity Sector in the GTAP Data Base', Journal of Global Economic Analysis, vol. 1(1), pp. 209-250. <https://doi.org/10.21642/JGEA.010104AF>
+**GTAP-EP.** The GTAP-E sources above, and Peters, J.C. (2016), 'GTAP-E-Power: An Electricity-detailed Economy-wide Model', Journal of Global Economic Analysis, vol. 1(2), pp. 156-187. Peters, J.C. (2016), 'The GTAP-Power Data Base: Disaggregating the Electricity Sector in the GTAP Data Base', Journal of Global Economic Analysis, vol. 1(1), pp. 209-250. <https://doi.org/10.21642/JGEA.010104AF> The shipped model follows the GTAP-E-Power model code, whose base-load and peak-load nests (`ELFEBL`, `ELFEPL`) are ordinary CES; the paper describes them as ACES.
 
 **GTAP-RE.** Van Ha, P., T. Kompas and M. Cantele, 'Rethinking the Solution Strategy for Large Recursive CGE Models: Solving Recursive and Rational Expectations CGE Models the Non-Recursive Way', unpublished manuscript, University of Melbourne.
 
-**ORANI-G.** Horridge, M. (2003), 'ORANI-G: A Generic Single-Country Computable General Equilibrium Model', Centre of Policy Studies and Impact Project, Monash University. Dixon, P.B., B.R. Parmenter, J. Sutton and D.P. Vincent (1982), *ORANI: A Multisectoral Model of the Australian Economy*, North-Holland, Amsterdam.
+**ORANI-G.** Horridge, M. (2013), 'ORANI-G: A Generic Single-Country Computable General Equilibrium Model', Centre of Policy Studies and Impact Project, Monash University. Dixon, P.B., B.R. Parmenter, J. Sutton and D.P. Vincent (1982), *ORANI: A Multisectoral Model of the Australian Economy*, North-Holland, Amsterdam.

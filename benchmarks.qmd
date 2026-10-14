@@ -2,6 +2,8 @@
 
 This appendix summarises the measurements behind the method recommendations in [Solving the model](solve.qmd#recommended).
 They show how solve time and memory change with model size and matrix method, first on a laptop-sized machine and then for models of up to 284 million equations on a server.
+The block methods follow Van Ha and Kompas (2016), who introduced `"SBBD"` on an intertemporal regional model of up to 32.7 million variables, Van Ha et al. (2017), who applied it to an intertemporal GTAP model of 108.5 million equations, and Kompas and Van Ha (2019), whose nested method solved an intertemporal GTAP model of 112 regions, 57 commodities and 47 periods, more than 500 million equations; see [References](references.qmd).
+GEMPACK's own parallelism (Horridge and Pearson 2006) runs the passes of an extrapolated solution side by side, a different axis from splitting one linear system into blocks.
 
 ## How the runs were made
 

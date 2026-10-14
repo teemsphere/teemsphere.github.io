@@ -7,13 +7,13 @@ After the run, the solve is checked for singularity, accuracy and errors, and th
 On Linux the solver container runs as the calling user, so the files it writes to the run directory belong to you.
 
 `ems_solve()` chooses nothing on your behalf: the run is exactly the arguments given, so it can be reproduced from its record.
-A bare `ems_solve(cmf_path)` solves with Gragg 2-4-8 and LU on one task and one thread, which is accurate and correct for every model but slow for large ones.
+A bare `ems_solve(cmf_path)` solves with Gragg 2-4-6 (as GEMPACK) and LU on one task and one thread, which is accurate and correct for every model but slow for large ones.
 [`ems_probe()`](#recommended) suggests what to use instead.
 
 ```r
 ems_solve(
   cmf_path,
-  solution_method = c("Gragg", "Midpoint", "Johansen", "Euler", "RK2",
+  solution_method = c("Gragg", "Johansen", "Euler", "Midpoint", "RK2",
                       "Heun", "RK4", "BoSha32", "DoPri54"),
   matrix_method = c("LU", "DBBD", "SBBD", "NDBBD"),
   n_subintervals = 1L,
@@ -48,7 +48,7 @@ outputs <- ems_solve(
 | `solution_method` | `"Gragg"` | How the shock is applied (see [Solution methods](#solution-methods)) |
 | `matrix_method` | `"LU"` | How each linear system is solved (see [Matrix methods](#matrix-methods)) |
 | `n_subintervals` | `1L` | Splits the shock into this many parts, each solved in turn. Helps with large shocks |
-| `steps` | `c(2L, 4L, 8L)` | Step counts. For `"Gragg"`, `"Midpoint"` and `"Euler"`, two or three strictly increasing counts are extrapolated, and a single count is one multi-step run without extrapolation (see [Single-pass runs](#single-pass)); a single count for the Runge-Kutta methods |
+| `steps` | `c(2L, 4L, 6L)` | Step counts. For `"Gragg"`, `"Midpoint"` and `"Euler"`, two or three strictly increasing counts are extrapolated, and a single count is one multi-step run without extrapolation (see [Single-pass runs](#single-pass)); a single count for the Runge-Kutta methods |
 | `n_tasks` | `1L` | Parallel tasks. Must be `1L` with `"LU"` |
 | `n_threads` | `1L` | Threads per task |
 | `precision` | `"single"` | `"double"` uses the double-precision solver: about twice the memory, for runs with many steps or a near-singular system |
@@ -66,8 +66,8 @@ The severities of TAB `Assertion` failures and declared-range violations are [pa
 |--------|-------------|
 | `"Gragg"` | The default and the standard accurate method: several multi-step solutions combined by extrapolation (see the [GEMPACK manual](https://www.copsmodels.com/gpmanual.htm#gpd3.12.2)) |
 | `"Johansen"` | A quick one-step linear approximation. Good for checking that a model and closure run; not accurate for nonlinear results or large shocks |
+| `"Euler"` | Like `"Gragg"` but converges more slowly. With adaptive `"DoPri54"` or `"BoSha32"`, the choice for severe shocks, such as a variable driven close to `-100%`, where `"Gragg"` and `"Midpoint"` can become unstable (GEMPACK manual 30.2; Schiffmann 2022) |
 | `"Midpoint"` | Gragg's method without its final smoothing pass. It never carries the shocks past their end point, so it takes a shock of exactly `-100%`, which `"Gragg"` refuses |
-| `"Euler"` | Like `"Gragg"` but converges more slowly. The most robust choice for severe shocks, such as a variable driven close to `-100%` |
 | `"RK2"`, `"Heun"`, `"RK4"` | Runge-Kutta methods with a single step count and no extrapolation. `"RK4"` with a few steps is an inexpensive way to get three to four correct digits on large shocks |
 | `"BoSha32"`, `"DoPri54"` | Runge-Kutta methods that estimate their own error and can control their step size (`adaptive = "yes"`) |
 
@@ -106,7 +106,7 @@ The finer Runge-Kutta controls are described [below](#rk).
 
 `"Gragg"`, `"Midpoint"` and `"Euler"` normally solve three times with increasing step counts and extrapolate from the three results, which also gives the accuracy summary.
 The summary covers every endogenous result unless `accuracy_vars` names the variables it should cover, for example `accuracy_vars = c("qgdp", "pm")`.
-The `"Gragg"` and `"Midpoint"` counts must be all even or all odd (`c(2, 4, 8)` or `c(3, 5, 7)`); even counts are recommended.
+The `"Gragg"` and `"Midpoint"` counts must be all even or all odd (`c(2, 4, 6)` or `c(3, 5, 7)`); even counts are recommended.
 Two counts (`c(2, 4)`) extrapolate from two results, with no accuracy summary.
 The [package option](options.qmd) `converge = TRUE` applies GEMPACK's treatment of results that do not converge cleanly: their extrapolation is replaced by the result with the most steps, or by the average when the three results are nearly equal.
 
@@ -146,6 +146,7 @@ ems_RK(
 
 `ems_RK()` is a shortcut to `ems_solve()` for the Runge-Kutta methods.
 It defaults to adaptive `"DoPri54"` and exposes the step-size controls; every other argument is passed on to `ems_solve()`.
+When most retries come from step checks (a variable approaching `-100%`, a range test) rather than from `eps_tolerance`, the cheaper steps of `"BoSha32"` can make it faster than `"DoPri54"` (Schiffmann 2022).
 
 ```r
 # adaptive DoPri54
@@ -159,9 +160,9 @@ outputs <- ems_RK(cmf_path, solution_method = "RK4", steps = 8L)
 |----------|---------|-------------|
 | `solution_method` | `"DoPri54"` | `"DoPri54"`, `"BoSha32"`, `"RK4"`, `"Heun"` or `"RK2"` |
 | `steps` | `4L` | Number of steps; under adaptive control, the starting number |
-| `adaptive` | `"yes"` for `"DoPri54"`/`"BoSha32"`, otherwise `"no"` | `"yes"` retries steps that miss `eps_tolerance` and adjusts the step size; `"accuracy-only"` ignores the other step checks |
-| `eps_tolerance` | `0.01` | Accuracy target per step. `0.1` is quicker and rougher; `0.001` costs about 1.6 times as much |
-| `max_retries`, `retry_adjust` | `3L`, `0.5` | How often, and by how much, a step is shortened when a variable would cross `-100%` |
+| `adaptive` | `"yes"` for `"DoPri54"`/`"BoSha32"`, otherwise `"no"` | `"yes"` retries steps that miss `eps_tolerance` or fail a step check (a variable crossing `-100%`, a range test or an assertion, as in GEMPACK) and adjusts the step size; `"accuracy-only"` ignores the step checks |
+| `eps_tolerance` | `0.01` | Accuracy target per step. GEMPACK suggests `0.1` for most simulations; on large shocks the default `0.01` reaches four correct digits on most elements, and `0.001` gains the last digits at about 1.6 times the cost |
+| `max_retries`, `retry_adjust` | `3L`, `0.5` | How often, and by how much, a step is shortened when it fails a step check |
 | `chart` | `"log"` | `"log"` keeps every level positive; `"percent"` combines stages in percentage changes |
 | `error_norm` | `"max"` | Whether the worst element (`"max"`) or the root mean square (`"rms"`) decides if a step is accepted |
 | `controller` | `"std"` | `"pi"` rejects fewer steps on rough solution paths |
@@ -175,8 +176,8 @@ The defaults suit most runs.
 | Method | Models | Description |
 |--------|--------|-------------|
 | `"LU"` | all | Sequential LU factorization. The most robust; one task only |
-| `"DBBD"` | static | Splits the system into blocks (usually by region) solved in parallel |
-| `"SBBD"` | intertemporal | Splits the system by time period, solved in parallel |
+| `"DBBD"` | static | Splits the system into blocks (usually by region) solved in parallel, treating regions as separable economies (Kompas and Van Ha 2019) |
+| `"SBBD"` | intertemporal | Splits the system by time period, solved in parallel (Van Ha and Kompas 2016; Van Ha et al. 2017) |
 | `"NDBBD"` | intertemporal | A nested split for intertemporal models too large for `"SBBD"` in the available memory |
 
 ### Choosing a method and resources {#recommended}
@@ -444,6 +445,7 @@ The check evaluates every equation of the linearized system at the change homoge
 Values above about `1e-6` point at an equation that is not homogeneous.
 `simulate = TRUE` also solves the model under the corresponding shocks and compares every typed variable with its expected change.
 Both run on a copy of the deployment.
+The GEMPACK manual (57.4.5) recommends testing the uncondensed system, where a faulty equation cannot be substituted into others and hide among them: check a deployment of a model loaded with `ignore_condense = TRUE` (see [Condensation](model_load.qmd#condensation)).
 
 Equations over zero flows can fail harmlessly: a share computed from a zero total takes its zero-divide default, or an inactive branch such as `IF[MAKEB(c,a,r) gt 0, ...]` reduces an element to a single variable.
 `ems_homogeneity()` marks these elements `zero_flow` and leaves them out of `max_err`; the `zero_flow` column counts them per block.
@@ -512,7 +514,7 @@ solve_in_situ(
   closure_file,
   shock_file,
   ignore_condense = FALSE,
-  solution_method = c("Gragg", "Midpoint", "Johansen", "Euler", "RK2",
+  solution_method = c("Gragg", "Johansen", "Euler", "Midpoint", "RK2",
                       "Heun", "RK4", "BoSha32", "DoPri54"),
   matrix_method = c("LU", "DBBD", "SBBD", "NDBBD"),
   n_subintervals = 1L,

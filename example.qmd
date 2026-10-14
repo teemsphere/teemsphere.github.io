@@ -124,7 +124,7 @@ paths <- ems_example(
 The data inputs can also be the in-memory list objects returned by [`GTAP_convert()`](data_load.qmd), which is useful when the raw data needs format conversion before running:
 
 ```r
-# Convert v7.1 data to v6.2 format, then generate scripts for the classic model
+# Convert v7 data to v6.2 format, then generate scripts for the classic model
 converted <- GTAP_convert(
   dat_har = "~/dat/GTAP/v12/gsdfdat.har",
   par_har = "~/dat/GTAP/v12/gsdfpar.har",

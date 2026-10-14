@@ -2,7 +2,7 @@
 
 ## Overview
 `ems_custom_shock()` allows for heterogeneous shocks specified on a tuple-by-tuple basis, supplied as a data frame or CSV file through `input`.
-Values are denominated in percentage change.
+Values are percentage changes for percent-change variables and ordinary changes for change variables.
 Only the tuples present in `input` are shocked.
 
 ```r
@@ -15,7 +15,7 @@ ems_custom_shock(
 | Argument | Type | Description |
 |----------|------|-------------|
 | `var` | Character | Variable name as it appears in the model file |
-| `input` | Data frame or Character | Data frame or path to a CSV file containing set columns and a `Value` column (percentage changes) |
+| `input` | Data frame or Character | Data frame or path to a CSV file containing set columns and a `Value` column (the shock in the variable's own form) |
 
 ## Full variable custom shocks
 Custom shocks can be carried out over the full variable, with every tuple receiving a specified shock value.

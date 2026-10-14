@@ -22,7 +22,7 @@ A "simple" model run, for example, *broadly* involves:
 8. Set- and weight-specific parameter loading, modification, and aggregation
 9. Selection of matrix solution methods
 10. Number of step and subinterval designations
-11. Constrained optimization solution
+11. Solution of the nonlinear equation system
 12. Composition of all outputs into structured data
 
 Due to the complexity involved, in the course of building the TEEMS framework we found that in the absence of a reproducible architecture, there is a very high possibility of persistent logic errors propagating through to the output without any obvious indications that this is taking place.

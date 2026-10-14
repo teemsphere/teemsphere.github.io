@@ -1,7 +1,7 @@
 # Uniform shocks
 
 ## Overview
-`ems_uniform_shock()` applies a homogeneous percentage change over an entire variable or a subset of its elements.
+`ems_uniform_shock()` applies a homogeneous shock over an entire variable or a subset of its elements.
 The set arguments accepted in `...` depend on the variable specified and the set mappings loaded in [`ems_data()`](data_load.qmd).
 
 ```r
@@ -15,7 +15,7 @@ ems_uniform_shock(
 | Argument | Type | Description |
 |----------|------|-------------|
 | `var` | Character | Variable name as it appears in the model file |
-| `value` | Numeric | Percentage change applied to all targeted elements |
+| `value` | Numeric | Shock applied to all targeted elements: a percentage change for a percent-change variable, an ordinary change for a change variable |
 | `...` | Named arguments | Set-index pairs restricting the shock. Each value is a single element (`"element"`), multiple elements (`c("a", "b")`), or a named subset (`"SUBSET"`) |
 
 ## Full variable uniform shocks
@@ -86,7 +86,7 @@ cmf_path <- ems_deploy(
 
 ## Multiple shocks and mixed swaps
 Multiple uniform shocks of different scope can be combined in a list and passed to [`ems_deploy()`](deploy.qmd).
-Swaps can also be mixed, combining partial [`ems_swap()`](swaps.qmd) objects with full variable strings:
+Swaps can also be mixed, combining partial [`ems_swap()`](swaps.qmd) objects with full variable strings (GTAPv6 sets in this example):
 ```r
 partial <- ems_uniform_shock(
   var = "qfd",

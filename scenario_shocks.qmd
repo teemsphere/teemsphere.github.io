@@ -33,8 +33,8 @@ Scenario shocks differ from custom shocks in a number of respects:
 There are several applications where it is advantageous to use scenario shock rather than a custom shock.
 The primary advantage is that scenario shocks allow for seamless changes to model aggregations since the shocks themselves are subject to mappings and aggregation.
 If we have trajectories available for all tuples within a given variable, a scenario shock will adjust to set mapping inputs in `ems_data()`.
-The actual values provided do not necessarily need to correspond to realworld values.
-We could for example use the integer 1 as a base and vary our components according to this base value in the year corresponding to t0.
+Because values are summed over the pre-aggregation tuples before the percentage change is taken, they must be levels in common real units (e.g., persons, million USD).
+Index values such as a base of 1 for every country would give an aggregated region the unweighted mean of its members' growth rather than their size-weighted growth; they are safe only when no tuple is aggregated.
 
 ## Population trajectory example
 Here is an example that takes base year population data from the GTAP database (typically not read into the model) and constructs hypothetical pathways for every region in the model.

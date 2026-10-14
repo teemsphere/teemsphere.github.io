@@ -30,6 +30,13 @@ cmf_path <- ems_deploy(
 
 Swaps "in" and "out" are reconciled together rather than in a fixed order: each variable element ends exogenous or endogenous according to the net of the swaps that name it. A variable can therefore be swapped in whole and a slice of it swapped back out, and a swap followed by its mirror leaves the closure unchanged. Swaps are rejected only when no order of them is valid on the closure, for example when the same element is swapped in twice.
 
+### Choosing swaps
+A closure must leave as many endogenous variable elements as there are equations, so every element swapped in needs an element swapped out; [`ems_deploy()`](deploy.qmd) stops with the arithmetic when the counts differ.
+Each pair should also make economic sense: the variable swapped out takes up the adjustment that the newly fixed variable no longer can.
+In the examples above, exogenous `qfd` with endogenous `tfd` fixes a firm's demand for a domestic commodity and lets the tax on that purchase move to deliver it, the tax equivalent of a quantity target; a quota that may or may not bind needs a [complementarity](solve.qmd#complementarity) instead (Harrison et al. 2004).
+Exogenous `yp` with endogenous `dppriv` fixes private consumption expenditure and lets the distribution parameter of regional income adjust (Corong et al. 2017).
+Keep a price numeraire exogenous (`pfactwld` in the GTAP closures): the model determines relative prices only, and without one the price level is undetermined (Dixon et al. 1982).
+
 ## Complex (partial variable) swaps
 
 ### ems_swap()
