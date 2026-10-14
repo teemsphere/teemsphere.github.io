@@ -3,7 +3,7 @@
 ## Overview
 `ems_scenario_shock()` is an intertemporal shock type that specifies heterogeneous shocks at the tuple level as absolute values.
 By default, inputs must cover all pre-aggregation tuples and span the full extent of the variable; with `partial = TRUE` they may cover only some of the aggregated tuples (see [Partial scenario shocks](#partial-scenario-shocks)).
-Values must be in the same units as the underlying database coefficient and are aggregated according to the set mappings in [`ems_data()`](data_load.qmd) and then converted to percentage changes internally, making scenario shocks portable across different model aggregations.
+Values must be in the same units as the underlying database coefficient and are aggregated according to the set mappings in [`ems_data()`](data_load.qmd) and then converted to percentage changes internally (ordinary changes for a variable declared `(change)`), making scenario shocks portable across different model aggregations.
 
 ```r
 ems_scenario_shock(
