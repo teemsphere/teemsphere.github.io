@@ -154,7 +154,7 @@ Each script is ready to run; the data paths supplied to `ems_example()` are inje
 Script file names encode the shock and swap configuration (the exact set varies by model):
 
 | File name | What it demonstrates |
-|-----------|----------------------|
+|--------------------|-------------------------|
 | `null.R` | Zero-shock run — useful for verifying the model solves before applying shocks |
 | `numeraire.R` | Uniform shock to the numeraire (`pfactwld`): all prices move by the shock and real variables stay unchanged |
 | `full_uniform.R` | Uniform shock across all elements of a variable |

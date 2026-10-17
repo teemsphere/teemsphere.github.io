@@ -106,8 +106,8 @@ Each variable's data.table gains:
 | `levels_figures` | The same for the variable's levels value, which a percent-change result usually has more of |
 | `error` | The difference between the two extrapolations, in the units of `Value` |
 | `code` | The convergence code of GEMPACK manual 26.2.3, for example `"CX"` (confidence in the extrapolated result) or `"MD!"` (monotonic but appearing to diverge) |
-| `summarised` | Whether the element counts in the run's accuracy summary: `TRUE` for endogenous and backsolved results (of the `accuracy_vars` variables when those are given), `FALSE` for exogenous elements, whose values the shock sets |
+| `summarized` | Whether the element counts in the run's accuracy summary: `TRUE` for endogenous and backsolved results (of the `accuracy_vars` variables when those are given), `FALSE` for exogenous elements, whose values the shock sets |
 
-The `accuracy` attribute has one row per variable: `elements`, `summarised`, the lowest figures (`min_figures`, `min_levels_figures`; a result judged zero counts as 6), the share of results at `accuracy_figures` or more (`share_figures`, `share_levels_figures`; see [options](options.qmd)), `worst_code` and `max_error`.
+The `accuracy` attribute has one row per variable: `elements`, `summarized`, the lowest figures (`min_figures`, `min_levels_figures`; a result judged zero counts as 6), the share of results at `accuracy_figures` or more (`share_figures`, `share_levels_figures`; see [options](options.qmd)), `worst_code` and `max_error`.
 With subintervals, `figures` and `levels_figures` are the lowest over the subintervals and `code` the worst; the pass columns and `error` come from the last subinterval alone, each pass compounded onto the extrapolated result of the subintervals before it.
 A run that wrote no separate solutions stops with an error.

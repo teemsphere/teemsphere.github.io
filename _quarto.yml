@@ -51,6 +51,11 @@ format:
       documentclass: scrbook
       classoption: oneside
       keep-tex: false
+      include-in-header:
+        text: |
+          \usepackage{fvextra}
+          \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+          \renewenvironment{verbatim}{\VerbatimEnvironment\begin{Verbatim}[breaklines]}{\end{Verbatim}}
       geometry:                                                                                                   
           - top=25mm                                        
           - bottom=25mm

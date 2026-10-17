@@ -11,7 +11,7 @@ ems_data(
   par_input,
   set_input,
   time_steps = NULL,
-  par_weights = "share",
+  par_weights = "value",
   ...
 )
 ```
@@ -22,7 +22,7 @@ ems_data(
 | `par_input` | Character or list | Path to a HAR file containing parameter coefficient data, or a `par` list from [`GTAP_convert()`](#converting-formats) |
 | `set_input` | Character or list | Path to a HAR file containing set elements and attributes, or a `set` list from [`GTAP_convert()`](#converting-formats) |
 | `time_steps` | Integer vector or `NULL` | Time steps for intertemporal models (see [Time steps]) |
-| `par_weights` | Character | Weighting of parameters under aggregation, `"share"` (default) or `"value"`, for all parameters or per header (see [Parameter weights](#parameter-weights)) |
+| `par_weights` | Character | Weighting of parameters under aggregation, `"value"` (default) or `"share"`, for all parameters or per header (see [Parameter weights](#parameter-weights)) |
 | `...` | Named arguments | Set mappings for read-in sets (see [Loading and specifying sets](set_mappings.qmd)) |
 
 GTAP databases need all three input files (`dat_input`, `par_input`, `set_input`) and the model-specific set mappings; a database held in a single HAR file needs `dat_input` alone (see below).
@@ -214,7 +214,8 @@ In the below notation, hat (ˆ) indicates the new parameter value and asterisk i
 The elasticities are aggregated region by region under the share method, so each aggregated region keeps its own values; the value method follows FlexAgg, which weights the Armington, intermediate-input and value-added elasticities (ESBD, ESBM, ESDC, ESMC, ESBC, ESBV) with world totals and writes one value to every region.
 Two weighting methods are available through the `par_weights` argument of `ems_data()`:
 
-- `"share"` (default): each member is weighted by the value of its CES or CET nest, $V$, times one minus the sum of its squared input shares $\theta_k$,
+- `"value"` (default): each member is weighted by the value of its nest, as the GTAP aggregation programs (FlexAgg) do; the formulas are given below. The region-generic parameters (ESBD, ESBM, ESDC, ESMC, ESBC, ESBV) are weighted with world totals and take one value in every region, as FlexAgg writes them; a parameter file that carries them region-specific is first averaged over regions with the same weights.
+- `"share"`: each member is weighted by the value of its CES or CET nest, $V$, times one minus the sum of its squared input shares $\theta_k$,
 $$
 w = V\left(1 - \sum_k \theta_k^2\right).
 $$
@@ -223,7 +224,7 @@ A member whose input shares cannot move carries little weight: a commodity that 
 For a nest with two inputs the weight reduces to $2 V \theta (1 - \theta)$.
 Shares are taken over the inputs of the aggregated model (for import sourcing, the aggregated source regions).
 Where every member of an aggregate has a zero weight, the value weight is used instead; where that is zero too (an activity or endowment a region does not have), the members are averaged.
-- `"value"`: each member is weighted by the value of its nest, as the GTAP aggregation programs (FlexAgg) do; the formulas are given below. The region-generic parameters (ESBD, ESBM, ESDC, ESMC, ESBC, ESBV) are weighted with world totals and take one value in every region, as FlexAgg writes them; a parameter file that carries them region-specific is first averaged over regions with the same weights.
+Where such members dominate an aggregate, as oil and gas do in the mining sector of an importing region, the share-weighted elasticity can fall far below the value-weighted one.
 
 A single method applies to every weighted parameter; individual parameters can be set apart by name:
 
@@ -234,7 +235,7 @@ v7_data <- ems_data("v7_data/gsdfdat.har",
                     REG = "big3",
                     ACTS = "macro_sector",
                     ENDW = "labor_agg",
-                    par_weights = c(ESBM = "value"))
+                    par_weights = c(ESBM = "share"))
 ```
 
 The CDE parameters (INCP, SUBP) are not substitution elasticities and are weighted by private consumption under either method.

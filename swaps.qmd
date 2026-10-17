@@ -33,7 +33,7 @@ Swaps "in" and "out" are reconciled together rather than in a fixed order: each 
 ### Choosing swaps
 A closure must leave as many endogenous variable elements as there are equations, so every element swapped in needs an element swapped out; [`ems_deploy()`](deploy.qmd) aborts when a closure is invalid.
 Each pair should also make economic sense: the variable swapped out takes up the adjustment that the newly fixed variable no longer can.
-In the examples above, exogenous `qfd` with endogenous `tfd` fixes a firm's demand for a domestic commodity and lets the tax on that purchase move to deliver it, the tax equivalent of a quantity target; a quota that may or may not bind needs a [complementarity](solve.qmd#complementarity) instead (Harrison et al. 2004).
+In the examples above, exogenous `qfd` with endogenous `tfd` fixes a firm's demand for a domestic commodity and lets the tax on that purchase move to deliver it, the tax equivalent of a quantity target; a quota that may or may not bind needs a complementarity instead (Harrison et al. 2004).
 Exogenous `yp` with endogenous `dppriv` fixes private consumption expenditure and lets the distribution parameter of regional income adjust (Corong et al. 2017).
 Keep a price numeraire exogenous (`pfactwld` in the GTAP closures): the model determines relative prices only, and without one the price level is undetermined (Dixon et al. 1982).
 

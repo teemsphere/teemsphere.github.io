@@ -66,7 +66,7 @@ rest endogenous
 ;
 ```
 
-Each entry is either a full variable name (`pop`), an entry with specific set elements (`aoreg("row")`), an entry with subsets (`qe(ENDWC,REG,INITIME)`) or a mixed entry (`txs(MARG,"chn",REG,FWDTIME)`).
+Each entry is either a full variable name (`pop`), an entry with specific set elements (`aoreg("row")`), a mixed entry (`txs(MARG,"chn",REG,FWDTIME)`) or an entry with subsets (`qe(ENDWC,REG,INITIME)`).
 
 ## Tablo compatibility
 
@@ -98,14 +98,14 @@ The same holds for header names (`Read ... header "Nat"` finds a header `NAT`), 
 
 ### Variable types for homogeneity checks
 
-`VPQType` marks a variable as a `Value`, `Price` or `Quantity`, or as `None` (tax rates, shifters, technology, foreign prices), for GEMPACK's homogeneity tests (manual 57.2).
+`VPQType` marks a variable as a `Value`, `Price` or `Quantity`, or as `None` (tax rates, shifters, technology, foreign prices), for homogeneity tests (GEMPACK manual 57.2).
 All three GEMPACK forms are read, in file order:
 
 ```
-Variable (begins p default VPQType Price);     ! later variables starting with p !
-Variable (begins pf default VPQType None);     ! the longest matching prefix wins !
+Variable (begins p default VPQType Price);  ! later variables starting with p !
+Variable (begins pf default VPQType None);  ! the longest matching prefix wins !
 Variable (VPQType=Quantity) (all,i,IND) x1cap(i);
-Variable (Name x6com VPQType Quantity);        ! anywhere in the file !
+Variable (Name x6com VPQType Quantity);     ! anywhere in the file !
 ```
 
 `Variable (begins <prefix> VPQType default OFF);` ends a default.
@@ -134,7 +134,8 @@ Set A123 = A1 + A2 + A3;
 Set B = (C - D) INTERSECT E;
 Set B2 # equal to A # = A;
 Set UACT = UNITA x ACTS;
-Set COALCOMM # coal # = (all,c,COMM: sum{cc,DCOMM: MCOM(cc)=c, UNITDCOAL(cc)} > 0);
+Set COALCOMM # coal # =
+    (all,c,COMM: sum{cc,DCOMM: MCOM(cc)=c, UNITDCOAL(cc)} > 0);
 ```
 
 Set expressions (`UNION`, `INTERSECT`, `+`, `-`, and the relative complement `\`), set equality, set products and conditional set builders are supported.
@@ -145,7 +146,7 @@ A few points to note:
   Its source set may be read, listed or itself built from other sets.
   Sets are built before the model is solved, so the condition is evaluated at deployment from the loaded data: the coefficients in it must be read from a file or assigned by `Formula` statements that precede the `Set` statement and use only what is known by then (arithmetic, `IF`, sums, the standard functions); `RANDOM` cannot appear.
   GTAP-E's `UNITDCOAL(c) = 0.0 + IF[c="coa", 1.0]` is such a formula.
-- The upstream GTAP models build some sets from the `EFLG` and `SLUG` headers, which TEEMS excludes from the data.
+- Some GTAP models build sets from the `EFLG` and `SLUG` headers, which TEEMS excludes from the data.
   Declare such sets with explicit elements instead.
 - Intertemporal set equality (`Set (Intertemporal) B = A;`) is not supported.
 - A set may be empty, for example when a conditional set builder selects nothing under the data at hand.
@@ -164,7 +165,8 @@ It matters to anything that works by position, such as `$POS` and a mapping read
 Formula (all,c,COMM)(all,r,REG)
     VCB(c,r) = VDB(c,r) + sum{d,REG, VXSB(c,r,d)} + IF[c in MARG, VST(c,r)];
 Equation E_qca (all,c,COMM)(all,a,ACTS)(all,r,REG)
-    qca(c,a,r) = IF[MAKES(c,a,r) gt 0, qo(a,r) - ETRAQ(a,r) * [ps(c,a,r) - po(a,r)]];
+    qca(c,a,r) = IF[MAKES(c,a,r) gt 0,
+                    qo(a,r) - ETRAQ(a,r) * [ps(c,a,r) - po(a,r)]];
 Formula (all,r,REG) SHR(r) = sum{s,REG, IF[s <> r, VDB("food",s)]} / 2;
 ```
 
@@ -207,11 +209,18 @@ Rather than leave those products in the equation text, the engine stores each on
 Substituting `pint` out of GTAPv7 through `E_pint`, for example, produces
 
 ```
-Coefficient (all,a,ACTS)(all,r,REG)(all,c,COMM) CSUB392(a,r,c) # backsolve product (E_pint) #;
-Formula (all,a,ACTS)(all,r,REG)(all,c,COMM) CSUB392(a,r,c) = INTSHR(c,a,r)*[1 - FMSHR(c,a,r)];
+Coefficient (all,a,ACTS)(all,r,REG)(all,c,COMM)
+    CSUB392(a,r,c) # backsolve product (E_pint) #;
+Formula (all,a,ACTS)(all,r,REG)(all,c,COMM)
+    CSUB392(a,r,c) = INTSHR(c,a,r)*[1 - FMSHR(c,a,r)];
 ```
 
-and later substitutions build on earlier ones (`CSUB204(r,c) = sum{a,ACTS, CSUB53(r,c,a)*CSUB174(c,a,r)}`).
+and later substitutions build on earlier ones:
+
+```
+CSUB204(r,c) = sum{a,ACTS, CSUB53(r,c,a)*CSUB174(c,a,r)}
+```
+
 The comment names the kind: a *backsolve product* is such a product or sum; a *backsolve pivot* is the reciprocal of the coefficient on the backsolved variable when that coefficient is not a plain number.
 
 They are derived from the model's coefficients, not declared by it, and are re-evaluated with the other formulas at every step.

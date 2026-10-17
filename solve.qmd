@@ -84,6 +84,9 @@ outputs <- ems_solve(
 )
 ```
 
+With `matrix_method = "DBBD"`, a run split into subintervals can occasionally abort with a singularity partway through the shock although the closure is sound; the solver names the elements involved.
+Change `n_subintervals` (`1` is the simplest) or use `matrix_method = "LU"` for that run.
+
 Adaptive `"DoPri54"` reaches about the same accuracy with roughly half the work.
 It controls its own step size, so `n_subintervals` does not apply, and it returns a per-element `error_estimate` column.
 Treat the estimate as a pointer to the least settled results, not as a bound on the error.
@@ -487,13 +490,17 @@ Several runs can solve at the same time, one deploy directory each.
 The directory is set by the `tempdir` option, so give every run its own before deploying it:
 
 ```r
-for (case in c("johansen", "gragg")) {
-  ems_option_set(tempdir = file.path("~/runs", case))
-  dat <- ems_data(dat_input, par_input, set_input, REG = "big3", ACTS = "macro_sector")
+library(parallel)
+outputs <- mclapply(c("Johansen", "Gragg"), function(method) {
+  ems_option_set(tempdir = file.path("~/runs", method))
+  dat <- ems_data(dat_input, par_input, set_input,
+                  REG = "big3", ACTS = "macro_sector")
   cmf <- ems_deploy(dat, model, shock)
-  # solve each cmf in its own process
-}
+  ems_solve(cmf, solution_method = method)
+}, mc.cores = 2)
 ```
+
+`mclapply()` forks the R session, so each run sets its own `tempdir`; forking is not available on Windows, where `parLapply()` serves instead.
 
 A second solve in a deploy directory that is already solving is refused.
 If an interrupted run leaves its claim behind, the message names the `.solve_lock` directory to remove.
