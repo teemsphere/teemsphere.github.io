@@ -40,7 +40,7 @@ install.packages("teems")
 ## teems-solver
 [`teems`](https://github.com/teemsphere/teems-R) calls Docker to solve the model's nonlinear equation system using low-level C and Fortran routines.
 The solver build is available here: [teems-solver](https://github.com/teemsphere/teems-solver).
-The latest solver build will always be compatible with the latest R package version.
+The latest solver build is always compatible with the latest R package version. `teems` 1.0.0 requires teems-solver 1.1.0 or later and checks the image's version before every solve: an image built for an earlier release stops with a rebuild message. Rebuild it as described in the teems-solver README ("Updating an Existing Installation") and restart R.
 
 Two prerequisites:
 
