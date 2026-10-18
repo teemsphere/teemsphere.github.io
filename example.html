@@ -459,6 +459,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Solver benchmarks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">References</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -507,12 +530,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="overview" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">4.1</span> Overview</h2>
-<p><code>ems_example()</code> writes bundled example model and script files to disk. It is a good starting point for new users, providing ready-to-run material for each of the four vetted models without requiring any additional setup beyond GTAP data access.</p>
+<p><code>ems_example()</code> writes bundled example model and script files to disk. It is a good starting point for new users, providing ready-to-run material for each of the six vetted models without requiring any additional setup beyond GTAP data access.</p>
 <p>Two output modes are available, controlled by the <code>type</code> argument:</p>
 <ul>
 <li><code>"model_files"</code> (default): writes the model (<code>.tab</code>) and closure (<code>.cls</code>) files for the chosen model.</li>
-<li><code>"scripts"</code>: writes a complete set of example R scripts covering the a range of shock, swap, and solver configurations supported by that model. Each script is a self-contained, runnable workflow from data loading through to result parsing.</li>
+<li><code>"scripts"</code>: writes a complete set of example R scripts covering a range of shock, swap, and solver configurations supported by that model. Each script is a self-contained, runnable workflow from data loading through to result parsing.</li>
 </ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_example</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  model,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  path,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="fu">c</span>(<span class="st">"model_files"</span>, <span class="st">"scripts"</span>),</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_input =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_input =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_input =</span> <span class="cn">NULL</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="arguments" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="arguments"><span class="header-section-number">4.2</span> Arguments</h2>
@@ -528,7 +559,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td><code>model</code></td>
 <td></td>
-<td>Model name. One of <code>"GTAPv6"</code>, <code>"GTAPv7"</code>, <code>"GTAP-INT"</code>, <code>"GTAP-RE"</code></td>
+<td>Model name. One of <code>"GTAPv6"</code>, <code>"GTAPv7"</code>, <code>"GTAP-RE"</code>, <code>"GTAP-AEZ"</code>, <code>"GTAP-E"</code>, <code>"GTAP-EP"</code></td>
 </tr>
 <tr class="even">
 <td><code>path</code></td>
@@ -561,63 +592,86 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="writing-model-files" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="writing-model-files"><span class="header-section-number">4.3</span> Writing model files</h2>
 <p>The simplest use of <code>ems_example()</code> extracts a model’s Tablo and closure files so they can be inspected or used directly with <a href="./model_load.html"><code>ems_model()</code></a> or <a href="./solve.html"><code>solve_in_situ()</code></a>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(teems)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Write GTAPv7 model files to a temporary directory</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>paths <span class="ot">&lt;-</span> <span class="fu">ems_example</span>(<span class="st">"GTAPv7"</span>, <span class="fu">tempdir</span>())</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Or to a specific directory</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>paths <span class="ot">&lt;-</span> <span class="fu">ems_example</span>(<span class="st">"GTAP-RE"</span>, <span class="st">"~/my_project/model"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(teems)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Write GTAPv7 model files to a temporary directory</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>paths <span class="ot">&lt;-</span> <span class="fu">ems_example</span>(<span class="st">"GTAPv7"</span>, <span class="fu">tempdir</span>())</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Or to a specific directory</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>paths <span class="ot">&lt;-</span> <span class="fu">ems_example</span>(<span class="st">"GTAP-RE"</span>, <span class="st">"~/my_project/model"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The returned list contains two named paths:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>paths[[<span class="st">"model_file"</span>]]   <span class="co"># path to the .tab file</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>paths[[<span class="st">"closure_file"</span>]] <span class="co"># path to the .cls file</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>paths[[<span class="st">"model_file"</span>]]   <span class="co"># path to the .tab file</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>paths[[<span class="st">"closure_file"</span>]] <span class="co"># path to the .cls file</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>These can be passed directly to <a href="./model_load.html"><code>ems_model()</code></a>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">ems_model</span>(</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_file =</span> paths[[<span class="st">"model_file"</span>]],</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">closure_file =</span> paths[[<span class="st">"closure_file"</span>]]</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">ems_model</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_file =</span> paths[[<span class="st">"model_file"</span>]],</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">closure_file =</span> paths[[<span class="st">"closure_file"</span>]]</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="writing-example-scripts" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="writing-example-scripts"><span class="header-section-number">4.4</span> Writing example scripts</h2>
 <p>When <code>type = "scripts"</code>, <code>ems_example()</code> writes a directory of R scripts covering a range of configurations available for the chosen model. Each script is injected with the supplied data paths and is immediately runnable.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>paths <span class="ot">&lt;-</span> <span class="fu">ems_example</span>(</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">"GTAPv7"</span>,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="st">"~/my_project"</span>,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"scripts"</span>,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_input =</span> <span class="st">"~/dat/GTAP/v10/flexAgg/gsddat.har"</span>,</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_input =</span> <span class="st">"~/dat/GTAP/v10/flexAgg/gsdpar.har"</span>,</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_input =</span> <span class="st">"~/dat/GTAP/v10/flexAgg/gsdset.har"</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>paths <span class="ot">&lt;-</span> <span class="fu">ems_example</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">"GTAPv7"</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="st">"~/my_project"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"scripts"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_input =</span> <span class="st">"~/dat/GTAP/v12/flexAgg/gsdfdat.har"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_input =</span> <span class="st">"~/dat/GTAP/v12/flexAgg/gsdfpar.har"</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_input =</span> <span class="st">"~/dat/GTAP/v12/flexAgg/gsdfset.har"</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The GTAP-AEZ scripts need a GTAP-AEZ database (GTAP 11c or newer). The scripts pass the HAR files to <code>ems_data()</code>, which prepares the AEZ layer on load; <code>GTAP_convert(target = "GTAP-AEZ")</code> gives the prepared, unaggregated database in R (see <a href="./data_load.html#gtap-aez-gtap-e-and-gtap-power-databases">GTAP-AEZ, GTAP-E and GTAP-Power databases</a>):</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>paths <span class="ot">&lt;-</span> <span class="fu">ems_example</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">"GTAP-AEZ"</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="st">"~/my_project"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"scripts"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_input =</span> <span class="st">"~/dat/GTAP-AEZ/v12a/gsdfdat.har"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_input =</span> <span class="st">"~/dat/GTAP-AEZ/v12a/gsdfpar.har"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_input =</span> <span class="st">"~/dat/GTAP-AEZ/v12a/gsdfset.har"</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The GTAP-E scripts need a GTAP-E database (GTAP 12a or newer), prepared by <code>ems_data()</code> on load or with <code>GTAP_convert(target = "GTAP-E")</code> (see <a href="./data_load.html#gtap-aez-gtap-e-and-gtap-power-databases">GTAP-AEZ, GTAP-E and GTAP-Power databases</a>). They aggregate with the <code>energy</code> mapping, which keeps the energy commodities distinct as the model’s nest requires:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>paths <span class="ot">&lt;-</span> <span class="fu">ems_example</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">"GTAP-E"</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="st">"~/my_project"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"scripts"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_input =</span> <span class="st">"~/dat/GTAP-E/12a/gsdfdat.har"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_input =</span> <span class="st">"~/dat/GTAP-E/12a/gsdfpar.har"</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_input =</span> <span class="st">"~/dat/GTAP-E/12a/gsdfset.har"</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The GTAP-EP scripts need a GTAP-Power database (GTAP 12a or newer), prepared by <code>ems_data()</code> on load or with <code>GTAP_convert(target = "GTAP-EP")</code> (see <a href="./data_load.html#gtap-aez-gtap-e-and-gtap-power-databases">GTAP-AEZ, GTAP-E and GTAP-Power databases</a>). They aggregate with the <code>power</code> mapping, which keeps transmission, base load and peak load apart as the generation nest requires:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>paths <span class="ot">&lt;-</span> <span class="fu">ems_example</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">"GTAP-EP"</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="st">"~/my_project"</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"scripts"</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_input =</span> <span class="st">"~/dat/GTAP-P/12a/gsdfdat.har"</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_input =</span> <span class="st">"~/dat/GTAP-P/12a/gsdfpar.har"</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_input =</span> <span class="st">"~/dat/GTAP-P/12a/gsdfset.har"</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The data inputs can also be the in-memory list objects returned by <a href="./data_load.html"><code>GTAP_convert()</code></a>, which is useful when the raw data needs format conversion before running:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert v7.0 data to v6.2 format, then generate scripts for the classic model</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>converted <span class="ot">&lt;-</span> <span class="fu">GTAP_convert</span>(</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_har =</span> <span class="st">"~/dat/GTAP/v12/gsdfdat.har"</span>,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_har =</span> <span class="st">"~/dat/GTAP/v12/gsdfpar.har"</span>,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_har =</span> <span class="st">"~/dat/GTAP/v12/gsdfset.har"</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">target =</span> <span class="st">"GTAPv6"</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>paths <span class="ot">&lt;-</span> <span class="fu">ems_example</span>(</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">"GTAPv6"</span>,</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="st">"~/my_project"</span>,</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"scripts"</span>,</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_input =</span> converted<span class="sc">$</span>dat,</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_input =</span> converted<span class="sc">$</span>par,</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_input =</span> converted<span class="sc">$</span>set</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>When list objects are supplied, <code>ems_example()</code> writes them to RDS files alongside the scripts and injects <code>readRDS()</code> calls at the top of each script in place of plain path assignments.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert v7 data to v6.2 format, then generate scripts for the classic model</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>converted <span class="ot">&lt;-</span> <span class="fu">GTAP_convert</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_har =</span> <span class="st">"~/dat/GTAP/v12/gsdfdat.har"</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_har =</span> <span class="st">"~/dat/GTAP/v12/gsdfpar.har"</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_har =</span> <span class="st">"~/dat/GTAP/v12/gsdfset.har"</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">target =</span> <span class="st">"GTAPv6"</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>paths <span class="ot">&lt;-</span> <span class="fu">ems_example</span>(</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">"GTAPv6"</span>,</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="st">"~/my_project"</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"scripts"</span>,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_input =</span> converted<span class="sc">$</span>dat,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_input =</span> converted<span class="sc">$</span>par,</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_input =</span> converted<span class="sc">$</span>set</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When list objects are supplied, <code>ems_example()</code> writes data to RDS files alongside the scripts and injects <code>readRDS()</code> calls at the top of each script in place of plain path assignments.</p>
 </section>
 <section id="using-the-generated-scripts" class="level2" data-number="4.5">
 <h2 data-number="4.5" class="anchored" data-anchor-id="using-the-generated-scripts"><span class="header-section-number">4.5</span> Using the generated scripts</h2>
 <p><code>ems_example()</code> returns a character vector of paths, one per written script. Each script is ready to run; the data paths supplied to <code>ems_example()</code> are injected at the top of the file as plain assignments.</p>
 <section id="script-naming-convention" class="level3" data-number="4.5.1">
 <h3 data-number="4.5.1" class="anchored" data-anchor-id="script-naming-convention"><span class="header-section-number">4.5.1</span> Script naming convention</h3>
-<p>Script file names encode the shock and swap configuration:</p>
+<p>Script file names encode the shock and swap configuration (the exact set varies by model):</p>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 66%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>File name</th>
@@ -631,7 +685,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td><code>numeraire.R</code></td>
-<td>Uniform 1% population shock — minimal working example</td>
+<td>Uniform shock to the numeraire (<code>pfactwld</code>): all prices move by the shock and real variables stay unchanged</td>
 </tr>
 <tr class="odd">
 <td><code>full_uniform.R</code></td>
@@ -669,51 +723,60 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td><code>custom_full_csv.R</code></td>
 <td>Heterogeneous shock values read from a CSV file</td>
 </tr>
+<tr class="even">
+<td><code>custom_partial_*.R</code></td>
+<td>Heterogeneous shocks with one or more dimensions fixed to elements</td>
+</tr>
+<tr class="odd">
+<td><code>*_year.R</code>, <code>scenario.R</code></td>
+<td>Intertemporal models only: shocks by chronological year, and a <a href="./scenario_shocks.html">scenario shock</a></td>
+</tr>
 </tbody>
 </table>
 </section>
 <section id="structure-of-a-generated-script" class="level3" data-number="4.5.2">
 <h3 data-number="4.5.2" class="anchored" data-anchor-id="structure-of-a-generated-script"><span class="header-section-number">4.5.2</span> Structure of a generated script</h3>
 <p>Each script begins with the injected assignments followed by the template body. Opening <code>part_uniform.R</code> in an editor shows:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dat_input <span class="ot">=</span> <span class="st">"~/dat/GTAP/v10/flexAgg/gsddat.har"</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>par_input <span class="ot">=</span> <span class="st">"~/dat/GTAP/v10/flexAgg/gsdpar.har"</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>set_input <span class="ot">=</span> <span class="st">"~/dat/GTAP/v10/flexAgg/gsdset.har"</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>model_file <span class="ot">=</span> <span class="st">"~/my_project/GTAP-INT.tab"</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>closure_file <span class="ot">=</span> <span class="st">"~/my_project/GTAP-INT.cls"</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_input =</span> dat_input,</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_input =</span> par_input,</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_input =</span> set_input,</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">time_steps =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>),</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">REG =</span> <span class="st">"big3"</span>,</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">PROD_COMM =</span> <span class="st">"macro_sector"</span>,</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">ENDW_COMM =</span> <span class="st">"labor_agg"</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">ems_model</span>(</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_file =</span> model_file,</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">closure_file =</span> closure_file</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>partial <span class="ot">&lt;-</span> <span class="fu">ems_uniform_shock</span>(</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">var =</span> <span class="st">"aoall"</span>,</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">value =</span> <span class="sc">-</span><span class="dv">1</span>,</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">REGr =</span> <span class="st">"chn"</span>,</span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">PROD_COMMj =</span> <span class="st">"crops"</span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>cmf_path <span class="ot">&lt;-</span> <span class="fu">ems_deploy</span>(</span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">.data =</span> dat,</span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> model,</span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">shock =</span> partial</span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> <span class="fu">ems_solve</span>(</span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">cmf_path =</span> cmf_path,</span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="st">"Johansen"</span>,</span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix_method =</span> <span class="st">"LU"</span></span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dat_input <span class="ot">=</span> <span class="st">"~/dat/GTAP/v12/flexAgg/gsdfdat.har"</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>par_input <span class="ot">=</span> <span class="st">"~/dat/GTAP/v12/flexAgg/gsdfpar.har"</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>set_input <span class="ot">=</span> <span class="st">"~/dat/GTAP/v12/flexAgg/gsdfset.har"</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>model_file <span class="ot">=</span> <span class="st">"~/my_project/GTAP-RE.tab"</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>closure_file <span class="ot">=</span> <span class="st">"~/my_project/GTAP-RE.cls"</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">dat_input =</span> dat_input,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">par_input =</span> par_input,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_input =</span> set_input,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">time_steps =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">REG =</span> <span class="st">"big3"</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">ACTS =</span> <span class="st">"macro_sector"</span>,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">ENDW =</span> <span class="st">"labor_agg"</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">ems_model</span>(</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_file =</span> model_file,</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">closure_file =</span> closure_file</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>partial <span class="ot">&lt;-</span> <span class="fu">ems_uniform_shock</span>(</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">var =</span> <span class="st">"aoall"</span>,</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">value =</span> <span class="sc">-</span><span class="dv">1</span>,</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">REGr =</span> <span class="st">"chn"</span>,</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">ACTSa =</span> <span class="st">"crops"</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>cmf_path <span class="ot">&lt;-</span> <span class="fu">ems_deploy</span>(</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">.data =</span> dat,</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> model,</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">shock =</span> partial</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> <span class="fu">ems_solve</span>(</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">cmf_path =</span> cmf_path,</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix_method =</span> <span class="st">"SBBD"</span>,</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_tasks =</span> <span class="dv">2</span>L,</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="st">"Gragg"</span></span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="output" class="level2" data-number="4.6">

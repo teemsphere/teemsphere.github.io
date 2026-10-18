@@ -459,6 +459,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Solver benchmarks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">References</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -475,6 +498,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#region-reg" id="toc-region-reg" class="nav-link" data-scroll-target="#region-reg"><span class="header-section-number">5.2.1</span> Region (<code>REG</code>)</a></li>
   <li><a href="#sector-prod_comm-acts" id="toc-sector-prod_comm-acts" class="nav-link" data-scroll-target="#sector-prod_comm-acts"><span class="header-section-number">5.2.2</span> Sector (<code>PROD_COMM</code>, <code>ACTS</code>)</a></li>
   <li><a href="#endowment-endw_comm-endw" id="toc-endowment-endw_comm-endw" class="nav-link" data-scroll-target="#endowment-endw_comm-endw"><span class="header-section-number">5.2.3</span> Endowment (<code>ENDW_COMM</code>, <code>ENDW</code>)</a></li>
+  <li><a href="#gtap-aez-and-gtap-power-mappings" id="toc-gtap-aez-and-gtap-power-mappings" class="nav-link" data-scroll-target="#gtap-aez-and-gtap-power-mappings"><span class="header-section-number">5.2.4</span> GTAP-AEZ and GTAP-Power mappings</a></li>
   </ul></li>
   <li><a href="#external-mappings" id="toc-external-mappings" class="nav-link" data-scroll-target="#external-mappings"><span class="header-section-number">5.3</span> External mappings</a></li>
   <li><a href="#set-naming-convention" id="toc-set-naming-convention" class="nav-link" data-scroll-target="#set-naming-convention"><span class="header-section-number">5.4</span> Set naming convention</a></li>
@@ -508,7 +532,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="5.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">5.1</span> Overview</h2>
 <p>Set mappings aggregate the granular regions, sectors, and endowments in the GTAP database to the resolution desired for a given model run. In <code>ems_data()</code>, these are passed as named arguments via <code>...</code>, where each argument name corresponds to a set name in the model Tablo file.</p>
 <p>Any set provided with a mapping is treated as a <strong>parent mapping</strong> and aggregated accordingly. Sets not explicitly mapped are handled automatically: if a set’s elements are a subset of a mapped set’s elements, the parent mapping is inherited; if a set’s elements span multiple mapped sets, the relevant portion of each parent mapping is applied. If a set has no element-level relationship to any mapped set, it remains unaggregated.</p>
-<p>For the standard GTAP models the minimum required mappings are:</p>
+<p>For the base GTAP models the minimum required mappings are:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -522,19 +546,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td><code>REG</code>, <code>PROD_COMM</code>, <code>ENDW_COMM</code></td>
 </tr>
 <tr class="even">
-<td>GTAPv7.0</td>
+<td>GTAPv7</td>
 <td><code>REG</code>, <code>ACTS</code>, <code>ENDW</code></td>
 </tr>
 </tbody>
 </table>
-<p>All other read-in sets (e.g.&nbsp;<code>MARG_COMM</code> in GTAPv6.2, <code>MARG</code> in GTAPv7.0) are derived automatically from the parent mapping. Additional mappings can always be supplied explicitly to override the inferred result.</p>
+<p>All other read-in sets (e.g.&nbsp;<code>MARG_COMM</code> in GTAPv6.2, <code>MARG</code> in GTAPv7) are derived automatically from the parent mapping. Additional mappings can always be supplied explicitly to override the inferred result.</p>
 </section>
 <section id="internal-mappings" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="internal-mappings"><span class="header-section-number">5.2</span> Internal mappings</h2>
 <p>Internal mappings ship with <a href="https://github.com/teemsphere/teems-mappings"><code>teems</code></a> and are specified by a string name without a <code>.csv</code> extension. All internal mappings, organized by database version, data format, and set name, are available at <a href="https://github.com/teemsphere/teems-mappings">teems-mappings</a>.</p>
 <section id="region-reg" class="level3" data-number="5.2.1">
 <h3 data-number="5.2.1" class="anchored" data-anchor-id="region-reg"><span class="header-section-number">5.2.1</span> Region (<code>REG</code>)</h3>
-<p>Region mappings apply to the <code>REG</code> set in both GTAPv6.2 and GTAPv7.0 formats. The <code>AR5</code>, <code>WB7</code>, and <code>WB23</code> mappings are derived from the <a href="https://vincentarelbundock.github.io/countrycode/#/man/codelist">countrycode</a> R package (ar5, region, and region23 respectively).</p>
+<p>Region mappings apply to the <code>REG</code> set in both GTAPv6.2 and GTAPv7 formats. The <code>AR5</code>, <code>WB7</code>, and <code>WB23</code> mappings are derived from the <a href="https://vincentarelbundock.github.io/countrycode/#/man/codelist">countrycode</a> R package (ar5, region, and region23 respectively).</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -584,7 +608,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="sector-prod_comm-acts" class="level3" data-number="5.2.2">
 <h3 data-number="5.2.2" class="anchored" data-anchor-id="sector-prod_comm-acts"><span class="header-section-number">5.2.2</span> Sector (<code>PROD_COMM</code>, <code>ACTS</code>)</h3>
-<p>Sector mappings apply to <code>PROD_COMM</code> in GTAPv6.2 and <code>ACTS</code> in GTAPv7.0.</p>
+<p>Sector mappings apply to <code>PROD_COMM</code> in GTAPv6.2 and <code>ACTS</code> in GTAPv7.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 31%">
@@ -610,18 +634,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Energy-focused: disaggregated energy sectors</td>
 </tr>
 <tr class="even">
+<td><code>energy_nest</code></td>
+<td>Coal, gas, oil and electricity kept apart over a macro remainder; the coarsest aggregation GTAP-E admits</td>
+</tr>
+<tr class="odd">
 <td><code>manufacturing</code></td>
 <td>Manufacturing-focused: disaggregated manufacturing sectors</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>services</code></td>
 <td>Services-focused: disaggregated services sectors</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>medium</code></td>
 <td>Custom medium-resolution aggregation</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>full</code></td>
 <td>Full (unaggregated)</td>
 </tr>
@@ -630,7 +658,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="endowment-endw_comm-endw" class="level3" data-number="5.2.3">
 <h3 data-number="5.2.3" class="anchored" data-anchor-id="endowment-endw_comm-endw"><span class="header-section-number">5.2.3</span> Endowment (<code>ENDW_COMM</code>, <code>ENDW</code>)</h3>
-<p>Endowment mappings apply to <code>ENDW_COMM</code> in GTAPv6.2 and <code>ENDW</code> in GTAPv7.0.</p>
+<p>Endowment mappings apply to <code>ENDW_COMM</code> in GTAPv6.2 and <code>ENDW</code> in GTAPv7.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 31%">
@@ -658,10 +686,57 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </section>
+<section id="gtap-aez-and-gtap-power-mappings" class="level3" data-number="5.2.4">
+<h3 data-number="5.2.4" class="anchored" data-anchor-id="gtap-aez-and-gtap-power-mappings"><span class="header-section-number">5.2.4</span> GTAP-AEZ and GTAP-Power mappings</h3>
+<p>GTAP-AEZ and GTAP-Power databases redefine some sets, so they have mappings of their own; every other set uses the mappings above.</p>
+<p>The 18 AEZs cross six length-of-growing-period bands with three climate zones (Lee et al.&nbsp;2005; see <a href="./references.html#models">References</a>).</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 22%">
+<col style="width: 19%">
+<col style="width: 41%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Set</th>
+<th>Model</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>AEZS</code>, <code>ENDW</code></td>
+<td>GTAP-AEZ</td>
+<td><code>lgp</code></td>
+<td>The 18 AEZs pooled into six length-of-growing-period bands (other endowments unchanged)</td>
+</tr>
+<tr class="even">
+<td><code>AEZS</code>, <code>ENDW</code></td>
+<td>GTAP-AEZ</td>
+<td><code>climate</code></td>
+<td>The 18 AEZs pooled into three climate zones: boreal, temperate, tropical</td>
+</tr>
+<tr class="odd">
+<td><code>ACTS</code></td>
+<td>GTAP-EP</td>
+<td><code>power</code></td>
+<td>The GTAP-Power reference aggregation: transmission, base load and peak load apart</td>
+</tr>
+<tr class="even">
+<td><code>ACTS</code></td>
+<td>GTAP-EP</td>
+<td><code>power_tech</code></td>
+<td>Every generation technology kept apart</td>
+</tr>
+</tbody>
+</table>
+</section>
 </section>
 <section id="external-mappings" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="external-mappings"><span class="header-section-number">5.3</span> External mappings</h2>
-<p>Custom mappings can be provided as a file path to a two-column CSV or a data frame (e.g., <code>data.table</code> or <code>tibble</code>), where the first column contains origin elements and the second column contains destination (aggregated) elements. See <a href="https://github.com/teemsphere/teems-mappings">teems-mappings</a> for example files. Note that all set elements are transformed to lowercase within the solver outputs.</p>
+<p>Custom mappings can be provided as a file path to a two-column CSV or a data frame (e.g., <code>data.table</code> or <code>tibble</code>), where the first column contains origin elements and the second column contains destination (aggregated) elements. See <a href="https://github.com/teemsphere/teems-mappings">teems-mappings</a> for example files. Set element names are case-insensitive on input and lowercase everywhere else: the elements a database ships (<code>Land</code>, <code>NatlRes</code>, <code>CGDS</code>), the origin and destination columns of a mapping, and the elements named in shocks, swaps and closures are all folded to lowercase, and every TEEMS object and solver output carries them in lowercase.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>v7_data <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(<span class="at">dat_input =</span> <span class="st">"v7_data/gsdfdat.har"</span>,</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">par_input =</span> <span class="st">"v7_data/gsdfpar.har"</span>,</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">set_input =</span> <span class="st">"v7_data/gsdfset.har"</span>,</span>
@@ -672,7 +747,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="set-naming-convention" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="set-naming-convention"><span class="header-section-number">5.4</span> Set naming convention</h2>
-<p>Set names in <strong><em>any loaded data</em></strong> (e.g., <code>ems_model()</code>) must be provided as the model-specific concatenation of the standard set name plus the variable-specific index. For example:</p>
+<p>Set names in <strong><em>model-specific context</em></strong> (e.g., shock functions, data loaded directly into <code>ems_model()</code>) must be provided as the model-specific concatenation of the standard set name plus the variable-specific index. For example:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -714,7 +789,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<p>This naming convention disambiguates data entries for variables that have multiple instances of the same set. Set position (i.e., column order) is inconsequential for any inputs.</p>
+<p>This naming convention disambiguates data entries for variables that have multiple instances of the same set. These names are case-insensitive: <code>regr</code> and <code>REGR</code> both resolve to <code>REGr</code>. Set position (i.e., column order) is inconsequential for any inputs.</p>
 
 
 </section>

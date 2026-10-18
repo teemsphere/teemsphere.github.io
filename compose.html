@@ -459,6 +459,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Solver benchmarks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">References</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -474,6 +497,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#basic-usage" id="toc-basic-usage" class="nav-link" data-scroll-target="#basic-usage"><span class="header-section-number">14.3</span> Basic usage</a></li>
   <li><a href="#filtering-output" id="toc-filtering-output" class="nav-link" data-scroll-target="#filtering-output"><span class="header-section-number">14.4</span> Filtering output</a></li>
   <li><a href="#return-value" id="toc-return-value" class="nav-link" data-scroll-target="#return-value"><span class="header-section-number">14.5</span> Return value</a></li>
+  <li><a href="#levels" id="toc-levels" class="nav-link" data-scroll-target="#levels"><span class="header-section-number">14.6</span> Levels results</a></li>
+  <li><a href="#passes" id="toc-passes" class="nav-link" data-scroll-target="#passes"><span class="header-section-number">14.7</span> Separate solutions</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/compose.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -504,6 +529,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="14.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">14.1</span> Overview</h2>
 <p><code>ems_compose()</code> retrieves and processes results from a solved model run. Results are parsed and filtered according to the <code>which</code> argument. Data validation and consistency checks are performed during the parsing process.</p>
 <p>By default, <a href="./solve.html"><code>ems_solve()</code></a> calls <code>ems_compose()</code> automatically, so this function is primarily used when <code>suppress_outputs = TRUE</code> was passed to <a href="./solve.html"><code>ems_solve()</code></a> or <a href="./solve.html"><code>solve_in_situ()</code></a>, or when re-parsing results from a previous run.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_compose</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  cmf_path,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">which =</span> <span class="st">"all"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">passes =</span> <span class="cn">FALSE</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="arguments" class="level2" data-number="14.2">
 <h2 data-number="14.2" class="anchored" data-anchor-id="arguments"><span class="header-section-number">14.2</span> Arguments</h2>
@@ -524,7 +554,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td><code>which</code></td>
 <td><code>"all"</code></td>
-<td><code>"all"</code> returns all model variables and all coefficients (if coefficient output files are present). Any other value is treated as a character vector of variable and/or coefficient names to retrieve</td>
+<td><code>"all"</code> returns every model variable and coefficient (coefficients at their updated, post-simulation values), except the condensation coefficients (<code>CSUB&lt;n&gt;</code>, see <a href="./model_load.html#csub">Condensation coefficients</a>), which come back only when named. Otherwise, a character vector of variable and coefficient names to retrieve, matched without regard to case</td>
+</tr>
+<tr class="odd">
+<td><code>passes</code></td>
+<td><code>FALSE</code></td>
+<td><code>TRUE</code> adds the separate solutions of a three-pass <code>"Gragg"</code>, <code>"Midpoint"</code> or <code>"Euler"</code> run and their accuracy (see <a href="#passes">Separate solutions</a>)</td>
 </tr>
 </tbody>
 </table>
@@ -532,30 +567,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="basic-usage" class="level2" data-number="14.3">
 <h2 data-number="14.3" class="anchored" data-anchor-id="basic-usage"><span class="header-section-number">14.3</span> Basic usage</h2>
 <p>After a standard model run with suppressed outputs:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_solve</span>(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cmf_path =</span> cmf_path,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="st">"Johansen"</span>,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix_method =</span> <span class="st">"LU"</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">suppress_outputs =</span> <span class="cn">TRUE</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Parse all results</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> <span class="fu">ems_compose</span>(<span class="at">cmf_path =</span> cmf_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_solve</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cmf_path =</span> cmf_path,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="st">"Gragg"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix_method =</span> <span class="st">"LU"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">suppress_outputs =</span> <span class="cn">TRUE</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Parse all results</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> <span class="fu">ems_compose</span>(<span class="at">cmf_path =</span> cmf_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="filtering-output" class="level2" data-number="14.4">
 <h2 data-number="14.4" class="anchored" data-anchor-id="filtering-output"><span class="header-section-number">14.4</span> Filtering output</h2>
 <p>Pass a character vector of names to <code>which</code> to retrieve a subset of results. Variables and coefficients can be mixed freely in a single call:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># All model variables and coefficients (default)</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>all_outputs <span class="ot">&lt;-</span> <span class="fu">ems_compose</span>(<span class="at">cmf_path =</span> cmf_path)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Single variable by name</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>qfd <span class="ot">&lt;-</span> <span class="fu">ems_compose</span>(<span class="at">cmf_path =</span> cmf_path, <span class="at">which =</span> <span class="st">"qfd"</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Single coefficient by name</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>SAVE <span class="ot">&lt;-</span> <span class="fu">ems_compose</span>(<span class="at">cmf_path =</span> cmf_path, <span class="at">which =</span> <span class="st">"SAVE"</span>)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiple names with mixed variables and coefficients</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">ems_compose</span>(<span class="at">cmf_path =</span> cmf_path, <span class="at">which =</span> <span class="fu">c</span>(<span class="st">"qfd"</span>, <span class="st">"qfm"</span>, <span class="st">"SAVE"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># All model variables and coefficients (default)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>all_outputs <span class="ot">&lt;-</span> <span class="fu">ems_compose</span>(<span class="at">cmf_path =</span> cmf_path)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Single variable by name</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>qfd <span class="ot">&lt;-</span> <span class="fu">ems_compose</span>(<span class="at">cmf_path =</span> cmf_path, <span class="at">which =</span> <span class="st">"qfd"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Single coefficient by name</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>SAVE <span class="ot">&lt;-</span> <span class="fu">ems_compose</span>(<span class="at">cmf_path =</span> cmf_path, <span class="at">which =</span> <span class="st">"SAVE"</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiple names with mixed variables and coefficients</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">ems_compose</span>(<span class="at">cmf_path =</span> cmf_path, <span class="at">which =</span> <span class="fu">c</span>(<span class="st">"qfd"</span>, <span class="st">"qfm"</span>, <span class="st">"SAVE"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Note that some coefficient names differ from their associated HAR headers. For example, the coefficient exposed as <code>"VTMFSD"</code> corresponds to the <code>VTWR</code> header. Use the name as it appears in the model file, not the header.</p>
 </section>
 <section id="return-value" class="level2" data-number="14.5">
@@ -583,7 +618,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td><code>type</code></td>
-<td><code>"variable"</code> or <code>"coefficient"</code></td>
+<td><code>"variable"</code>, <code>"coefficient"</code> or <code>"postsim"</code> (coefficients computed in a <code>PostSim</code> section)</td>
 </tr>
 <tr class="even">
 <td><code>dat</code></td>
@@ -591,6 +626,88 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
+</section>
+<section id="levels" class="level2" data-number="14.6">
+<h2 data-number="14.6" class="anchored" data-anchor-id="levels"><span class="header-section-number">14.6</span> Levels results</h2>
+<p>A variable declared with <code>ORIG_LEVEL=</code> in the model file has a known pre-simulation level: either a coefficient over exactly the variable’s sets (GTAP’s <code>qfd</code> takes <code>VDFB</code>, its value at base prices) or a number (<code>1.0</code> for a price index). Levels variables know theirs too. For these variables the data.table gains:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 50%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Percent-change variable</th>
+<th>Change variable</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pre_level</code></td>
+<td>pre-simulation level</td>
+<td>pre-simulation level</td>
+</tr>
+<tr class="even">
+<td><code>post_level</code></td>
+<td><code>pre_level * (1 + Value / 100)</code></td>
+<td><code>pre_level + Value</code></td>
+</tr>
+<tr class="odd">
+<td><code>change</code> / <code>percent_change</code></td>
+<td><code>change</code>: the ordinary change</td>
+<td><code>percent_change</code>: the percent change</td>
+</tr>
+</tbody>
+</table>
+<p>For runs solved with <code>"BoSha32"</code> or <code>"DoPri54"</code> (see <a href="./solve.html">solving</a>), each variable’s data.table also has an <code>error_estimate</code> column. Sort it in descending order to find the least settled results; it is an indicator, not a bound on the error.</p>
+</section>
+<section id="passes" class="level2" data-number="14.7">
+<h2 data-number="14.7" class="anchored" data-anchor-id="passes"><span class="header-section-number">14.7</span> Separate solutions</h2>
+<p>A three-pass <code>"Gragg"</code>, <code>"Midpoint"</code> or <code>"Euler"</code> run extrapolates from three solutions with increasing step counts (see <a href="./solve.html">solving</a>). <code>passes = TRUE</code> returns them, so the accuracy of each result can be inspected:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> <span class="fu">ems_compose</span>(cmf_path, <span class="at">passes =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(outputs, <span class="st">"accuracy"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Each variable’s data.table gains:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 38%">
+<col style="width: 61%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pass1</code>, <code>pass2</code>, <code>pass3</code></td>
+<td>The solutions with the fewest to the most steps, in the units of <code>Value</code></td>
+</tr>
+<tr class="even">
+<td><code>figures</code></td>
+<td>Significant figures to which the two two-pass extrapolations agree (0 to 6; <code>NA</code> for a result judged zero, both extrapolations below 1e-6)</td>
+</tr>
+<tr class="odd">
+<td><code>levels_figures</code></td>
+<td>The same for the variable’s levels value, which a percent-change result usually has more of</td>
+</tr>
+<tr class="even">
+<td><code>error</code></td>
+<td>The difference between the two extrapolations, in the units of <code>Value</code></td>
+</tr>
+<tr class="odd">
+<td><code>code</code></td>
+<td>The convergence code of GEMPACK manual 26.2.3, for example <code>"CX"</code> (confidence in the extrapolated result) or <code>"MD!"</code> (monotonic but appearing to diverge)</td>
+</tr>
+<tr class="even">
+<td><code>summarized</code></td>
+<td>Whether the element counts in the run’s accuracy summary: <code>TRUE</code> for endogenous and backsolved results (of the <code>accuracy_vars</code> variables when those are given), <code>FALSE</code> for exogenous elements, whose values the shock sets</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>accuracy</code> attribute has one row per variable: <code>elements</code>, <code>summarized</code>, the lowest figures (<code>min_figures</code>, <code>min_levels_figures</code>; a result judged zero counts as 6), the share of results at <code>accuracy_figures</code> or more (<code>share_figures</code>, <code>share_levels_figures</code>; see <a href="./options.html">options</a>), <code>worst_code</code> and <code>max_error</code>. With subintervals, <code>figures</code> and <code>levels_figures</code> are the lowest over the subintervals and <code>code</code> the worst; the pass columns and <code>error</code> come from the last subinterval alone, each pass compounded onto the extrapolated result of the subintervals before it. A run that wrote no separate solutions stops with an error.</p>
 
 
 </section>

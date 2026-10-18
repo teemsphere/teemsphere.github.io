@@ -459,6 +459,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Solver benchmarks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">References</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -470,7 +493,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">8.1</span> Overview</a></li>
-  <li><a href="#simple-full-variable-swaps" id="toc-simple-full-variable-swaps" class="nav-link" data-scroll-target="#simple-full-variable-swaps"><span class="header-section-number">8.2</span> Simple (full variable) swaps</a></li>
+  <li><a href="#simple-full-variable-swaps" id="toc-simple-full-variable-swaps" class="nav-link" data-scroll-target="#simple-full-variable-swaps"><span class="header-section-number">8.2</span> Simple (full variable) swaps</a>
+  <ul class="collapse">
+  <li><a href="#choosing-swaps" id="toc-choosing-swaps" class="nav-link" data-scroll-target="#choosing-swaps"><span class="header-section-number">8.2.1</span> Choosing swaps</a></li>
+  </ul></li>
   <li><a href="#complex-partial-variable-swaps" id="toc-complex-partial-variable-swaps" class="nav-link" data-scroll-target="#complex-partial-variable-swaps"><span class="header-section-number">8.3</span> Complex (partial variable) swaps</a>
   <ul class="collapse">
   <li><a href="#ems_swap" id="toc-ems_swap" class="nav-link" data-scroll-target="#ems_swap"><span class="header-section-number">8.3.1</span> ems_swap()</a></li>
@@ -523,14 +549,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_in =</span> <span class="fu">c</span>(<span class="st">"qfd"</span>, <span class="st">"yp"</span>),</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">swap_out =</span> <span class="fu">c</span>(<span class="st">"tfd"</span>, <span class="st">"dppriv"</span>)</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Note that swaps (and validity checks) are handled in the order they are inputted, and swaps “in” are handled before swaps “out”.</p>
+<p>Swaps “in” and “out” are reconciled together rather than in a fixed order: each variable element ends exogenous or endogenous according to the net of the swaps that name it. A variable can therefore be swapped in whole and a slice of it swapped back out, and a swap followed by its mirror leaves the closure unchanged. Swaps are rejected only when no order of them is valid on the closure, for example when the same element is swapped in twice.</p>
+<section id="choosing-swaps" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="choosing-swaps"><span class="header-section-number">8.2.1</span> Choosing swaps</h3>
+<p>A closure must leave as many endogenous variable elements as there are equations, so every element swapped in needs an element swapped out; <a href="./deploy.html"><code>ems_deploy()</code></a> aborts when a closure is invalid. Each pair should also make economic sense: the variable swapped out takes up the adjustment that the newly fixed variable no longer can. In the examples above, exogenous <code>qfd</code> with endogenous <code>tfd</code> fixes a firm’s demand for a domestic commodity and lets the tax on that purchase move to deliver it, the tax equivalent of a quantity target; a quota that may or may not bind needs a complementarity instead (Harrison et al.&nbsp;2004). Exogenous <code>yp</code> with endogenous <code>dppriv</code> fixes private consumption expenditure and lets the distribution parameter of regional income adjust (Corong et al.&nbsp;2017). Keep a price numeraire exogenous (<code>pfactwld</code> in the GTAP closures): the model determines relative prices only, and without one the price level is undetermined (Dixon et al.&nbsp;1982).</p>
+</section>
 </section>
 <section id="complex-partial-variable-swaps" class="level2" data-number="8.3">
 <h2 data-number="8.3" class="anchored" data-anchor-id="complex-partial-variable-swaps"><span class="header-section-number">8.3</span> Complex (partial variable) swaps</h2>
 <section id="ems_swap" class="level3" data-number="8.3.1">
 <h3 data-number="8.3.1" class="anchored" data-anchor-id="ems_swap"><span class="header-section-number">8.3.1</span> ems_swap()</h3>
 <p><code>ems_swap()</code> prepares a partial variable swap for use in the <code>swap_in</code> or <code>swap_out</code> arguments of <a href="./deploy.html"><code>ems_deploy()</code></a>. Set arguments in <code>...</code> use the model-specific set-index naming convention (set name concatenated with the variable’s index letter, e.g.&nbsp;<code>REGr</code>, <code>ACTSa</code>) to identify which tuples to include in the swap.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_swap</span>(var, ...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_swap</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  var,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  ...</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 34%">
@@ -566,7 +599,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">REGr =</span> <span class="st">"asia"</span>,</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ACTSa =</span> <span class="st">"crops"</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong><em>Note that sets specified in this manner are identified by the model-specific concatenation of the standard set name plus the variable-specific index.</em></strong> This is necessary because many variables contain multiple instances of the same set and none of the <code>teems</code> functions relies upon input entry order or order within the model to make distinctions. In this case the “qfd” set subindices are “c”, “a”, and “r”, yielding “COMMc”, “ACTSa”, and “REGr”. In order to retain a valid closure we also use the same approach to the outgoing variable “tfd”:</p>
+<p>***Note that sets specified in this manner are identified by the model-specific concatenation of the standard set name plus the variable-specific index. This is necessary because many variables contain multiple instances of the same set and none of the <code>teems</code> functions relies upon input entry order or order within the model to make distinctions. In this case the “qfd” set subindices are “c”, “a”, and “r”, yielding “COMMc”, “ACTSa”, and “REGr”. In order to retain a valid closure we also use the same approach to the outgoing variable “tfd”:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>tfd_out <span class="ot">&lt;-</span> <span class="fu">ems_swap</span>(</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">var =</span> <span class="st">"tfd"</span>,</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">REGr =</span> <span class="st">"asia"</span>,</span>

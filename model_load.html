@@ -459,6 +459,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Solver benchmarks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">References</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -472,22 +495,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">7.1</span> Overview</a></li>
   <li><a href="#tab_files" id="toc-tab_files" class="nav-link" data-scroll-target="#tab_files"><span class="header-section-number">7.2</span> The model file</a></li>
   <li><a href="#closure-selection" id="toc-closure-selection" class="nav-link" data-scroll-target="#closure-selection"><span class="header-section-number">7.3</span> Closure selection</a></li>
-  <li><a href="#incompatible-features" id="toc-incompatible-features" class="nav-link" data-scroll-target="#incompatible-features"><span class="header-section-number">7.4</span> Incompatible features</a>
+  <li><a href="#tablo-compatibility" id="toc-tablo-compatibility" class="nav-link" data-scroll-target="#tablo-compatibility"><span class="header-section-number">7.4</span> Tablo compatibility</a>
   <ul class="collapse">
-  <li><a href="#supported-tablo-statements" id="toc-supported-tablo-statements" class="nav-link" data-scroll-target="#supported-tablo-statements"><span class="header-section-number">7.4.1</span> Supported Tablo statements</a></li>
-  <li><a href="#set-and-subset-declarations" id="toc-set-and-subset-declarations" class="nav-link" data-scroll-target="#set-and-subset-declarations"><span class="header-section-number">7.4.2</span> Set and subset declarations</a></li>
-  <li><a href="#formulas-and-equations" id="toc-formulas-and-equations" class="nav-link" data-scroll-target="#formulas-and-equations"><span class="header-section-number">7.4.3</span> Formulas and Equations</a></li>
+  <li><a href="#supported-statements" id="toc-supported-statements" class="nav-link" data-scroll-target="#supported-statements"><span class="header-section-number">7.4.1</span> Supported statements</a></li>
+  <li><a href="#names" id="toc-names" class="nav-link" data-scroll-target="#names"><span class="header-section-number">7.4.2</span> Names</a></li>
+  <li><a href="#variable-types-for-homogeneity-checks" id="toc-variable-types-for-homogeneity-checks" class="nav-link" data-scroll-target="#variable-types-for-homogeneity-checks"><span class="header-section-number">7.4.3</span> Variable types for homogeneity checks</a></li>
+  <li><a href="#formulas-updates-and-mappings" id="toc-formulas-updates-and-mappings" class="nav-link" data-scroll-target="#formulas-updates-and-mappings"><span class="header-section-number">7.4.4</span> Formulas, updates and mappings</a></li>
+  <li><a href="#sets" id="toc-sets" class="nav-link" data-scroll-target="#sets"><span class="header-section-number">7.4.5</span> Sets</a></li>
+  <li><a href="#if-conditions" id="toc-if-conditions" class="nav-link" data-scroll-target="#if-conditions"><span class="header-section-number">7.4.6</span> IF conditions</a></li>
   </ul></li>
-  <li><a href="#var_omit" id="toc-var_omit" class="nav-link" data-scroll-target="#var_omit"><span class="header-section-number">7.5</span> Variable omissions</a></li>
+  <li><a href="#condensation" id="toc-condensation" class="nav-link" data-scroll-target="#condensation"><span class="header-section-number">7.5</span> Condensation</a>
+  <ul class="collapse">
+  <li><a href="#backsolve" id="toc-backsolve" class="nav-link" data-scroll-target="#backsolve"><span class="header-section-number">7.5.1</span> Backsolving variables</a></li>
+  <li><a href="#backsolve_when" id="toc-backsolve_when" class="nav-link" data-scroll-target="#backsolve_when"><span class="header-section-number">7.5.2</span> When backsolving pays</a></li>
+  <li><a href="#condensation-statements-in-the-model-file" id="toc-condensation-statements-in-the-model-file" class="nav-link" data-scroll-target="#condensation-statements-in-the-model-file"><span class="header-section-number">7.5.3</span> Condensation statements in the model file</a></li>
+  </ul></li>
   <li><a href="#coeff_inject" id="toc-coeff_inject" class="nav-link" data-scroll-target="#coeff_inject"><span class="header-section-number">7.6</span> Coefficient value injection</a>
   <ul class="collapse">
   <li><a href="#uniform-numeric-value" id="toc-uniform-numeric-value" class="nav-link" data-scroll-target="#uniform-numeric-value"><span class="header-section-number">7.6.1</span> Uniform numeric value</a></li>
   <li><a href="#data-frame" id="toc-data-frame" class="nav-link" data-scroll-target="#data-frame"><span class="header-section-number">7.6.2</span> Data frame</a></li>
   <li><a href="#csv-file" id="toc-csv-file" class="nav-link" data-scroll-target="#csv-file"><span class="header-section-number">7.6.3</span> CSV file</a></li>
   <li><a href="#combining-injections" id="toc-combining-injections" class="nav-link" data-scroll-target="#combining-injections"><span class="header-section-number">7.6.4</span> Combining injections</a></li>
-  <li><a href="#set-naming-convention" id="toc-set-naming-convention" class="nav-link" data-scroll-target="#set-naming-convention"><span class="header-section-number">7.6.5</span> Set naming convention</a></li>
   </ul></li>
-  <li><a href="#intertemporal" id="toc-intertemporal" class="nav-link" data-scroll-target="#intertemporal"><span class="header-section-number">7.7</span> Intertemporal models</a></li>
+  <li><a href="#intertemporal" id="toc-intertemporal" class="nav-link" data-scroll-target="#intertemporal"><span class="header-section-number">7.7</span> Intertemporal models</a>
+  <ul class="collapse">
+  <li><a href="#netcut" id="toc-netcut" class="nav-link" data-scroll-target="#netcut"><span class="header-section-number">7.7.1</span> Leads, lags and parallel solving</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/model_load.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -517,7 +550,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="overview" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">7.1</span> Overview</h2>
 <p>The <code>ems_model()</code> function loads the model and its closure, conducts pre-deployment checks, determines temporal dynamics, and allows for the loading of aggregated coefficient data. The output of this function is a tibble with attributes containing the parsed model input and is a required input to the <code>"model"</code> argument of the <a href="./deploy.html"><code>ems_deploy()</code></a> function.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_model</span>(model_file, closure_file, <span class="at">var_omit =</span> <span class="cn">NULL</span>, ...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_model</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  model_file,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  closure_file,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">backsolve =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">ignore_condense =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  ...</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 34%">
@@ -543,11 +582,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>File name in working directory or path to a <code>.cls</code> closure file</td>
 </tr>
 <tr class="odd">
-<td><code>var_omit</code></td>
+<td><code>backsolve</code></td>
 <td>Character vector or <code>NULL</code></td>
-<td>Variables to substitute with <code>0</code> and remove from closure</td>
+<td>Endogenous variables to substitute out by backsolving</td>
 </tr>
 <tr class="even">
+<td><code>ignore_condense</code></td>
+<td>Logical</td>
+<td>Ignore the <code>Substitute</code>, <code>Backsolve</code> and <code>Omit</code> statements found in the model file</td>
+</tr>
+<tr class="odd">
 <td><code>...</code></td>
 <td>Named arguments</td>
 <td>Coefficient value injections (numeric, data frame, or CSV path)</td>
@@ -558,35 +602,55 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="tab_files" class="level2" data-number="7.2">
 <h2 data-number="7.2" class="anchored" data-anchor-id="tab_files"><span class="header-section-number">7.2</span> The model file</h2>
-<p>Model input in <code>teems</code> is currently limited to Tablo (<code>.tab</code>) files. Vetted models and their closures are available at <a href="https://github.com/teemsphere/teems-models">teems-models</a> and can also be accessed via the <a href="./example.html"><code>ems_example()</code></a> function.</p>
+<p>Model input in <code>teems</code> is limited to Tablo (<code>.tab</code>) files. Vetted models and their closures are available at <a href="https://github.com/teemsphere/teems-models">teems-models</a>, and all but ORANI-G also through <a href="./example.html"><code>ems_example()</code></a>; their documentation is listed under <a href="./references.html#models">References</a>:</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 43%">
+<col style="width: 33%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Model</th>
-<th>Files</th>
 <th>Description</th>
+<th>Database</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>GTAPv6</td>
-<td><code>GTAPv6.tab</code>, <code>GTAPv6.cls</code></td>
-<td>GTAP version 6.2 format</td>
+<td>Classic GTAP model, version 6.2</td>
+<td>GTAP v6.2 format</td>
 </tr>
 <tr class="even">
 <td>GTAPv7</td>
-<td><code>GTAPv7.tab</code>, <code>GTAPv7.cls</code></td>
-<td>GTAP version 7.0 format</td>
+<td>Standard GTAP model, version 7.1</td>
+<td>GTAP v7 format</td>
 </tr>
 <tr class="odd">
-<td>GTAP-INT</td>
-<td><code>GTAP_INT.tab</code>, <code>GTAP_INT.cls</code></td>
-<td>GTAP intertemporal</td>
+<td>GTAP-RE</td>
+<td>Intertemporal GTAP with rational expectations: forward-looking investment, all periods solved at once</td>
+<td>GTAP v7 format</td>
 </tr>
 <tr class="even">
-<td>GTAP-RE</td>
-<td><code>GTAP_RE.tab</code>, <code>GTAP_RE.cls</code></td>
-<td>GTAP rational expectations</td>
+<td>GTAP-AEZ</td>
+<td>GTAP with land use by agro-ecological zone: land enters production as a CES composite of the zones</td>
+<td>GTAP-AEZ release</td>
+</tr>
+<tr class="odd">
+<td>GTAP-E</td>
+<td>GTAP with energy substitution and carbon taxes: a capital–energy composite inside value added</td>
+<td>GTAP-E release</td>
+</tr>
+<tr class="even">
+<td>GTAP-EP</td>
+<td>GTAP-E with electricity split into transmission and distribution and generation, and generation into base-load and peak-load technologies</td>
+<td>GTAP-Power release</td>
+</tr>
+<tr class="odd">
+<td>ORANI-G</td>
+<td>Single-country model of the Centre of Policy Studies, 2013 edition</td>
+<td>Its own <code>basedata.har</code></td>
 </tr>
 </tbody>
 </table>
@@ -595,7 +659,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_file =</span> <span class="st">"path/to/custom_model.tab"</span>,</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">closure_file =</span> <span class="st">"path/to/custom_model.cls"</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>We recommend that users seeking to load custom models first review the formatting of the vetted models at <a href="https://github.com/teemsphere/teems-models">teems-models</a> in order to make any necessary modifications for use within the <code>teems</code> software ecosystem. In some cases it may be easiest to use existing compatible models as a starting point for modifications. Although the <a href="https://github.com/teemsphere/teems-solver">teems-solver</a> does not support all current GEMPack declarations, there is usually a workaround. Running a <code>diff</code> on the original GTAP models and those in <a href="https://github.com/teemsphere/teems-models">teems-models</a> is a good starting point for understanding potential incompatibilities.</p>
+<p>When preparing a custom model, the vetted models are a good reference, and often the easiest starting point for modifications.</p>
 </section>
 <section id="closure-selection" class="level2" data-number="7.3">
 <h2 data-number="7.3" class="anchored" data-anchor-id="closure-selection"><span class="header-section-number">7.3</span> Closure selection</h2>
@@ -609,52 +673,109 @@ txs(MARG,"row",REG,FWDTIME)
 ;
 rest endogenous
 ;</code></pre>
-<p>Each entry is either a full variable name (<code>pop</code>), an entry with specific set elements (<code>aoreg("row")</code>), an entry with subsets (<code>qe(ENDWC,REG,INITIME)</code>) or a mixed entry (<code>txs(MARG,"chn",REG,FWDTIME)</code>).</p>
+<p>Each entry is either a full variable name (<code>pop</code>), an entry with specific set elements (<code>aoreg("row")</code>), a mixed entry (<code>txs(MARG,"chn",REG,FWDTIME)</code>) or an entry with subsets (<code>qe(ENDWC,REG,INITIME)</code>).</p>
 </section>
-<section id="incompatible-features" class="level2" data-number="7.4">
-<h2 data-number="7.4" class="anchored" data-anchor-id="incompatible-features"><span class="header-section-number">7.4</span> Incompatible features</h2>
-<p>The <a href="https://github.com/teemsphere/teems-solver">teems-solver</a> was originally designed to emulate GEMPack, and we have no intention of attempting to reproduce the very thorough <a href="https://www.copsmodels.com/gpmanual.htm">GEMPack documentation</a> on the Tablo scripting language and underlying solution software. <em>Most</em> Tablo model files (<code>.tab</code>) that work with GEMPack will also work with the <a href="https://github.com/teemsphere/teems-solver">teems-solver</a> with some minor modifications. There are however a range of newer GEMPack features that are not compatible and are not likely to be incorporated. Fortunately there are workarounds for the vast majority as described below.</p>
-<p>Considerable efforts have been made to correctly parse Tablo files, but it is likely that custom Tablo files will need to be modified. If you find an incompatibility not listed here and feel that it should be addressed, please feel free to contact us with your model file. Some of the more frequent incompatibilities and workarounds are listed below.</p>
-<section id="supported-tablo-statements" class="level3" data-number="7.4.1">
-<h3 data-number="7.4.1" class="anchored" data-anchor-id="supported-tablo-statements"><span class="header-section-number">7.4.1</span> Supported Tablo statements</h3>
-<p>The parser recognizes the following Tablo statements: <code>File</code>, <code>Coefficient</code>, <code>Read</code>, <code>Update</code>, <code>Set</code>, <code>Subset</code>, <code>Formula</code>, <code>Assertion</code>, <code>Variable</code>, <code>Equation</code>, <code>Write</code>, and <code>Zerodivide</code>. Statements not in this list are either unsupported (e.g., <code>Omit</code>, raising an error) or ignored (<code>Postsim</code>, raising a warning).</p>
+<section id="tablo-compatibility" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="tablo-compatibility"><span class="header-section-number">7.4</span> Tablo compatibility</h2>
+<p>The <a href="https://github.com/teemsphere/teems-solver">teems-solver</a> follows GEMPACK’s Tablo language, so most model files written for GEMPACK load as they are. This manual will not attempt to reproduce the very thorough <a href="https://www.copsmodels.com/gpmanual.htm">GEMPACK documentation</a>, rather lists what is supported and the few forms that are not. <code>ems_model()</code> checks the model file before anything is solved. Problems are reported by name, with the statement it occurs in, rather than surfacing later as a solver failure. If a model file does not load and you think it should, a supported statement behavior is not as expected, or an error propagates to the solver without warning, please <a href="https://github.com/teemsphere/teems/issues">get in touch</a>.</p>
+<section id="supported-statements" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="supported-statements"><span class="header-section-number">7.4.1</span> Supported statements</h3>
+<p><code>File</code>, <code>Coefficient</code>, <code>Read</code>, <code>Update</code>, <code>Set</code>, <code>Subset</code>, <code>Mapping</code>, <code>Formula</code>, <code>Assertion</code>, <code>Variable</code>, <code>Equation</code>, <code>Write</code>, <code>Zerodivide</code>, <code>Complementarity</code>, <code>Loop</code> with <code>Break</code> and <code>Cycle</code>, <code>PostSim</code> sections, and the condensation statements <code>Substitute</code> and <code>Backsolve</code> (see <a href="#condensation">Condensation</a>) are accepted. <code>Omit</code> statements hold the omitted variables exogenous and unshocked, as omission does in GEMPACK; they stay in the model and its outputs. Levels variables and equations, <code>Formula &amp; Equation</code>, and <code>Read (IfHeaderExists)</code> are supported; levels equations may contain conditional sums, <code>PROD</code> and the functions <code>SQRT</code>, <code>EXP</code>, <code>LOGE</code>, <code>LOG10</code> and <code>IF</code>. <code>PROD</code>, <code>MAXS</code> and <code>MINS</code> reduce over a set like <code>SUM</code>. <code>Default</code> statements (<code>Variable (Default=Levels);</code>, <code>Equation (Default=Levels);</code>, <code>Formula (Default=Initial);</code>, <code>Coefficient (Default=Parameter);</code>) apply to the statements that follow them. <code>Read</code>, <code>Formula</code> and <code>Assertion</code> statements take effect in the order they appear, including inside <code>PostSim</code> sections: a <code>Read</code> after a default <code>Formula</code> replaces the default, and a <code>Formula</code> after a <code>Read</code> replaces what was read. A levels variable <code>X</code> has a linear variable named <code>p_X</code>, or <code>c_X</code> for a <code>(change)</code> variable; <code>Linear_Name=</code> gives it another name and <code>Linear_Var=</code> makes an already declared linear variable serve as it. In closures, shocks and swaps either name may be used. <code>p_X</code> and <code>c_X</code> refer to nothing else: beside a linear variable <code>X</code>, names such as <code>p_X</code> or <code>C_X</code> are free for other coefficients and variables.</p>
+<p><code>Display</code> and <code>Transfer</code> are not supported and raise an error: every coefficient is in the coefficient dump, and TEEMS writes no Header Array output files.</p>
 </section>
-<section id="set-and-subset-declarations" class="level3" data-number="7.4.2">
-<h3 data-number="7.4.2" class="anchored" data-anchor-id="set-and-subset-declarations"><span class="header-section-number">7.4.2</span> Set and subset declarations</h3>
-<p><strong>Multiple <code>+</code> or <code>-</code> operators</strong> within a single declaration are not supported. Instead of</p>
-<pre><code>Set A123 = A1 + A2 + A3;</code></pre>
-<p>Use</p>
-<pre><code>Set A12 = A1 + A1;
-Set A123 = A12 + A3;</code></pre>
-<p><strong>Identical set assignment</strong> without a <code>Read</code> statement is not supported. Instead of</p>
-<pre><code>Set A # example set A # maximum size 5 read elements from file GTAPSETS header "H2";
-Set B # example set # = Set A;</code></pre>
-<p>Use</p>
-<pre><code>Set A # example set A # maximum size 5 read elements from file GTAPSETS header "H2";
-Set B # example set B # maximum size 5 read elements from file GTAPSETS header "H2";</code></pre>
-<p><strong>Binary set switches</strong> using a colon within a Set definition are not supported. The SLUG coefficient is not used to identify sluggish endowments. Declare these sets explicitly or via set operations.</p>
-<p>Instead of</p>
-<pre><code>Set ENDWM # mobile endowments # = (all,e,ENDW:ENDOWFLAG(e,"mobile") ne 0);</code></pre>
-<p>Declare sets explicitly within the Tablo file:</p>
-<pre><code>Set ENDWM # mobile endowment # (capital, unsklab, sklab);</code></pre>
-<p><strong>Capital goods.</strong> The <code>CGDS</code> sector in v6.2 format models is renamed to <code>cgds</code> by default due to R <code>data.table</code> C-locale sorting and preference for all set elements to be lowercase.</p>
+<section id="names" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="names"><span class="header-section-number">7.4.2</span> Names</h3>
+<p>Names are case-insensitive. A set, coefficient, variable, file or equation may be written in any case after its declaration, and TEEMS uses the declared spelling throughout, including in outputs. The same holds for header names (<code>Read ... header "Nat"</code> finds a header <code>NAT</code>), logical file names, the <code>.tab</code> and <code>.har</code> extensions, and the variable, set and element names in closures, shocks and swaps.</p>
 </section>
-<section id="formulas-and-equations" class="level3" data-number="7.4.3">
-<h3 data-number="7.4.3" class="anchored" data-anchor-id="formulas-and-equations"><span class="header-section-number">7.4.3</span> Formulas and Equations</h3>
-<p>No IF statements in Formula or Equation RHS (use sets). Instead of</p>
+<section id="variable-types-for-homogeneity-checks" class="level3" data-number="7.4.3">
+<h3 data-number="7.4.3" class="anchored" data-anchor-id="variable-types-for-homogeneity-checks"><span class="header-section-number">7.4.3</span> Variable types for homogeneity checks</h3>
+<p><code>VPQType</code> marks a variable as a <code>Value</code>, <code>Price</code> or <code>Quantity</code>, or as <code>None</code> (tax rates, shifters, technology, foreign prices), for homogeneity tests (GEMPACK manual 57.2). All three GEMPACK forms are read, in file order:</p>
+<pre><code>Variable (begins p default VPQType Price);  ! later variables starting with p !
+Variable (begins pf default VPQType None);  ! the longest matching prefix wins !
+Variable (VPQType=Quantity) (all,i,IND) x1cap(i);
+Variable (Name x6com VPQType Quantity);     ! anywhere in the file !</code></pre>
+<p><code>Variable (begins &lt;prefix&gt; VPQType default OFF);</code> ends a default. Variables without a type stay <code>Unspecified</code>. <code>ORIG_LEVEL=</code> qualifiers are checked: the coefficient must be real and range over exactly the variable’s sets.</p>
+</section>
+<section id="formulas-updates-and-mappings" class="level3" data-number="7.4.4">
+<h3 data-number="7.4.4" class="anchored" data-anchor-id="formulas-updates-and-mappings"><span class="header-section-number">7.4.4</span> Formulas, updates and mappings</h3>
+<ul>
+<li><code>Formula</code> quantifiers may carry general conditions, such as <code>(all,c,COM: $POS(c) = $POS(g))</code>, a coefficient on either side, or a mapping (<code>MAP(z) = r</code>). <code>Update</code> statements take quantifier conditions too; an element whose condition is false is left unchanged.</li>
+<li>A qualifier list such as <code>(initial, by_elements)</code> is accepted. <code>write updated value to file</code> is accepted with a warning but writes no separate file; the value is in the coefficient outputs.</li>
+<li>An index may be repeated within one reference (<code>T(d,d)</code>, <code>TRADE(c,"dom",r,r)</code>).</li>
+<li>A mapping may point into a subset of the set its argument position is declared over, and a mapped index may range over a subset of the mapping’s domain. A mapping may also be assigned an identity or a copy (<code>MAP(c) = c</code>, <code>A(z) = B(z)</code>), matched by element name when the sets are unrelated.</li>
+<li>A mapping is read as element names (<code>Read (by_elements)</code>) or as element numbers (<code>Read</code> alone), over its whole domain or over a subset (<code>Read (all,c,MARG) MAP(c) ...</code>), with Formulas assigning the rest.</li>
+<li><code>Update</code> statements read the values at the start of each step, and several updates of one element apply in order, the later overriding. <code>(change)</code> and <code>(explicit)</code> updated data follow the solution path and are extrapolated like the variables; see <a href="./solve.html#single-pass">single-pass runs</a> for models where that is not wanted.</li>
+</ul>
+</section>
+<section id="sets" class="level3" data-number="7.4.5">
+<h3 data-number="7.4.5" class="anchored" data-anchor-id="sets"><span class="header-section-number">7.4.5</span> Sets</h3>
+<p>Sets may be read from file, listed explicitly, or built from other sets:</p>
+<pre><code>Set A123 = A1 + A2 + A3;
+Set B = (C - D) INTERSECT E;
+Set B2 # equal to A # = A;
+Set UACT = UNITA x ACTS;
+Set COALCOMM # coal # =
+    (all,c,COMM: sum{cc,DCOMM: MCOM(cc)=c, UNITDCOAL(cc)} &gt; 0);</code></pre>
+<p>Set expressions (<code>UNION</code>, <code>INTERSECT</code>, <code>+</code>, <code>-</code>, and the relative complement <code>\</code>), set equality, set products and conditional set builders are supported. A few points to note:</p>
+<ul>
+<li>A set must not be named <code>union</code> or <code>intersect</code>.</li>
+<li>A conditional set builder, like <code>COALCOMM</code> above, compares an expression with a constant. Its source set may be read, listed or itself built from other sets. Sets are built before the model is solved, so the condition is evaluated at deployment from the loaded data: the coefficients in it must be read from a file or assigned by <code>Formula</code> statements that precede the <code>Set</code> statement and use only what is known by then (arithmetic, <code>IF</code>, sums, the standard functions); <code>RANDOM</code> cannot appear. GTAP-E’s <code>UNITDCOAL(c) = 0.0 + IF[c="coa", 1.0]</code> is such a formula.</li>
+<li>Some GTAP models build sets from the <code>EFLG</code> and <code>SLUG</code> headers, which TEEMS excludes from the data. Declare such sets with explicit elements instead.</li>
+<li>Intertemporal set equality (<code>Set (Intertemporal) B = A;</code>) is not supported.</li>
+<li>A set may be empty, for example when a conditional set builder selects nothing under the data at hand. Statements over an empty set do nothing and sums over it are zero.</li>
+</ul>
+<p>Set element names are lowercase throughout TEEMS (see <a href="./set_mappings.html">Set mappings</a>); for example, the v6.2 <code>CGDS</code> sector becomes <code>cgds</code>.</p>
+<p>Element order follows the data file wherever a set is not aggregated (see <a href="./data_load.html">Loading data</a>). It matters to anything that works by position, such as <code>$POS</code> and a mapping read from a header, whose entries line up with the elements of its domain in order.</p>
+</section>
+<section id="if-conditions" class="level3" data-number="7.4.6">
+<h3 data-number="7.4.6" class="anchored" data-anchor-id="if-conditions"><span class="header-section-number">7.4.6</span> IF conditions</h3>
+<p><code>IF[condition, expression]</code> is supported wherever an expression may stand, in formulas, updates, assertions, PostSim statements and linear or levels equations:</p>
 <pre><code>Formula (all,c,COMM)(all,r,REG)
-    VCB(c,r) = VDB(c,r) + sum{d,REG, VXSB(c,r,d)} + IF[c in MARG, VST(c,r)];</code></pre>
-<p>Use</p>
-<pre><code>Formula (all,c,MARG)(all,r,REG)
-    VCB(c,r) = VDB(c,r) + sum{d,REG, VXSB(c,r,d)} + VST(c,r);
-Formula (all,c,NMRG)(all,r,REG)
-    VCB(c,r) = VDB(c,r) + sum{d,REG, VXSB(c,r,d)};</code></pre>
+    VCB(c,r) = VDB(c,r) + sum{d,REG, VXSB(c,r,d)} + IF[c in MARG, VST(c,r)];
+Equation E_qca (all,c,COMM)(all,a,ACTS)(all,r,REG)
+    qca(c,a,r) = IF[MAKES(c,a,r) gt 0,
+                    qo(a,r) - ETRAQ(a,r) * [ps(c,a,r) - po(a,r)]];
+Formula (all,r,REG) SHR(r) = sum{s,REG, IF[s &lt;&gt; r, VDB("food",s)]} / 2;</code></pre>
+<p>A condition may test set membership (<code>c in MARG</code>), compare an index with an element or another index (<code>d = "domestic"</code>, <code>r &lt;&gt; s</code>), or compare coefficient expressions (<code>MAKES(c,a,r) gt 0</code>). Comparisons may be joined with <code>AND</code>, <code>OR</code> and <code>NOT</code> (<code>[VDB(c,r) &gt; 0] and not [r = "usa"]</code>), in <code>IF</code> terms as in the conditions of sums and quantifiers. <code>IF</code> terms may be nested, multiplied, divided, raised to powers, placed inside sums and function arguments, and used in formulas without quantifiers (<code>Formula D = 0.0 + IF[NM &gt; 1, 1];</code>). Top-level terms of formulas and equations are rewritten at model load into equivalent unconditional statements, with helper coefficients and sets (named <code>IFC*</code>, <code>IFX*</code>, <code>IFT*</code>, <code>IFV*</code>, <code>IFO*</code>) that appear in outputs like any other coefficient or set; other placements are evaluated by the solver as written.</p>
+<p>A condition reads coefficients and levels variables but not linear variables, and a set-membership test (<code>c in MARG</code>) cannot be combined with <code>AND</code>, <code>OR</code> or <code>NOT</code>; nest the <code>IF</code> instead.</p>
 </section>
 </section>
-<section id="var_omit" class="level2" data-number="7.5">
-<h2 data-number="7.5" class="anchored" data-anchor-id="var_omit"><span class="header-section-number">7.5</span> Variable omissions</h2>
-<p>Variables specified with <code>var_omit</code> are set to zero in the model file and removed from the closure. If a variable designated for omission is not found in the model, an error is raised.</p>
-<p>Standard v7.0 data format variable omissions: <code>c("atall", "avaall", "tfe", "tfm", "tgd", "tgm", "tid", "tim")</code>. Standard v6.2 data format variable omissions: <code>c("atall", "tfd", "avaall", "tf", "tfm", "tgd", "tgm", "tpd", "tpm")</code>.</p>
+<section id="condensation" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="condensation"><span class="header-section-number">7.5</span> Condensation</h2>
+<p>Condensation makes the system passed to the solver smaller without changing the model’s economics. TEEMS condenses by backsolving variables.</p>
+<p><strong>The static vetted models come condensed.</strong> The GTAPv6, GTAPv7, GTAP-AEZ, GTAP-E and GTAP-EP model files carry the standard GTAP backsolves as <code>Backsolve</code> statements, and ORANI-G its own; <code>ems_model()</code> applies them on load. GTAP-RE carries none, because backsolving slows the parallel methods intertemporal models use (see <a href="#backsolve_when">below</a>). To solve the full system, load a model with <code>ignore_condense = TRUE</code>.</p>
+<section id="backsolve" class="level3" data-number="7.5.1">
+<h3 data-number="7.5.1" class="anchored" data-anchor-id="backsolve"><span class="header-section-number">7.5.1</span> Backsolving variables</h3>
+<p>A backsolved variable is substituted out of the system using its defining equation and recovered by the solver after each step, so it still appears in the outputs. By default the defining equation is <code>E_&lt;variable&gt;</code>; name it explicitly when it differs:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">ems_model</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_file =</span> GTAPv7[[<span class="st">"model_file"</span>]],</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">closure_file =</span> GTAPv7[[<span class="st">"closure_file"</span>]],</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">backsolve =</span> <span class="fu">c</span>(<span class="st">"pfd"</span>, <span class="st">"pfm"</span>, <span class="at">ps =</span> <span class="st">"E_ps"</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>A backsolved variable must be endogenous, and its defining equation must be one GEMPACK could substitute with. If it is not, the error names the requirement that failed. #### Condensation coefficients (<code>CSUB</code>) {#csub}</p>
+<p>Substituting a variable out multiplies the coefficients of its defining equation into every equation that used it. Rather than leave those products in the equation text, the engine stores each one, and each sum over an eliminated index, as a new coefficient with its own <code>Formula</code>, named <code>CSUB&lt;n&gt;</code> and appended to the deployed model file. Substituting <code>pint</code> out of GTAPv7 through <code>E_pint</code>, for example, produces</p>
+<pre><code>Coefficient (all,a,ACTS)(all,r,REG)(all,c,COMM)
+    CSUB392(a,r,c) # backsolve product (E_pint) #;
+Formula (all,a,ACTS)(all,r,REG)(all,c,COMM)
+    CSUB392(a,r,c) = INTSHR(c,a,r)*[1 - FMSHR(c,a,r)];</code></pre>
+<p>and later substitutions build on earlier ones:</p>
+<pre><code>CSUB204(r,c) = sum{a,ACTS, CSUB53(r,c,a)*CSUB174(c,a,r)}</code></pre>
+<p>The comment names the kind: a <em>backsolve product</em> is such a product or sum; a <em>backsolve pivot</em> is the reciprocal of the coefficient on the backsolved variable when that coefficient is not a plain number.</p>
+<p>They are derived from the model’s coefficients, not declared by it, and are re-evaluated with the other formulas at every step. The standard GTAPv7 condensation adds 650 of them to the 283 coefficients the model declares, so the solver’s write tally (<code>verbosity = 2</code>) reports the two groups separately. <a href="./compose.html"><code>ems_compose()</code></a> leaves them out of the default outputs and returns one only when it is named in <code>which</code>, and <code>write_coefficients = TRUE</code> writes no CSV for them.</p>
+</section>
+<section id="backsolve_when" class="level3" data-number="7.5.2">
+<h3 data-number="7.5.2" class="anchored" data-anchor-id="backsolve_when"><span class="header-section-number">7.5.2</span> When backsolving pays</h3>
+<p>Backsolving shrinks the system but makes it denser. That helps <code>"LU"</code> on static models: the standard GTAP condensation cut a 1.35 million equation Gragg solve by 41 % and a 3.6 million one by more than half. It hurts the parallel matrix methods (<code>"SBBD"</code>, <code>"DBBD"</code>, <code>"NDBBD"</code>), which rely on the sparsity it removes: on GTAP-RE the same condensation made <code>"SBBD"</code> runs 69 % slower at 200 thousand equations and 393 % slower at 4.4 million, and a condensed static system stops gaining from extra <code>"DBBD"</code> tasks where the full system keeps gaining. On a laptop, threaded <code>"LU"</code> on the condensed system is still the fastest measured below about 120 thousand condensed equations; above that, or on a machine with many cores, deploy without backsolve and use a parallel method. <a href="./solve.html#recommended"><code>ems_probe()</code></a> measures the block structure of a deployment and suggests which case it is likely in.</p>
+</section>
+<section id="condensation-statements-in-the-model-file" class="level3" data-number="7.5.3">
+<h3 data-number="7.5.3" class="anchored" data-anchor-id="condensation-statements-in-the-model-file"><span class="header-section-number">7.5.3</span> Condensation statements in the model file</h3>
+<p><code>Substitute</code> and <code>Backsolve</code> statements in a model file are applied on load:</p>
+<pre><code>Substitute p1 using E_p1 ;
+Backsolve p1lab using E_p1lab ;</code></pre>
+<p><code>Substitute</code> is carried out as a backsolve, so the variable stays in the outputs. Statements in the file are applied first, then the <code>backsolve</code> argument. <code>ignore_condense = TRUE</code> skips the statements in the file but still applies the argument.</p>
+<p><code>Omit</code> statements add the listed variables to the closure as exogenous, unshocked entries, with a message. They stay in the model and its outputs, so a closure file need not repeat them.</p>
+<p>Closure files may also carry <code>xSet</code> and <code>xSubset</code> lines as written in a GEMPACK command file; they are read as <code>Set</code> and <code>Subset</code> statements of the model, so closure entries can refer to them.</p>
+</section>
 </section>
 <section id="coeff_inject" class="level2" data-number="7.6">
 <h2 data-number="7.6" class="anchored" data-anchor-id="coeff_inject"><span class="header-section-number">7.6</span> Coefficient value injection</h2>
@@ -662,98 +783,99 @@ Formula (all,c,NMRG)(all,r,REG)
 <section id="uniform-numeric-value" class="level3" data-number="7.6.1">
 <h3 data-number="7.6.1" class="anchored" data-anchor-id="uniform-numeric-value"><span class="header-section-number">7.6.1</span> Uniform numeric value</h3>
 <p>A single numeric value can be assigned to a coefficient. All set combinations for that coefficient will receive this uniform value.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>GTAP_RE <span class="ot">&lt;-</span> <span class="fu">ems_example</span>(<span class="st">"GTAP-RE"</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">ems_model</span>(</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_file =</span> GTAP_RE[[<span class="st">"model_file"</span>]],</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">closure_file =</span> GTAP_RE[[<span class="st">"closure_file"</span>]],</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">KAPPA =</span> <span class="fl">0.54321</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>GTAP_RE <span class="ot">&lt;-</span> <span class="fu">ems_example</span>(<span class="st">"GTAP-RE"</span>, <span class="fu">tempdir</span>())</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">ems_model</span>(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_file =</span> GTAP_RE[[<span class="st">"model_file"</span>]],</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">closure_file =</span> GTAP_RE[[<span class="st">"closure_file"</span>]],</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">KAPPA =</span> <span class="fl">0.54321</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Providing a numeric vector of length greater than 1 will raise an error. Instead here use a data frame with the appropriate sets to assign multiple heterogeneous values to a coefficient.</p>
 </section>
 <section id="data-frame" class="level3" data-number="7.6.2">
 <h3 data-number="7.6.2" class="anchored" data-anchor-id="data-frame"><span class="header-section-number">7.6.2</span> Data frame</h3>
 <p>A data frame (or data frame extension such as tibble or data.table) can be used to assign heterogeneous values across set combinations. The data frame must contain columns for each set index using the model-specific naming convention (set name + variable index, e.g., <code>REGr</code>, <code>COMMc</code>, <code>ALLTIMEt</code>) and a <code>Value</code> column.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Heterogeneous values for SUBPAR coefficient (Read-type)</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>GTAP_RE <span class="ot">&lt;-</span> <span class="fu">ems_example</span>(<span class="st">"GTAP-RE"</span>)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>COMMc <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"crops"</span>, <span class="st">"food"</span>, <span class="st">"livestock"</span>, <span class="st">"mnfcs"</span>, <span class="st">"svces"</span>)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>REGr <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"usa"</span>, <span class="st">"chn"</span>, <span class="st">"row"</span>)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>ALLTIMEt <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">10</span>)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>SUBPAR <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">COMMc =</span> COMMc,</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">REGr =</span> REGr,</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">ALLTIMEt =</span> ALLTIMEt</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>SUBPAR<span class="sc">$</span>Value <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="fu">nrow</span>(SUBPAR))</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">ems_model</span>(</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_file =</span> GTAP_RE[[<span class="st">"model_file"</span>]],</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">closure_file =</span> GTAP_RE[[<span class="st">"closure_file"</span>]],</span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">SUBPAR =</span> SUBPAR</span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Heterogeneous values for SUBPAR coefficient (Read-type)</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>GTAP_RE <span class="ot">&lt;-</span> <span class="fu">ems_example</span>(<span class="st">"GTAP-RE"</span>, <span class="fu">tempdir</span>())</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>COMMc <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"crops"</span>, <span class="st">"food"</span>, <span class="st">"livestock"</span>, <span class="st">"mnfcs"</span>, <span class="st">"svces"</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>REGr <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"usa"</span>, <span class="st">"chn"</span>, <span class="st">"row"</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>ALLTIMEt <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">10</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>SUBPAR <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">COMMc =</span> COMMc,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">REGr =</span> REGr,</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">ALLTIMEt =</span> ALLTIMEt</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>SUBPAR<span class="sc">$</span>Value <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="fu">nrow</span>(SUBPAR))</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">ems_model</span>(</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_file =</span> GTAP_RE[[<span class="st">"model_file"</span>]],</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">closure_file =</span> GTAP_RE[[<span class="st">"closure_file"</span>]],</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">SUBPAR =</span> SUBPAR</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This works for both <code>Read</code>-type and <code>Formula</code>-type coefficients:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Heterogeneous values for CPHI coefficient (Formula-type)</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>REGr <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"usa"</span>, <span class="st">"chn"</span>, <span class="st">"row"</span>)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>ALLTIMEt <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">10</span>)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>CPHI <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">REGr =</span> REGr,</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ALLTIMEt =</span> ALLTIMEt</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>CPHI<span class="sc">$</span>Value <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="fu">nrow</span>(CPHI))</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">ems_model</span>(</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_file =</span> GTAP_RE[[<span class="st">"model_file"</span>]],</span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">closure_file =</span> GTAP_RE[[<span class="st">"closure_file"</span>]],</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">CPHI =</span> CPHI</span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Heterogeneous values for CPHI coefficient (Formula-type)</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>REGr <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"usa"</span>, <span class="st">"chn"</span>, <span class="st">"row"</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>ALLTIMEt <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">10</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>CPHI <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">REGr =</span> REGr,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ALLTIMEt =</span> ALLTIMEt</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>CPHI<span class="sc">$</span>Value <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="fu">nrow</span>(CPHI))</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">ems_model</span>(</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_file =</span> GTAP_RE[[<span class="st">"model_file"</span>]],</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">closure_file =</span> GTAP_RE[[<span class="st">"closure_file"</span>]],</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">CPHI =</span> CPHI</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="csv-file" class="level3" data-number="7.6.3">
 <h3 data-number="7.6.3" class="anchored" data-anchor-id="csv-file"><span class="header-section-number">7.6.3</span> CSV file</h3>
 <p>A path to a CSV file can be used as an alternative to a data frame. The CSV must follow the same structure: set index columns and a <code>Value</code> column.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Write coefficient data to CSV</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(SUBPAR, <span class="st">"SUBPAR.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">ems_model</span>(</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_file =</span> GTAP_RE[[<span class="st">"model_file"</span>]],</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">closure_file =</span> GTAP_RE[[<span class="st">"closure_file"</span>]],</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">SUBPAR =</span> <span class="st">"SUBPAR.csv"</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Write coefficient data to CSV</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(SUBPAR, <span class="st">"SUBPAR.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">ems_model</span>(</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_file =</span> GTAP_RE[[<span class="st">"model_file"</span>]],</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">closure_file =</span> GTAP_RE[[<span class="st">"closure_file"</span>]],</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">SUBPAR =</span> <span class="st">"SUBPAR.csv"</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="combining-injections" class="level3" data-number="7.6.4">
 <h3 data-number="7.6.4" class="anchored" data-anchor-id="combining-injections"><span class="header-section-number">7.6.4</span> Combining injections</h3>
-<p>Multiple coefficient injections can be combined in a single call along with variable omissions:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">ems_model</span>(</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_file =</span> GTAP_RE[[<span class="st">"model_file"</span>]],</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">closure_file =</span> GTAP_RE[[<span class="st">"closure_file"</span>]],</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">var_omit =</span> <span class="fu">c</span>(<span class="st">"atall"</span>, <span class="st">"avaall"</span>, <span class="st">"tfe"</span>, <span class="st">"tfm"</span>, <span class="st">"tgd"</span>, <span class="st">"tgm"</span>, <span class="st">"tid"</span>, <span class="st">"tim"</span>),</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">KAPPA =</span> <span class="fl">0.03</span>,</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">SUBPAR =</span> SUBPAR,</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">CPHI =</span> CPHI</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Multiple coefficient injections can be combined in a single call:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">ems_model</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_file =</span> GTAP_RE[[<span class="st">"model_file"</span>]],</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">closure_file =</span> GTAP_RE[[<span class="st">"closure_file"</span>]],</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">KAPPA =</span> <span class="fl">0.03</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">SUBPAR =</span> SUBPAR,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">CPHI =</span> CPHI</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>If the coefficient name is not found in the model, an error is raised indicating that the aggregated data coefficient is not declared within the provided model input.</p>
-</section>
-<section id="set-naming-convention" class="level3" data-number="7.6.5">
-<h3 data-number="7.6.5" class="anchored" data-anchor-id="set-naming-convention"><span class="header-section-number">7.6.5</span> Set naming convention</h3>
-<p>Set names follow a model-specific concatenation of the standard set name and the variable-specific index (e.g., <code>REGr</code>, <code>COMMc</code>, <code>ACTSa</code>). See the <a href="./set_mappings.html">Loading and specifying sets</a> chapter for the full convention table.</p>
 </section>
 </section>
 <section id="intertemporal" class="level2" data-number="7.7">
 <h2 data-number="7.7" class="anchored" data-anchor-id="intertemporal"><span class="header-section-number">7.7</span> Intertemporal models</h2>
 <p>For intertemporal models, <code>ems_model()</code> determines temporal dynamics by detecting intertemporal sets in the Tablo file. By default, the expected header in the GTAP-RE model is <code>"YEAR"</code>. If a model uses a different header for timestep data, set it via <a href="./options.html"><code>ems_option_set()</code></a>:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_option_set</span>(<span class="at">timestep_header =</span> <span class="st">"AYRS"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_option_set</span>(<span class="at">timestep_header =</span> <span class="st">"AYRS"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>If the expected timestep header is not found in the model, an error will be raised with a suggestion to use <a href="./options.html"><code>ems_option_set()</code></a> to configure a custom timestep header. The same concept applies to the number of timesteps:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_option_set</span>(<span class="at">n_timestep_header =</span> <span class="st">"NINTERVAL"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_option_set</span>(<span class="at">n_timestep_header =</span> <span class="st">"NINTERVAL"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Default values for these settings (and others) may be obtained using:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_option_get</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<!-- ## Future expansions
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_option_get</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="netcut" class="level3" data-number="7.7.1">
+<h3 data-number="7.7.1" class="anchored" data-anchor-id="netcut"><span class="header-section-number">7.7.1</span> Leads, lags and parallel solving</h3>
+<p>In intertemporal models, the parallel matrix methods (see <a href="./solve.html">Solving the model</a>) solve each period as a block, with the variables that link periods held in a shared border. Only the elements a lead or lag actually references join that border: <code>qo("capital",r,t+1)</code> adds the capital slice of <code>qo</code> and nothing else, and the solver’s log reports the border it found (<code>Border netcut</code>). A lead or lag on a whole variable declared over large sets (for example <code>qo(c,r,t+1)</code> over all commodities and regions) does enlarge the border and can remove the benefit of solving in parallel.</p>
+<p>Link periods through a small proxy variable in that case:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>Variable (all,r,REG)(all,t,ALLTIME)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    kb(r,t) # beginning-of-period capital stock #;</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>Equation E_kb</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>(all,r,REG)(all,t,ALLTIME)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    kb(r,t) = qo("capital",r,t);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>and place the lead on the proxy (<code>kb(r,t+1)</code>). The vetted intertemporal models already follow this pattern.</p>
 
-- Write bidirectional Tablo $\leftrightarrow$ \LaTeX conversion script to allow for \LaTeX model files
-- `auto-omit` switch to automatically drop as many variables as possible based on closure and shock specifications
-- Model file checks are still rudimentary and a more thorough suite of checks will gradually be put in place -->
 
-
+</section>
 </section>
 
 </main> <!-- /main -->

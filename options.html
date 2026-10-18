@@ -65,6 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./benchmarks.html" rel="next">
 <link href="./compose.html" rel="prev">
 <link href="./man/figures/logo.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
@@ -458,6 +459,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Solver benchmarks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">References</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -507,35 +531,56 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>ems_option_set()</code> modifies option values</li>
 <li><code>ems_option_reset()</code> restores all options to their defaults</li>
 </ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_option_get</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="cn">NULL</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_option_set</span>(</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">tempdir =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">ndigits =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">accuracy_threshold =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">accuracy_figures =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">accuracy_criterion =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">required_figures =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">full_exclude =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">check_shock_status =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">timestep_header =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_timestep_header =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">docker_tag =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">assertions =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">range_test_initial =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">range_test_updated =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">random_seed =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">refine =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">converge =</span> <span class="cn">NULL</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_option_reset</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Options persist for the duration of the R session and are reset on package reload.</p>
 </section>
 <section id="retrieving-options" class="level2" data-number="15.2">
 <h2 data-number="15.2" class="anchored" data-anchor-id="retrieving-options"><span class="header-section-number">15.2</span> Retrieving options</h2>
 <p>View all current options:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_option_get</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_option_get</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Retrieve a specific option by name. An error is raised if the name is not a valid option:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_option_get</span>(<span class="st">"verbose"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_option_get</span>(<span class="st">"ndigits"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_option_get</span>(<span class="st">"verbose"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_option_get</span>(<span class="st">"ndigits"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="setting-options" class="level2" data-number="15.3">
 <h2 data-number="15.3" class="anchored" data-anchor-id="setting-options"><span class="header-section-number">15.3</span> Setting options</h2>
 <p>One or more options can be set in a single call:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_option_set</span>(<span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_option_set</span>(<span class="at">verbose =</span> <span class="cn">FALSE</span>, <span class="at">ndigits =</span> <span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_option_set</span>(<span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_option_set</span>(<span class="at">verbose =</span> <span class="cn">FALSE</span>, <span class="at">ndigits =</span> <span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="resetting-options" class="level2" data-number="15.4">
 <h2 data-number="15.4" class="anchored" data-anchor-id="resetting-options"><span class="header-section-number">15.4</span> Resetting options</h2>
 <p>Reset all options to their default values:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_option_reset</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_option_reset</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="available-options" class="level2" data-number="15.5">
 <h2 data-number="15.5" class="anchored" data-anchor-id="available-options"><span class="header-section-number">15.5</span> Available options</h2>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 26%">
-<col style="width: 30%">
-<col style="width: 43%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Option</th>
@@ -545,24 +590,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>verbose</code></td>
-<td><code>TRUE</code></td>
-<td>If <code>FALSE</code>, function-specific diagnostics are silenced</td>
-</tr>
-<tr class="even">
 <td><code>tempdir</code></td>
 <td><code>tempdir()</code></td>
 <td>Directory used for temporary file storage during a model run</td>
 </tr>
+<tr class="even">
+<td><code>verbose</code></td>
+<td><code>TRUE</code></td>
+<td>If <code>FALSE</code>, function-specific diagnostics are silenced</td>
+</tr>
 <tr class="odd">
 <td><code>ndigits</code></td>
 <td><code>6</code></td>
-<td>Exact number of digits to the right of the decimal point written to file for numeric type double. Passed to <code>format()</code> nsmall and <code>round()</code> digits</td>
+<td>Number of digits to the right of the decimal point kept when data are written to file. Values smaller than 0.1 in magnitude keep <code>ndigits</code> significant digits instead, so small nonzero data (e.g.&nbsp;<code>1e-10</code>) are not rounded to zero</td>
 </tr>
 <tr class="even">
 <td><code>accuracy_threshold</code></td>
 <td><code>0.8</code></td>
-<td>Threshold (converted to a percentage) against which 4-digit precision is compared. A warning is generated if the threshold is not met</td>
+<td>Share of results that must be accurate to at least <code>accuracy_figures</code> significant figures. A warning is generated if the share is lower</td>
+</tr>
+<tr class="odd">
+<td><code>accuracy_figures</code></td>
+<td><code>4</code></td>
+<td>Significant figures, from 1 to 6, a result must reach to count as accurate</td>
+</tr>
+<tr class="even">
+<td><code>required_figures</code></td>
+<td><code>NULL</code></td>
+<td>Figures, from 1 to 6, at which a result gets the convergence code <code>XRA</code> in the accuracy summary. Reporting only</td>
+</tr>
+<tr class="odd">
+<td><code>accuracy_criterion</code></td>
+<td><code>"solution"</code></td>
+<td>The accuracy summary judged: <code>"solution"</code> the levels values of the endogenous results, <code>"data"</code> the values read from data files and updated, <code>"both"</code> the two together. A run that updates no data is judged on the solution</td>
+</tr>
+<tr class="even">
+<td><code>full_exclude</code></td>
+<td><code>c("DREL", "DVER", "XXCR", "XXCD", "XXCP", "SLUG", "EFLG")</code></td>
+<td>Headers to fully exclude from all aspects of the model run. Failure to designate these headers properly will result in errors. Modify with caution</td>
 </tr>
 <tr class="odd">
 <td><code>check_shock_status</code></td>
@@ -572,22 +637,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td><code>timestep_header</code></td>
 <td><code>"YEAR"</code></td>
-<td>Coefficient containing a numeric vector of timestep intervals. For novel intertemporal models — modify with caution</td>
+<td>Header written with the time of each period, as given in <code>time_steps</code> of <code>ems_data()</code> (years, or steps from the initial period); the model uses the differences between periods as interval lengths. For novel intertemporal models — modify with caution</td>
 </tr>
 <tr class="odd">
 <td><code>n_timestep_header</code></td>
 <td><code>"NTSP"</code></td>
-<td>Coefficient containing a numeric vector length one with sum of timestep intervals. For novel intertemporal models — modify with caution</td>
+<td>Header written with the number of periods (the length of <code>time_steps</code>). For novel intertemporal models — modify with caution</td>
 </tr>
 <tr class="even">
-<td><code>full_exclude</code></td>
-<td><code>c("DREL", "DVER", "XXCR", "XXCD", "XXCP", "SLUG", "EFLG")</code></td>
-<td>Headers to fully exclude from all aspects of the model run. Failure to designate these headers properly will result in errors. Modify with caution</td>
-</tr>
-<tr class="odd">
 <td><code>docker_tag</code></td>
 <td><code>"latest"</code></td>
-<td>Docker tag specifying which Docker image to use</td>
+<td>Tag of the <code>teems</code> image to solve with</td>
+</tr>
+<tr class="odd">
+<td><code>assertions</code></td>
+<td><code>"fatal"</code></td>
+<td>Severity of TAB <code>Assertion</code> failures during <a href="./solve.html"><code>ems_solve()</code></a>: <code>"fatal"</code>, <code>"warn"</code> or <code>"off"</code></td>
+</tr>
+<tr class="even">
+<td><code>range_test_initial</code></td>
+<td><code>"fatal"</code></td>
+<td>Severity of declared-range violations (e.g.&nbsp;<code>(ge 0)</code>) on initial values, read or computed: <code>"fatal"</code>, <code>"warn"</code> or <code>"off"</code></td>
+</tr>
+<tr class="odd">
+<td><code>range_test_updated</code></td>
+<td><code>"warn"</code></td>
+<td>As <code>range_test_initial</code>, for updated values</td>
+</tr>
+<tr class="even">
+<td><code>random_seed</code></td>
+<td><code>1</code></td>
+<td>Seed of the TAB function <code>RANDOM(a,b)</code>. The same seed gives the same draws on every run; each Formula element keeps its draw across solution steps. Change the seed for a new sequence (GEMPACK instead draws a new sequence per run by default)</td>
+</tr>
+<tr class="odd">
+<td><code>refine</code></td>
+<td><code>TRUE</code></td>
+<td>One refinement step after every <code>"DBBD"</code> linear solve, which brings its accuracy to that of <code>"LU"</code>. It holds the system matrix through each solve, and the memory estimate counts it; <code>FALSE</code> turns it off. <code>"LU"</code> and <code>"SBBD"</code> are in practice as accurate as a single LU solve and are not refined; <code>"NDBBD"</code> is not refined, as it cannot yet keep its factorization for a second solve</td>
+</tr>
+<tr class="even">
+<td><code>converge</code></td>
+<td><code>FALSE</code></td>
+<td><code>TRUE</code> applies GEMPACK’s treatment of poorly converging results to runs extrapolated from three solutions: the result with the most steps where the three do not converge cleanly, their average where they are nearly equal. Not available with subtotals</td>
 </tr>
 </tbody>
 </table>
@@ -1015,6 +1105,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./benchmarks.html" class="pagination-link" aria-label="Solver benchmarks">
+        <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Solver benchmarks</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

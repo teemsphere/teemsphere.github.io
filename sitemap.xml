@@ -2,66 +2,74 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://teemsphere.github.io/index.html</loc>
-    <lastmod>2026-05-13T23:58:12.665Z</lastmod>
+    <lastmod>2026-10-17T01:00:42.521Z</lastmod>
   </url>
   <url>
     <loc>https://teemsphere.github.io/dependencies.html</loc>
-    <lastmod>2026-06-17T23:08:28.076Z</lastmod>
+    <lastmod>2026-10-17T01:00:42.521Z</lastmod>
   </url>
   <url>
     <loc>https://teemsphere.github.io/quickstart.html</loc>
-    <lastmod>2026-06-02T01:22:51.779Z</lastmod>
+    <lastmod>2026-10-17T01:00:42.522Z</lastmod>
   </url>
   <url>
     <loc>https://teemsphere.github.io/example.html</loc>
-    <lastmod>2026-06-02T02:15:49.744Z</lastmod>
+    <lastmod>2026-10-17T01:00:42.521Z</lastmod>
   </url>
   <url>
     <loc>https://teemsphere.github.io/set_mappings.html</loc>
-    <lastmod>2026-06-02T02:14:29.496Z</lastmod>
+    <lastmod>2026-10-17T01:00:42.522Z</lastmod>
   </url>
   <url>
     <loc>https://teemsphere.github.io/data_load.html</loc>
-    <lastmod>2026-06-02T01:04:13.214Z</lastmod>
+    <lastmod>2026-10-17T01:00:42.521Z</lastmod>
   </url>
   <url>
     <loc>https://teemsphere.github.io/model_load.html</loc>
-    <lastmod>2026-06-02T02:16:57.684Z</lastmod>
+    <lastmod>2026-10-17T01:00:42.522Z</lastmod>
   </url>
   <url>
     <loc>https://teemsphere.github.io/swaps.html</loc>
-    <lastmod>2026-06-02T02:12:16.334Z</lastmod>
+    <lastmod>2026-10-17T01:00:42.522Z</lastmod>
   </url>
   <url>
     <loc>https://teemsphere.github.io/uniform_shocks.html</loc>
-    <lastmod>2026-06-02T02:13:42.048Z</lastmod>
+    <lastmod>2026-10-17T01:00:42.523Z</lastmod>
   </url>
   <url>
     <loc>https://teemsphere.github.io/custom_shocks.html</loc>
-    <lastmod>2026-06-02T02:06:41.877Z</lastmod>
+    <lastmod>2026-10-17T01:00:42.520Z</lastmod>
   </url>
   <url>
     <loc>https://teemsphere.github.io/scenario_shocks.html</loc>
-    <lastmod>2026-06-02T02:10:45.353Z</lastmod>
+    <lastmod>2026-10-17T01:00:42.522Z</lastmod>
   </url>
   <url>
     <loc>https://teemsphere.github.io/deploy.html</loc>
-    <lastmod>2026-06-02T01:04:44.247Z</lastmod>
+    <lastmod>2026-10-17T01:00:42.521Z</lastmod>
   </url>
   <url>
     <loc>https://teemsphere.github.io/solve.html</loc>
-    <lastmod>2026-06-02T02:11:14.195Z</lastmod>
+    <lastmod>2026-10-17T01:00:42.525Z</lastmod>
   </url>
   <url>
     <loc>https://teemsphere.github.io/compose.html</loc>
-    <lastmod>2026-06-02T02:16:49.256Z</lastmod>
+    <lastmod>2026-10-17T01:00:42.520Z</lastmod>
   </url>
   <url>
     <loc>https://teemsphere.github.io/options.html</loc>
-    <lastmod>2026-05-27T21:51:53.127Z</lastmod>
+    <lastmod>2026-10-17T01:00:42.522Z</lastmod>
+  </url>
+  <url>
+    <loc>https://teemsphere.github.io/benchmarks.html</loc>
+    <lastmod>2026-10-17T01:00:42.520Z</lastmod>
+  </url>
+  <url>
+    <loc>https://teemsphere.github.io/references.html</loc>
+    <lastmod>2026-10-17T01:00:42.522Z</lastmod>
   </url>
   <url>
     <loc>https://teemsphere.github.io/The-{teems}-R-package-user-manual.pdf</loc>
-    <lastmod>2026-06-17T23:15:51.435Z</lastmod>
+    <lastmod>2026-10-18T21:07:39.009Z</lastmod>
   </url>
 </urlset>

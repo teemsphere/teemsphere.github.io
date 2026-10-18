@@ -459,6 +459,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Solver benchmarks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">References</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -470,19 +493,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">13.1</span> Overview</a></li>
-  <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments"><span class="header-section-number">13.2</span> Arguments</a></li>
-  <li><a href="#basic-usage" id="toc-basic-usage" class="nav-link" data-scroll-target="#basic-usage"><span class="header-section-number">13.3</span> Basic usage</a></li>
-  <li><a href="#solution-methods" id="toc-solution-methods" class="nav-link" data-scroll-target="#solution-methods"><span class="header-section-number">13.4</span> Solution methods</a></li>
-  <li><a href="#matrix-methods" id="toc-matrix-methods" class="nav-link" data-scroll-target="#matrix-methods"><span class="header-section-number">13.5</span> Matrix methods</a></li>
-  <li><a href="#multi-step-solution" id="toc-multi-step-solution" class="nav-link" data-scroll-target="#multi-step-solution"><span class="header-section-number">13.6</span> Multi-step solution</a></li>
-  <li><a href="#memory-parameters" id="toc-memory-parameters" class="nav-link" data-scroll-target="#memory-parameters"><span class="header-section-number">13.7</span> Memory parameters</a></li>
-  <li><a href="#parallel-solving" id="toc-parallel-solving" class="nav-link" data-scroll-target="#parallel-solving"><span class="header-section-number">13.8</span> Parallel solving</a></li>
-  <li><a href="#terminal-mode" id="toc-terminal-mode" class="nav-link" data-scroll-target="#terminal-mode"><span class="header-section-number">13.9</span> Terminal mode</a></li>
-  <li><a href="#solving-in-situ" id="toc-solving-in-situ" class="nav-link" data-scroll-target="#solving-in-situ"><span class="header-section-number">13.10</span> Solving in-situ</a>
+  <li><a href="#basic-usage" id="toc-basic-usage" class="nav-link" data-scroll-target="#basic-usage"><span class="header-section-number">13.2</span> Basic usage</a></li>
+  <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments"><span class="header-section-number">13.3</span> Arguments</a></li>
+  <li><a href="#solution-methods" id="toc-solution-methods" class="nav-link" data-scroll-target="#solution-methods"><span class="header-section-number">13.4</span> Solution methods</a>
   <ul class="collapse">
-  <li><a href="#arguments-1" id="toc-arguments-1" class="nav-link" data-scroll-target="#arguments-1"><span class="header-section-number">13.10.1</span> Arguments</a></li>
-  <li><a href="#input-files" id="toc-input-files" class="nav-link" data-scroll-target="#input-files"><span class="header-section-number">13.10.2</span> Input files</a></li>
-  <li><a href="#output-modes" id="toc-output-modes" class="nav-link" data-scroll-target="#output-modes"><span class="header-section-number">13.10.3</span> Output modes</a></li>
+  <li><a href="#single-pass" id="toc-single-pass" class="nav-link" data-scroll-target="#single-pass"><span class="header-section-number">13.4.1</span> Step counts and single-pass runs</a></li>
+  <li><a href="#rk" id="toc-rk" class="nav-link" data-scroll-target="#rk"><span class="header-section-number">13.4.2</span> Runge-Kutta controls</a></li>
+  </ul></li>
+  <li><a href="#matrix-methods" id="toc-matrix-methods" class="nav-link" data-scroll-target="#matrix-methods"><span class="header-section-number">13.5</span> Matrix methods</a>
+  <ul class="collapse">
+  <li><a href="#recommended" id="toc-recommended" class="nav-link" data-scroll-target="#recommended"><span class="header-section-number">13.5.1</span> Choosing a method and resources</a></li>
+  </ul></li>
+  <li><a href="#memory" id="toc-memory" class="nav-link" data-scroll-target="#memory"><span class="header-section-number">13.6</span> Memory</a></li>
+  <li><a href="#checking-solve-quality" id="toc-checking-solve-quality" class="nav-link" data-scroll-target="#checking-solve-quality"><span class="header-section-number">13.7</span> Checking solve quality</a></li>
+  <li><a href="#reproducibility" id="toc-reproducibility" class="nav-link" data-scroll-target="#reproducibility"><span class="header-section-number">13.8</span> Reproducibility</a></li>
+  <li><a href="#solver-version" id="toc-solver-version" class="nav-link" data-scroll-target="#solver-version"><span class="header-section-number">13.9</span> Solver version</a></li>
+  <li><a href="#concurrent-runs" id="toc-concurrent-runs" class="nav-link" data-scroll-target="#concurrent-runs"><span class="header-section-number">13.10</span> Concurrent runs</a></li>
+  <li><a href="#terminal-mode" id="toc-terminal-mode" class="nav-link" data-scroll-target="#terminal-mode"><span class="header-section-number">13.11</span> Terminal mode</a></li>
+  <li><a href="#solving-in-situ" id="toc-solving-in-situ" class="nav-link" data-scroll-target="#solving-in-situ"><span class="header-section-number">13.12</span> Solving in-situ</a>
+  <ul class="collapse">
+  <li><a href="#arguments-1" id="toc-arguments-1" class="nav-link" data-scroll-target="#arguments-1"><span class="header-section-number">13.12.1</span> Arguments</a></li>
+  <li><a href="#input-files" id="toc-input-files" class="nav-link" data-scroll-target="#input-files"><span class="header-section-number">13.12.2</span> Input files</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/teemsphere/teemsphere.github.io/edit/main/solve.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
@@ -512,10 +543,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="overview" class="level2" data-number="13.1">
 <h2 data-number="13.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">13.1</span> Overview</h2>
-<p><code>ems_solve()</code> solves the constrained optimization problem according to a range of runtime configuration options. In order to solve, a teems Docker <a href="https://github.com/teemsphere/teems-solver">image</a> must be prebuilt. Singularity, accuracy, and error checks are carried out following a successful run. By default, solver outputs are automatically parsed into structured R objects via <a href="./compose.html"><code>ems_compose()</code></a>.</p>
+<p><code>ems_solve()</code> runs the teems solver on a deployed model and, by default, parses the results into structured R objects with <a href="./compose.html"><code>ems_compose()</code></a>. A teems Docker <a href="https://github.com/teemsphere/teems-solver">image</a> must be available. After the run, the solve is checked for singularity, accuracy and errors, and the findings are written to <code>model_diagnostics.txt</code> in the run directory. On Linux the solver container runs as the calling user, so the files it writes to the run directory belong to you.</p>
+<p><code>ems_solve()</code> chooses nothing on your behalf: the run is exactly the arguments given, so it can be reproduced from its record. A bare <code>ems_solve(cmf_path)</code> solves with Gragg 2-4-6 (as GEMPACK) and LU on one task and one thread, which is accurate and correct for every model but slow for large ones. <a href="#recommended"><code>ems_probe()</code></a> suggests what to use instead.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_solve</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  cmf_path,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="fu">c</span>(<span class="st">"Gragg"</span>, <span class="st">"Johansen"</span>, <span class="st">"Euler"</span>, <span class="st">"Midpoint"</span>, <span class="st">"RK2"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"Heun"</span>, <span class="st">"RK4"</span>, <span class="st">"BoSha32"</span>, <span class="st">"DoPri54"</span>),</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix_method =</span> <span class="fu">c</span>(<span class="st">"LU"</span>, <span class="st">"DBBD"</span>, <span class="st">"SBBD"</span>, <span class="st">"NDBBD"</span>),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_subintervals =</span> <span class="dv">1</span>L,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">steps =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_tasks =</span> <span class="dv">1</span>L,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_threads =</span> <span class="dv">1</span>L,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">precision =</span> <span class="fu">c</span>(<span class="st">"single"</span>, <span class="st">"double"</span>),</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbosity =</span> <span class="dv">1</span>L,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">suppress_outputs =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">terminal_run =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">accuracy_vars =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  ...</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="arguments" class="level2" data-number="13.2">
-<h2 data-number="13.2" class="anchored" data-anchor-id="arguments"><span class="header-section-number">13.2</span> Arguments</h2>
+<section id="basic-usage" class="level2" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="basic-usage"><span class="header-section-number">13.2</span> Basic usage</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> <span class="fu">ems_solve</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cmf_path =</span> cmf_path,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="st">"Gragg"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix_method =</span> <span class="st">"LU"</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="arguments" class="level2" data-number="13.3">
+<h2 data-number="13.3" class="anchored" data-anchor-id="arguments"><span class="header-section-number">13.3</span> Arguments</h2>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -532,69 +588,59 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td><code>solution_method</code></td>
-<td><code>"Johansen"</code></td>
-<td>Solution method (see below)</td>
+<td><code>"Gragg"</code></td>
+<td>How the shock is applied (see <a href="#solution-methods">Solution methods</a>)</td>
 </tr>
 <tr class="odd">
 <td><code>matrix_method</code></td>
 <td><code>"LU"</code></td>
-<td>Matrix solution method (see below)</td>
+<td>How each linear system is solved (see <a href="#matrix-methods">Matrix methods</a>)</td>
 </tr>
 <tr class="even">
 <td><code>n_subintervals</code></td>
 <td><code>1L</code></td>
-<td>Number of subintervals for the applied shock. More subintervals may alleviate accuracy issues stemming from large shock magnitudes</td>
+<td>Splits the shock into this many parts, each solved in turn. Helps with large shocks</td>
 </tr>
 <tr class="odd">
 <td><code>steps</code></td>
-<td><code>c(2L, 4L, 8L)</code></td>
-<td>Vector of steps for the modified midpoint method. Must be all odd or all even, length 3</td>
+<td><code>c(2L, 4L, 6L)</code></td>
+<td>Step counts. For <code>"Gragg"</code>, <code>"Midpoint"</code> and <code>"Euler"</code>, two or three strictly increasing counts are extrapolated, and a single count is one multi-step run without extrapolation (see <a href="#single-pass">Single-pass runs</a>); a single count for the Runge-Kutta methods</td>
 </tr>
 <tr class="even">
 <td><code>n_tasks</code></td>
 <td><code>1L</code></td>
-<td>Number of tasks to run in parallel. Must be <code>1L</code> if <code>matrix_method</code> is <code>"LU"</code></td>
+<td>Parallel tasks. Must be <code>1L</code> with <code>"LU"</code></td>
 </tr>
 <tr class="odd">
-<td><code>laA</code></td>
-<td><code>300L</code></td>
-<td>Memory parameter (%) for <code>"LU"</code> and <code>"SBBD"</code> methods</td>
+<td><code>n_threads</code></td>
+<td><code>1L</code></td>
+<td>Threads per task</td>
 </tr>
 <tr class="even">
-<td><code>laD</code></td>
-<td><code>200L</code></td>
-<td>Memory parameter (%) for <code>"DBBD"</code> and <code>"NDBBD"</code> methods</td>
+<td><code>precision</code></td>
+<td><code>"single"</code></td>
+<td><code>"double"</code> uses the double-precision solver: about twice the memory, for runs with many steps or a near-singular system</td>
 </tr>
 <tr class="odd">
-<td><code>laDi</code></td>
-<td><code>500L</code></td>
-<td>Memory parameter (%) for <code>"NDBBD"</code> method</td>
+<td><code>verbosity</code></td>
+<td><code>1L</code></td>
+<td>Log detail: <code>0</code> errors, warnings and the accuracy summary; <code>1</code> adds progress and timings; <code>2</code> adds per-rank detail and a one-line tally of what was written (coefficients, sets, variables)</td>
 </tr>
 <tr class="even">
 <td><code>suppress_outputs</code></td>
 <td><code>FALSE</code></td>
-<td>When <code>TRUE</code>, solver outputs are not automatically parsed with <a href="./compose.html"><code>ems_compose()</code></a></td>
+<td>When <code>TRUE</code>, outputs are not parsed; the CMF path is returned invisibly for a later <a href="./compose.html"><code>ems_compose()</code></a></td>
 </tr>
 <tr class="odd">
 <td><code>terminal_run</code></td>
 <td><code>FALSE</code></td>
-<td>When <code>TRUE</code>, exits without running the solver, allowing the user to close R and run from the terminal</td>
-</tr>
-<tr class="even">
-<td><code>append_args</code></td>
-<td><code>NULL</code></td>
-<td>Character vector of additional arguments appended to the Docker run command (e.g., <code>c("-smllthreads 2", "-maxthreads 2")</code>)</td>
+<td>When <code>TRUE</code>, prepares the run without starting it, so it can be launched from a terminal</td>
 </tr>
 </tbody>
 </table>
-</section>
-<section id="basic-usage" class="level2" data-number="13.3">
-<h2 data-number="13.3" class="anchored" data-anchor-id="basic-usage"><span class="header-section-number">13.3</span> Basic usage</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> <span class="fu">ems_solve</span>(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cmf_path =</span> cmf_path,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="st">"Johansen"</span>,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix_method =</span> <span class="st">"LU"</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<!-- | `complementarity` | `NULL` | Run controls for models with complementarities, built by [`ems_complementarity()`](#complementarity) | -->
+<div class="line-block"><code>...</code> | | Named extras: the Runge-Kutta controls (<code>adaptive</code>, <code>eps_tolerance</code>, <code>max_retries</code>, <code>retry_adjust</code>; see <a href="#rk">Runge-Kutta controls</a>), the MA48 workspace guesses (<code>laA</code>, <code>laD</code>, <code>laDi</code>) and expert solver flags (e.g.&nbsp;<code>condest</code>, <code>inmemory</code>, <code>postsim</code>). Unknown names are an error |</div>
+<p>The severities of TAB <code>Assertion</code> failures and declared-range violations are <a href="./options.html">package options</a> (<code>assertions</code>, <code>range_test_initial</code>, <code>range_test_updated</code>).</p>
 </section>
 <section id="solution-methods" class="level2" data-number="13.4">
 <h2 data-number="13.4" class="anchored" data-anchor-id="solution-methods"><span class="header-section-number">13.4</span> Solution methods</h2>
@@ -602,77 +648,477 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <thead>
 <tr class="header">
 <th>Method</th>
+<th>Use it for</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>"Gragg"</code></td>
+<td>The default and the standard accurate method: several multi-step solutions combined by extrapolation (see the <a href="https://www.copsmodels.com/gpmanual.htm#gpd3.12.2">GEMPACK manual</a>)</td>
+</tr>
+<tr class="even">
+<td><code>"Johansen"</code></td>
+<td>A quick one-step linear approximation. Good for checking that a model and closure run; not accurate for nonlinear results or large shocks</td>
+</tr>
+<tr class="odd">
+<td><code>"Euler"</code></td>
+<td>Like <code>"Gragg"</code> but converges more slowly. With adaptive <code>"DoPri54"</code> or <code>"BoSha32"</code>, the choice for severe shocks, such as a variable driven close to <code>-100%</code>, where <code>"Gragg"</code> and <code>"Midpoint"</code> can become unstable (GEMPACK manual 30.2; Schiffmann 2022)</td>
+</tr>
+<tr class="even">
+<td><code>"Midpoint"</code></td>
+<td>Gragg’s method without its final smoothing pass. It never carries the shocks past their end point, so it takes a shock of exactly <code>-100%</code>, which <code>"Gragg"</code> refuses</td>
+</tr>
+<tr class="odd">
+<td><code>"RK2"</code>, <code>"Heun"</code>, <code>"RK4"</code></td>
+<td>Runge-Kutta methods with a single step count and no extrapolation. <code>"RK4"</code> with a few steps is an inexpensive way to get three to four correct digits on large shocks</td>
+</tr>
+<tr class="even">
+<td><code>"BoSha32"</code>, <code>"DoPri54"</code></td>
+<td>Runge-Kutta methods that estimate their own error and can control their step size (<code>adaptive = "yes"</code>)</td>
+</tr>
+</tbody>
+</table>
+<p><code>"Gragg"</code> suits most work; <code>"Johansen"</code> is a quicker way to check that a new setup runs, and adaptive <code>"DoPri54"</code> is an alternative for large shocks. A shock that is too large for the step schedule shows up as a singularity abort preceded by warnings that updated coefficients crossed their declared bounds; <code>ems_solve()</code> then names the remedies below rather than the closure. On large shocks, use more than one subinterval with <code>"Gragg"</code>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> <span class="fu">ems_solve</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cmf_path =</span> cmf_path,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="st">"Gragg"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_subintervals =</span> <span class="dv">4</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">steps =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With <code>matrix_method = "DBBD"</code>, a run split into subintervals can occasionally abort with a singularity partway through the shock although the closure is sound; the solver names the elements involved. Change <code>n_subintervals</code> (<code>1</code> is the simplest) or use <code>matrix_method = "LU"</code> for that run.</p>
+<p>Adaptive <code>"DoPri54"</code> reaches about the same accuracy with roughly half the work. It controls its own step size, so <code>n_subintervals</code> does not apply, and it returns a per-element <code>error_estimate</code> column. Treat the estimate as a pointer to the least settled results, not as a bound on the error.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> <span class="fu">ems_solve</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cmf_path =</span> cmf_path,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="st">"DoPri54"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">steps =</span> <span class="dv">4</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">adaptive =</span> <span class="st">"yes"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">eps_tolerance =</span> <span class="fl">0.01</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>outputs<span class="sc">$</span>dat<span class="sc">$</span>qgdp<span class="sc">$</span>error_estimate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To check that a result has converged, repeat the run with a tighter <code>eps_tolerance</code> or more steps and compare. The finer Runge-Kutta controls are described <a href="#rk">below</a>.</p>
+<section id="single-pass" class="level3" data-number="13.4.1">
+<h3 data-number="13.4.1" class="anchored" data-anchor-id="single-pass"><span class="header-section-number">13.4.1</span> Step counts and single-pass runs</h3>
+<p><code>"Gragg"</code>, <code>"Midpoint"</code> and <code>"Euler"</code> normally solve three times with increasing step counts and extrapolate from the three results, which also gives the accuracy summary. The summary covers every endogenous result unless <code>accuracy_vars</code> names the variables it should cover, for example <code>accuracy_vars = c("qgdp", "pm")</code>. The <code>"Gragg"</code> and <code>"Midpoint"</code> counts must be all even or all odd (<code>c(2, 4, 6)</code> or <code>c(3, 5, 7)</code>); even counts are recommended. Two counts (<code>c(2, 4)</code>) extrapolate from two results, with no accuracy summary. The <a href="./options.html">package option</a> <code>converge = TRUE</code> applies GEMPACK’s treatment of results that do not converge cleanly: their extrapolation is replaced by the result with the most steps, or by the average when the three results are nearly equal.</p>
+<p>A single count gives one multi-step run without extrapolation:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> <span class="fu">ems_solve</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cmf_path =</span> cmf_path,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="st">"Euler"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">steps =</span> <span class="dv">16</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Use it for models whose updated data must follow the steps themselves, such as a step counter or an iterative (RAS-style) balancing update, which extrapolation would distort. No accuracy summary is available for a single-pass run.</p>
+</section>
+<section id="rk" class="level3" data-number="13.4.2">
+<h3 data-number="13.4.2" class="anchored" data-anchor-id="rk"><span class="header-section-number">13.4.2</span> Runge-Kutta controls</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_RK</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  cmf_path,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="fu">c</span>(<span class="st">"DoPri54"</span>, <span class="st">"BoSha32"</span>, <span class="st">"RK4"</span>, <span class="st">"Heun"</span>, <span class="st">"RK2"</span>),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">steps =</span> <span class="dv">4</span>L,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">eps_tolerance =</span> <span class="fl">0.01</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">adaptive =</span> <span class="cn">NULL</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix_method =</span> <span class="fu">c</span>(<span class="st">"LU"</span>, <span class="st">"DBBD"</span>, <span class="st">"SBBD"</span>, <span class="st">"NDBBD"</span>),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_tasks =</span> <span class="dv">1</span>L,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_threads =</span> <span class="dv">1</span>L,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">precision =</span> <span class="fu">c</span>(<span class="st">"single"</span>, <span class="st">"double"</span>),</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_subintervals =</span> <span class="dv">1</span>L,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbosity =</span> <span class="dv">1</span>L,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">suppress_outputs =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">terminal_run =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">accuracy_vars =</span> <span class="cn">NULL</span>,</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_retries =</span> <span class="dv">3</span>L,</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">retry_adjust =</span> <span class="fl">0.5</span>,</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">chart =</span> <span class="fu">c</span>(<span class="st">"log"</span>, <span class="st">"percent"</span>),</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">error_norm =</span> <span class="fu">c</span>(<span class="st">"max"</span>, <span class="st">"rms"</span>),</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">controller =</span> <span class="fu">c</span>(<span class="st">"std"</span>, <span class="st">"pi"</span>),</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">scope =</span> <span class="fu">c</span>(<span class="st">"pct"</span>, <span class="st">"all"</span>),</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">h_init =</span> <span class="cn">NULL</span>,</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">guard =</span> <span class="cn">NULL</span>,</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  ...</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>ems_RK()</code> is <code>ems_solve()</code> for the Runge-Kutta methods. It defaults to adaptive <code>"DoPri54"</code> and adds the step-size controls; the remaining arguments are those of <code>ems_solve()</code>, with the same defaults. When most retries come from step checks (a variable approaching <code>-100%</code>, a range test) rather than from <code>eps_tolerance</code>, the cheaper steps of <code>"BoSha32"</code> can make it faster than <code>"DoPri54"</code> (Schiffmann 2022).</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># adaptive DoPri54</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> <span class="fu">ems_RK</span>(cmf_path)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># fixed-step RK4</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> <span class="fu">ems_RK</span>(cmf_path, <span class="at">solution_method =</span> <span class="st">"RK4"</span>, <span class="at">steps =</span> <span class="dv">8</span>L)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 28%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Argument</th>
+<th>Default</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>"Johansen"</code></td>
-<td>Fast one-step approximation. Should only be used as a rough approximation due to handling of nonlinear equations. See <a href="https://www.copsmodels.com/gpmanual.htm#gpd1.2.13">GEMPACK manual</a></td>
+<td><code>solution_method</code></td>
+<td><code>"DoPri54"</code></td>
+<td><code>"DoPri54"</code>, <code>"BoSha32"</code>, <code>"RK4"</code>, <code>"Heun"</code> or <code>"RK2"</code></td>
 </tr>
 <tr class="even">
-<td><code>"mod_midpoint"</code></td>
-<td>Modified midpoint method that performs multiple passes for improved accuracy. The <code>steps</code> parameter controls the number of passes. See <a href="https://www.copsmodels.com/gpmanual.htm#gpd3.12.2">GEMPACK manual</a></td>
+<td><code>steps</code></td>
+<td><code>4L</code></td>
+<td>Number of steps; under adaptive control, the starting number</td>
+</tr>
+<tr class="odd">
+<td><code>adaptive</code></td>
+<td><code>"yes"</code> for <code>"DoPri54"</code>/<code>"BoSha32"</code>, otherwise <code>"no"</code></td>
+<td><code>"yes"</code> retries steps that miss <code>eps_tolerance</code> or fail a step check (a variable crossing <code>-100%</code>, a range test or an assertion, as in GEMPACK) and adjusts the step size; <code>"accuracy-only"</code> ignores the step checks</td>
+</tr>
+<tr class="even">
+<td><code>eps_tolerance</code></td>
+<td><code>0.01</code></td>
+<td>Accuracy target per step. GEMPACK suggests <code>0.1</code> for most simulations; on large shocks the default <code>0.01</code> reaches four correct digits on most elements, and <code>0.001</code> gains the last digits at about 1.6 times the cost</td>
+</tr>
+<tr class="odd">
+<td><code>max_retries</code>, <code>retry_adjust</code></td>
+<td><code>3L</code>, <code>0.5</code></td>
+<td>How often, and by how much, a step is shortened when it fails a step check</td>
+</tr>
+<tr class="even">
+<td><code>chart</code></td>
+<td><code>"log"</code></td>
+<td><code>"log"</code> keeps every level positive; <code>"percent"</code> combines stages in percentage changes</td>
+</tr>
+<tr class="odd">
+<td><code>error_norm</code></td>
+<td><code>"max"</code></td>
+<td>Whether the worst element (<code>"max"</code>) or the root mean square (<code>"rms"</code>) decides if a step is accepted</td>
+</tr>
+<tr class="even">
+<td><code>controller</code></td>
+<td><code>"std"</code></td>
+<td><code>"pi"</code> rejects fewer steps on rough solution paths</td>
+</tr>
+<tr class="odd">
+<td><code>scope</code></td>
+<td><code>"pct"</code></td>
+<td>Which variables steer the step size: percentage-change variables (<code>"pct"</code>) or all variables (<code>"all"</code>)</td>
+</tr>
+<tr class="even">
+<td><code>h_init</code>, <code>guard</code></td>
+<td><code>NULL</code></td>
+<td>First step length, at most <code>1/steps</code> (a longer one is refused); and the level ratio at which a stage is rejected under <code>chart = "log"</code></td>
 </tr>
 </tbody>
 </table>
+<p>The defaults suit most runs.</p>
+</section>
 </section>
 <section id="matrix-methods" class="level2" data-number="13.5">
 <h2 data-number="13.5" class="anchored" data-anchor-id="matrix-methods"><span class="header-section-number">13.5</span> Matrix methods</h2>
-<p>Increase <code>n_tasks</code> to take advantage of parallel matrix solution methods. <!-- Add links to matrix method papers --> | Method | Description | |——–|————-| | <code>"LU"</code> | Standard LU decomposition. The most robust and potentially slowest for large models. <code>n_tasks</code> must be <code>1L</code>. Works with both static and dynamic models | | <code>"DBBD"</code> | Doubly bordered block diagonal. Parallel matrix solution method for static models only. Potentially faster than <code>"LU"</code> although less robust | | <code>"SBBD"</code> | Singly bordered block diagonal. Parallel matrix solution method for intertemporal models only. Potentially faster than <code>"LU"</code> although less robust | | <code>"NDBBD"</code> | Nested doubly bordered block diagonal. Parallel matrix solution method for large intertemporal models with many timesteps only |</p>
-</section>
-<section id="multi-step-solution" class="level2" data-number="13.6">
-<h2 data-number="13.6" class="anchored" data-anchor-id="multi-step-solution"><span class="header-section-number">13.6</span> Multi-step solution</h2>
-<p>For greater accuracy, use the modified midpoint method with subintervals:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> <span class="fu">ems_solve</span>(</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cmf_path =</span> cmf_path,</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="st">"mod_midpoint"</span>,</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix_method =</span> <span class="st">"LU"</span>,</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_subintervals =</span> <span class="dv">2</span>,</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">steps =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="memory-parameters" class="level2" data-number="13.7">
-<h2 data-number="13.7" class="anchored" data-anchor-id="memory-parameters"><span class="header-section-number">13.7</span> Memory parameters</h2>
-<p>If the solver returns “Error return from MA48B/BD because LA is …”, increase the relevant memory parameter gradually:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 27%">
+<col style="width: 44%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Models</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>"LU"</code></td>
+<td>all</td>
+<td>Sequential LU factorization. The most robust; one task only</td>
+</tr>
+<tr class="even">
+<td><code>"DBBD"</code></td>
+<td>static</td>
+<td>Splits the system into blocks (usually by region) solved in parallel, treating regions as separable economies (Kompas and Van Ha 2019)</td>
+</tr>
+<tr class="odd">
+<td><code>"SBBD"</code></td>
+<td>intertemporal</td>
+<td>Splits the system by time period, solved in parallel (Van Ha and Kompas 2016; Van Ha et al.&nbsp;2017)</td>
+</tr>
+<tr class="even">
+<td><code>"NDBBD"</code></td>
+<td>intertemporal</td>
+<td>A nested split for intertemporal models too large for <code>"SBBD"</code> in the available memory</td>
+</tr>
+</tbody>
+</table>
+<section id="recommended" class="level3" data-number="13.5.1">
+<h3 data-number="13.5.1" class="anchored" data-anchor-id="recommended"><span class="header-section-number">13.5.1</span> Choosing a method and resources</h3>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_probe</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  cmf_path,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">components =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> <span class="cn">NULL</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">memory =</span> <span class="cn">NULL</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  ...</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Run <code>ems_probe()</code> once per deployment, before the first solve. It runs the solver up to the point where the equation system is assembled, without solving, and from that system it checks that the closure is sound, measures the structure the matrix methods exploit, reads the cores and memory available to the solver’s container, and prints the call to use. A probe takes seconds on a condensed GTAP model; on an uncondensed system its cost grows faster than the size, to minutes at a few million equations.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>probe <span class="ot">&lt;-</span> <span class="fu">ems_probe</span>(cmf_path)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ℹ Probing 'GTAPv7.cmf'; solver log at 'out/probe/solver_out_probe.txt'</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ℹ Probe finished in 20.9 s</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>probe</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── Structural probe ─────────────────────────────────── 110,849 equations ──</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ✔ Closure valid: every variable is determined and no equation is redundant,</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   structurally and at base data</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; → Recommended for this container (8 cores, 12.0 GB): "LU", 1 task × 8</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   threads</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   `ems_solve(cmf_path, matrix_method = "LU", n_threads = 8)`</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ℹ `summary(x)` for the full report</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Pass <code>cores</code> and <code>memory</code> (in GB) to get the recommendation for another machine, for example a server you will solve on later.</p>
+<p><code>ems_probe()</code> is experimental. Its rules come from a limited set of measured models and machines, so treat the recommendation as a starting point: a different method, task count or thread count may well be faster for your model and machine. Try other settings with <code>ems_solve()</code>, and if a suggestion is off, please <a href="https://github.com/teemsphere/teems/issues">open an issue</a>.</p>
+<section id="probe-print" class="level4" data-number="13.5.1.1">
+<h4 data-number="13.5.1.1" class="anchored" data-anchor-id="probe-print"><span class="header-section-number">13.5.1.1</span> Reading the printed summary</h4>
+<p>While it runs, the two progress lines name the deployment, the solver log and the time taken; any <code>Warning:</code> lines the solver wrote to that log are repeated afterwards. Both are silent under <code>ems_option_set(verbose = FALSE)</code>. The short form printed above has four parts:</p>
 <ul>
-<li><code>laA</code> applies to <code>"LU"</code> and <code>"SBBD"</code> methods</li>
-<li><code>laD</code> applies to <code>"DBBD"</code> and <code>"NDBBD"</code> methods</li>
-<li><code>laDi</code> applies to the <code>"NDBBD"</code> method only</li>
+<li><strong>The header</strong> gives the number of equations in the system the solver will factorize. For a condensed model (the vetted static models) this is the system after backsolving, which is much smaller than the model.</li>
+<li><strong>The closure verdict.</strong> <code>Closure valid</code> means that every endogenous variable is pinned down by some equation and no equation duplicates another, both in the model’s structure and with the base data in place. A model that fails this test cannot be solved, however it is configured; the alternative lines are described under <a href="#probe-singular">Singular systems</a>.</li>
+<li><strong>A memory warning</strong>, only when the estimated peak of the recommended run comes close to the container’s memory.</li>
+<li><strong>The recommendation</strong>: the matrix method, the number of parallel tasks and the threads per task, for the machine named in brackets, followed by the <code>ems_solve()</code> call to paste. “This container” means the cores and memory were read from the Docker container the solver runs in (on Docker Desktop, the limits under Settings &gt; Resources); “the machine given” means you passed <code>cores</code> and <code>memory</code>.</li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> <span class="fu">ems_solve</span>(</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cmf_path =</span> cmf_path,</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="st">"Johansen"</span>,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix_method =</span> <span class="st">"LU"</span>,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">laA =</span> <span class="dv">500</span>L</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When no sound recommendation can be made, the probe says so instead of guessing: the closure is singular (fix the model first), the container’s cores could not be read (pass <code>cores</code> and <code>memory</code>), or no method fits in the memory available (the message gives the smallest estimate and the remedies: more memory for the container, a coarser aggregation, or condensation).</p>
 </section>
-<section id="parallel-solving" class="level2" data-number="13.8">
-<h2 data-number="13.8" class="anchored" data-anchor-id="parallel-solving"><span class="header-section-number">13.8</span> Parallel solving</h2>
-<p>For models that support parallel matrix methods, increase <code>n_tasks</code>:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> <span class="fu">ems_solve</span>(</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cmf_path =</span> cmf_path,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="st">"Johansen"</span>,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix_method =</span> <span class="st">"SBBD"</span>,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_tasks =</span> <span class="dv">4</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="probe-summary" class="level4" data-number="13.5.1.2">
+<h4 data-number="13.5.1.2" class="anchored" data-anchor-id="probe-summary"><span class="header-section-number">13.5.1.2</span> The full report</h4>
+<p><code>summary(probe)</code> prints the evidence behind the verdict and the recommendation:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(probe)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── Structural probe: full report ────────────────────────────────────────────</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • System: 110,849 equations after condensation (68 backsolved variables;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   3,667,721 uncondensed)</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ✔ Structural rank: 110,849 of 110,849</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ✔ Rank at base data: 110,849 of 110,849</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • Structure: no time chain; block partition by "reg" (66 blocks, 497 border</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variables)</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • Simultaneous components: 1,947 of 58,290 components have more than</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   one element; the largest has 50,548 rows</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • Largest component by equation: e_peb ×6,172, e_qes1 ×5,280, e_qo ×2,640,</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   e_po ×2,640, e_qc ×2,640, e_qpa ×2,640, and 40 more</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • Statements: 178 equation statements, 1,150 statement-variable incidences</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── Heaviest statement-variable incidences ───────────────────────────────────</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 10 × 4</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    eq        var    weight  rows</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;   &lt;int&gt; &lt;int&gt;</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1 e_qms     tfm   8764800  2640</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2 e_qds     tfd   8764800  2640</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  ...</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── Condensation ─────────────────────────────────────────────────────────────</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • 68 backsolved variables remove 97% of the uncondensed system (3,667,721 to</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   110,849 equations)</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ✔ "reg" partitions the condensed system into 66 blocks, but below 120,000</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   condensed equations threaded "LU" beats "DBBD"</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── Recommendation ───────────────────────────────────────────────────────────</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ✔ "LU", 1 task × 8 threads for this container (8 cores, 12.0 GB)</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • Evidence: 110,849 equations (condensed), no time chain, partition reg (66</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   blocks, border 20.5% of the system), assessed at 2 tasks</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • Rationale: one rank; threads for the condensed factorization</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • Memory: about 4.0 GB at 1 task, 33% of 12.0 GB (fits)</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; → `ems_solve(cmf_path, matrix_method = "LU", n_threads = 8)`</span></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ℹ Files: report '/path/to/run/out/probe/sol.probe.json', solver log</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   '/path/to/run/out/probe/solver_out_probe.txt'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Section by section:</p>
+<ul>
+<li><strong>System.</strong> The size of the system the solver factorizes and, for a condensed model, how many variables were backsolved out and how large the model is before condensation.</li>
+<li><strong>Structural rank</strong> and <strong>Rank at base data.</strong> Two tests of the closure. The first looks only at which variables each equation mentions; the second also discards entries whose base-data value is zero (for example a trade flow that is zero in the database), which can leave a variable with nothing to determine it even though the model’s structure is fine. Both should read “N of N”; a smaller rank is a singular system (see <a href="#probe-singular">below</a>).</li>
+<li><strong>Structure.</strong> What the parallel methods have to work with. A <em>time chain</em> is the period-by-period structure of an intertemporal model, which <code>"SBBD"</code> splits into blocks; a <em>block partition</em> is a set (usually the regions) along which <code>"DBBD"</code> splits a static system. The border variables are the ones that link the blocks; the fewer, the better the split.</li>
+<li><strong>Simultaneous components.</strong> How much of the system must be solved at once. Most equations in a CGE model can be solved one after another once a few central ones are known; a <em>component</em> is a group that cannot, and the largest component shows how much of the system is genuinely simultaneous. <code>plot(probe, type = "components")</code> draws them.</li>
+<li><strong>Statements</strong> and <strong>Heaviest incidences.</strong> The model’s equations as statements, and the pairs of equation statement and variable that put the most entries into the system. <code>plot(probe, type = "incidence")</code> draws the whole pattern. These lines are for understanding the model; they do not affect the recommendation.</li>
+<li><strong>Condensation.</strong> What backsolving likely does to this deployment (see <a href="./model_load.html#backsolve_when">when backsolving pays</a>); the verdict is kept in <code>probe$condense$verdict</code>. <code>"faster"</code>: a condensed system without a block partition is likely bound to <code>"LU"</code>, where condensation tends to speed the solve. <code>"lu_fine"</code>: a condensed system with a partition below about 120 thousand condensed equations, where threaded <code>"LU"</code> was the fastest measured on a laptop. <code>"slower"</code>: above that size, or with a time chain, the partition belongs to a parallel method and substitution works against it, so the report suggests trying a redeploy without <code>backsolve</code>. <code>"candidate"</code>: an uncondensed <code>"LU"</code>-bound system of a million equations or more, which may gain from <code>backsolve</code> in <code>ems_model()</code>.</li>
+<li><strong>Recommendation.</strong> The method, tasks and threads, then the <em>evidence</em> (the size, the time chain and the partition it was judged on, at the task count it was judged for), the <em>rationale</em> (the measured rule that produced it), and the <em>memory</em> estimate of the run against the container’s memory. Further lines appear when they matter: <code>"DBBD"</code> would have been faster but does not fit; <code>"NDBBD"</code> replaces <code>"SBBD"</code> for the same reason; <code>"LU"</code> is excluded because its workspace would exceed the 32-bit limit; the <code>"DBBD"</code> refinement step is off. With <code>solution_method = "Johansen"</code> the method can differ, and a line says which it would be.</li>
+</ul>
 </section>
-<section id="terminal-mode" class="level2" data-number="13.9">
-<h2 data-number="13.9" class="anchored" data-anchor-id="terminal-mode"><span class="header-section-number">13.9</span> Terminal mode</h2>
-<p>For long-running models, <code>terminal_run</code> allows the user to close any R IDE prior to running from the terminal:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_solve</span>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cmf_path =</span> cmf_path,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="st">"Johansen"</span>,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix_method =</span> <span class="st">"LU"</span>,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">terminal_run =</span> <span class="cn">TRUE</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="probe-singular" class="level4" data-number="13.5.1.3">
+<h4 data-number="13.5.1.3" class="anchored" data-anchor-id="probe-singular"><span class="header-section-number">13.5.1.3</span> Singular systems</h4>
+<p>A structurally singular system prints differently:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── Structural probe ──────────────────────────────────── 10,530 equations ──</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ✖ Structurally singular: rank 10,527 of 10,530 (3 unmatched equations, 3</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   unmatched variables)</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Undetermined: dprobeb ×3</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Over-constrained: e_dprobe2 ×3</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ℹ Locate it with `plot(x, type = "dm")`</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ✖ No solve recommendation: the closure is structurally singular; fix it first</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><em>Undetermined</em> names the variables (with the number of elements) that no equation pins down: the closure leaves them endogenous but nothing determines them, so one of them should be exogenous, or an equation is missing. <em>Over-constrained</em> names the equations that compete for the same variables: too many equations for the variables they involve, so one of them should be dropped or one of its variables made endogenous. The two lists are two sides of the same defect, and swapping a variable between them is usually the fix. <code>Singular at base data</code> instead of <code>Structurally singular</code> means the structure is sound but zero flows in the data leave elements undetermined; the remedy is in the data or the aggregation, not the closure. <code>summary(probe)</code> lists every defective element, <code>probe$defects</code> holds them as a tibble, and <code>plot(probe, type = "dm")</code> draws where in the system they sit.</p>
 </section>
-<section id="solving-in-situ" class="level2" data-number="13.10">
-<h2 data-number="13.10" class="anchored" data-anchor-id="solving-in-situ"><span class="header-section-number">13.10</span> Solving in-situ</h2>
-<p><code>solve_in_situ()</code> calls the <a href="https://github.com/teemsphere/teems-solver">teems-solver</a> directly with user-supplied input files, bypassing the <a href="./data_load.html"><code>ems_data()</code></a> / <a href="./model_load.html"><code>ems_model()</code></a> / <a href="./deploy.html"><code>ems_deploy()</code></a> pipeline. The model file will be parsed but all input files must be provided in their final form. No checks or modifications are applied to input files.</p>
-<p>This function is intended for users who wish to use the teems solver with pre-prepared input files, or in combination with the standard pipeline by reusing the files written to disk by <a href="./deploy.html"><code>ems_deploy()</code></a>. If all input files already reside in <code>model_dir</code>, no copying is performed; otherwise files are copied into <code>model_dir</code> before solving.</p>
-<section id="arguments-1" class="level3" data-number="13.10.1">
-<h3 data-number="13.10.1" class="anchored" data-anchor-id="arguments-1"><span class="header-section-number">13.10.1</span> Arguments</h3>
+<section id="probe-files" class="level4" data-number="13.5.1.4">
+<h4 data-number="13.5.1.4" class="anchored" data-anchor-id="probe-files"><span class="header-section-number">13.5.1.4</span> Files the probe leaves</h4>
+<p>The probe writes into <code>out/probe/</code> under the run directory, and overwrites it on every call: <code>sol.probe.json</code> (the report the object is built from), <code>sol.stats.json</code> (the measured structure) and <code>solver_out_probe.txt</code>, the solver’s own log of the run. <code>probe$paths</code> has the paths. A probe never touches a solution already in the run directory.</p>
+<p>The log is worth a look when the verdict surprises you. After the solver’s banner and the setup timings, its <code>probe:</code> lines hold the whole diagnosis in order: the time chain found (intertemporal models), the partition candidates, one line per set with its block count, border size and whether it is usable, the set selected and its border, the Jacobian assembly, the structural and base-data ranks with the verdict in words, the simultaneous components and the largest one, the report path, and the total time. Lines starting with <code>Warning:</code> are the solver’s warnings about the model file and are repeated on the console.</p>
+</section>
+<section id="probe-rules" class="level4" data-number="13.5.1.5">
+<h4 data-number="13.5.1.5" class="anchored" data-anchor-id="probe-rules"><span class="header-section-number">13.5.1.5</span> The rules behind the recommendation</h4>
+<p>Measured on a 12 GB laptop profile with 4 and 8 cores and on a 32-core server, they come down to the following; other models and machines may behave differently:</p>
+<ul>
+<li><strong>Intertemporal models:</strong> <code>"SBBD"</code>, with up to 8 tasks and the remaining cores as threads. <code>"NDBBD"</code> only when <code>"SBBD"</code> would not fit in memory.</li>
+<li><strong>Static models:</strong> <code>"DBBD"</code> at two tasks for an uncondensed system with a usable partition, more where cores and memory allow. Condensed systems, including the vetted GTAP models, suit <code>"LU"</code> with threads up to about 120 thousand condensed equations; above that the probe suggests trying a redeploy without backsolve for a parallel method. Uncondensed <code>"LU"</code> runs on one thread, since threads do not help it.</li>
+<li><strong>Small systems:</strong> below 300 thousand equations (counting the backsolved ones), the smallest size measured, every method finishes in seconds and <code>"LU"</code> is recommended.</li>
+<li><strong>Tasks before threads:</strong> more tasks usually beat more threads on the same cores, with little gain beyond 8 tasks.</li>
+</ul>
+<p>For example, a 16-period GTAP-RE at 23 regions and 5 sectors on an 8-core laptop:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>probe <span class="ot">&lt;-</span> <span class="fu">ems_probe</span>(cmf_path, <span class="at">cores =</span> <span class="dv">8</span>, <span class="at">memory =</span> <span class="dv">12</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── Structural probe ─────────────────────────────────── 616,509 equations ──</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ✔ Closure valid: every variable is determined and no equation is redundant,</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   structurally and at base data</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; → Recommended for the machine given (8 cores, 12.0 GB): "SBBD", 8 tasks × 1</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   thread</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   `ems_solve(cmf_path, matrix_method = "SBBD", n_tasks = 8)`</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ℹ `summary(x)` for the full report</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> <span class="fu">ems_solve</span>(</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">cmf_path =</span> cmf_path,</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="st">"Gragg"</span>,</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix_method =</span> <span class="st">"SBBD"</span>,</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_tasks =</span> <span class="dv">8</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<!--
+## Complementarities {#complementarity}
+
+```r
+ems_complementarity(
+  steps_approx_run = NULL,
+  redo_steps = NULL,
+  redo_step_min_fraction = NULL,
+  do_approx_run = NULL,
+  do_acc_run = NULL,
+  state_bound_error = NULL
+)
+```
+
+Models with `Complementarity` statements (for example, a quota or a tariff-rate quota) solve in two automatic passes: an Euler run that finds which side of each bound every component ends up on, then an accurate run with the chosen `solution_method` in which those states are fixed.
+The defaults work for most runs; `ems_complementarity()` overrides them:
+
+```r
+outputs <- ems_solve(
+  cmf_path = cmf_path,
+  solution_method = "Gragg",
+  complementarity = ems_complementarity(steps_approx_run = 40L)
+)
+```
+
+| Argument | Solver default | Description |
+|------------------|------------|------------------|
+| `steps_approx_run` | the accurate run's total steps | Euler steps in the first pass; more steps locate state changes more precisely |
+| `redo_steps` | `TRUE` | Shorten a step during which a component changes state |
+| `redo_step_min_fraction` | `0.005` | Shortest such step, as a fraction of the original |
+| `do_approx_run` | `TRUE` | `FALSE` skips the first pass and keeps the starting states; only safe when the shock changes no states |
+| `do_acc_run` | `TRUE` | `FALSE` stops after the first pass and returns its result |
+| `state_bound_error` | `"fatal"` | Whether a component that ends in the wrong state, or outside its bounds, stops the run (`"fatal"`) or warns (`"warn"`) |
+-->
+</section>
+</section>
+</section>
+<section id="memory" class="level2" data-number="13.6">
+<h2 data-number="13.6" class="anchored" data-anchor-id="memory"><span class="header-section-number">13.6</span> Memory</h2>
+<p>Before a run starts, teems-R estimates its peak memory and compares it with the memory available to the container (on Docker Desktop, the limit under Settings &gt; Resources). A run that clearly will not fit is refused before it starts, and the message names the remedies:</p>
+<ul>
+<li>a coarser aggregation or a condensed model,</li>
+<li>fewer tasks (each <code>"DBBD"</code> task holds its own copy of the data),</li>
+<li><code>"NDBBD"</code> for an intertemporal model,</li>
+<li>more memory for Docker, or a larger machine.</li>
+</ul>
+<p>A run close to the limit gets a warning instead. With <code>"DBBD"</code>, each linear solve also gets one refinement step, which holds the system matrix through the solve; the memory estimate includes it (see the <code>refine</code> <a href="./options.html">package option</a>). During the solve, the log reports memory after each phase, and the peaks are recorded in <code>model_diagnostics.txt</code>.</p>
+<p>The solver sizes its factorization workspace automatically and grows it when needed, so <code>laA</code>, <code>laD</code> and <code>laDi</code> are normally left unset. If the log shows the workspace growing, passing the size recorded as <code>la_used</code> in <code>sol.stats.json</code> skips that search on the next run. A single <code>"LU"</code> factorization cannot exceed the 32-bit workspace limit; a system that needs more must be condensed, aggregated more coarsely, or solved with a parallel method.</p>
+</section>
+<section id="checking-solve-quality" class="level2" data-number="13.7">
+<h2 data-number="13.7" class="anchored" data-anchor-id="checking-solve-quality"><span class="header-section-number">13.7</span> Checking solve quality</h2>
+<p>If a model solves but the results look implausible, the system may be numerically near-singular, typically because the closure depends on base-data flows close to zero. <code>condest = TRUE</code> measures how sensitive each linear solve is to the data:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> <span class="fu">ems_solve</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cmf_path =</span> cmf_path,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="st">"Gragg"</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix_method =</span> <span class="st">"LU"</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">condest =</span> <span class="cn">TRUE</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Values of <code>kappa_w2</code> around <code>1e8</code> are normal for CGE models; values approaching <code>1e15</code> trigger a warning that the solution is unreliable. Look for near-zero flows the closure depends on, or rerun with <code>precision = "double"</code>. The check does not change results, costs a few percent of solve time, and applies to <code>"LU"</code> only.</p>
+<p><code>jacdump = TRUE</code> writes the linearized system at the base data, every equation element against every variable element, to <code>sol.jac</code> beside the solution, with the equation map in <code>sol.jac.json</code>. It is taken before the first step and does not change results. <!-- It is taken before the first step, does not change results, and is the input for checking a model's homogeneity outside the solve. --></p>
+<!--
+## Checking homogeneity {#homogeneity}
+
+A CGE model should be homogeneous: raising every exogenous price and value by 1 % should raise every price and value by 1 % and leave quantities unchanged (nominal homogeneity), and scaling every quantity by 1 % should do the same for quantities and values with prices unchanged (real homogeneity).
+`ems_homogeneity()` tests a deployment for either, from the variable types the model file declares (see [variable types](model_load.qmd)); the vetted models carry them.
+
+```r
+check <- ems_homogeneity(cmf_path, type = "nominal")
+check$equations
+```
+
+The check evaluates every equation of the linearized system at the change homogeneity implies, without solving, and reports each equation block's largest error, `max_err`, with the element where it occurs.
+Values above about `1e-6` point at an equation that is not homogeneous.
+`simulate = TRUE` also solves the model under the corresponding shocks and compares every typed variable with its expected change.
+Both run on a copy of the deployment.
+The GEMPACK manual (57.4.5) recommends testing the uncondensed system, where a faulty equation cannot be substituted into others and hide among them: check a deployment of a model loaded with `ignore_condense = TRUE` (see [Condensation](model_load.qmd#condensation)).
+
+Equations over zero flows can fail harmlessly: a share computed from a zero total takes its zero-divide default, or an inactive branch such as `IF[MAKEB(c,a,r) gt 0, ...]` reduces an element to a single variable.
+`ems_homogeneity()` marks these elements `zero_flow` and leaves them out of `max_err`; the `zero_flow` column counts them per block.
+In the vetted models they are the off-diagonal make elements (an activity that does not produce the commodity), energy composites an agent does not buy (GTAP-E, GTAP-EP) and AEZs or activities without land (GTAP-AEZ).
+A block whose `zero_flow` equals its `rows` deserves a look: an equation that lost a term everywhere would look the same.
+GTAP-RE's saving-price equations are genuinely not homogeneous: its investment balance nets depreciation out of capital purchases.
+GTAP-AEZ's land-cover equations are not homogeneous in real terms by design: effective hectares respond less than one for one to harvested area, and crop land cover outside the harvested area is held fixed.
+-->
+</section>
+<section id="reproducibility" class="level2" data-number="13.8">
+<h2 data-number="13.8" class="anchored" data-anchor-id="reproducibility"><span class="header-section-number">13.8</span> Reproducibility</h2>
+<p>The same deployment solved with the same image gives byte-identical results with <code>"LU"</code>, <code>"SBBD"</code> and <code>"NDBBD"</code>, at any thread count and on any machine the image supports. Three cases agree only to rounding:</p>
+<ul>
+<li><code>"DBBD"</code> with more than one thread, where a multi-step solve of a poorly conditioned model can amplify the rounding on its least determined results; use <code>n_threads = 1L</code> when byte-for-byte results matter,</li>
+<li>runs with more than one task, compared across machines,</li>
+<li>different image variants (for example <code>amd64</code> and <code>arm64</code>).</li>
+</ul>
+<p>Each run records the solver version and numerical kernels it used in <code>model_diagnostics.txt</code>.</p>
+</section>
+<section id="solver-version" class="level2" data-number="13.9">
+<h2 data-number="13.9" class="anchored" data-anchor-id="solver-version"><span class="header-section-number">13.9</span> Solver version</h2>
+<p>Before every solve, teems-R checks that the image’s solver version matches the package. A missing, old or mismatched solver stops the solve and names the pull or rebuild step. If the image still does not accept a solver option or input file that teems sends, the solve stops and names it rather than running without it; use the image released with your version of teems.</p>
+</section>
+<section id="concurrent-runs" class="level2" data-number="13.10">
+<h2 data-number="13.10" class="anchored" data-anchor-id="concurrent-runs"><span class="header-section-number">13.10</span> Concurrent runs</h2>
+<p>Several runs can solve at the same time, one deploy directory each. The directory is set by the <code>tempdir</code> option, so give every run its own before deploying it:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(<span class="fu">c</span>(<span class="st">"Johansen"</span>, <span class="st">"Gragg"</span>), <span class="cf">function</span>(method) {</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ems_option_set</span>(<span class="at">tempdir =</span> <span class="fu">file.path</span>(<span class="st">"~/runs"</span>, method))</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  dat <span class="ot">&lt;-</span> <span class="fu">ems_data</span>(dat_input, par_input, set_input,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">REG =</span> <span class="st">"big3"</span>, <span class="at">ACTS =</span> <span class="st">"macro_sector"</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  cmf <span class="ot">&lt;-</span> <span class="fu">ems_deploy</span>(dat, model, shock)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ems_solve</span>(cmf, <span class="at">solution_method =</span> method)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>}, <span class="at">mc.cores =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>mclapply()</code> forks the R session, so each run sets its own <code>tempdir</code>; forking is not available on Windows, where <code>parLapply()</code> serves instead.</p>
+<p>A second solve in a deploy directory that is already solving is refused. If an interrupted run leaves its claim behind, the message names the <code>.solve_lock</code> directory to remove.</p>
+</section>
+<section id="terminal-mode" class="level2" data-number="13.11">
+<h2 data-number="13.11" class="anchored" data-anchor-id="terminal-mode"><span class="header-section-number">13.11</span> Terminal mode</h2>
+<p>For long-running models, <code>terminal_run = TRUE</code> prepares the run and exits, so you can close R and launch the solve from a terminal:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ems_solve</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cmf_path =</span> cmf_path,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="st">"Gragg"</span>,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">terminal_run =</span> <span class="cn">TRUE</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="solving-in-situ" class="level2" data-number="13.12">
+<h2 data-number="13.12" class="anchored" data-anchor-id="solving-in-situ"><span class="header-section-number">13.12</span> Solving in-situ</h2>
+<p><code>solve_in_situ()</code> calls the <a href="https://github.com/teemsphere/teems-solver">teems-solver</a> directly with user-supplied input files, bypassing the <a href="./data_load.html"><code>ems_data()</code></a> / <a href="./model_load.html"><code>ems_model()</code></a> / <a href="./deploy.html"><code>ems_deploy()</code></a> pipeline. The model file is parsed, but input files must be provided in their final form: no checks or modifications are applied to them. This suits pre-prepared input files, or re-solving the files written to disk by <a href="./deploy.html"><code>ems_deploy()</code></a>.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">solve_in_situ</span>(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  ...,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  model_dir,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  model_file,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  closure_file,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  shock_file,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ignore_condense =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="fu">c</span>(<span class="st">"Gragg"</span>, <span class="st">"Johansen"</span>, <span class="st">"Euler"</span>, <span class="st">"Midpoint"</span>, <span class="st">"RK2"</span>,</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"Heun"</span>, <span class="st">"RK4"</span>, <span class="st">"BoSha32"</span>, <span class="st">"DoPri54"</span>),</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix_method =</span> <span class="fu">c</span>(<span class="st">"LU"</span>, <span class="st">"DBBD"</span>, <span class="st">"SBBD"</span>, <span class="st">"NDBBD"</span>),</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_subintervals =</span> <span class="dv">1</span>L,</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">steps =</span> <span class="cn">NULL</span>,</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_tasks =</span> <span class="dv">1</span>L,</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_threads =</span> <span class="dv">1</span>L,</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">precision =</span> <span class="fu">c</span>(<span class="st">"single"</span>, <span class="st">"double"</span>),</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbosity =</span> <span class="dv">1</span>L,</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">suppress_outputs =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">terminal_run =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">accuracy_vars =</span> <span class="cn">NULL</span>,</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">solver_args =</span> <span class="cn">NULL</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="arguments-1" class="level3" data-number="13.12.1">
+<h3 data-number="13.12.1" class="anchored" data-anchor-id="arguments-1"><span class="header-section-number">13.12.1</span> Arguments</h3>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 31%">
@@ -690,12 +1136,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td><code>...</code></td>
 <td></td>
-<td>Named arguments corresponding to input files necessary for an in-situ model run. Names must correspond to “File” statements within the model Tablo file. Values correspond to file paths where these files are found</td>
+<td>Input files, named after the model’s <code>File</code> statements</td>
 </tr>
 <tr class="even">
 <td><code>model_dir</code></td>
 <td></td>
-<td>Base directory where input files will be copied if not already present, and model outputs will be written</td>
+<td>Directory the run uses; input files not already there are copied in, and outputs are written there</td>
 </tr>
 <tr class="odd">
 <td><code>model_file</code></td>
@@ -713,89 +1159,64 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Path to the shock (.shf) file</td>
 </tr>
 <tr class="even">
-<td><code>solution_method</code></td>
-<td><code>"Johansen"</code></td>
-<td>Solution method: <code>"Johansen"</code> or <code>"mod_midpoint"</code></td>
+<td><code>ignore_condense</code></td>
+<td><code>FALSE</code></td>
+<td>Set to <code>TRUE</code> when the closure and shock files come from a model loaded with <code>ems_model(..., ignore_condense = TRUE)</code></td>
 </tr>
 <tr class="odd">
-<td><code>matrix_method</code></td>
-<td><code>"LU"</code></td>
-<td>Matrix solution method: <code>"LU"</code>, <code>"DBBD"</code>, <code>"SBBD"</code>, or <code>"NDBBD"</code></td>
-</tr>
-<tr class="even">
-<td><code>n_subintervals</code></td>
-<td><code>1L</code></td>
-<td>Number of subintervals for the applied shock</td>
-</tr>
-<tr class="odd">
-<td><code>steps</code></td>
-<td><code>c(2L, 4L, 8L)</code></td>
-<td>Vector of steps for the modified midpoint method</td>
-</tr>
-<tr class="even">
-<td><code>n_tasks</code></td>
-<td><code>1L</code></td>
-<td>Number of tasks to run in parallel. Must be <code>1L</code> if <code>matrix_method</code> is <code>"LU"</code></td>
-</tr>
-<tr class="odd">
-<td><code>laA</code></td>
-<td><code>300L</code></td>
-<td>Memory parameter (%) for <code>"LU"</code> and <code>"SBBD"</code> methods</td>
-</tr>
-<tr class="even">
-<td><code>laD</code></td>
-<td><code>200L</code></td>
-<td>Memory parameter (%) for <code>"DBBD"</code> and <code>"NDBBD"</code> methods</td>
-</tr>
-<tr class="odd">
-<td><code>laDi</code></td>
-<td><code>500L</code></td>
-<td>Memory parameter (%) for <code>"NDBBD"</code> method</td>
-</tr>
-<tr class="even">
 <td><code>suppress_outputs</code></td>
 <td><code>FALSE</code></td>
 <td>When <code>TRUE</code>, returns the CMF file path instead of parsed outputs</td>
 </tr>
-<tr class="odd">
-<td><code>terminal_run</code></td>
-<td><code>FALSE</code></td>
-<td>When <code>TRUE</code>, exits without running the solver</td>
-</tr>
 <tr class="even">
-<td><code>append_args</code></td>
+<td><code>solver_args</code></td>
 <td><code>NULL</code></td>
-<td>Character vector of additional arguments appended to the Docker run command (e.g., <code>c("-smllthreads 2", "-maxthreads 2")</code>)</td>
+<td>Named list of everything <code>ems_solve()</code> takes through <code>...</code>, the Runge-Kutta controls included, e.g.&nbsp;<code>list(condest = TRUE)</code> or <code>list(adaptive = "yes")</code></td>
 </tr>
 </tbody>
 </table>
+<p>The solve arguments (<code>solution_method</code>, <code>matrix_method</code>, <code>n_subintervals</code>, <code>steps</code>, <code>n_tasks</code>, <code>n_threads</code>, <code>precision</code>, <code>accuracy_vars</code> and the rest) work as in <code>ems_solve()</code>.</p>
 </section>
-<section id="input-files" class="level3" data-number="13.10.2">
-<h3 data-number="13.10.2" class="anchored" data-anchor-id="input-files"><span class="header-section-number">13.10.2</span> Input files</h3>
-<p>All model-declared input files as well as <code>model_file</code>, <code>closure_file</code>, and <code>shock_file</code> are required. Input files are passed as named arguments via <code>...</code>, where each name must correspond to a “File” statement in the model Tablo file. For GTAP-RE, the Tablo file declares:</p>
+<section id="input-files" class="level3" data-number="13.12.2">
+<h3 data-number="13.12.2" class="anchored" data-anchor-id="input-files"><span class="header-section-number">13.12.2</span> Input files</h3>
+<p>Each name passed through <code>...</code> must match a <code>File</code> statement in the model Tablo file. For GTAP-RE, the Tablo file declares:</p>
 <pre><code>File GTAPDATA # base data file;
 File GTAPINT  # intertemporal data file;
 File GTAPPARM # parameter file;
 File GTAPSETS # set file;</code></pre>
-<p>These names are then used as the named arguments to <code>solve_in_situ()</code>.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">solve_in_situ</span>(</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">GTAPDATA =</span> <span class="fu">file.path</span>(write_dir, <span class="st">"teems"</span>, <span class="st">"GTAPDATA.txt"</span>),</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">GTAPINT =</span> <span class="fu">file.path</span>(write_dir, <span class="st">"teems"</span>, <span class="st">"GTAPINT.txt"</span>),</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">GTAPPARM =</span> <span class="fu">file.path</span>(write_dir, <span class="st">"teems"</span>, <span class="st">"GTAPPARM.txt"</span>),</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">GTAPSETS =</span> <span class="fu">file.path</span>(write_dir, <span class="st">"teems"</span>, <span class="st">"GTAPSETS.txt"</span>),</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_dir =</span> <span class="st">"~/in_situ_run/"</span>,</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_file =</span> <span class="st">"GTAP-RE.tab"</span>,</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">closure_file =</span> <span class="st">"GTAP-RE.cls"</span>,</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">shock_file =</span> <span class="st">"a_shock_file.shf"</span>,</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="st">"mod_midpoint"</span>,</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix_method =</span> <span class="st">"SBBD"</span>,</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_subintervals =</span> <span class="dv">1</span>L,</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_tasks =</span> <span class="dv">1</span>L</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="output-modes" class="level3" data-number="13.10.3">
-<h3 data-number="13.10.3" class="anchored" data-anchor-id="output-modes"><span class="header-section-number">13.10.3</span> Output modes</h3>
-<p>By default, <code>solve_in_situ()</code> returns a tibble containing model output variables and coefficients. If <code>suppress_outputs = TRUE</code>, the function returns the CMF file path instead, which can be passed to <a href="./compose.html"><code>ems_compose()</code></a> for manual parsing.</p>
+<p>These names are then used as the named arguments:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">solve_in_situ</span>(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">GTAPDATA =</span> <span class="fu">file.path</span>(write_dir, <span class="st">"teems"</span>, <span class="st">"GTAPDATA.txt"</span>),</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">GTAPINT =</span> <span class="fu">file.path</span>(write_dir, <span class="st">"teems"</span>, <span class="st">"GTAPINT.txt"</span>),</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">GTAPPARM =</span> <span class="fu">file.path</span>(write_dir, <span class="st">"teems"</span>, <span class="st">"GTAPPARM.txt"</span>),</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">GTAPSETS =</span> <span class="fu">file.path</span>(write_dir, <span class="st">"teems"</span>, <span class="st">"GTAPSETS.txt"</span>),</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_dir =</span> <span class="st">"~/in_situ_run/"</span>,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_file =</span> <span class="st">"GTAP-RE.tab"</span>,</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">closure_file =</span> <span class="st">"GTAP-RE.cls"</span>,</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">shock_file =</span> <span class="st">"a_shock_file.shf"</span>,</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">solution_method =</span> <span class="st">"Gragg"</span>,</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix_method =</span> <span class="st">"SBBD"</span>,</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_tasks =</span> <span class="dv">4</span>L</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The model file is processed exactly as <code>ems_model()</code> processes it, so in-TAB <code>Substitute</code> and <code>Backsolve</code> statements apply.</p>
+<p>By default, <code>solve_in_situ()</code> returns the model’s variables and coefficients; with <code>suppress_outputs = TRUE</code> it returns the CMF path, which can be passed to <a href="./compose.html"><code>ems_compose()</code></a>.</p>
+<!--
+## Calculating without a solve {#calculate}
+
+`ems_calculate()` runs a model file's `Read`, `Formula` and `Assertion` statements on the input files given and returns the coefficients, with no closure, shocks or solve.
+It suits data programs, model files without `Equation` statements that prepare, convert or check data, and it can also calculate a full model's coefficients at the base data without solving it.
+
+```r
+coefficients <- ems_calculate(
+  model_file = "path/to/data_program.tab",
+  GTAPSETS = "path/to/sets.txt",
+  GTAPDATA = "path/to/basedata.txt"
+)
+```
+
+Input files are named after the model file's `File` statements and used as given, as for `solve_in_situ()`.
+`PostSim` sections are not run, since they need a simulation, and a failed `Assertion` stops the calculation.
+-->
 
 
 </section>
