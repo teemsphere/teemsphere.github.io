@@ -542,7 +542,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="teems-solver" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="teems-solver"><span class="header-section-number">2.4</span> teems-solver</h2>
-<p><a href="https://github.com/teemsphere/teems-R"><code>teems</code></a> calls Docker to solve the model’s nonlinear equation system using low-level C and Fortran routines. The solver build is available here: <a href="https://github.com/teemsphere/teems-solver">teems-solver</a>. The latest solver build will always be compatible with the latest R package version.</p>
+<p><a href="https://github.com/teemsphere/teems-R"><code>teems</code></a> calls Docker to solve the model’s nonlinear equation system using low-level C and Fortran routines. The solver build is available here: <a href="https://github.com/teemsphere/teems-solver">teems-solver</a>. The latest solver build is always compatible with the latest R package version. <code>teems</code> 1.0.0 requires teems-solver 1.1.0 or later and checks the image’s version before every solve: an image built for an earlier release stops with a rebuild message. Rebuild it as described in the teems-solver README (“Updating an Existing Installation”) and restart R.</p>
 <p>Two prerequisites:</p>
 <ul>
 <li><strong>Docker</strong> — install from <a href="https://www.docker.com/get-started/">docker.com</a>. Linux users must also configure Docker to run <a href="https://docs.docker.com/engine/install/linux-postinstall/">without <code>sudo</code></a>.</li>
