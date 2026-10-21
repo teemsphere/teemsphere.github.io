@@ -52,7 +52,7 @@ outputs <- ems_solve(
 | `n_tasks` | `1L` | Parallel tasks. Must be `1L` with `"LU"` |
 | `n_threads` | `1L` | Threads per task |
 | `precision` | `"single"` | `"double"` uses the double-precision solver: about twice the memory, for runs with many steps or a near-singular system |
-| `verbosity` | `1L` | Log detail: `0` errors, warnings and the accuracy summary; `1` adds progress and timings; `2` adds per-rank detail and a one-line tally of what was written (coefficients, sets, variables) |
+| `verbosity` | `1L` | Console detail: `0` errors, warnings and the accuracy figures; `1` adds progress and timings; `2` shows every solver line, with per-rank detail and a one-line tally of what was written (coefficients, sets, variables). The full log always goes to `model_diagnostics.txt` |
 | `suppress_outputs` | `FALSE` | When `TRUE`, outputs are not parsed; the CMF path is returned invisibly for a later [`ems_compose()`](compose.qmd) |
 | `terminal_run` | `FALSE` | When `TRUE`, prepares the run without starting it, so it can be launched from a terminal |
 | `complementarity` | `NULL` | Run controls for models with complementarities, built by [`ems_complementarity()`](#complementarity) |
