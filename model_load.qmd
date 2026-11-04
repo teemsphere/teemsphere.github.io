@@ -88,12 +88,12 @@ A levels variable `X` has a linear variable named `p_X`, or `c_X` for a `(change
 In closures, shocks and swaps either name may be used.
 `p_X` and `c_X` refer to nothing else: beside a linear variable `X`, names such as `p_X` or `C_X` are free for other coefficients and variables.
 
-`Display` and `Transfer` are not supported and raise an error: every coefficient is in the coefficient dump, and TEEMS writes no Header Array output files.
+`Display` and `Transfer` are not supported and `teems` raises an error: every coefficient is in the coefficient dump, and teems-solver writes no Header Array output files.
 
 ### Names
 
 Names are case-insensitive.
-A set, coefficient, variable, file or equation may be written in any case after its declaration, and TEEMS uses the declared spelling throughout, including in outputs.
+A set, coefficient, variable, file or equation may be written in any case after its declaration, and `teems` uses the declared spelling throughout, including in outputs.
 The same holds for header names (`Read ... header "Nat"` finds a header `NAT`), logical file names, the `.tab` and `.har` extensions, and the variable, set and element names in closures, shocks and swaps.
 
 ### Variable types for homogeneity checks
@@ -146,13 +146,13 @@ A few points to note:
   Its source set may be read, listed or itself built from other sets.
   Sets are built before the model is solved, so the condition is evaluated at deployment from the loaded data: the coefficients in it must be read from a file or assigned by `Formula` statements that precede the `Set` statement and use only what is known by then (arithmetic, `IF`, sums, the standard functions); `RANDOM` cannot appear.
   GTAP-E's `UNITDCOAL(c) = 0.0 + IF[c="coa", 1.0]` is such a formula.
-- Some GTAP models build sets from the `EFLG` and `SLUG` headers, which TEEMS excludes from the data.
+- Some GTAP models build sets from the `EFLG` and `SLUG` headers, which `teems` excludes from the data.
   Declare such sets with explicit elements instead.
 - Intertemporal set equality (`Set (Intertemporal) B = A;`) is not supported.
 - A set may be empty, for example when a conditional set builder selects nothing under the data at hand.
   Statements over an empty set do nothing and sums over it are zero.
 
-Set element names are lowercase throughout TEEMS (see [Set mappings](set_mappings.qmd)); for example, the v6.2 `CGDS` sector becomes `cgds`.
+Set element names are lowercase throughout `teems` and teems-solver (see [Set mappings](set_mappings.qmd)); for example, the v6.2 `CGDS` sector becomes `cgds`.
 
 Element order follows the data file wherever a set is not aggregated (see [Loading data](data_load.qmd)).
 It matters to anything that works by position, such as `$POS` and a mapping read from a header, whose entries line up with the elements of its domain in order.
@@ -180,7 +180,7 @@ A condition reads coefficients and levels variables but not linear variables, an
 ## Condensation {#condensation}
 
 Condensation makes the system passed to the solver smaller without changing the model's economics.
-TEEMS condenses by backsolving variables.
+`teems` condenses the model by backsolving variables, and teems-solver solves the condensed system.
 
 **The static vetted models come condensed.**
 The GTAPv6, GTAPv7, GTAP-AEZ, GTAP-E and GTAP-EP model files carry the standard GTAP backsolves as `Backsolve` statements, and ORANI-G its own; `ems_model()` applies them on load.

@@ -1,8 +1,8 @@
 # Introduction {#intro}
 Reproducibility within computable general equilibrium (CGE) and partial equilibrium modeling analyses has long been elusive, in part due to proprietary data and software.
-Here we address one aspect of this equation with the introduction of the TEEMS (Trade and Environment Equilibrium Modeling System) open-source software suite.
+Here we address one aspect of this equation with [teemsphere](https://github.com/teemsphere), an open-source organization that develops and maintains a set of tools for equilibrium modeling.
 
-At its core, TEEMS comprises an R package [`teems`](https://github.com/teemsphere/teems-R) used to compose model runs and [teems-solver](https://github.com/teemsphere/teems-solver), a C-based solver capable of solving a large system of nonlinear equations by leveraging a range of mathematical and scientific computation libraries.
+At its core, teemsphere comprises the R package [`teems`](https://github.com/teemsphere/teems) (Trade and Environment Equilibrium Modeling System), used to compose model runs, and [teems-solver](https://github.com/teemsphere/teems-solver), a C-based solver capable of solving a large system of nonlinear equations by leveraging a range of mathematical and scientific computation libraries.
 Auxiliary repositories to facilitate model runs include [teems-models](https://github.com/teemsphere/teems-models), containing internally available and immediately compatible models, and [teems-mappings](https://github.com/teemsphere/teems-mappings), which contains ready-to-use mappings from coarse to fine resolutions for all core sets in most GTAP-based models.
 
 With a base within the general purpose R scripting language, users are able to seamlessly adjust model components including set aggregations, parameter weighting, closure and shock specifications as well as a large number of options pertaining to the solution and model outputs.
@@ -25,7 +25,7 @@ A "simple" model run, for example, *broadly* involves:
 11. Solution of the nonlinear equation system
 12. Composition of all outputs into structured data
 
-Due to the complexity involved, in the course of building the TEEMS framework we found that in the absence of a reproducible architecture, there is a very high possibility of persistent logic errors propagating through to the output without any obvious indications that this is taking place.
+Due to the complexity involved, in the course of building teemsphere we found that in the absence of a reproducible architecture, there is a very high possibility of persistent logic errors propagating through to the output without any obvious indications that this is taking place.
 
 Models which incorporate time steps and additional auxiliary data (e.g., land-use data) or are coupled with other models as is the case with most integrated assessment models (IAMs) are even more complex and thus more susceptible to a wide range of errors.
 
@@ -38,4 +38,4 @@ Despite our best efforts, it is possible that you will encounter issues -- parti
 If your model file does not work, please get in [touch](https://github.com/teemsphere/teems/issues) and we will seek to expand compatibility.
 
 ## About this manual
-This manual is a step-by-step user guide to [`teems`](https://github.com/teemsphere/teems-R).
+This manual is a step-by-step user guide to [`teems`](https://github.com/teemsphere/teems).
