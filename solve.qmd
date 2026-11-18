@@ -153,6 +153,7 @@ ems_RK(
   scope = c("pct", "all"),
   h_init = NULL,
   guard = NULL,
+  step_budget = NULL,
   ...
 )
 ```
@@ -181,6 +182,7 @@ outputs <- ems_RK(cmf_path, solution_method = "RK4", steps = 8L)
 | `controller` | `"std"` | `"pi"` rejects fewer steps on rough solution paths |
 | `scope` | `"pct"` | Which variables steer the step size: percentage-change variables (`"pct"`) or all variables (`"all"`) |
 | `h_init`, `guard` | `NULL` | First step length, at most `1/steps` (a longer one is refused); and the level ratio at which a stage is rejected under `chart = "log"` |
+| `step_budget` | `NULL` (the solver's 500) | Adaptive runs only. The run stops with an error once the step attempts made plus those still needed at the recent step length exceed it, so a run that has stopped advancing ends instead of running on. The error says how to check whether the budget was too low or the shock has no solution beyond that point |
 
 The defaults suit most runs.
 
