@@ -11,7 +11,7 @@ The block methods follow Van Ha and Kompas (2016), who introduced `"SBBD"` on an
 - **Shock and method:** `aoall` +20 % everywhere, solved with Gragg 2-4-8.
 - **Machine:** a 12 GB memory limit with 4 or 8 cores, emulating a 16 GB laptop running Docker Desktop.
   The tables show the 8-core runs, with resources written as tasks × threads.
-  The [large models](#large-models) ran on the full server: 32 cores and 125 GB.
+  The [large models](#large-models) ran on the full server: 32 cores and 128 GB.
 - **Reading the times:** the runs used server processors, so absolute times will differ on your machine; the ratios between methods carry over.
   Each configuration ran once.
 - **Solver:** 1.1.0 development builds, September 2026.
@@ -70,7 +70,7 @@ Condensation cuts the system about twentyfold.
 
 ## Large models {#large-models}
 
-A server with 32 cores (AMD EPYC 7763) and 125 GB of memory, with no container limit.
+A server with 32 cores (AMD EPYC 7763) and 128 GB of memory, with no container limit.
 All runs used Johansen except the first, which used Gragg 2-4-8.
 GTAP-INT is a research model that is not shipped with teems.
 
