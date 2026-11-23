@@ -24,7 +24,6 @@ ems_solve(
   verbosity = 1L,
   suppress_outputs = FALSE,
   terminal_run = FALSE,
-  complementarity = NULL,
   accuracy_vars = NULL,
   ...
 )
@@ -55,7 +54,6 @@ outputs <- ems_solve(
 | `verbosity` | `1L` | Console detail: `0` errors, warnings and the accuracy figures; `1` adds progress and timings; `2` shows every solver line, with per-rank detail and a one-line tally of what was written (coefficients, sets, variables). The full log always goes to `model_diagnostics.txt` |
 | `suppress_outputs` | `FALSE` | When `TRUE`, outputs are not parsed; the CMF path is returned invisibly for a later [`ems_compose()`](compose.qmd) |
 | `terminal_run` | `FALSE` | When `TRUE`, prepares the run without starting it, so it can be launched from a terminal |
-| `complementarity` | `NULL` | Run controls for models with complementarities, built by [`ems_complementarity()`](#complementarity) |
 | `...` | | Named extras: the Runge-Kutta controls (`adaptive`, `eps_tolerance`, `max_retries`, `retry_adjust`; see [Runge-Kutta controls](#rk)), the MA48 workspace guesses (`laA`, `laD`, `laDi`) and expert solver flags (e.g. `condest`, `inmemory`, `postsim`). Unknown names are an error |
 
 The severities of TAB `Assertion` failures and declared-range violations are [package options](options.qmd) (`assertions`, `range_test_initial`, `range_test_updated`).
@@ -144,7 +142,6 @@ ems_RK(
   suppress_outputs = FALSE,
   terminal_run = FALSE,
   accuracy_vars = NULL,
-  complementarity = NULL,
   max_retries = 3L,
   retry_adjust = 0.5,
   chart = c("log", "percent"),
@@ -374,39 +371,6 @@ outputs <- ems_solve(
 )
 ```
 
-## Complementarities {#complementarity}
-
-```r
-ems_complementarity(
-  steps_approx_run = NULL,
-  redo_steps = NULL,
-  redo_step_min_fraction = NULL,
-  do_approx_run = NULL,
-  do_acc_run = NULL,
-  state_bound_error = NULL
-)
-```
-
-Models with `Complementarity` statements (for example, a quota or a tariff-rate quota) solve in two automatic passes: an Euler run that finds which side of each bound every component ends up on, then an accurate run with the chosen `solution_method` in which those states are fixed.
-The defaults work for most runs; `ems_complementarity()` overrides them:
-
-```r
-outputs <- ems_solve(
-  cmf_path = cmf_path,
-  solution_method = "Gragg",
-  complementarity = ems_complementarity(steps_approx_run = 40L)
-)
-```
-
-| Argument | Solver default | Description |
-|----------|----------------|-------------|
-| `steps_approx_run` | the accurate run's total steps | Euler steps in the first pass; more steps locate state changes more precisely |
-| `redo_steps` | `TRUE` | Shorten a step during which a component changes state |
-| `redo_step_min_fraction` | `0.005` | Shortest such step, as a fraction of the original |
-| `do_approx_run` | `TRUE` | `FALSE` skips the first pass and keeps the starting states; only safe when the shock changes no states |
-| `do_acc_run` | `TRUE` | `FALSE` stops after the first pass and returns its result |
-| `state_bound_error` | `"fatal"` | Whether a component that ends in the wrong state, or outside its bounds, stops the run (`"fatal"`) or warns (`"warn"`) |
-
 ## Memory
 
 Before a run starts, teems-R estimates its peak memory and compares it with the memory available to the container (on Docker Desktop, the limit under Settings > Resources).
@@ -444,30 +408,7 @@ Look for near-zero flows the closure depends on, or rerun with `precision = "dou
 The check does not change results, costs a few percent of solve time, and applies to `"LU"` only.
 
 `jacdump = TRUE` writes the linearized system at the base data, every equation element against every variable element, to `sol.jac` beside the solution, with the equation map in `sol.jac.json`.
-It is taken before the first step, does not change results, and is the input for checking a model's homogeneity outside the solve.
-
-## Checking homogeneity {#homogeneity}
-
-A CGE model should be homogeneous: raising every exogenous price and value by 1 % should raise every price and value by 1 % and leave quantities unchanged (nominal homogeneity), and scaling every quantity by 1 % should do the same for quantities and values with prices unchanged (real homogeneity).
-`ems_homogeneity()` tests a deployment for either, from the variable types the model file declares (see [variable types](model_load.qmd)); the vetted models carry them.
-
-```r
-check <- ems_homogeneity(cmf_path, type = "nominal")
-check$equations
-```
-
-The check evaluates every equation of the linearized system at the change homogeneity implies, without solving, and reports each equation block's largest error, `max_err`, with the element where it occurs.
-Values above about `1e-6` point at an equation that is not homogeneous.
-`simulate = TRUE` also solves the model under the corresponding shocks and compares every typed variable with its expected change.
-Both run on a copy of the deployment.
-The GEMPACK manual (57.4.5) recommends testing the uncondensed system, where a faulty equation cannot be substituted into others and hide among them: check a deployment of a model loaded with `ignore_condense = TRUE` (see [Condensation](model_load.qmd#condensation)).
-
-Equations over zero flows can fail harmlessly: a share computed from a zero total takes its zero-divide default, or an inactive branch such as `IF[MAKEB(c,a,r) gt 0, ...]` reduces an element to a single variable.
-`ems_homogeneity()` marks these elements `zero_flow` and leaves them out of `max_err`; the `zero_flow` column counts them per block.
-In the vetted models they are the off-diagonal make elements (an activity that does not produce the commodity), energy composites an agent does not buy (GTAP-E, GTAP-EP) and AEZs or activities without land (GTAP-AEZ).
-A block whose `zero_flow` equals its `rows` deserves a look: an equation that lost a term everywhere would look the same.
-GTAP-RE's saving-price equations are genuinely not homogeneous: its investment balance nets depreciation out of capital purchases.
-GTAP-AEZ's land-cover equations are not homogeneous in real terms by design: effective hectares respond less than one for one to harvested area, and crop land cover outside the harvested area is held fixed.
+It is taken before the first step and does not change results.
 
 ## Reproducibility
 
@@ -545,7 +486,6 @@ solve_in_situ(
   verbosity = 1L,
   suppress_outputs = FALSE,
   terminal_run = FALSE,
-  complementarity = NULL,
   accuracy_vars = NULL,
   solver_args = NULL
 )
@@ -599,19 +539,3 @@ solve_in_situ(
 The model file is processed exactly as `ems_model()` processes it, so in-TAB `Substitute` and `Backsolve` statements apply.
 
 By default, `solve_in_situ()` returns the model's variables and coefficients; with `suppress_outputs = TRUE` it returns the CMF path, which can be passed to [`ems_compose()`](compose.qmd).
-
-## Calculating without a solve {#calculate}
-
-`ems_calculate()` runs a model file's `Read`, `Formula` and `Assertion` statements on the input files given and returns the coefficients, with no closure, shocks or solve.
-It suits data programs, model files without `Equation` statements that prepare, convert or check data, and it can also calculate a full model's coefficients at the base data without solving it.
-
-```r
-coefficients <- ems_calculate(
-  model_file = "path/to/data_program.tab",
-  GTAPSETS = "path/to/sets.txt",
-  GTAPDATA = "path/to/basedata.txt"
-)
-```
-
-Input files are named after the model file's `File` statements and used as given, as for `solve_in_situ()`.
-`PostSim` sections are not run, since they need a simulation, and a failed `Assertion` stops the calculation.
