@@ -85,6 +85,7 @@ Levels variables and equations, `Formula & Equation`, and `Read (IfHeaderExists)
 `Default` statements (`Variable (Default=Levels);`, `Equation (Default=Levels);`, `Formula (Default=Initial);`, `Coefficient (Default=Parameter);`) apply to the statements that follow them.
 `Read`, `Formula` and `Assertion` statements take effect in the order they appear, including inside `PostSim` sections: a `Read` after a default `Formula` replaces the default, and a `Formula` after a `Read` replaces what was read.
 A levels variable `X` has a linear variable named `p_X`, or `c_X` for a `(change)` variable; `Linear_Name=` gives it another name and `Linear_Var=` makes an already declared linear variable serve as it.
+A range qualifier (`GE`, `GT`, `LE`, `LT`) bounds a coefficient or a levels variable and is tested on the initial and updated values; on a linear variable it has nothing to bound, and the model load stops and names the variable.
 In closures, shocks and swaps either name may be used.
 `p_X` and `c_X` refer to nothing else: beside a linear variable `X`, names such as `p_X` or `C_X` are free for other coefficients and variables.
 
