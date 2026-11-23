@@ -495,7 +495,7 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li><strong>Models:</strong> GTAPv7 (static) and GTAP-RE (intertemporal) on the GTAP 12 database, at the aggregations listed in each table, with all endowments. Static models were run both as the full system (<code>ignore_condense = TRUE</code>) and condensed (the vetted default).</li>
 <li><strong>Shock and method:</strong> <code>aoall</code> +20 % everywhere, solved with Gragg 2-4-8.</li>
-<li><strong>Machine:</strong> a 12 GB memory limit with 4 or 8 cores, emulating a 16 GB laptop running Docker Desktop. The tables show the 8-core runs, with resources written as tasks × threads. The <a href="#large-models">large models</a> ran on the full server: 32 cores and 125 GB.</li>
+<li><strong>Machine:</strong> a 12 GB memory limit with 4 or 8 cores, emulating a 16 GB laptop running Docker Desktop. The tables show the 8-core runs, with resources written as tasks × threads. The <a href="#large-models">large models</a> ran on the full server: 32 cores and 128 GB.</li>
 <li><strong>Reading the times:</strong> the runs used server processors, so absolute times will differ on your machine; the ratios between methods carry over. Each configuration ran once.</li>
 <li><strong>Solver:</strong> 1.1.0 development builds, September 2026.</li>
 </ul>
@@ -685,7 +685,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="large-models" class="level2" data-number="A.5">
 <h2 data-number="A.5" class="anchored" data-anchor-id="large-models"><span class="header-section-number">A.5</span> Large models</h2>
-<p>A server with 32 cores (AMD EPYC 7763) and 125 GB of memory, with no container limit. All runs used Johansen except the first, which used Gragg 2-4-8. GTAP-INT is a research model that is not shipped with teems.</p>
+<p>A server with 32 cores (AMD EPYC 7763) and 128 GB of memory, with no container limit. All runs used Johansen except the first, which used Gragg 2-4-8. GTAP-INT is a research model that is not shipped with teems.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">

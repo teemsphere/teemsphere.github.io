@@ -599,7 +599,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td><code>n_subintervals</code></td>
 <td><code>1L</code></td>
-<td>Splits the shock into this many parts, each solved in turn. Helps with large shocks</td>
+<td>Splits the shock into this many parts, each solved in turn. Helps with large shocks. <code>"Johansen"</code>, a single linear solve, takes <code>1L</code> only</td>
 </tr>
 <tr class="odd">
 <td><code>steps</code></td>
@@ -624,7 +624,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td><code>verbosity</code></td>
 <td><code>1L</code></td>
-<td>Log detail: <code>0</code> errors, warnings and the accuracy summary; <code>1</code> adds progress and timings; <code>2</code> adds per-rank detail and a one-line tally of what was written (coefficients, sets, variables)</td>
+<td>Console detail: <code>0</code> errors, warnings and the accuracy figures; <code>1</code> adds progress and timings; <code>2</code> shows every solver line, with per-rank detail and a one-line tally of what was written (coefficients, sets, variables). The full log always goes to <code>model_diagnostics.txt</code></td>
 </tr>
 <tr class="even">
 <td><code>suppress_outputs</code></td>
@@ -636,10 +636,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td><code>FALSE</code></td>
 <td>When <code>TRUE</code>, prepares the run without starting it, so it can be launched from a terminal</td>
 </tr>
+<tr class="even">
+<td><code>...</code></td>
+<td></td>
+<td>Named extras: the Runge-Kutta controls (<code>adaptive</code>, <code>eps_tolerance</code>, <code>max_retries</code>, <code>retry_adjust</code>; see <a href="#rk">Runge-Kutta controls</a>), the MA48 workspace guesses (<code>laA</code>, <code>laD</code>, <code>laDi</code>) and expert solver flags (e.g.&nbsp;<code>condest</code>, <code>inmemory</code>, <code>postsim</code>). Unknown names are an error</td>
+</tr>
 </tbody>
 </table>
-<!-- | `complementarity` | `NULL` | Run controls for models with complementarities, built by [`ems_complementarity()`](#complementarity) | -->
-<div class="line-block"><code>...</code> | | Named extras: the Runge-Kutta controls (<code>adaptive</code>, <code>eps_tolerance</code>, <code>max_retries</code>, <code>retry_adjust</code>; see <a href="#rk">Runge-Kutta controls</a>), the MA48 workspace guesses (<code>laA</code>, <code>laD</code>, <code>laDi</code>) and expert solver flags (e.g.&nbsp;<code>condest</code>, <code>inmemory</code>, <code>postsim</code>). Unknown names are an error |</div>
 <p>The severities of TAB <code>Assertion</code> failures and declared-range violations are <a href="./options.html">package options</a> (<code>assertions</code>, <code>range_test_initial</code>, <code>range_test_updated</code>).</p>
 </section>
 <section id="solution-methods" class="level2" data-number="13.4">
@@ -732,8 +735,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">scope =</span> <span class="fu">c</span>(<span class="st">"pct"</span>, <span class="st">"all"</span>),</span>
 <span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">h_init =</span> <span class="cn">NULL</span>,</span>
 <span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">guard =</span> <span class="cn">NULL</span>,</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  ...</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">step_budget =</span> <span class="cn">NULL</span>,</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  ...</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>ems_RK()</code> is <code>ems_solve()</code> for the Runge-Kutta methods. It defaults to adaptive <code>"DoPri54"</code> and adds the step-size controls; the remaining arguments are those of <code>ems_solve()</code>, with the same defaults. When most retries come from step checks (a variable approaching <code>-100%</code>, a range test) rather than from <code>eps_tolerance</code>, the cheaper steps of <code>"BoSha32"</code> can make it faster than <code>"DoPri54"</code> (Schiffmann 2022).</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># adaptive DoPri54</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> <span class="fu">ems_RK</span>(cmf_path)</span>
@@ -803,6 +807,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td><code>h_init</code>, <code>guard</code></td>
 <td><code>NULL</code></td>
 <td>First step length, at most <code>1/steps</code> (a longer one is refused); and the level ratio at which a stage is rejected under <code>chart = "log"</code></td>
+</tr>
+<tr class="odd">
+<td><code>step_budget</code></td>
+<td><code>NULL</code> (the solver’s 500)</td>
+<td>Adaptive runs only. The run stops with an error once the step attempts made plus those still needed at the recent step length exceed it, so a run that has stopped advancing ends instead of running on. The error says how to check whether the budget was too low or the shock has no solution beyond that point. Set <code>step_budget = 500L</code> explicitly for compatibility with future solver versions, where it becomes the package default</td>
 </tr>
 </tbody>
 </table>
@@ -971,40 +980,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix_method =</span> <span class="st">"SBBD"</span>,</span>
 <span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_tasks =</span> <span class="dv">8</span></span>
 <span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<!--
-## Complementarities {#complementarity}
-
-```r
-ems_complementarity(
-  steps_approx_run = NULL,
-  redo_steps = NULL,
-  redo_step_min_fraction = NULL,
-  do_approx_run = NULL,
-  do_acc_run = NULL,
-  state_bound_error = NULL
-)
-```
-
-Models with `Complementarity` statements (for example, a quota or a tariff-rate quota) solve in two automatic passes: an Euler run that finds which side of each bound every component ends up on, then an accurate run with the chosen `solution_method` in which those states are fixed.
-The defaults work for most runs; `ems_complementarity()` overrides them:
-
-```r
-outputs <- ems_solve(
-  cmf_path = cmf_path,
-  solution_method = "Gragg",
-  complementarity = ems_complementarity(steps_approx_run = 40L)
-)
-```
-
-| Argument | Solver default | Description |
-|------------------|------------|------------------|
-| `steps_approx_run` | the accurate run's total steps | Euler steps in the first pass; more steps locate state changes more precisely |
-| `redo_steps` | `TRUE` | Shorten a step during which a component changes state |
-| `redo_step_min_fraction` | `0.005` | Shortest such step, as a fraction of the original |
-| `do_approx_run` | `TRUE` | `FALSE` skips the first pass and keeps the starting states; only safe when the shock changes no states |
-| `do_acc_run` | `TRUE` | `FALSE` stops after the first pass and returns its result |
-| `state_bound_error` | `"fatal"` | Whether a component that ends in the wrong state, or outside its bounds, stops the run (`"fatal"`) or warns (`"warn"`) |
--->
 </section>
 </section>
 </section>
@@ -1030,31 +1005,7 @@ outputs <- ems_solve(
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">condest =</span> <span class="cn">TRUE</span></span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Values of <code>kappa_w2</code> around <code>1e8</code> are normal for CGE models; values approaching <code>1e15</code> trigger a warning that the solution is unreliable. Look for near-zero flows the closure depends on, or rerun with <code>precision = "double"</code>. The check does not change results, costs a few percent of solve time, and applies to <code>"LU"</code> only.</p>
-<p><code>jacdump = TRUE</code> writes the linearized system at the base data, every equation element against every variable element, to <code>sol.jac</code> beside the solution, with the equation map in <code>sol.jac.json</code>. It is taken before the first step and does not change results. <!-- It is taken before the first step, does not change results, and is the input for checking a model's homogeneity outside the solve. --></p>
-<!--
-## Checking homogeneity {#homogeneity}
-
-A CGE model should be homogeneous: raising every exogenous price and value by 1 % should raise every price and value by 1 % and leave quantities unchanged (nominal homogeneity), and scaling every quantity by 1 % should do the same for quantities and values with prices unchanged (real homogeneity).
-`ems_homogeneity()` tests a deployment for either, from the variable types the model file declares (see [variable types](model_load.qmd)); the vetted models carry them.
-
-```r
-check <- ems_homogeneity(cmf_path, type = "nominal")
-check$equations
-```
-
-The check evaluates every equation of the linearized system at the change homogeneity implies, without solving, and reports each equation block's largest error, `max_err`, with the element where it occurs.
-Values above about `1e-6` point at an equation that is not homogeneous.
-`simulate = TRUE` also solves the model under the corresponding shocks and compares every typed variable with its expected change.
-Both run on a copy of the deployment.
-The GEMPACK manual (57.4.5) recommends testing the uncondensed system, where a faulty equation cannot be substituted into others and hide among them: check a deployment of a model loaded with `ignore_condense = TRUE` (see [Condensation](model_load.qmd#condensation)).
-
-Equations over zero flows can fail harmlessly: a share computed from a zero total takes its zero-divide default, or an inactive branch such as `IF[MAKEB(c,a,r) gt 0, ...]` reduces an element to a single variable.
-`ems_homogeneity()` marks these elements `zero_flow` and leaves them out of `max_err`; the `zero_flow` column counts them per block.
-In the vetted models they are the off-diagonal make elements (an activity that does not produce the commodity), energy composites an agent does not buy (GTAP-E, GTAP-EP) and AEZs or activities without land (GTAP-AEZ).
-A block whose `zero_flow` equals its `rows` deserves a look: an equation that lost a term everywhere would look the same.
-GTAP-RE's saving-price equations are genuinely not homogeneous: its investment balance nets depreciation out of capital purchases.
-GTAP-AEZ's land-cover equations are not homogeneous in real terms by design: effective hectares respond less than one for one to harvested area, and crop land cover outside the harvested area is held fixed.
--->
+<p><code>jacdump = TRUE</code> writes the linearized system at the base data, every equation element against every variable element, to <code>sol.jac</code> beside the solution, with the equation map in <code>sol.jac.json</code>. It is taken before the first step and does not change results.</p>
 </section>
 <section id="reproducibility" class="level2" data-number="13.8">
 <h2 data-number="13.8" class="anchored" data-anchor-id="reproducibility"><span class="header-section-number">13.8</span> Reproducibility</h2>
@@ -1068,7 +1019,7 @@ GTAP-AEZ's land-cover equations are not homogeneous in real terms by design: eff
 </section>
 <section id="solver-version" class="level2" data-number="13.9">
 <h2 data-number="13.9" class="anchored" data-anchor-id="solver-version"><span class="header-section-number">13.9</span> Solver version</h2>
-<p>Before every solve, teems-R checks that the image’s solver version matches the package. A missing, old or mismatched solver stops the solve and names the pull or rebuild step. If the image still does not accept a solver option or input file that teems sends, the solve stops and names it rather than running without it; use the image released with your version of teems.</p>
+<p>Before every solve, teems-R checks that the image’s solver version matches the package. A missing, old or mismatched solver stops the solve and names the pull or rebuild step. When a newer teems-solver release than the image’s exists, the first solve of a session says so and gives the rebuild steps; the run itself goes ahead. If the image still does not accept a solver option or input file that teems sends, the solve stops and names it rather than running without it; use the image released with your version of teems.</p>
 </section>
 <section id="concurrent-runs" class="level2" data-number="13.10">
 <h2 data-number="13.10" class="anchored" data-anchor-id="concurrent-runs"><span class="header-section-number">13.10</span> Concurrent runs</h2>
@@ -1200,23 +1151,6 @@ File GTAPSETS # set file;</code></pre>
 <span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The model file is processed exactly as <code>ems_model()</code> processes it, so in-TAB <code>Substitute</code> and <code>Backsolve</code> statements apply.</p>
 <p>By default, <code>solve_in_situ()</code> returns the model’s variables and coefficients; with <code>suppress_outputs = TRUE</code> it returns the CMF path, which can be passed to <a href="./compose.html"><code>ems_compose()</code></a>.</p>
-<!--
-## Calculating without a solve {#calculate}
-
-`ems_calculate()` runs a model file's `Read`, `Formula` and `Assertion` statements on the input files given and returns the coefficients, with no closure, shocks or solve.
-It suits data programs, model files without `Equation` statements that prepare, convert or check data, and it can also calculate a full model's coefficients at the base data without solving it.
-
-```r
-coefficients <- ems_calculate(
-  model_file = "path/to/data_program.tab",
-  GTAPSETS = "path/to/sets.txt",
-  GTAPDATA = "path/to/basedata.txt"
-)
-```
-
-Input files are named after the model file's `File` statements and used as given, as for `solve_in_situ()`.
-`PostSim` sections are not run, since they need a simulation, and a failed `Assertion` stops the calculation.
--->
 
 
 </section>
